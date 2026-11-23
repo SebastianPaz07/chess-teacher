@@ -11,9 +11,6 @@
     "test:watch": "vitest",
     "inventory": "node scripts/inventory.mjs",
     "import:puzzles": "node scripts/import-lichess.mjs",
-    "copy:engine": "node scripts/copy-engine.mjs",
-    "predev": "node scripts/copy-engine.mjs",
-    "prebuild": "node scripts/copy-engine.mjs",
     "icons": "node scripts/build-icons.mjs"
   },
   "dependencies": {
@@ -24,7 +21,6 @@
     "react-chessboard": "4.7.2",
     "react-dom": "18.3.1",
     "react-router-dom": "6.28.0",
-    "stockfish": "^17.1.0",
     "zod": "3.23.8",
     "zustand": "4.5.5"
   },

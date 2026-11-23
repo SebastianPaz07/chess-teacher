@@ -1,16 +1,15 @@
 import { Chess } from 'chess.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { resolveFen, sameMove, sideToMove, trySan, tryMove } from '@/services/chess/chessUtils';
-import { isAcceptableAlternative } from '@/services/engine/evaluation';
 import { sound } from '@/services/sound';
 
-export type PuzzleStatus = 'playing' | 'checking' | 'solved' | 'failed';
+export type PuzzleStatus = 'playing' | 'solved' | 'failed';
 
 export interface PuzzleResult {
   mistakes: number;
   hintsUsed: number;
   success: boolean;
-  /** Resuelto con una jugada distinta a la del libro, validada por el motor */
+  /** Resuelto con un mate distinto al de la solución (también vale) */
   alternative?: boolean;
 }
 
@@ -22,12 +21,6 @@ interface Options {
   onMistake?: (mistakes: number) => void;
   onCorrect?: () => void;
   opponentDelay?: number;
-  /**
-   * Validar con Stockfish las jugadas distintas a la del libro. Por defecto NO:
-   * los ejercicios (Lichess incluidos) se rigen por su solución; solo se
-   * acepta además cualquier jugada que dé mate.
-   */
-  engineCheck?: boolean;
 }
 
 /** Fotograma de la partida del ejercicio (para revisar jugada a jugada al final). */
@@ -37,38 +30,16 @@ export interface PuzzleFrame {
   san: string | null;
 }
 
-const ENGINE_BUDGET_MS = 5000;
-
-/**
- * Pregunta al motor si la jugada del alumno es tan buena como la del libro.
- * Devuelve null si el motor no está disponible o tarda demasiado.
- */
-async function engineAccepts(fenUser: string, fenExpected: string): Promise<boolean | null> {
-  try {
-    const { scoreAfterMove, withTimeout } = await withTimeoutImport();
-    const [user, expected] = await withTimeout(Promise.all([scoreAfterMove(fenUser), scoreAfterMove(fenExpected)]), ENGINE_BUDGET_MS);
-    return isAcceptableAlternative(expected, user);
-  } catch {
-    return null;
-  }
-}
-
-function withTimeoutImport() {
-  return Promise.race([
-    import('@/services/engine/stockfish'),
-    new Promise<never>((_, rej) => setTimeout(() => rej(new Error('timeout')), ENGINE_BUDGET_MS)),
-  ]);
-}
 
 /**
  * Lógica de un ejercicio: el alumno juega las jugadas pares de `solution`,
- * las impares las responde el "rival". Si la jugada esperada es mate, se
- * acepta cualquier jugada que también dé mate.
+ * las impares las responde el "rival". Manda la solución del ejercicio
+ * (Lichess); además se acepta cualquier jugada que dé mate.
  *
  * Modo paciente: un error no termina el ejercicio (salvo `maxMistakes`);
  * el alumno puede seguir pensando, pedir pista o ver la siguiente jugada.
  */
-export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onMistake, onCorrect, opponentDelay = 500, engineCheck = false }: Options) {
+export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onMistake, onCorrect, opponentDelay = 500 }: Options) {
   const start = resolveFen(fen);
   const chessRef = useRef(new Chess(start));
   const [position, setPosition] = useState(start);
@@ -81,7 +52,7 @@ export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onM
   const [hintSquare, setHintSquare] = useState<string | null>(null);
   /** Último error sin resolver: la UI ofrece seguir pensando o ver la jugada */
   const [stuck, setStuck] = useState(false);
-  /** Línea del libro cuando el alumno resolvió con una alternativa */
+  /** Línea de la solución cuando el alumno dio otro mate */
   const [bookLine, setBookLine] = useState<string[] | null>(null);
   /** Historial para revisar el ejercicio terminado */
   const [frames, setFrames] = useState<PuzzleFrame[]>([{ fen: start, lastMove: null, san: null }]);
@@ -89,8 +60,6 @@ export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onM
   const alive = useRef(true);
   const timers = useRef<number[]>([]);
   const finished = useRef(false);
-  /** Cada análisis lleva un número: si se cancela, su respuesta se ignora */
-  const checkToken = useRef(0);
   const playerColor = sideToMove(fen);
 
   useEffect(
@@ -167,46 +136,14 @@ export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onM
       acceptAlternative(from, to);
       return true;
     }
+
     if (!exact) {
-      if (!engineCheck) {
-        registerMistake();
-        return false;
-      }
-      const before = chessRef.current.fen();
-      const bookProbe = new Chess(before);
-      if (!trySan(bookProbe, expected)) {
-        registerMistake();
-        return false;
-      }
-      // Mostramos la jugada mientras el motor la analiza (máx. 5 s; si no responde, cuenta como error)
-      setStatus('checking');
-      setPosition(probe.fen());
-      setLastMove([move.from, move.to]);
-      const token = ++checkToken.current;
-      engineAccepts(probe.fen(), bookProbe.fen()).then((ok) => {
-        if (!alive.current || token !== checkToken.current) return;
-        if (ok) acceptAlternative(from, to);
-        else undoCheck(before);
-      });
-      return true;
+      registerMistake();
+      return false;
     }
 
     advance(from, to, hintsUsed);
     return true;
-  };
-
-  function undoCheck(before: string) {
-    setStatus('playing');
-    setPosition(before);
-    setLastMove(null);
-    registerMistake();
-  }
-
-  /** Cancela el análisis del motor y devuelve la pieza (cuenta como error). */
-  const cancelCheck = () => {
-    if (status !== 'checking') return;
-    checkToken.current++; // ignora la respuesta pendiente
-    undoCheck(chessRef.current.fen());
   };
 
   function registerMistake() {
@@ -290,8 +227,6 @@ export function usePuzzle({ fen, solution, maxMistakes = Infinity, onFinish, onM
     position: view ? view.fen : position,
     onMove,
     status,
-    checking: status === 'checking',
-    cancelCheck,
     bookLine,
     mistakes,
     hintsUsed,

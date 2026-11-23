@@ -66,7 +66,7 @@ export function AppShell() {
             </NavLink>
           ))}
         </nav>
-        <p className={styles.colophon}>Puzzles: base abierta de Lichess (CC0). Motor: Stockfish (GPLv3).</p>
+        <p className={styles.colophon}>Puzzles: base abierta de Lichess (CC0).</p>
       </aside>
 
       <div className={styles.main}>

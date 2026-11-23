@@ -16,13 +16,11 @@ interface PuzzleBoardProps {
   showHelp?: boolean;
   maxWidth?: number;
   footer?: ReactNode;
-  /** Validar alternativas con el motor (por defecto no: manda la solución del ejercicio) */
-  engineCheck?: boolean;
 }
 
 /** Tablero de ejercicio reutilizable (lecciones, práctica, repaso, rush, test). */
-export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMistake, onCorrect, showHelp = true, maxWidth, footer, engineCheck }: PuzzleBoardProps) {
-  const p = usePuzzle({ fen, solution, maxMistakes, onFinish, onMistake, onCorrect, engineCheck });
+export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMistake, onCorrect, showHelp = true, maxWidth, footer }: PuzzleBoardProps) {
+  const p = usePuzzle({ fen, solution, maxMistakes, onFinish, onMistake, onCorrect });
   const toMove = p.playerColor === 'w' ? 'Juegan blancas' : 'Juegan negras';
   const { nav } = p;
 
@@ -57,14 +55,6 @@ export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMi
         arrows={p.solutionArrow ? [[...p.solutionArrow, 'rgb(192, 57, 43)']] : undefined}
       />
 
-      {p.checking && (
-        <div className={styles.engine} role="status" aria-live="polite">
-          <span className={styles.spinner} aria-hidden /> Comprobando tu jugada…
-          <Button size="sm" variant="ghost" onClick={p.cancelCheck}>
-            Cancelar
-          </Button>
-        </div>
-      )}
 
       {p.stuck && (
         <div className={styles.stuck} role="status" aria-live="polite">
@@ -91,11 +81,11 @@ export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMi
 
       {p.bookLine && (
         <p className={styles.engine} role="status">
-          <strong>Solución alternativa válida.</strong> Línea del libro: {p.bookLine.map(toSpanishSan).join(' ')}
+          <strong>¡Otro mate también vale!</strong> Solución del ejercicio: {p.bookLine.map(toSpanishSan).join(' ')}
         </p>
       )}
 
-      {showHelp && p.status === 'playing' && !p.stuck && !p.checking && (
+      {showHelp && p.status === 'playing' && !p.stuck && (
         <div className={styles.help}>
           <Button size="sm" variant="secondary" icon="hint" onClick={p.hint}>
             Pista
