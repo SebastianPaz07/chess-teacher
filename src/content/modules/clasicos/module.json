@@ -1,0 +1,12 @@
+{
+  "id": "clasicos",
+  "order": 6,
+  "title": "Entrenamiento y clásicos",
+  "description": "Cómo entrenar (Koblenz, Samarian, la guía de entrenamiento) y las lecciones de los campeones (Kasparov 'Mis geniales predecesores', Petrosian 'Ajedrez en la cumbre', Alekhine–Bogoljubow 1934).",
+  "icon": "classic",
+  "color": "#8a5a2b",
+  "level": "avanzado",
+  "category": "entrenamiento",
+  "prerequisites": ["tactica", "estrategia"],
+  "tags": ["entrenamiento", "clasicos"]
+}

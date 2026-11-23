@@ -1,0 +1,45 @@
+{
+  "id": "apb-03-gambito-dama",
+  "order": 3,
+  "title": "El Gambito de Dama",
+  "summary": "La apertura de Kasparov: presión central y la trampa del elefante.",
+  "icon": "piece-queen",
+  "xp": 60,
+  "minutes": 9,
+  "tags": ["aperturas", "gambito-dama"],
+  "sources": [
+    { "title": "Garry Kasparov – Gambito de Dama (clases)", "resourceTags": ["gambito-dama"] },
+    { "title": "Gambito de Dama desde cero (curso)", "resourceTags": ["gambito-dama"] }
+  ],
+  "practice": ["apb-ex-elefante"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "¿Un gambito que no es gambito?",
+      "body": "Tras **1.d4 d5 2.c4** las blancas ofrecen un peón, pero si las negras lo toman (2...dxc4) suelen devolverlo: las blancas lo recuperan con e3 y Axc4.\n\nLa idea real es **atacar el centro** negro desde el lado (c4 contra d5) y ganar espacio."
+    },
+    {
+      "type": "board-demo",
+      "title": "El Rehusado",
+      "fen": "start",
+      "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Be7", "e3", "O-O", "Nf3", "Nbd7", "Rc1"],
+      "notes": { "4": "2...e6 mantiene el punto d5.", "7": "4.Ag5 clava el caballo que defiende d5.", "13": "7.Tc1: la torre a la columna c, que se abrirá pronto." }
+    },
+    {
+      "type": "make-move",
+      "title": "La trampa del elefante",
+      "fen": "r1bqkb1r/pppn1ppp/5n2/3N2B1/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 6",
+      "prompt": "Las blancas tomaron en d5 creyendo que el caballo de f6 está clavado. **¡No lo está!** Juegas con negras: gana material.",
+      "solution": ["Nxd5", "Bxd8", "Bb4+", "Qd2", "Bxd2+", "Kxd2", "Kxd8"],
+      "hint": "Si las blancas toman tu dama, un jaque de alfil te devuelve todo.",
+      "explanation": "**6...Cxd5! 7.Axd8 Ab4+ 8.Dd2 Axd2+ 9.Rxd2 Rxd8**: las negras ganan una pieza. Es la famosa *trampa del elefante*."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Por qué el caballo de f6 **no** estaba realmente clavado?",
+      "options": ["Porque el alfil de g5 estaba atacado", "Porque tras Axd8 las negras tienen Ab4+ y recuperan la dama con ventaja", "Porque las negras podían enrocar"],
+      "answer": 1,
+      "explanation": "Una clavada **relativa** se puede romper si a cambio consigues algo mejor. ¡Siempre calcula los jaques!"
+    }
+  ]
+}

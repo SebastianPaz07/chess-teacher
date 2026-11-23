@@ -1,0 +1,467 @@
+{
+  "rootFolderId": "1C9covOIQphd3hHcs5NxpsJiZNPQNpIUn",
+  "generatedAt": "2026-11-23T00:02:14.456Z",
+  "resources": [
+    {
+      "id": "1YrH6wG4tiLZ0T--LLIeBXQOKwvJY2i9c",
+      "title": "7 CONCEPTOS de ATAQUE que LLEVAN a la VICTORIA",
+      "type": "video",
+      "folder": "Clases grabadas / Calculo y Tacticas ajedrez",
+      "tags": [
+        "tactica"
+      ]
+    },
+    {
+      "id": "1Fio9xwGXYbX4qsFL6tWqG3gjfeQohRfU",
+      "title": "CMOCAL~1",
+      "type": "video",
+      "folder": "Clases grabadas / Calculo y Tacticas ajedrez",
+      "tags": [
+        "tactica"
+      ]
+    },
+    {
+      "id": "19g4elzJD6X67iNWsA1l5FoYHPkU7Zx2y",
+      "title": "El Gambito ALIEN y ¡una docena de TRAMPAS!",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / allien gambit , destrozador contra la karo-cann / Alien gambit",
+      "tags": [
+        "caro-kann",
+        "alien-gambit",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1kXxwkWTXcGK4lzbkPwrvtpCwyB9S5Vq5",
+      "title": "¿Cómo Atacar el Centro y Ganar Partidas¿ Lecciones del GM Alburt",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Alekhine / Pupilochess-Alekhine",
+      "tags": [
+        "alekhine",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1TX_F4L4ApJcwu23R2ElalTt-ksOKsTj_",
+      "title": "El traje feo - Los 100 patrones que hay que saber",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Caro-Kann / Cao- kann dinamico largo",
+      "tags": [
+        "caro-kann",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1ITqpCvqNRaZz0lmF7d_Hv1Rm9NaBTj6L",
+      "title": "¿Qué es un PLAN en AJEDREZ¿",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Caro-Kann / Cao- kann dinamico largo",
+      "tags": [
+        "estrategia",
+        "caro-kann",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1h3gIIJCsmcoMkffEkFC9uNWm26F7j1zY",
+      "title": "Las 6 mejores TRAMPAS en la apertura de los 4 CABALLOS",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura de los Cuatro Caballos / Apertura 4 caba - MIX",
+      "tags": [
+        "cuatro-caballos",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1hsgPQhKu8Mm1zs_IXQkTTf829ohNuA8B",
+      "title": "Aprende la ESTRUCTURA FRANCESA ⁄⁄ La DESTRUCCIÓN del centro",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Francesa / Francesa mix",
+      "tags": [
+        "estrategia",
+        "francesa",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1VcXqueW01NKysKgoTEGQ_KzI7wy3Ebhe",
+      "title": "Como jugar la defensa Francesa! Variante del Avance!",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Francesa / Francesa mix",
+      "tags": [
+        "francesa",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1dV7nIytcr15er85bTBzYero70SFsGgn3",
+      "title": "APRENDE la Defensa FRANCESA! ",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Francesa / Francesa mix",
+      "tags": [
+        "francesa",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1IehvxBHOGNgHimi7zlkL_KHYmHPCbjWn",
+      "title": "La DEFENSA con MEJOR _ contra 1.e4 _ Defensa Francesa",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Francesa / Francesa mix",
+      "tags": [
+        "francesa",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1Z5KSspyn15Yr1FbTNUlTqbuRPtQN_Nus",
+      "title": "Gambito de Dama desde cero GD#13_ El contra gambito Álbin",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Gambito de Dama / Gambito de dama- curso semilargo",
+      "tags": [
+        "fundamentos",
+        "gambito-dama",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1nrYzFiO_Tm9FljdnZtnaJDFVVHWRTDxD",
+      "title": "Gambito de dama",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Gambito de Dama / GARRY KASPAROV - GAMBITO DE DAMA",
+      "tags": [
+        "clasicos",
+        "gambito-dama",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1mBsO3We1U5XUsOWQodb31TwT_lGUGu2G",
+      "title": "Gambito de dama 24",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Gambito de Dama / GARRY KASPAROV - GAMBITO DE DAMA",
+      "tags": [
+        "clasicos",
+        "gambito-dama",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1NduTeoaOkMwqpxPhfN_L8n5qvbOr1k5n",
+      "title": "La India de Rey es DEMOLEDORA si dominas estos 10 conceptos posicionales",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Indio de Rey / Indio de rey MIX",
+      "tags": [
+        "estrategia",
+        "india-de-rey",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "19lgUxEGpDGbTjqpZdTASVcRLp4e5Xm_0",
+      "title": "La Defensa Petrov ¦ Aperturas de ajedrez en 15 minutos",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Petrov / Petrov curso",
+      "tags": [
+        "petrov",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "19SYb_XqeRlYD_j83iY0MMSnKPffzL1XT",
+      "title": "ABC de la Apertura PONZIANI  (¡Curso acelerado! )",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Ponziani / ponziani mix",
+      "tags": [
+        "ponziani",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1VrFksct7evHS2Kcok1lVEET2fV-tb4ZO",
+      "title": "Chess Openings_ Learn to Play the Ponziani Opening ¦ Ponziani Opening Theory!",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas Aperturas / Apertura Ponziani / ponziani mix",
+      "tags": [
+        "ponziani",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1sLOsv-hCppD4DPpgTeMankLvm--wpiro",
+      "title": "CAPTURA al PASO de AJEDREZ Curso de Ajedrez desde cero #18",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas rey enigma principiantes",
+      "tags": [
+        "fundamentos"
+      ]
+    },
+    {
+      "id": "1u1FXRJMyZq_OpKxBxwSOCdXmF9gpTQFZ",
+      "title": "Cómo leer el TABLERO de Ajedrez Ajedrez desde cero #2",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas rey enigma principiantes",
+      "tags": [
+        "fundamentos"
+      ]
+    },
+    {
+      "id": "1enu3PYJUXatbR7Lf497YvLtArpZgLnzf",
+      "title": "El VALOR de las PIEZAS de AJEDREZ Aprender Ajedrez desde cero #16",
+      "type": "video",
+      "folder": "Clases grabadas / Clases grabadas rey enigma principiantes",
+      "tags": [
+        "fundamentos"
+      ]
+    },
+    {
+      "id": "1FmKL9b6rL77dhQmJ1L8nRa1gyGjyzrdH",
+      "title": "FORMACIÓN MURO de PIEDRA o STONEWALL  ¦ El ATAQUE de las PIEZAS NEGRAS ",
+      "type": "video",
+      "folder": "Clases grabadas / Estructura de Peones",
+      "tags": [
+        "tactica",
+        "estrategia"
+      ]
+    },
+    {
+      "id": "1vBGDoPVmt7ANQUP-MQIswbqSVgdlY12o",
+      "title": "FORMACIÓN MURO de PIEDRA o STONEWALL  ¦ ¿Cómo JUEGA cada BANDO¿ ",
+      "type": "video",
+      "folder": "Clases grabadas / Estructura de Peones",
+      "tags": [
+        "estrategia"
+      ]
+    },
+    {
+      "id": "1xVMgeBQZBN-TC1J7FxEwLEL3sYzB0XMm",
+      "title": "ajedrez ajedrez - garry kasparov - mis geniales predecesores vol 2 (euwe a tal)",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "clasicos"
+      ]
+    },
+    {
+      "id": "1kRzQerY7DX6e7mUYrv5XS4ZPyJArh2Hf",
+      "title": "Ajedrez en la Cumbre - Tigran Petrosian [1989]",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "clasicos"
+      ]
+    },
+    {
+      "id": "1NWZPV3vQGN4O8nX60EafShftMoiSB0Qn",
+      "title": "ajedrez-curso-completo-no-3-garry-kasparov",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "clasicos"
+      ]
+    },
+    {
+      "id": "1vdFO995XWddVgW6PW8Ky1p-BBv4fLT4s",
+      "title": "Alekhine_vs_Bogoljubow_1934_Match",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "clasicos"
+      ]
+    },
+    {
+      "id": "15c0GC6XGA5j2V0Z4U6k31H6gfC4hbQV-",
+      "title": "Chess training guide for teachers and parents",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "entrenamiento"
+      ]
+    },
+    {
+      "id": "1NfiW8uEi39gJkkixrMJEALem9g5WpeRa",
+      "title": "Combinaciones en el medio juego",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "tactica"
+      ]
+    },
+    {
+      "id": "1Q6jhdNemQK5DdZXPcGRqnckZqab0E1hH",
+      "title": "Cox John - Gane con d4",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "gambito-dama",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1rG_Or8W6gLqfFmRyvJtompCTi2aL5-ng",
+      "title": "Eliskazes Erich - Mejora tu juego poscional, 2007-OCR, 131p",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "estrategia"
+      ]
+    },
+    {
+      "id": "1-hOJaBgnxFGG5aYkPn9KzOIQBF3IfLh3",
+      "title": "Entrenamiento Sistematico en Ajedrez - Samarian",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "entrenamiento"
+      ]
+    },
+    {
+      "id": "15lW64LDSaVB88hgW4NXHmG6wegVWPWD0",
+      "title": "Koblenz Alexander - Ajedrez de Entrenamiento, 1975-OCRX, 147p",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "entrenamiento"
+      ]
+    },
+    {
+      "id": "1CY_Kts8FqHm4mxL-_ODOWDPW5nU-qntI",
+      "title": "Lakdawala Cyrus - La defensa Caro-Kann, 2013-OCR, 242p",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "caro-kann",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1y9AQoRIdmzZ12Xd0A5VLhya67gmY21_k",
+      "title": "Siciliana, Ultimate Dragon Vol 1 Eduard Gufeld & Oleg Stetsko",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "tactica",
+        "siciliana",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1NEIBU0lzVzcxKXxrFoTJ21ulOrs7zFUM",
+      "title": "The Bishop_s Opening Explained",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "apertura-alfil",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1u2UhgENQP4Sp7UbR9S0PtxffjgANfVal",
+      "title": "The Najdorf in Black and White (2018) GM Bryan Smith",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / Libros de Ajedrez",
+      "tags": [
+        "siciliana",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1bfEfEy0Fwkrce66IBFuC1zqPT945Ntw3",
+      "title": "10 Combinaciones de mate - Antonio Gude",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "tactica"
+      ]
+    },
+    {
+      "id": "1pleO8tMZx9ZHXghX14CR8XgVSYtKu3-P",
+      "title": "20- La estructura de peones centrales - Boris Persits",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "estrategia"
+      ]
+    },
+    {
+      "id": "1B4vKmQOSEkOoKVAPHRSTty8BXGNmIqTB",
+      "title": "29- La defensa Pirc - G. Fridshtein",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "pirc",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "18mXpQlRsM2sjx3s7h0R7RVgvF4q8nZdS",
+      "title": "54",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": []
+    },
+    {
+      "id": "1V2-wCTicsoxlkLeX9CMbO8nlUDMo9RwB",
+      "title": "63",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": []
+    },
+    {
+      "id": "1S_3z0yOBmUlXMQD2xb7X8dYNusXEIci1",
+      "title": "70- Ajedrez y computadoras - Pachman Kunhmud",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "entrenamiento"
+      ]
+    },
+    {
+      "id": "10Xrgj5qjaLqZ2HhpOuhj11QHJP4Xbfq0",
+      "title": "75- Tratado de ajedrez superior - Y. B. Estrin ed",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "clasicos"
+      ]
+    },
+    {
+      "id": "1P8a6hDyf5P_tbzitBUp8QiRUBuHC3V0h",
+      "title": "93- Analiza - Patrick Gonneau",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "entrenamiento"
+      ]
+    },
+    {
+      "id": "1N0oN26FvcVdKqHD8INCN_yX97NRrslS5",
+      "title": "Apertura Italiana",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "italiana",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1s9rSNvaFZgvUowApcubkX1b-RVdhypYt",
+      "title": "Defensa escandinava. Variante portuguesa",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "escandinava",
+        "aperturas"
+      ]
+    },
+    {
+      "id": "1sCcqfJXqmdX1ry52uj1Bcv7aDO7VaoCP",
+      "title": "Hellsten - Estrategia en el mediojuego I",
+      "type": "pdf",
+      "folder": "Libros ajedrez + 500 / mas libros de regalo / libros  1",
+      "tags": [
+        "estrategia"
+      ]
+    }
+  ]
+}

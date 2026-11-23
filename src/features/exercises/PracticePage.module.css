@@ -1,0 +1,4 @@
+.chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.chip { min-height: 38px; border: 1px solid var(--color-border); background: transparent; color: var(--color-text); padding: 0 12px; border-radius: var(--radius-sm); font-weight: 500; font-size: 0.88rem; cursor: pointer; font-variant-numeric: tabular-nums; }
+.chip:hover { border-color: var(--color-rule); }
+.on { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-on-primary); }

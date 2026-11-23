@@ -1,0 +1,52 @@
+{
+  "id": "cla-03-estilos",
+  "order": 3,
+  "title": "Dos estilos: ataque y profilaxis",
+  "summary": "De la Inmortal de Anderssen a la profilaxis de Petrosian.",
+  "icon": "scales",
+  "xp": 65,
+  "minutes": 10,
+  "tags": ["clasicos", "estrategia"],
+  "sources": [
+    { "title": "Tigran Petrosian – Ajedrez en la cumbre", "resourceTags": ["clasicos"] },
+    { "title": "Kasparov – Mis geniales predecesores vol. 2", "resourceTags": ["clasicos"] }
+  ],
+  "practice": ["cla-ex-inmortal", "cla-ex-reti"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El romanticismo: ¡al ataque!",
+      "body": "En el siglo XIX se jugaba **al ataque a cualquier precio**: gambitos, sacrificios y mates espectaculares.\n\nLa partida más famosa es la **Inmortal** (Anderssen – Kieseritzky, Londres 1851): las blancas entregan las dos torres, un alfil y la dama… ¡y dan mate!"
+    },
+    {
+      "type": "make-move",
+      "title": "El final de la Inmortal",
+      "fen": "r1bk2nr/p2p1pNp/n2B4/1p1NP2P/6P1/3P1Q2/P1P1K3/q5b1 w - - 1 22",
+      "prompt": "Te falta media partida de material… pero tus piezas menores rodean al rey. **Mate en 2**.",
+      "solution": ["Qf6+", "Nxf6", "Be7#"],
+      "hint": "Sacrifica la última pieza pesada que te queda.",
+      "explanation": "**22.Df6+!! Cxf6 23.Ae7#**. Tres piezas menores dan mate a un rey rodeado de material."
+    },
+    {
+      "type": "text",
+      "title": "La profilaxis de Petrosian",
+      "body": "Un siglo después, **Tigran Petrosian** (campeón 1963-69) se hizo famoso por lo contrario: **impedir los planes del rival** antes de que nazcan.\n\nSu pregunta favorita: *¿qué quiere hacer mi rival?* Y luego: *¿cómo se lo impido?*\n\nEsto se llama **profilaxis**. Kasparov dice en *Mis geniales predecesores* que Petrosian veía el peligro 'diez jugadas antes'."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué es la **profilaxis**?",
+      "options": ["Atacar siempre al rey", "Prevenir los planes del rival antes de que se hagan realidad", "Cambiar las damas temprano"],
+      "answer": 1,
+      "explanation": "Pregúntate en cada jugada: **¿qué amenaza mi rival y qué quiere hacer?** Es el hábito que separa a los jugadores fuertes."
+    },
+    {
+      "type": "make-move",
+      "title": "Réti – Tartakower, Viena 1910",
+      "fen": "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 9",
+      "prompt": "Una miniatura famosa en la **Caro-Kann**. El rey negro está en el centro… ¡Mate en 3 con un sacrificio de dama!",
+      "solution": ["Qd8+", "Kxd8", "Bg5+", "Kc7", "Bd8#"],
+      "hint": "Atrae al rey a la columna d, donde está tu torre.",
+      "explanation": "**9.Dd8+!! Rxd8 10.Ag5+** (jaque doble) **Rc7 11.Ad8#**. Si 10...Re8 11.Td8#."
+    }
+  ]
+}

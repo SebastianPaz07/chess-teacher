@@ -1,0 +1,41 @@
+{
+  "id": "cla-01-metodo",
+  "order": 1,
+  "title": "Cómo entrenar como los fuertes",
+  "summary": "El método de cálculo y la rutina de entrenamiento de las escuelas soviéticas.",
+  "icon": "brain",
+  "xp": 50,
+  "minutes": 7,
+  "tags": ["entrenamiento"],
+  "sources": [
+    { "title": "Alexander Koblenz – Ajedrez de entrenamiento", "resourceTags": ["entrenamiento"] },
+    { "title": "Samarian – Entrenamiento sistemático en ajedrez", "resourceTags": ["entrenamiento"] }
+  ],
+  "practice": [],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Poco, pero todos los días",
+      "body": "Koblenz entrenó a Tal con una idea simple: **constancia**. Mejor 20 minutos diarios que 4 horas un domingo.\n\nUna semana equilibrada:\n\n- **50 % táctica** (ejercicios y cálculo).\n- **20 % finales**.\n- **20 % estudio de partidas** de los campeones.\n- **10 % aperturas**.\n\n¡Exactamente lo que hace tu plan diario en esta app!"
+    },
+    {
+      "type": "text",
+      "title": "El método de cálculo: J-C-A",
+      "body": "Antes de cada jugada, revisa en este orden:\n\n- **J**aques: ¿qué jaques tengo? ¿y mi rival?\n- **C**apturas: ¿qué puedo capturar? ¿qué queda indefenso?\n- **A**menazas: ¿qué amenaza el rival? ¿qué puedo amenazar yo?\n\nAl calcular, piensa en **jugadas candidatas** (2-3), y analiza cada una hasta una posición tranquila."
+    },
+    {
+      "type": "quiz",
+      "question": "Según el método J-C-A, ¿qué debes revisar **primero**?",
+      "options": ["Las capturas", "Los jaques", "El plan a largo plazo"],
+      "answer": 1,
+      "explanation": "Los **jaques** son las jugadas más forzantes: el rival está obligado a responder."
+    },
+    {
+      "type": "quiz",
+      "question": "Perdiste una partida. ¿Qué recomiendan los entrenadores?",
+      "options": ["Olvidarla rápido", "Analizarla primero sin computadora y anotar tus errores", "Jugar otra inmediatamente"],
+      "answer": 1,
+      "explanation": "Analizar **tú mismo** primero (y luego comprobar con el motor) es la forma más rápida de mejorar. Lo recomiendan Samarian, Koblenz y Pachman."
+    }
+  ]
+}

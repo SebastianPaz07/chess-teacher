@@ -1,0 +1,62 @@
+[
+  {
+    "id": "fund-ex-captura-libre",
+    "title": "Pieza sin defender",
+    "fen": "6k1/8/8/3r4/8/1B6/8/6K1 w - - 0 1",
+    "solution": ["Bxd5"],
+    "themes": ["captura"],
+    "rating": 450,
+    "hint": "Mira las diagonales de tu alfil.",
+    "explanation": "La torre de d5 no tiene defensores: **Axd5** la gana gratis."
+  },
+  {
+    "id": "fund-ex-pieza-colgada",
+    "title": "¿Cuál está defendida?",
+    "fen": "6k1/8/8/2p5/1b1n4/8/3Q4/6K1 w - - 0 1",
+    "solution": ["Qxb4"],
+    "themes": ["captura"],
+    "rating": 600,
+    "hint": "El peón de c5 defiende una de las dos piezas.",
+    "explanation": "**Dxb4**: el alfil estaba suelto. Dxd4? cxd4 perdería la dama."
+  },
+  {
+    "id": "fund-ex-pastor",
+    "title": "El mate del pastor",
+    "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
+    "solution": ["Qxf7#"],
+    "themes": ["mate", "apertura-trampa"],
+    "rating": 450,
+    "hint": "f7 solo está defendido por el rey… y tú lo atacas dos veces.",
+    "explanation": "**Dxf7#** El famoso mate del pastor. Para defenderse, las negras debían jugar 3...g6 o 3...De7."
+  },
+  {
+    "id": "fund-ex-loco",
+    "title": "El mate del loco",
+    "fen": "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq g3 0 2",
+    "solution": ["Qh4#"],
+    "themes": ["mate", "apertura-trampa"],
+    "rating": 400,
+    "hint": "La diagonal e1-h4 quedó abierta.",
+    "explanation": "**Dh4#** El mate más rápido posible. Lección: no debilites el enroque con f3 y g4."
+  },
+  {
+    "id": "fund-ex-mate-pasillo",
+    "title": "Mate del pasillo",
+    "fen": "6k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1",
+    "solution": ["Ra8#"],
+    "themes": ["mate", "pasillo"],
+    "rating": 500,
+    "hint": "Los peones negros encierran a su propio rey.",
+    "explanation": "**Ta8#** El rey no tiene 'luft' (casilla de escape). Por eso a veces conviene jugar h3 o h6."
+  },
+  {
+    "id": "fund-ex-mate-torre",
+    "title": "Mate con rey y torre",
+    "fen": "7k/8/6K1/8/8/8/8/R7 w - - 0 1",
+    "solution": ["Ra8#"],
+    "themes": ["mate", "final"],
+    "rating": 550,
+    "hint": "Tu rey ya controla las casillas de escape.",
+    "explanation": "**Ta8#** El rey blanco cubre g7 y h7; la torre da jaque en la octava fila."
+  }
+]

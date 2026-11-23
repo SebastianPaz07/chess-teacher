@@ -1,0 +1,12 @@
+{
+  "id": "fundamentos",
+  "order": 1,
+  "title": "Fundamentos",
+  "description": "El tablero, cómo se mueven las piezas, su valor y las reglas especiales. Basado en el curso 'Ajedrez desde cero' de la carpeta de clases.",
+  "icon": "piece-pawn-w",
+  "color": "#2e8b57",
+  "level": "principiante",
+  "category": "fundamentos",
+  "prerequisites": [],
+  "tags": ["fundamentos"]
+}

@@ -1,0 +1,54 @@
+{
+  "id": "tac-03-clavada",
+  "order": 3,
+  "title": "Clavada, ensartada y descubierta",
+  "summary": "Las líneas son armas: cómo usar torres, alfiles y damas a distancia.",
+  "icon": "pin",
+  "xp": 60,
+  "minutes": 9,
+  "tags": ["tactica", "clavada", "ensartada", "descubierta"],
+  "sources": [
+    { "title": "Combinaciones en el medio juego", "resourceTags": ["tactica"] },
+    { "title": "Clases de cálculo y táctica", "resourceTags": ["tactica"] }
+  ],
+  "practice": ["tac-ex-ensartada-alfil", "tac-ex-descubierta", "tac-ex-petrov"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La clavada",
+      "fen": "4k3/8/2n5/1B6/8/8/8/4K3 w - - 0 1",
+      "arrows": [["b5", "e8"]],
+      "body": "Una pieza está **clavada** cuando no puede moverse porque dejaría expuesta otra pieza más valiosa detrás.\n\n- **Clavada absoluta**: detrás está el rey. ¡Moverse es ilegal!\n- **Clavada relativa**: detrás hay una pieza valiosa (dama, torre). Moverse es legal pero costoso."
+    },
+    {
+      "type": "quiz",
+      "fen": "4k3/8/2n5/1B6/8/8/8/4K3 w - - 0 1",
+      "question": "¿Por qué el caballo negro de c6 **no puede moverse**?",
+      "options": ["Porque está atacado", "Porque está clavado: si se mueve, su rey quedaría en jaque del alfil", "Porque no tiene casillas libres"],
+      "answer": 1,
+      "explanation": "Es una **clavada absoluta**: el alfil de b5 apunta al rey de e8 a través del caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "La ensartada",
+      "fen": "4q3/8/8/8/4k3/8/8/R5K1 w - - 0 1",
+      "prompt": "Es una clavada al revés: atacas la pieza valiosa **delante** y ganas la de **atrás**. Da jaque por la columna e.",
+      "solution": ["Re1+", "Kd5", "Rxe8"],
+      "hint": "El rey y la dama están en la misma columna.",
+      "explanation": "**Te1+** obliga al rey a apartarse y **Txe8** gana la dama. Eso es una **ensartada** (o 'rayos X')."
+    },
+    {
+      "type": "text",
+      "title": "El ataque a la descubierta",
+      "body": "Cuando una pieza se mueve y **destapa** el ataque de otra pieza que estaba detrás, tenemos un **ataque a la descubierta**.\n\nSi la pieza de atrás da jaque, es un **jaque a la descubierta**: la pieza que se mueve queda libre para atacar lo que quiera."
+    },
+    {
+      "type": "make-move",
+      "fen": "4k3/pp3ppp/8/8/4N3/3q4/PP3PPP/4R1K1 w - - 0 1",
+      "prompt": "Tu torre de e1 apunta al rey negro, tapada por tu caballo. **Mueve el caballo con jaque descubierto y gana la dama**.",
+      "solution": ["Nc5+", "Kd8", "Nxd3"],
+      "hint": "¿Qué salto del caballo ataca a la dama de d3?",
+      "explanation": "**Cc5+** destapa el jaque de la torre y ataca la dama. Tras mover el rey, **Cxd3**."
+    }
+  ]
+}

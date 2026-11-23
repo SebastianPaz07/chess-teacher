@@ -1,0 +1,12 @@
+{
+  "id": "estrategia",
+  "order": 3,
+  "title": "Estrategia y finales",
+  "description": "Principios de apertura, estructuras de peones y finales básicos. Basado en Persits (estructura de peones centrales), Eliskases (juego posicional), Hellsten (estrategia en el medio juego) y la clase de Stonewall.",
+  "icon": "castle",
+  "color": "#2f80c0",
+  "level": "intermedio",
+  "category": "estrategia",
+  "prerequisites": ["tactica"],
+  "tags": ["estrategia", "finales"]
+}

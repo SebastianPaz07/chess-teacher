@@ -1,0 +1,13 @@
+.list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.quest { display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); }
+.quest:last-child { border-bottom: none; }
+.icon { font-size: 1.25rem; width: 28px; display: inline-flex; justify-content: center; color: var(--color-accent-strong); }
+.title { font-weight: 500; font-size: 0.92rem; margin-bottom: 6px; }
+.count { font-variant-numeric: tabular-nums; color: var(--color-text-muted); font-size: 0.85rem; }
+.done .title { text-decoration: line-through; color: var(--color-text-muted); }
+.done .icon { color: var(--color-success); }
+
+/* Versión compacta (inicio): menos alto, mismo contenido */
+.compact .quest { padding: var(--space-2) 0; gap: var(--space-2); }
+.compact .title { font-size: 0.88rem; margin-bottom: 4px; }
+.compact .icon { font-size: 1.1rem; width: 22px; }

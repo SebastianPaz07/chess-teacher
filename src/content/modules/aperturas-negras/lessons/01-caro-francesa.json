@@ -1,0 +1,52 @@
+{
+  "id": "apn-01-caro-francesa",
+  "order": 1,
+  "title": "Contra 1.e4: Caro-Kann y Francesa",
+  "summary": "Dos defensas sólidas con ...d5. ¿En qué se diferencian?",
+  "icon": "shield",
+  "xp": 55,
+  "minutes": 8,
+  "tags": ["aperturas", "caro-kann", "francesa"],
+  "sources": [
+    { "title": "Cyrus Lakdawala – La defensa Caro-Kann", "resourceTags": ["caro-kann"] },
+    { "title": "Clases – Francesa mix y estructura francesa", "resourceTags": ["francesa"] }
+  ],
+  "practice": ["apn-ex-caro-mate", "apn-ex-francesa-d4"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Misma idea, distinto alfil",
+      "body": "Ambas defensas preparan **...d5** para discutir el centro:\n\n- **Francesa** (1...e6): el peón de e6 encierra al alfil de c8 — es el famoso *alfil malo* francés — pero la estructura es durísima.\n- **Caro-Kann** (1...c6): el alfil de c8 **sale antes** a f5 o g4. A cambio, el caballo de b8 no tiene c6."
+    },
+    {
+      "type": "board-demo",
+      "title": "Caro-Kann clásica",
+      "fen": "start",
+      "moves": ["e4", "c6", "d4", "d5", "Nc3", "dxe4", "Nxe4", "Bf5", "Ng3", "Bg6"],
+      "notes": { "2": "1...c6 prepara ...d5.", "8": "4...Af5: el alfil sale libre.", "10": "5...Ag6: retirada y estructura sólida." }
+    },
+    {
+      "type": "make-move",
+      "title": "La trampa que todos deben conocer",
+      "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6",
+      "prompt": "Las negras jugaron 5...Cgf6?? en la Caro-Kann. Con blancas, **da mate en 1**.",
+      "solution": ["Nd6#"],
+      "hint": "El peón de e7 está clavado por tu dama.",
+      "explanation": "**6.Cd6#** ¡Mate ahogado! El peón de e7 está clavado y no puede capturar. Por eso con negras primero se juega ...e6 o ...Cgf6 con cuidado."
+    },
+    {
+      "type": "board-demo",
+      "title": "Francesa: variante del avance",
+      "fen": "start",
+      "moves": ["e4", "e6", "d4", "d5", "e5", "c5", "c3", "Nc6", "Nf3", "Qb6"],
+      "notes": { "6": "3...c5 ataca la base (d4) de la cadena blanca.", "10": "5...Db6: tres piezas atacan d4." }
+    },
+    {
+      "type": "quiz",
+      "question": "En la Francesa del avance, ¿qué peón blanco es el **objetivo** de las negras?",
+      "options": ["e5, la punta de la cadena", "d4, la base de la cadena", "h2"],
+      "answer": 1,
+      "explanation": "Regla de Nimzowitsch: **ataca la cadena por su base**. Por eso ...c5, ...Cc6 y ...Db6. ¡Pero cuidado con tomar en d4 demasiado pronto si el alfil de d3 puede dar jaque en b5 destapando la dama!"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+.page { display: flex; flex-direction: column; gap: var(--space-4); }
+
+.masthead { border-bottom: 3px double var(--color-rule); padding-bottom: var(--space-3); }
+.masthead :global(.eyebrow) { margin: 0; }
+.masthead :global(.eyebrow)::first-letter { text-transform: uppercase; }
+.hello { font-size: 1.8rem; margin: var(--space-1) 0 var(--space-1); }
+.dek { margin: 0; color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; }
+.dek strong { color: var(--color-text); font-weight: 600; }
+.editPlan { white-space: nowrap; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: start; }
+.main { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.side { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+
+.session { display: flex; flex-direction: column; gap: var(--space-2); }
+.sectionHead { display: flex; align-items: baseline; justify-content: space-between; }
+.sectionTitle { margin: 0; font-size: 1.3rem; }
+.count { font-family: var(--font-display); font-size: 1.3rem; color: var(--color-text-muted); }
+
+/* Siguiente paso: bloque grande y claro */
+.next {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) 28px;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-primary-soft);
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-text);
+  text-decoration: none;
+}
+.next:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.nextIcon { display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: var(--color-primary); color: var(--color-on-primary); font-size: 1.3rem; }
+.nextText { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.nextText strong { font-family: var(--font-display); font-size: 1.1rem; line-height: 1.25; }
+.nextGo { color: var(--color-primary); font-size: 1.3rem; display: inline-flex; justify-content: flex-end; }
+.cta { margin-top: var(--space-1); }
+.doneMsg { margin: var(--space-2) 0 0; font-family: var(--font-display); font-style: italic; color: var(--color-success); }
+
+/* Lista compacta de pasos */
+.steps { list-style: none; margin: var(--space-2) 0 0; padding: 0; }
+.stepRow {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 40px;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+.stepNum { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--color-border); font-size: 0.72rem; font-weight: 700; color: var(--color-text-muted); }
+.stepTitle { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stepMin { color: var(--color-text-muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; }
+.stepDone .stepTitle { text-decoration: line-through; color: var(--color-text-muted); }
+.stepDone .stepNum { border-color: var(--color-success); color: var(--color-success); }
+.stepNext .stepNum { border-color: var(--color-primary); background: var(--color-primary); color: var(--color-on-primary); }
+.stepNext .stepTitle { font-weight: 600; }
+
+@media (min-width: 768px) {
+  .hello { font-size: 2.4rem; }
+}
+
+@media (min-width: 960px) {
+  .grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-6); }
+}

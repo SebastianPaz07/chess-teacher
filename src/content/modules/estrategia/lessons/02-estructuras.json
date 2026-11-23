@@ -1,0 +1,52 @@
+{
+  "id": "est-02-estructuras",
+  "order": 2,
+  "title": "Estructuras de peones",
+  "summary": "Peón aislado, doblado, retrasado y pasado. El Stonewall.",
+  "icon": "wall",
+  "xp": 60,
+  "minutes": 9,
+  "tags": ["estrategia", "peon-pasado"],
+  "sources": [
+    { "title": "Boris Persits – La estructura de peones centrales", "resourceTags": ["estrategia"] },
+    { "title": "Clase: Formación Muro de Piedra (Stonewall)", "resourceTags": ["estrategia"] }
+  ],
+  "practice": ["est-ex-ruptura"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Los peones son el alma del ajedrez",
+      "body": "Philidor decía que *los peones son el alma del ajedrez*. Su estructura decide **dónde atacar** y **dónde poner las piezas**.\n\n- **Aislado**: no tiene peones propios en columnas vecinas. Es débil, pero da espacio y actividad.\n- **Doblado**: dos peones en la misma columna. Se defienden mal.\n- **Retrasado**: se quedó atrás y no puede avanzar con apoyo.\n- **Pasado**: ningún peón rival puede frenarlo. ¡Quiere coronar!"
+    },
+    {
+      "type": "quiz",
+      "fen": "4k3/pp3ppp/3p4/8/3P4/8/PP3PPP/4K3 w - - 0 1",
+      "question": "¿Qué tipo de peón es el blanco de **d4**?",
+      "options": ["Aislado", "Doblado", "Pasado", "Retrasado"],
+      "answer": 0,
+      "explanation": "No hay peones blancos en las columnas c ni e: es un **peón aislado** (el famoso 'peón dama aislado')."
+    },
+    {
+      "type": "text",
+      "title": "El Stonewall (muro de piedra)",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P1P2/2P1P3/PP4PP/RNBQKBNR w KQkq - 0 1",
+      "body": "Con **d4, e3, f4 y c3** las blancas construyen un muro sólido en el centro. El plan típico es colocar un caballo en **e5** y atacar el flanco de rey.\n\nSu debilidad: la casilla **e4** y el alfil de casillas negras, que queda encerrado detrás de sus peones."
+    },
+    {
+      "type": "make-move",
+      "title": "La ruptura de peones",
+      "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+      "prompt": "Tres contra tres y los reyes lejos. ¡Hay una forma de **crear un peón pasado** que corona! Encuéntrala.",
+      "solution": ["b6", "axb6", "c6", "bxc6", "a6"],
+      "hint": "Empieza por el peón del medio.",
+      "explanation": "**1.b6!** Si 1...axb6 2.c6! bxc6 3.a6 y corona. (Si 1...cxb6 2.a6! bxa6 3.c6). Una ruptura clásica que aparece en todos los manuales de finales."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Por qué un **peón pasado** es tan valioso en el final?",
+      "options": ["Porque vale 2 puntos", "Porque obliga a una pieza rival a vigilarlo y amenaza coronar", "Porque no puede ser capturado"],
+      "answer": 1,
+      "explanation": "Un peón pasado **ata** a las piezas rivales a la defensa. *Los peones pasados deben avanzar* (Nimzowitsch)."
+    }
+  ]
+}

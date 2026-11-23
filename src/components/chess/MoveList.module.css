@@ -1,0 +1,6 @@
+.list { display: flex; flex-wrap: wrap; gap: 2px 4px; padding: var(--space-3) 0; border-top: 1px solid var(--color-border); border-bottom: 1px solid var(--color-border); font-variant-numeric: tabular-nums; }
+.item { display: inline-flex; align-items: center; gap: 2px; }
+.num { color: var(--color-text-muted); font-size: 0.85rem; }
+.move { border: none; background: transparent; min-height: 32px; padding: 2px 6px; border-radius: var(--radius-sm); font-weight: 600; color: var(--color-text); cursor: pointer; }
+.move:disabled { cursor: default; }
+.current { background: var(--color-primary); color: var(--color-on-primary); }

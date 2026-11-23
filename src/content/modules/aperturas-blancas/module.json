@@ -1,0 +1,12 @@
+{
+  "id": "aperturas-blancas",
+  "order": 4,
+  "title": "Repertorio con blancas",
+  "description": "Italiana, Escocesa, Cuatro Caballos, Ponziani, Apertura de Alfil, Londres, Colle y Gambito de Dama. Basado en las clases grabadas de aperturas, Cox 'Gane con d4' y 'The Bishop's Opening Explained'.",
+  "icon": "piece-king-w",
+  "color": "#e0a526",
+  "level": "intermedio",
+  "category": "aperturas",
+  "prerequisites": ["fundamentos"],
+  "tags": ["aperturas"]
+}

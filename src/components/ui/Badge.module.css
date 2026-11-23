@@ -1,0 +1,12 @@
+.badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 8px; border-radius: var(--radius-sm); border: 1px solid currentColor;
+  font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  white-space: nowrap; font-variant-numeric: tabular-nums; line-height: 1.6;
+}
+.neutral { color: var(--color-text-muted); }
+.primary { color: var(--color-primary); }
+.accent { color: var(--color-accent-strong); }
+.success { color: var(--color-success); }
+.danger { color: var(--color-danger); }
+.xp { color: var(--color-xp); }

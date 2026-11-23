@@ -1,0 +1,145 @@
+[
+  {
+    "id": "italiana",
+    "name": "Apertura Italiana",
+    "side": "w",
+    "eco": "C50–C54",
+    "description": "1.e4 e5 2.Cf3 Cc6 3.Ac4: desarrollo rápido y presión sobre f7.",
+    "ideas": ["El alfil de c4 apunta a f7, el punto más débil del negro.", "c3 + d4 para construir un centro de peones.", "En el Giuoco Pianissimo (d3) se juega lento y maniobrando."],
+    "resourceTags": ["italiana"],
+    "lines": [
+      {
+        "name": "Giuoco Piano con c3 y d3",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d3", "d6", "O-O", "O-O"],
+        "notes": { "5": "3.Ac4: la Italiana.", "7": "4.c3 prepara d4 o d3 con juego tranquilo.", "9": "5.d3: el Pianissimo, muy popular hoy." }
+      },
+      {
+        "name": "Dos Caballos: 4.Cg5",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6", "Ng5", "d5", "exd5", "Na5", "Bb5+", "c6", "dxc6", "bxc6", "Be2", "h6", "Nf3", "e4", "Ne5"],
+        "notes": { "7": "4.Cg5 ataca f7 de inmediato.", "8": "4...d5! es la mejor defensa.", "10": "5...Ca5: las negras sacrifican un peón por iniciativa." }
+      }
+    ]
+  },
+  {
+    "id": "escocesa",
+    "name": "Apertura Escocesa",
+    "side": "w",
+    "eco": "C45",
+    "description": "1.e4 e5 2.Cf3 Cc6 3.d4: abre el centro inmediatamente.",
+    "ideas": ["Cambia el peón e5 y libera el juego blanco.", "El caballo de d4 es una pieza central fuerte.", "Juego directo y fácil de entender."],
+    "resourceTags": ["escocesa"],
+    "lines": [
+      {
+        "name": "Variante clásica 4...Ac5",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Nxd4", "Bc5", "Be3", "Qf6", "c3", "Nge7", "Bc4"],
+        "notes": { "5": "3.d4: la Escocesa.", "8": "4...Ac5 presiona el caballo de d4.", "9": "5.Ae3 lo defiende y desarrolla." }
+      },
+      {
+        "name": "Variante Mieses 4...Cf6",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Nxd4", "Nf6", "Nxc6", "bxc6", "e5", "Qe7", "Qe2", "Nd5", "c4"],
+        "notes": { "9": "5.Cxc6 y 6.e5: las blancas ganan espacio.", "15": "8.c4 expulsa al caballo de d5." }
+      }
+    ]
+  },
+  {
+    "id": "cuatro-caballos",
+    "name": "Cuatro Caballos",
+    "side": "w",
+    "eco": "C48–C49",
+    "description": "Los cuatro caballos salen primero: simetría y desarrollo sólido.",
+    "ideas": ["Desarrollo natural sin riesgos.", "La variante española (4.Ab5) presiona e5.", "Cuidado con las trampas en posiciones simétricas."],
+    "resourceTags": ["cuatro-caballos"],
+    "lines": [
+      {
+        "name": "Variante española simétrica",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Bb4", "O-O", "O-O", "d3", "d6", "Bg5"],
+        "notes": { "7": "4.Ab5: la española de los cuatro caballos.", "13": "7.Ag5 clava el caballo de f6." }
+      }
+    ]
+  },
+  {
+    "id": "ponziani",
+    "name": "Apertura Ponziani",
+    "side": "w",
+    "eco": "C44",
+    "description": "1.e4 e5 2.Cf3 Cc6 3.c3: prepara d4 con un centro de peones.",
+    "ideas": ["c3 apoya d4.", "Poco conocida: el rival suele salir de la teoría.", "Trampas con Da4 y d5."],
+    "resourceTags": ["ponziani"],
+    "lines": [
+      {
+        "name": "Línea principal 3...Cf6",
+        "moves": ["e4", "e5", "Nf3", "Nc6", "c3", "Nf6", "d4", "Nxe4", "d5", "Ne7", "Nxe5", "Ng6", "Qd4"],
+        "notes": { "5": "3.c3: la Ponziani.", "9": "5.d5 gana espacio y expulsa al caballo.", "13": "7.Dd4 centraliza la dama con presión." }
+      }
+    ]
+  },
+  {
+    "id": "apertura-alfil",
+    "name": "Apertura de Alfil",
+    "side": "w",
+    "eco": "C23–C24",
+    "description": "1.e4 e5 2.Ac4: flexible, puede transponer a la Italiana.",
+    "ideas": ["Evita la defensa Petrov.", "d3 + Cf3 con estructura sólida.", "El alfil se retira a b3 para conservarlo."],
+    "resourceTags": ["apertura-alfil"],
+    "lines": [
+      {
+        "name": "2...Cf6 3.d3",
+        "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "c6", "Nf3", "d5", "Bb3"],
+        "notes": { "3": "2.Ac4: la Apertura de Alfil.", "9": "5.Ab3: el alfil se mantiene en la diagonal." }
+      }
+    ]
+  },
+  {
+    "id": "londres",
+    "name": "Sistema Londres",
+    "side": "w",
+    "eco": "D02",
+    "description": "d4, Af4, e3, c3: un sistema sólido que funciona contra casi todo.",
+    "ideas": ["El alfil sale antes de e3 para no quedar encerrado.", "Estructura en pirámide d4-e3-c3.", "Plan típico: Ce5, f4 y ataque en el flanco de rey."],
+    "resourceTags": ["londres"],
+    "lines": [
+      {
+        "name": "Contra ...d5 y ...c5",
+        "moves": ["d4", "d5", "Bf4", "Nf6", "e3", "e6", "Nf3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "Bg3", "O-O", "Bd3"],
+        "notes": { "3": "2.Af4: el alfil sale antes de e3.", "13": "7.Ag3: no cambies el alfil fácilmente." }
+      }
+    ]
+  },
+  {
+    "id": "colle",
+    "name": "Sistema Colle",
+    "side": "w",
+    "eco": "D05",
+    "description": "d4, Cf3, e3, Ad3, c3, Cbd2: preparar la ruptura e4.",
+    "ideas": ["El alfil de casillas negras queda dentro, pero la ruptura e4 libera el juego.", "Ataque en el flanco de rey tras e4-e5."],
+    "resourceTags": ["colle"],
+    "lines": [
+      {
+        "name": "Colle-Zukertort clásico",
+        "moves": ["d4", "d5", "Nf3", "Nf6", "e3", "e6", "Bd3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "O-O", "O-O", "dxc5", "Bxc5", "e4"],
+        "notes": { "13": "7.O-O: todo listo para la ruptura.", "17": "9.e4: la ruptura típica del Colle." }
+      }
+    ]
+  },
+  {
+    "id": "gambito-dama",
+    "name": "Gambito de Dama",
+    "side": "w",
+    "eco": "D06–D69",
+    "description": "1.d4 d5 2.c4: la apertura clásica del juego posicional.",
+    "ideas": ["No es un verdadero gambito: el peón se recupera.", "c4 ataca el centro negro desde el flanco.", "Plan de 'ataque de minorías' con b4-b5 en la estructura Carlsbad."],
+    "resourceTags": ["gambito-dama"],
+    "lines": [
+      {
+        "name": "Gambito de Dama Rehusado",
+        "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Be7", "e3", "O-O", "Nf3", "Nbd7", "Rc1"],
+        "notes": { "3": "2.c4: el gambito.", "4": "2...e6 rehúsa y mantiene d5.", "7": "4.Ag5 clava el caballo." }
+      },
+      {
+        "name": "Gambito de Dama Aceptado",
+        "moves": ["d4", "d5", "c4", "dxc4", "Nf3", "Nf6", "e3", "e6", "Bxc4", "c5", "O-O", "a6"],
+        "notes": { "4": "2...dxc4 acepta, pero no intentará conservar el peón.", "9": "5.Axc4: el peón se recupera." }
+      }
+    ]
+  }
+]

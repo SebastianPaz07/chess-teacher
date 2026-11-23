@@ -1,0 +1,50 @@
+{
+  "id": "apb-01-italiana",
+  "order": 1,
+  "title": "Cómo estudiar una apertura: la Italiana",
+  "summary": "Entender ideas en vez de memorizar jugadas, con la Italiana como ejemplo.",
+  "icon": "piece-bishop",
+  "xp": 55,
+  "minutes": 8,
+  "tags": ["aperturas", "italiana"],
+  "sources": [
+    { "title": "Clases grabadas – Apertura Italiana", "resourceTags": ["italiana"] },
+    { "title": "Libro: Apertura Italiana", "resourceTags": ["italiana"] }
+  ],
+  "practice": ["apb-ex-italiana-dg5"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "No memorices: entiende",
+      "body": "Una apertura se aprende en tres capas:\n\n- **Ideas**: ¿qué quiere cada bando? (centro, casillas débiles, planes).\n- **Estructura de peones** típica.\n- **Jugadas concretas** y trampas habituales.\n\nSi entiendes las ideas, cuando el rival se salga de la teoría sabrás qué hacer."
+    },
+    {
+      "type": "board-demo",
+      "title": "La Italiana paso a paso",
+      "fen": "start",
+      "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d3", "d6", "O-O", "O-O"],
+      "notes": {
+        "5": "3.Ac4 apunta a f7.",
+        "6": "3...Ac5: las negras responden igual, apuntando a f2.",
+        "7": "4.c3 prepara d4… o un juego lento con d3.",
+        "12": "Ambos enrocados. Ahora vienen las maniobras: a4, Te1, Cbd2-f1-g3."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuál es la idea principal de **4.c3** en la Italiana?",
+      "options": ["Atacar al alfil de c5", "Preparar d4 para tener un gran centro", "Defender el peón de e4"],
+      "answer": 1,
+      "explanation": "c3 controla d4 y prepara **d4**, ganando el centro (y de paso deja la casilla c2 para el alfil)."
+    },
+    {
+      "type": "make-move",
+      "title": "Castiga el error",
+      "fen": "r1bqkbnr/pppp1ppp/8/4N3/2BnP3/8/PPPP1PPP/RNBQK2R b KQkq - 0 4",
+      "prompt": "Las blancas jugaron 4.Cxe5? creyendo ganar un peón. Juegas con negras: **encuentra el doble ataque**.",
+      "solution": ["Qg5"],
+      "hint": "La dama puede atacar el caballo de e5 y el peón de g2 a la vez.",
+      "explanation": "**4...Dg5!** ataca el caballo y g2. Si 5.Cxf7?? Dxg2 6.Tf1 Dxe4+ 7.Ae2 Cf3# (trampa Blackburne)."
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+/* El contenedor ocupa el ancho disponible pero nunca aporta ancho propio
+   (contain: inline-size), así el tablero no puede empujar la columna. */
+.wrap { width: 100%; min-width: 0; margin: 0 auto; contain: inline-size; display: flex; justify-content: center; }
+.board { max-width: 100%; transition: box-shadow 0.2s; }
+.placeholder { width: 100%; aspect-ratio: 1; background: var(--color-surface-2); }
+.good { animation: good 0.6s ease; }
+.bad { animation: bad 0.45s ease; }
+@keyframes good {
+  0% { box-shadow: 0 0 0 0 rgb(47 107 69 / 0.7); }
+  100% { box-shadow: 0 0 0 18px rgb(47 107 69 / 0); }
+}
+@keyframes bad {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-8px); }
+  40% { transform: translateX(8px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}

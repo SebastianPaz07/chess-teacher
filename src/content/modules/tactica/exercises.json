@@ -1,0 +1,116 @@
+[
+  {
+    "id": "tac-ex-pasillo-negras",
+    "title": "Pasillo con negras",
+    "fen": "r5k1/5ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+    "solution": ["Ra1#"],
+    "themes": ["mate", "pasillo"],
+    "rating": 600,
+    "hint": "La primera fila blanca está desprotegida.",
+    "explanation": "**...Ta1#** El mismo patrón, ahora con negras."
+  },
+  {
+    "id": "tac-ex-beso",
+    "title": "El beso de la dama",
+    "fen": "6k1/5p1p/5P1Q/8/8/8/5PPP/6K1 w - - 0 1",
+    "solution": ["Qg7#"],
+    "themes": ["mate"],
+    "rating": 650,
+    "explanation": "**Dg7#** defendida por el peón de f6."
+  },
+  {
+    "id": "tac-ex-coz",
+    "title": "Mate de la coz",
+    "fen": "6rk/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1",
+    "solution": ["Nf7#"],
+    "themes": ["mate"],
+    "rating": 700,
+    "explanation": "**Cf7#** El rey se ahoga entre sus propias piezas."
+  },
+  {
+    "id": "tac-ex-arabe",
+    "title": "Mate árabe",
+    "fen": "7k/3R4/5N2/8/8/8/5PPP/6K1 w - - 0 1",
+    "solution": ["Rh7#"],
+    "themes": ["mate"],
+    "rating": 800,
+    "explanation": "**Th7#** Torre protegida por el caballo, que además cubre g8."
+  },
+  {
+    "id": "tac-ex-horquilla-caballo",
+    "title": "Horquilla de caballo",
+    "fen": "r3k3/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
+    "solution": ["Nc7+", "Kd7", "Nxa8"],
+    "themes": ["horquilla"],
+    "rating": 750,
+    "explanation": "**Cc7+** ataca rey y torre."
+  },
+  {
+    "id": "tac-ex-horquilla-real",
+    "title": "Horquilla real",
+    "fen": "2q1k3/pp3ppp/8/1N6/8/8/5PPP/6K1 w - - 0 1",
+    "solution": ["Nd6+", "Ke7", "Nxc8+"],
+    "themes": ["horquilla"],
+    "rating": 900,
+    "hint": "Busca una casilla que ataque e8 y c8 a la vez.",
+    "explanation": "**Cd6+** ataca rey y dama. Tras mover el rey, **Cxc8+**."
+  },
+  {
+    "id": "tac-ex-horquilla-dama",
+    "title": "Doble ataque de dama",
+    "fen": "6k1/6pp/8/r7/8/8/8/3Q2K1 w - - 0 1",
+    "solution": ["Qd5+", "Kh8", "Qxa5"],
+    "themes": ["horquilla"],
+    "rating": 950,
+    "explanation": "**Dd5+** jaque + ataque a la torre."
+  },
+  {
+    "id": "tac-ex-ensartada-alfil",
+    "title": "Ensartada en diagonal",
+    "fen": "r7/8/8/3k4/8/8/6PP/3B2K1 w - - 0 1",
+    "solution": ["Bf3+", "Kd6", "Bxa8"],
+    "themes": ["ensartada"],
+    "rating": 850,
+    "hint": "El rey y la torre están en la misma diagonal larga.",
+    "explanation": "**Af3+** y cuando el rey se aparta, **Axa8**."
+  },
+  {
+    "id": "tac-ex-descubierta",
+    "title": "Jaque a la descubierta",
+    "fen": "4k3/pp3ppp/8/8/4N3/3q4/PP3PPP/4R1K1 w - - 0 1",
+    "solution": ["Nc5+", "Kd8", "Nxd3"],
+    "themes": ["descubierta"],
+    "rating": 1000,
+    "explanation": "**Cc5+** destapa la torre y ataca la dama."
+  },
+  {
+    "id": "tac-ex-petrov",
+    "title": "La trampa de la Petrov",
+    "fen": "rnbqkb1r/pppp1ppp/5n2/4N3/8/8/PPPPQPPP/RNB1KB1R w KQkq - 2 5",
+    "solution": ["Nc6+", "Qe7", "Nxe7"],
+    "themes": ["descubierta", "apertura-trampa"],
+    "rating": 1150,
+    "hint": "Tu dama de e2 mira al rey por la columna e.",
+    "explanation": "Tras 1.e4 e5 2.Cf3 Cf6 3.Cxe5 Cxe4? 4.De2 Cf6?? llega **5.Cc6+**: jaque descubierto y ataque a la dama. Por eso en la Petrov se juega 3...d6 antes de recuperar el peón."
+  },
+  {
+    "id": "tac-ex-blackburne",
+    "title": "La trampa Blackburne",
+    "fen": "r1b1kbnr/pppp1Npp/8/8/3nq3/8/PPPPBP1P/RNBQKR2 b Qkq - 1 7",
+    "solution": ["Nf3#"],
+    "themes": ["mate", "apertura-trampa"],
+    "rating": 1100,
+    "hint": "El rey blanco está rodeado de sus propias piezas.",
+    "explanation": "**...Cf3#** Tras 1.e4 e5 2.Cf3 Cc6 3.Ac4 Cd4!? 4.Cxe5? Dg5 5.Cxf7?? Dxg2 6.Tf1 Dxe4+ 7.Ae2 llega el mate ahogado."
+  },
+  {
+    "id": "tac-ex-legal",
+    "title": "El mate de Legal",
+    "fen": "rn1qkbnr/ppp2p1p/3p2p1/4N3/2B1P3/2N5/PPPP1PPP/R1BbK2R w KQkq - 0 6",
+    "solution": ["Bxf7+", "Ke7", "Nd5#"],
+    "themes": ["mate", "apertura-trampa", "combinacion"],
+    "rating": 1200,
+    "hint": "Las negras se comieron tu dama… ¡pero sus piezas no están desarrolladas!",
+    "explanation": "**Axf7+ Re7 Cd5#**. Un clásico de 1750: sacrificar la dama a cambio de un mate con piezas menores."
+  }
+]

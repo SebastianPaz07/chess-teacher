@@ -1,0 +1,40 @@
+{
+  "id": "apn-03-india-rey",
+  "order": 3,
+  "title": "Contra 1.d4: la India de Rey",
+  "summary": "Ceder el centro para atacarlo después: el hipermodernismo.",
+  "icon": "sword",
+  "xp": 60,
+  "minutes": 8,
+  "tags": ["aperturas", "india-de-rey"],
+  "sources": [{ "title": "Clase: La India de Rey es DEMOLEDORA – 10 conceptos posicionales", "resourceTags": ["india-de-rey"] }],
+  "practice": [],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La idea hipermoderna",
+      "body": "Los hipermodernos (Nimzowitsch, Réti, Alekhine) descubrieron que el centro **no hace falta ocuparlo**: se puede **controlar a distancia** y atacarlo más tarde.\n\nEn la India de Rey las negras dejan que las blancas construyan un gran centro (c4-d4-e4) y luego lo golpean con **...e5** o **...c5**."
+    },
+    {
+      "type": "board-demo",
+      "title": "La clásica",
+      "fen": "start",
+      "moves": ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4", "d6", "Nf3", "O-O", "Be2", "e5", "O-O", "Nc6", "d5", "Ne7"],
+      "notes": { "4": "2...g6: fianchetto.", "12": "6...e5: el golpe al centro.", "15": "8.d5 cierra el centro.", "16": "8...Ce7: el caballo va al flanco de rey para apoyar ...f5." }
+    },
+    {
+      "type": "quiz",
+      "question": "Con el centro cerrado (blancos en d5, negros en e5), ¿dónde atacan las negras?",
+      "options": ["En el flanco de dama con ...b5", "En el flanco de rey con ...f5", "En el centro con ...d5"],
+      "answer": 1,
+      "explanation": "Regla: **se ataca hacia donde apuntan tus peones**. La cadena negra apunta al flanco de rey: ...f5, ...f4, ...g5."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué pieza negra es la más importante en la India de Rey?",
+      "options": ["El caballo de b8", "El alfil de g7", "La torre de a8"],
+      "answer": 1,
+      "explanation": "El **alfil de g7** controla la gran diagonal y defiende al rey. ¡No lo cambies sin motivo!"
+    }
+  ]
+}

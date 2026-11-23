@@ -1,0 +1,12 @@
+{
+  "id": "tactica",
+  "order": 2,
+  "title": "Táctica y cálculo",
+  "description": "Patrones de mate, horquillas, clavadas, ensartadas y ataques a la descubierta. Basado en 'Combinaciones en el medio juego', '10 combinaciones de mate' (Gude) y las clases de cálculo.",
+  "icon": "sword",
+  "color": "#c0392b",
+  "level": "principiante",
+  "category": "tactica",
+  "prerequisites": ["fundamentos"],
+  "tags": ["tactica"]
+}

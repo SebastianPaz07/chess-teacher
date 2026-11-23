@@ -1,0 +1,22 @@
+[
+  {
+    "id": "apb-ex-italiana-dg5",
+    "title": "Doble ataque en la Italiana",
+    "fen": "r1bqkbnr/pppp1ppp/8/4N3/2BnP3/8/PPPP1PPP/RNBQK2R b KQkq - 0 4",
+    "solution": ["Qg5"],
+    "themes": ["horquilla", "apertura-trampa"],
+    "rating": 1050,
+    "hint": "Ataca dos cosas a la vez con la dama.",
+    "explanation": "**4...Dg5!** ataca e5 y g2."
+  },
+  {
+    "id": "apb-ex-elefante",
+    "title": "La trampa del elefante",
+    "fen": "r1bqkb1r/pppn1ppp/5n2/3N2B1/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 6",
+    "solution": ["Nxd5", "Bxd8", "Bb4+", "Qd2", "Bxd2+", "Kxd2", "Kxd8"],
+    "themes": ["clavada", "apertura-trampa", "combinacion"],
+    "rating": 1450,
+    "hint": "La clavada del caballo es solo relativa.",
+    "explanation": "**6...Cxd5!** y si 7.Axd8 Ab4+ gana una pieza."
+  }
+]

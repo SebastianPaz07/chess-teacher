@@ -1,0 +1,20 @@
+/* Avisos: tiras finas sobre la barra inferior en móvil, esquina en escritorio */
+.stack { position: fixed; left: 12px; right: 12px; bottom: calc(var(--bottom-nav) + 12px + env(safe-area-inset-bottom)); display: flex; flex-direction: column; gap: 6px; z-index: 90; pointer-events: none; }
+.toast { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: var(--color-surface); border: 1px solid var(--color-rule); border-left-width: 4px; font-weight: 600; }
+.toast div { display: flex; flex-direction: column; line-height: 1.25; }
+.toast small { color: var(--color-text-muted); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.icon { font-size: 1.4rem; display: inline-flex; }
+.xp { border-left-color: var(--color-xp); }
+.xp .icon { color: var(--color-xp); }
+.achievement { border-left-color: var(--color-accent); }
+.achievement .icon { color: var(--color-accent-strong); }
+.quest { border-left-color: var(--color-success); }
+.quest .icon { color: var(--color-success); }
+.streak { border-left-color: var(--color-streak); }
+.streak .icon { color: var(--color-streak); }
+.levelUp h2 { margin-top: var(--space-3); }
+.bigIcon { font-size: 4.5rem; line-height: 1; display: flex; justify-content: center; color: var(--color-accent); }
+
+@media (min-width: 1100px) {
+  .stack { left: auto; right: 24px; bottom: 24px; width: 340px; }
+}

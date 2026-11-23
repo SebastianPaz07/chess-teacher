@@ -1,0 +1,13 @@
+.wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-5); }
+.fullscreen { min-height: 70dvh; }
+.knight { display: inline-block; font-family: var(--font-pieces); color: var(--color-primary); animation: hop 0.9s cubic-bezier(.3,.6,.4,1) infinite; }
+.sm { font-size: 1.5rem; }
+.md { font-size: 2.6rem; }
+.lg { font-size: 4rem; }
+.label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--color-text-muted); }
+@keyframes hop {
+  0%, 100% { transform: translate(0, 0); }
+  35% { transform: translate(6px, -14px); }
+  60% { transform: translate(12px, -4px); }
+  80% { transform: translate(0, 0); }
+}

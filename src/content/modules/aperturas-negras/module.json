@@ -1,0 +1,12 @@
+{
+  "id": "aperturas-negras",
+  "order": 5,
+  "title": "Repertorio con negras",
+  "description": "Caro-Kann, Francesa, Siciliana (Dragón y Najdorf), Petrov, Alekhine, India de Rey, Pirc y Escandinava. Basado en Lakdawala (Caro-Kann), Gufeld (Dragón), B. Smith (Najdorf), Fridshtein (Pirc) y las clases grabadas.",
+  "icon": "piece-king",
+  "color": "#6b4fa0",
+  "level": "intermedio",
+  "category": "aperturas",
+  "prerequisites": ["fundamentos"],
+  "tags": ["aperturas"]
+}

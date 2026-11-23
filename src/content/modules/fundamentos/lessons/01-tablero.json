@@ -1,0 +1,56 @@
+{
+  "id": "fund-01-tablero",
+  "order": 1,
+  "title": "El tablero y las piezas",
+  "summary": "Coordenadas, posición inicial y cómo se mueve cada pieza.",
+  "icon": "piece-pawn",
+  "xp": 40,
+  "minutes": 6,
+  "tags": ["fundamentos"],
+  "sources": [{ "title": "Rey Enigma – Cómo leer el TABLERO (Ajedrez desde cero #2)", "resourceTags": ["fundamentos"] }],
+  "practice": ["fund-ex-captura-libre"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "64 casillas con nombre propio",
+      "fen": "start",
+      "body": "El tablero tiene **8 columnas** (de la *a* a la *h*) y **8 filas** (del *1* al *8*). Cada casilla se nombra con columna + fila: **e4**, **d5**, **g1**…\n\n- Siempre hay una **casilla blanca abajo a la derecha**.\n- Las blancas empiezan en las filas 1 y 2; las negras en las filas 7 y 8.\n- La **dama va en su color**: dama blanca en casilla blanca, dama negra en casilla negra."
+    },
+    {
+      "type": "quiz",
+      "fen": "start",
+      "question": "¿En qué casilla empieza la **dama blanca**?",
+      "options": ["d1", "e1", "d8", "c1"],
+      "answer": 0,
+      "explanation": "La dama blanca empieza en **d1** (casilla blanca: *la dama va en su color*). El rey blanco está a su lado, en e1."
+    },
+    {
+      "type": "text",
+      "title": "Cómo se mueve cada pieza",
+      "body": "- **Torre**: en línea recta (filas y columnas) las casillas que quiera.\n- **Alfil**: en diagonal. Cada alfil se queda siempre en su color.\n- **Dama**: como torre + alfil. ¡La pieza más poderosa!\n- **Caballo**: salta en forma de **L** (2 + 1). Es la única pieza que salta por encima de otras.\n- **Rey**: una casilla en cualquier dirección. Nunca puede quedar en jaque.\n- **Peón**: avanza una casilla (dos en su primera jugada) y **captura en diagonal**."
+    },
+    {
+      "type": "make-move",
+      "fen": "4k3/8/8/4p3/8/5N2/8/6K1 w - - 0 1",
+      "prompt": "El caballo salta en **L**. Captura el peón negro con el caballo.",
+      "solution": ["Nxe5"],
+      "hint": "Desde f3 el caballo alcanza e5: una casilla a la izquierda y dos hacia arriba.",
+      "explanation": "¡Bien! **Cxe5**: el caballo capturó en e5. En notación, la *x* significa captura."
+    },
+    {
+      "type": "make-move",
+      "fen": "7k/q7/8/8/8/8/8/R6K w - - 0 1",
+      "prompt": "La torre se mueve en línea recta. **Captura la dama negra**.",
+      "solution": ["Rxa7"],
+      "hint": "La columna *a* está libre entre tu torre y la dama.",
+      "explanation": "**Txa7**: ganaste la pieza más valiosa del rival. Las columnas abiertas son autopistas para las torres."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué pieza puede **saltar** por encima de otras?",
+      "options": ["El alfil", "El caballo", "La dama", "La torre"],
+      "answer": 1,
+      "explanation": "Solo el **caballo** salta. Por eso es tan útil en posiciones cerradas."
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+node_modules
+dist
+source-material
+*.local
+.DS_Store
+public/engine
+*.tsbuildinfo
+.env
+.env.*

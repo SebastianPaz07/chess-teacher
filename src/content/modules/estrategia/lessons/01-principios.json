@@ -1,0 +1,52 @@
+{
+  "id": "est-01-principios",
+  "order": 1,
+  "title": "Principios de apertura",
+  "summary": "Centro, desarrollo y enroque: las tres reglas de oro.",
+  "icon": "target",
+  "xp": 50,
+  "minutes": 7,
+  "tags": ["estrategia"],
+  "sources": [
+    { "title": "Video: ¿Qué es un PLAN en ajedrez?", "resourceTags": ["estrategia"] },
+    { "title": "Eliskases – Mejora tu juego posicional", "resourceTags": ["estrategia"] }
+  ],
+  "practice": [],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Las tres reglas de oro",
+      "body": "1. **Controla el centro** (e4, d4, e5, d5) con peones y piezas.\n2. **Desarrolla** caballos y alfiles rápido. *Caballos antes que alfiles* suele funcionar.\n3. **Enroca** pronto para poner al rey a salvo y conectar las torres.\n\nY dos consejos extra:\n\n- No muevas la misma pieza dos veces sin motivo.\n- No saques la dama demasiado pronto: será perseguida."
+    },
+    {
+      "type": "board-demo",
+      "title": "Un desarrollo modelo",
+      "fen": "start",
+      "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d4", "exd4", "cxd4", "Bb4+", "Nc3"],
+      "notes": {
+        "1": "1.e4: ocupa el centro y abre la diagonal del alfil y la dama.",
+        "3": "2.Cf3: desarrolla atacando e5.",
+        "5": "3.Ac4: el alfil apunta a f7, el punto débil del enroque negro.",
+        "7": "4.c3: prepara d4 para construir un centro grande.",
+        "9": "5.d4: ¡dos peones en el centro!",
+        "13": "7.Cc3: desarrollo con tempo. Las blancas tienen un centro fuerte y piezas activas."
+      },
+      "body": "Recorre la Italiana y fíjate cómo **cada jugada** sigue un principio."
+    },
+    {
+      "type": "quiz",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+      "question": "Tras 1.e4 e5, ¿qué jugada respeta **mejor** los principios?",
+      "options": ["2.Cf3 (desarrolla y ataca e5)", "2.h4", "2.a3", "2.Re2"],
+      "answer": 0,
+      "explanation": "**2.Cf3** desarrolla una pieza, controla el centro y crea una amenaza. ¡Tres pájaros de un tiro!"
+    },
+    {
+      "type": "quiz",
+      "question": "Las negras sacan la dama en la jugada 2. ¿Qué suele pasar?",
+      "options": ["Ganan la partida rápidamente", "Las blancas la atacan con piezas menores ganando tiempos de desarrollo", "Nada especial"],
+      "answer": 1,
+      "explanation": "Cada vez que la dama tiene que huir, el rival **desarrolla con tempo**. Saca primero las piezas menores."
+    }
+  ]
+}

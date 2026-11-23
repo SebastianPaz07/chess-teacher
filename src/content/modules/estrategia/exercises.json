@@ -1,0 +1,31 @@
+[
+  {
+    "id": "est-ex-dama-ahogado",
+    "title": "Mate, no ahogado",
+    "fen": "k7/8/1K6/8/8/8/8/2Q5 w - - 0 1",
+    "solution": ["Qc8#"],
+    "themes": ["mate", "final"],
+    "rating": 650,
+    "hint": "Verifica que tu jugada sea jaque.",
+    "explanation": "**Dc8#** — Dc7?? sería ahogado."
+  },
+  {
+    "id": "est-ex-ruptura",
+    "title": "Ruptura de peones",
+    "fen": "6k1/ppp5/8/PPP5/8/8/8/6K1 w - - 0 1",
+    "solution": ["b6", "axb6", "c6", "bxc6", "a6"],
+    "themes": ["final", "peon-pasado"],
+    "rating": 1500,
+    "hint": "Sacrifica el peón central.",
+    "explanation": "**1.b6!** crea un peón pasado imparable."
+  },
+  {
+    "id": "est-ex-torre-ensartada",
+    "title": "Final de torres: el truco de Th8",
+    "fen": "R7/P4k2/8/8/8/7K/r7/8 w - - 0 1",
+    "solution": ["Rh8", "Rxa7", "Rh7+", "Kf6", "Rxa7"],
+    "themes": ["final", "ensartada"],
+    "rating": 1550,
+    "explanation": "**1.Th8!** y si 1...Txa7 2.Th7+ ensarta rey y torre."
+  }
+]

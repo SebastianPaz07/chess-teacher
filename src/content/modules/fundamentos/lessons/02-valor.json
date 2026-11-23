@@ -1,0 +1,50 @@
+{
+  "id": "fund-02-valor",
+  "order": 2,
+  "title": "Valor de las piezas y buenos cambios",
+  "summary": "Cuánto vale cada pieza y cómo decidir si un cambio te conviene.",
+  "icon": "scales",
+  "xp": 45,
+  "minutes": 7,
+  "tags": ["fundamentos", "captura"],
+  "sources": [{ "title": "Rey Enigma – El VALOR de las PIEZAS (Ajedrez desde cero #16)", "resourceTags": ["fundamentos"] }],
+  "practice": ["fund-ex-captura-libre", "fund-ex-pieza-colgada"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La tabla de valores",
+      "body": "Para saber si un cambio es bueno, contamos puntos:\n\n- **Peón** = 1\n- **Caballo** = 3\n- **Alfil** = 3\n- **Torre** = 5\n- **Dama** = 9\n- **Rey** = ¡no tiene precio! (si lo pierdes, pierdes la partida)\n\nUn cambio es bueno si **recibes más de lo que entregas**."
+    },
+    {
+      "type": "quiz",
+      "fen": "6k1/8/3p4/4n3/8/8/4Q3/6K1 w - - 0 1",
+      "question": "La dama blanca puede capturar el caballo de e5, pero el peón de d6 lo **defiende**. ¿Es buena idea **Dxe5**?",
+      "options": ["Sí, gano un caballo", "No: tras ...dxe5 pierdo la dama (9) por un caballo (3)"],
+      "answer": 1,
+      "explanation": "Antes de capturar, pregúntate siempre: **¿está defendida la pieza?** Aquí perderías 9 puntos para ganar 3."
+    },
+    {
+      "type": "make-move",
+      "fen": "6k1/8/8/2p5/1b1n4/8/3Q4/6K1 w - - 0 1",
+      "prompt": "Una pieza negra está **sin defender** y la otra está protegida. Captura la correcta.",
+      "solution": ["Qxb4"],
+      "hint": "El caballo de d4 está defendido por el peón de c5.",
+      "explanation": "**Dxb4** gana un alfil gratis. Si hubieras jugado Dxd4, el peón respondería cxd4 y perderías la dama."
+    },
+    {
+      "type": "make-move",
+      "fen": "6kr/5p2/6p1/8/8/2B5/8/6K1 w - - 0 1",
+      "prompt": "Tu alfil (3) puede cambiarse por la torre negra (5). ¡Hazlo!",
+      "solution": ["Bxh8"],
+      "hint": "Mira la gran diagonal que va de c3 a h8.",
+      "explanation": "Aunque el rey recapture, cambiaste 3 por 5: **ganaste la calidad**."
+    },
+    {
+      "type": "quiz",
+      "question": "Cambias tu caballo por un alfil rival. ¿Cómo es ese cambio?",
+      "options": ["Ganas material", "Pierdes material", "Equilibrado (3 por 3)"],
+      "answer": 2,
+      "explanation": "Caballo y alfil valen ~3. Es un cambio parejo; decidirá cuál de las dos piezas es más útil en la posición."
+    }
+  ]
+}

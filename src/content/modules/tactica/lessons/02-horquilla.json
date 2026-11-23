@@ -1,0 +1,42 @@
+{
+  "id": "tac-02-horquilla",
+  "order": 2,
+  "title": "La horquilla (doble ataque)",
+  "summary": "Una pieza ataca dos objetivos a la vez: el rival solo puede salvar uno.",
+  "icon": "fork",
+  "xp": 55,
+  "minutes": 8,
+  "tags": ["tactica", "horquilla"],
+  "sources": [{ "title": "Combinaciones en el medio juego", "resourceTags": ["tactica"] }],
+  "practice": ["tac-ex-horquilla-caballo", "tac-ex-horquilla-real", "tac-ex-horquilla-dama"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Dos amenazas, una sola respuesta",
+      "body": "Una **horquilla** (o doble ataque) ocurre cuando **una pieza ataca dos objetivos a la vez**. El rival solo puede salvar uno.\n\nLas horquillas más poderosas incluyen un **jaque**, porque el rival está obligado a atender al rey.\n\nEl **caballo** es el rey de las horquillas: sus saltos son difíciles de ver."
+    },
+    {
+      "type": "make-move",
+      "fen": "r3k3/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Ataca al **rey y a la torre** a la vez con el caballo. Luego cobra.",
+      "solution": ["Nc7+", "Kd7", "Nxa8"],
+      "hint": "Busca una casilla desde la que el caballo ataque e8 y a8.",
+      "explanation": "**Cc7+** y tras mover el rey, **Cxa8**. Ganaste una torre entera."
+    },
+    {
+      "type": "make-move",
+      "fen": "6k1/6pp/8/r7/8/8/8/3Q2K1 w - - 0 1",
+      "prompt": "La **dama** también hace horquillas. Da jaque atacando la torre al mismo tiempo.",
+      "solution": ["Qd5+", "Kh8", "Qxa5"],
+      "hint": "Una casilla central que ve la diagonal hacia g8 y la fila 5.",
+      "explanation": "**Dd5+** ataca rey (por la diagonal) y torre (por la fila). Tras **Dxa5** ganas 5 puntos."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Por qué las horquillas con **jaque** son tan efectivas?",
+      "options": ["Porque el jaque da puntos extra", "Porque el rival debe atender al rey primero y no puede salvar la otra pieza", "Porque el rey no puede moverse"],
+      "answer": 1,
+      "explanation": "El jaque **obliga**. Mientras el rival salva al rey, tú capturas la otra pieza."
+    }
+  ]
+}

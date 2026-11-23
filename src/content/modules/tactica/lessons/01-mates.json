@@ -1,0 +1,65 @@
+{
+  "id": "tac-01-mates",
+  "order": 1,
+  "title": "Patrones de mate",
+  "summary": "Pasillo, beso de la dama, mate de la coz y mate árabe.",
+  "icon": "piece-king",
+  "xp": 55,
+  "minutes": 8,
+  "tags": ["tactica", "mate"],
+  "sources": [
+    { "title": "Antonio Gude – 10 Combinaciones de mate", "resourceTags": ["tactica"] },
+    { "title": "Video: 7 conceptos de ataque que llevan a la victoria", "resourceTags": ["tactica"] }
+  ],
+  "practice": ["tac-ex-pasillo-negras", "tac-ex-coz", "tac-ex-arabe"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "¿Por qué estudiar patrones?",
+      "body": "Los grandes jugadores no calculan todo desde cero: **reconocen patrones**. Si conoces un mate de memoria, lo verás en tus partidas en segundos.\n\nHoy aprenderás cuatro clásicos. Antes de cada jugada, revisa siempre: **jaques, capturas y amenazas**."
+    },
+    {
+      "type": "make-move",
+      "title": "1. Mate del pasillo",
+      "fen": "6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "El rey negro está encerrado por sus propios peones. **Da mate**.",
+      "solution": ["Rd8#"],
+      "hint": "Busca la octava fila.",
+      "explanation": "**Td8#** El patrón más frecuente en partidas de club. Defensa: abrir una casilla de escape (…h6)."
+    },
+    {
+      "type": "make-move",
+      "title": "2. El beso de la dama",
+      "fen": "6k1/5p1p/5P1Q/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tu peón de f6 apoya a la dama. **Da mate** pegando la dama al rey.",
+      "solution": ["Qg7#"],
+      "hint": "La dama va a una casilla defendida por el peón.",
+      "explanation": "**Dg7#** La dama 'besa' al rey: está defendida por el peón y el rey no puede capturarla."
+    },
+    {
+      "type": "make-move",
+      "title": "3. Mate de la coz (ahogado)",
+      "fen": "6rk/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "El rey está rodeado de sus propias piezas. Un **caballo** basta. ¡Mate!",
+      "solution": ["Nf7#"],
+      "hint": "¿Qué casilla del caballo ataca h8?",
+      "explanation": "**Cf7#** El rey se ahoga con sus propias piezas: es el *mate de la coz* o *smothered mate*."
+    },
+    {
+      "type": "make-move",
+      "title": "4. Mate árabe",
+      "fen": "7k/3R4/5N2/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Torre y caballo trabajan juntos. **Da mate**.",
+      "solution": ["Rh7#"],
+      "hint": "El caballo de f6 defiende h7 y controla g8.",
+      "explanation": "**Th7#** El mate árabe, uno de los patrones más antiguos del ajedrez."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuál es la mejor manera de **prevenir** el mate del pasillo?",
+      "options": ["Mover el rey al centro", "Crear una casilla de escape (luft) moviendo un peón del enroque", "Cambiar las damas siempre"],
+      "answer": 1,
+      "explanation": "Una jugada como **h3/h6** da aire al rey. ¡Hazla en el momento tranquilo de la partida!"
+    }
+  ]
+}

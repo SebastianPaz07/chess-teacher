@@ -1,0 +1,55 @@
+{
+  "id": "apb-02-sistemas-d4",
+  "order": 2,
+  "title": "Sistemas con d4: Londres y Colle",
+  "summary": "Dos esquemas que puedes jugar casi contra cualquier defensa.",
+  "icon": "piece-queen",
+  "xp": 55,
+  "minutes": 8,
+  "tags": ["aperturas", "londres", "colle"],
+  "sources": [
+    { "title": "Clases – Sistema Londres y Sistema Colle (Pupilo Chess)", "resourceTags": ["londres", "colle"] },
+    { "title": "John Cox – Gane con d4", "resourceTags": ["gambito-dama"] }
+  ],
+  "practice": [],
+  "steps": [
+    {
+      "type": "text",
+      "title": "¿Qué es un 'sistema'?",
+      "body": "Un sistema es una apertura donde colocas tus piezas en **las mismas casillas** casi sin importar lo que haga el rival.\n\n- **Ventaja**: poca teoría, planes claros.\n- **Desventaja**: puede ser menos ambicioso si el rival sabe cómo enfrentarlo."
+    },
+    {
+      "type": "board-demo",
+      "title": "El Londres",
+      "fen": "start",
+      "moves": ["d4", "d5", "Bf4", "Nf6", "e3", "e6", "Nf3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "Bg3", "O-O", "Bd3"],
+      "notes": {
+        "3": "2.Af4: ¡el alfil sale ANTES de e3!",
+        "5": "3.e3: ahora sí, la pirámide d4-e3.",
+        "9": "5.c3 refuerza d4.",
+        "15": "Desarrollo completo. Planes: Ce5, f4, Df3 y ataque."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "En el Londres, ¿por qué se juega **Af4 antes de e3**?",
+      "options": ["Para que el alfil no quede encerrado detrás del peón de e3", "Porque es la regla del enroque", "Para atacar el peón de d5"],
+      "answer": 0,
+      "explanation": "Si juegas e3 primero, el alfil de c1 queda atrapado. ¡En el Colle eso pasa a propósito!"
+    },
+    {
+      "type": "board-demo",
+      "title": "El Colle",
+      "fen": "start",
+      "moves": ["d4", "d5", "Nf3", "Nf6", "e3", "e6", "Bd3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "O-O", "O-O", "dxc5", "Bxc5", "e4"],
+      "notes": { "5": "3.e3: aquí el alfil de c1 se queda dentro.", "17": "9.e4: la ruptura que libera todo el juego blanco." }
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuál es la ruptura típica del sistema Colle?",
+      "options": ["c4", "e4", "f4", "g4"],
+      "answer": 1,
+      "explanation": "**e4** abre la diagonal del alfil de d3 y el centro para atacar."
+    }
+  ]
+}

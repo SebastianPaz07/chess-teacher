@@ -1,0 +1,50 @@
+{
+  "id": "est-03-finales",
+  "order": 3,
+  "title": "Finales básicos",
+  "summary": "Mates elementales, el peligro del ahogado y la oposición.",
+  "icon": "flag",
+  "xp": 60,
+  "minutes": 8,
+  "tags": ["finales", "final"],
+  "sources": [{ "title": "Estrin – Tratado de ajedrez superior", "resourceTags": ["clasicos"] }],
+  "practice": ["est-ex-dama-ahogado", "est-ex-torre-ensartada"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Cuando quedan pocas piezas…",
+      "body": "En el final **el rey se vuelve una pieza de ataque**: llévalo al centro.\n\nDebes dominar sin pensar:\n\n- Mate con **dama y rey**.\n- Mate con **torre y rey**.\n- La **oposición**: dos reyes enfrentados con una casilla entre ellos; quien *no* tiene que mover gana la batalla."
+    },
+    {
+      "type": "make-move",
+      "fen": "k7/8/1K6/8/8/8/8/2Q5 w - - 0 1",
+      "prompt": "Da **mate** con la dama. ¡Cuidado con el **ahogado**!",
+      "solution": ["Qc8#"],
+      "hint": "Si juegas Dc7 el rey negro no tiene jugadas… pero no está en jaque.",
+      "explanation": "**Dc8#** Ojo: **Dc7??** sería ahogado (tablas). Antes de dar el golpe final, revisa siempre que haya jaque."
+    },
+    {
+      "type": "make-move",
+      "fen": "7k/8/6K1/8/8/8/8/R7 w - - 0 1",
+      "prompt": "Ahora con la torre. **Mate en 1**.",
+      "solution": ["Ra8#"],
+      "explanation": "**Ta8#** El rey blanco quita g7 y h7; la torre da jaque en la fila 8."
+    },
+    {
+      "type": "quiz",
+      "question": "Dos reyes están en e4 y e6, y **le toca mover a las negras**. ¿Quién tiene la oposición?",
+      "options": ["Las blancas", "Las negras", "Nadie"],
+      "answer": 0,
+      "explanation": "Tiene la oposición el bando que **no** está obligado a mover. Las negras deben ceder terreno."
+    },
+    {
+      "type": "make-move",
+      "title": "Truco de torres",
+      "fen": "R7/P4k2/8/8/8/7K/r7/8 w - - 0 1",
+      "prompt": "Tu peón está bloqueado por tu propia torre. Aparta la torre con una idea táctica: si las negras toman el peón, ¡ensartada!",
+      "solution": ["Rh8", "Rxa7", "Rh7+", "Kf6", "Rxa7"],
+      "hint": "Lleva la torre a la columna h.",
+      "explanation": "**1.Th8!** amenaza coronar. Si 1...Txa7 2.Th7+ y **3.Txa7**. Un truco que aparece muchísimo en finales de torres."
+    }
+  ]
+}

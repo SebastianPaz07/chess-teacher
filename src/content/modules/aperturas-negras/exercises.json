@@ -1,0 +1,22 @@
+[
+  {
+    "id": "apn-ex-caro-mate",
+    "title": "Mate en la Caro-Kann",
+    "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6",
+    "solution": ["Nd6#"],
+    "themes": ["mate", "apertura-trampa", "clavada"],
+    "rating": 950,
+    "hint": "El peón de e7 está clavado.",
+    "explanation": "**6.Cd6#** El peón e7 no puede capturar porque está clavado por la dama de e2."
+  },
+  {
+    "id": "apn-ex-francesa-d4",
+    "title": "Francesa: la trampa de d4",
+    "fen": "r1b1kbnr/pp3ppp/4p3/3pP3/3q4/3B4/PP3PPP/RNBQK2R w KQkq - 0 9",
+    "solution": ["Bb5+", "Bd7", "Qxd4"],
+    "themes": ["descubierta", "apertura-trampa"],
+    "rating": 1300,
+    "hint": "Tu dama de d1 está tapada por tu propio alfil.",
+    "explanation": "Tras 6.Ad3 cxd4 7.cxd4 Cxd4? 8.Cxd4 Dxd4?? llega **9.Ab5+!**: el alfil da jaque y destapa la dama de d1 contra la dama negra. Con negras, en esta línea se juega 7...Ad7 en lugar de tomar en d4."
+  }
+]

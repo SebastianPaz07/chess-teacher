@@ -1,0 +1,49 @@
+{
+  "id": "cla-02-opera",
+  "order": 2,
+  "title": "Morphy y la Partida de la Ópera",
+  "summary": "Desarrollo, columnas abiertas y un final brillante (París, 1858).",
+  "icon": "strategy",
+  "xp": 60,
+  "minutes": 9,
+  "tags": ["clasicos", "combinacion"],
+  "sources": [{ "title": "Kasparov – Mis geniales predecesores", "resourceTags": ["clasicos"] }],
+  "practice": ["cla-ex-opera"],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El primer campeón moderno",
+      "body": "Paul Morphy jugó esta partida en un palco de la Ópera de París contra el Duque de Brunswick y el Conde Isouard, que consultaban juntos.\n\nEs la **lección perfecta de desarrollo**: Morphy saca todas sus piezas mientras sus rivales mueven la dama y cambian piezas sin plan."
+    },
+    {
+      "type": "board-demo",
+      "title": "Morphy – Duque de Brunswick y Conde Isouard",
+      "fen": "start",
+      "moves": ["e4", "e5", "Nf3", "d6", "d4", "Bg4", "dxe5", "Bxf3", "Qxf3", "dxe5", "Bc4", "Nf6", "Qb3", "Qe7", "Nc3", "c6", "Bg5", "b5", "Nxb5", "cxb5", "Bxb5+", "Nbd7", "O-O-O", "Rd8", "Rxd7", "Rxd7", "Rd1", "Qe6", "Bxd7+", "Nxd7", "Qb8+", "Nxb8", "Rd8#"],
+      "notes": {
+        "8": "4...Axf3: las negras ceden la pareja de alfiles sin necesidad.",
+        "13": "7.Db3: doble ataque a f7 y b7.",
+        "19": "10.Cxb5!: Morphy sacrifica para abrir líneas.",
+        "23": "12.O-O-O: ¡todas las piezas blancas atacan!",
+        "31": "16.Db8+!!: el sacrificio final.",
+        "33": "17.Td8#: mate con las dos últimas piezas."
+      }
+    },
+    {
+      "type": "make-move",
+      "title": "Termina como Morphy",
+      "fen": "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
+      "prompt": "Mate en 2: un sacrificio de dama abre la puerta.",
+      "solution": ["Qb8+", "Nxb8", "Rd8#"],
+      "hint": "Desvía al caballo que defiende la casilla d8.",
+      "explanation": "**16.Db8+!! Cxb8 17.Td8#**. El caballo era el único defensor de d8."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuál es la gran lección de esta partida?",
+      "options": ["Sacar la dama pronto", "Desarrollar todas las piezas antes de atacar y abrir líneas hacia el rey rival", "Cambiar piezas siempre"],
+      "answer": 1,
+      "explanation": "Morphy ganó con **ventaja de desarrollo**: más piezas activas en el lugar correcto."
+    }
+  ]
+}

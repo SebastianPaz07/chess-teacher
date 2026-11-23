@@ -1,0 +1,126 @@
+{
+  "source": "Lichess puzzle database (CC0) — https://database.lichess.org/#puzzles",
+  "generatedAt": "2026-11-23",
+  "bands": [
+    {
+      "from": 600,
+      "to": 700,
+      "file": "band-600.json",
+      "count": 120
+    },
+    {
+      "from": 700,
+      "to": 800,
+      "file": "band-700.json",
+      "count": 120
+    },
+    {
+      "from": 800,
+      "to": 900,
+      "file": "band-800.json",
+      "count": 120
+    },
+    {
+      "from": 900,
+      "to": 1000,
+      "file": "band-900.json",
+      "count": 120
+    },
+    {
+      "from": 1000,
+      "to": 1100,
+      "file": "band-1000.json",
+      "count": 120
+    },
+    {
+      "from": 1100,
+      "to": 1200,
+      "file": "band-1100.json",
+      "count": 120
+    },
+    {
+      "from": 1200,
+      "to": 1300,
+      "file": "band-1200.json",
+      "count": 120
+    },
+    {
+      "from": 1300,
+      "to": 1400,
+      "file": "band-1300.json",
+      "count": 120
+    },
+    {
+      "from": 1400,
+      "to": 1500,
+      "file": "band-1400.json",
+      "count": 120
+    },
+    {
+      "from": 1500,
+      "to": 1600,
+      "file": "band-1500.json",
+      "count": 120
+    },
+    {
+      "from": 1600,
+      "to": 1700,
+      "file": "band-1600.json",
+      "count": 120
+    },
+    {
+      "from": 1700,
+      "to": 1800,
+      "file": "band-1700.json",
+      "count": 120
+    },
+    {
+      "from": 1800,
+      "to": 1900,
+      "file": "band-1800.json",
+      "count": 120
+    },
+    {
+      "from": 1900,
+      "to": 2000,
+      "file": "band-1900.json",
+      "count": 120
+    },
+    {
+      "from": 2000,
+      "to": 2100,
+      "file": "band-2000.json",
+      "count": 120
+    },
+    {
+      "from": 2100,
+      "to": 2200,
+      "file": "band-2100.json",
+      "count": 120
+    },
+    {
+      "from": 2200,
+      "to": 2300,
+      "file": "band-2200.json",
+      "count": 120
+    },
+    {
+      "from": 2300,
+      "to": 2400,
+      "file": "band-2300.json",
+      "count": 120
+    },
+    {
+      "from": 2400,
+      "to": 2500,
+      "file": "band-2400.json",
+      "count": 120
+    },
+    {
+      "from": 2500,
+      "to": 2600,
+      "file": "band-2500.json",
+      "count": 120
+    }
+  ]
+}
