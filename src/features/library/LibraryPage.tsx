@@ -41,18 +41,33 @@ export function LibraryPage() {
           </>
         }
       />
-      <div className="row">
-        <Tabs
-          value={filter}
-          onChange={setFilter}
-          items={[
-            { value: 'all', label: 'Todo' },
-            { value: 'video', label: 'Videos', icon: 'play' },
-            { value: 'pdf', label: 'Libros', icon: 'book' },
-          ]}
+      <div className={styles.searchBox}>
+        <Icon name="search" className={styles.searchIcon} />
+        <input
+          className={styles.search}
+          type="search"
+          inputMode="search"
+          enterKeyHint="search"
+          placeholder="Buscar videos y libros: caro-kann, táctica, finales…"
+          aria-label="Buscar en la biblioteca"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
         />
-        <input className={styles.search} placeholder="Buscar (ej. caro-kann, táctica…)" value={query} onChange={(e) => setQuery(e.target.value)} />
+        {query && (
+          <button type="button" className={styles.clear} onClick={() => setQuery('')} aria-label="Borrar búsqueda">
+            <Icon name="close" />
+          </button>
+        )}
       </div>
+      <Tabs
+        value={filter}
+        onChange={setFilter}
+        items={[
+          { value: 'all', label: 'Todo' },
+          { value: 'video', label: 'Videos', icon: 'play' },
+          { value: 'pdf', label: 'Libros', icon: 'book' },
+        ]}
+      />
       {groups.length === 0 && <EmptyState icon="search" title="Sin resultados" />}
       {groups.map(([folder, items]) => (
         <Card key={folder} title={folder} subtitle={`${items.length} recursos`} icon="books">

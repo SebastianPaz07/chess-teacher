@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@/components/ui/Icon';
 import { RewardsCenter } from '@/features/gamification/components/RewardsCenter';
 import { useStudyTimer } from '@/hooks/useStudyTimer';
@@ -31,6 +31,10 @@ const linkClass = (base: string) => ({ isActive }: { isActive: boolean }) => [ba
 export function AppShell() {
   const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+  const canGoBack = location.pathname !== '/';
+  // Si no hay historial (se abrió el enlace directo), «Volver» lleva a Hoy
+  const goBack = () => ((window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/'));
   const inMore = SECONDARY.some((it) => location.pathname.startsWith(it.to));
 
   // Conecta el club (sesión, sincronización y "realtime") una sola vez
@@ -72,6 +76,13 @@ export function AppShell() {
       <div className={styles.main}>
         <TopBar />
         <main className={styles.content}>
+          {canGoBack && (
+            <div className={styles.backRow}>
+              <button type="button" className={styles.backBtn} onClick={goBack}>
+                <Icon name="arrow-left" /> Volver
+              </button>
+            </div>
+          )}
           <Outlet />
         </main>
       </div>

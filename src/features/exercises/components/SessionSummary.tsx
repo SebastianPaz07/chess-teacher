@@ -1,6 +1,8 @@
 import { Icon } from '@/components/ui/Icon';
 import { useEffect } from 'react';
-import { Button, Card } from '@/components/ui';
+import { Badge, Button, Card } from '@/components/ui';
+import type { Exercise } from '@/content/schema';
+import { themeLabel } from '../themes';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
 import type { SessionResult } from './ExerciseSession';
 
@@ -9,9 +11,12 @@ interface Props {
   title?: string;
   primary: { label: string; onClick?: () => void; to?: string };
   secondary?: { label: string; onClick?: () => void; to?: string };
+  /** Repetir ahora los ejercicios fallados */
+  onRetryMistakes?: (failed: Exercise[]) => void;
 }
 
-export function SessionSummary({ results, title = '¡Sesión terminada!', primary, secondary }: Props) {
+export function SessionSummary({ results, title = '¡Sesión terminada!', primary, secondary, onRetryMistakes }: Props) {
+  const failed = results.filter((r) => !r.result.success || r.result.mistakes > 0);
   const solved = results.filter((r) => r.result.success).length;
   const clean = results.filter((r) => r.result.success && r.result.mistakes === 0).length;
   useEffect(() => {
@@ -38,6 +43,29 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
           <div className="muted">A repasar</div>
         </Card>
       </div>
+      {failed.length > 0 && (
+        <Card tone="danger" icon="review" title={`Para repasar (${failed.length})`} subtitle="Estos ejercicios los fallaste o los resolviste con errores. También volverán en tu repaso de mañana.">
+          <ul className="stack" style={{ listStyle: 'none', margin: 0, padding: 0, textAlign: 'left', gap: 'var(--space-2)' }}>
+            {failed.map(({ exercise: ex, result }) => (
+              <li key={ex.id} className="row" style={{ justifyContent: 'space-between', borderTop: '1px solid var(--color-border)', paddingTop: 'var(--space-2)' }}>
+                <span style={{ minWidth: 0 }}>
+                  <strong>{ex.title ?? themeLabel(ex.themes[0])}</strong>
+                  <br />
+                  <span className="muted" style={{ fontSize: '0.82rem' }}>
+                    {ex.themes.slice(0, 2).map(themeLabel).join(' · ')} · rating {ex.rating}
+                  </span>
+                </span>
+                <Badge tone={result.success ? 'accent' : 'danger'}>{result.success ? 'Con errores' : 'Fallado'}</Badge>
+              </li>
+            ))}
+          </ul>
+          {onRetryMistakes && (
+            <Button block variant="secondary" icon="review" onClick={() => onRetryMistakes(failed.map((f) => f.exercise))} style={{ marginTop: 'var(--space-3)' }}>
+              Repasarlos ahora
+            </Button>
+          )}
+        </Card>
+      )}
       <Button size="lg" block onClick={primary.onClick} to={primary.to}>
         {primary.label}
       </Button>

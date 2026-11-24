@@ -15,6 +15,10 @@ interface ProgressState extends ProgressSnapshot {
   exercises: Record<string, ExerciseRecord>;
   openingLines: Record<string, { times: number; lastAt: string; bestMistakes: number }>;
   completeLesson: (lessonId: string, mistakes: number) => LessonRecord;
+  /** "Ya lo domino": marca lecciones como saltadas (sin XP ni estrellas) */
+  skipLessons: (lessonIds: string[]) => void;
+  /** Quita la marca de saltadas (las completadas de verdad no se tocan) */
+  unskipLessons: (lessonIds: string[]) => void;
   recordAttempt: (exerciseId: string, tags: string[], success: boolean) => void;
   recordOpeningLine: (key: string, mistakes: number) => void;
   setPlacement: (level: Level) => void;
@@ -32,7 +36,8 @@ export const useProgressStore = create<ProgressState>()(
       openingLines: {},
 
       completeLesson: (lessonId, mistakes) => {
-        const prev = get().lessons[lessonId];
+        const old = get().lessons[lessonId];
+        const prev = old?.skipped ? undefined : old;
         const stars = starsFor(mistakes);
         const record: LessonRecord = {
           stars: Math.max(stars, prev?.stars ?? 0),
@@ -43,6 +48,20 @@ export const useProgressStore = create<ProgressState>()(
         set((s) => ({ lessons: { ...s.lessons, [lessonId]: record } }));
         return record;
       },
+
+      skipLessons: (ids) =>
+        set((s) => {
+          const lessons = { ...s.lessons };
+          for (const id of ids) lessons[id] ??= { stars: 0, bestMistakes: 0, completedAt: todayKey(), times: 0, skipped: true };
+          return { lessons };
+        }),
+
+      unskipLessons: (ids) =>
+        set((s) => {
+          const lessons = { ...s.lessons };
+          for (const id of ids) if (lessons[id]?.skipped) delete lessons[id];
+          return { lessons };
+        }),
 
       recordAttempt: (exerciseId, tags, success) =>
         set((s) => {

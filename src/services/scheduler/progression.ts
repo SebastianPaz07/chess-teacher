@@ -5,6 +5,8 @@ export interface LessonRecord {
   bestMistakes: number;
   completedAt: string;
   times: number;
+  /** Marcada como "ya la domino": cuenta como avance pero sin estrellas ni XP */
+  skipped?: boolean;
 }
 
 export interface MasteryRecord {

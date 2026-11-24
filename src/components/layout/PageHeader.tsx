@@ -8,18 +8,20 @@ interface PageHeaderProps {
   actions?: ReactNode;
   /** Rótulo superior en versalitas (sección) */
   eyebrow?: ReactNode;
+  /** Menos espacio alrededor (pantallas con listas largas) */
+  compact?: boolean;
 }
 
 /** Cabecera de página editorial: rótulo, titular serif y filete inferior. */
-export function PageHeader({ title, subtitle, icon, actions, eyebrow }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, icon, actions, eyebrow, compact }: PageHeaderProps) {
   return (
     <header
       style={{
         display: 'flex',
         alignItems: 'flex-end',
         gap: 'var(--space-4)',
-        marginBottom: 'var(--space-5)',
-        paddingBottom: 'var(--space-4)',
+        marginBottom: compact ? 0 : 'var(--space-5)',
+        paddingBottom: compact ? 'var(--space-3)' : 'var(--space-4)',
         borderBottom: '1px solid var(--color-rule)',
         flexWrap: 'wrap',
       }}
