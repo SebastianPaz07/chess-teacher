@@ -1,13 +1,16 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Card, ProgressBar } from '@/components/ui';
+import { allOpenings, resourcesByTags } from '@/content/registry';
+import type { Resource } from '@/content/schema';
+import { ResourceViewer } from '@/features/library/components/ResourceViewer';
 import { Icon } from '@/components/ui/Icon';
 import type { Level } from '@/content/schema';
 import { practiceCountFor } from '@/services/scheduler/dailyPlan';
 import { ratingFromElo, type EloSource } from '@/services/scheduler/placement';
 import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
-import { useSettingsStore } from '@/store/settingsStore';
+import { useSettingsStore, type FocusArea } from '@/store/settingsStore';
 import { formatDays, WEEK_DAYS } from './days';
 import styles from './PlanSetupPage.module.css';
 
@@ -20,7 +23,15 @@ const LEVELS: { id: Exclude<LevelChoice, 'keep' | 'elo' | 'test'>; title: string
   { id: 'strong', title: 'Juego torneos', detail: 'Calculo variantes y tengo repertorio.', level: 'avanzado', rating: 1750, icon: 'piece-rook' },
 ];
 
+const FOCUS: { id: FocusArea; title: string; detail: string; icon: string }[] = [
+  { id: 'tactica', title: 'Táctica', detail: 'Mates, horquillas, clavadas, cálculo.', icon: 'sword' },
+  { id: 'teoria', title: 'Teoría', detail: 'Más lecciones y aperturas cada día.', icon: 'book-open' },
+  { id: 'finales', title: 'Finales', detail: 'Peones, torres, conversión de ventaja.', icon: 'flag' },
+  { id: 'medio-juego', title: 'Medio juego', detail: 'Ataque, defensa y planes estratégicos.', icon: 'strategy' },
+];
+
 const MINUTES = [10, 15, 20, 30, 45, 60];
+type StepKey = 'level' | 'focus' | 'openings' | 'time' | 'days' | 'summary';
 const LEVEL_NAME: Record<Level, string> = { principiante: 'principiante', intermedio: 'intermedio', avanzado: 'avanzado' };
 
 /** Plan de entrenamiento personalizado: nivel → tiempo por día → días de la semana → resumen. */
@@ -35,6 +46,10 @@ export function PlanSetupPage() {
 
   const hasLevel = placementDone || Boolean(placementLevel);
   const [step, setStep] = useState(0);
+  const [focus, setFocus] = useState<FocusArea[]>(settings.focusAreas);
+  const [favorite, setFavorite] = useState<string | null>(settings.favoriteOpening);
+  const [explore, setExplore] = useState<string[]>(settings.exploreOpenings);
+  const [viewing, setViewing] = useState<Resource | null>(null);
   const [choice, setChoice] = useState<LevelChoice | null>(hasLevel ? 'keep' : null);
   const [elo, setElo] = useState('');
   const [source, setSource] = useState<EloSource>('lichess');
@@ -53,13 +68,21 @@ export function PlanSetupPage() {
           ? { level: 'principiante', rating: 800 }
           : (LEVELS.find((l) => l.id === choice) ?? null);
 
-  const canNext = step === 0 ? Boolean(resolved) : step === 2 ? days.length > 0 : true;
+  // Quien ya sabe lo básico puede afinar el plan: qué reforzar y qué apertura repasar
+  const hasBasics = Boolean(resolved) && choice !== 'new' && choice !== 'test';
+  const steps: StepKey[] = ['level', ...(hasBasics ? (['focus', 'openings'] as StepKey[]) : []), 'time', 'days', 'summary'];
+  const key = steps[Math.min(step, steps.length - 1)];
+  const last = step >= steps.length - 1;
+  const canNext = key === 'level' ? Boolean(resolved) : key === 'days' ? days.length > 0 : true;
+  const favOpening = allOpenings.find((o) => o.id === favorite);
+  const specific = favOpening ? resourcesByTags(favOpening.resourceTags, 4) : [];
+  const recommended = favOpening ? (specific.length ? specific : resourcesByTags(['aperturas'], 4)) : [];
   const weekly = minutes * days.length;
   const level = resolved?.level ?? 'principiante';
   const exercises = practiceCountFor(level, minutes);
 
   const save = () => {
-    settings.update({ dailyMinutes: minutes, trainingDays: [...days].sort(), onboarded: true });
+    settings.update({ dailyMinutes: minutes, trainingDays: [...days].sort(), onboarded: true, focusAreas: hasBasics ? focus : [], favoriteOpening: hasBasics ? favorite : null, exploreOpenings: hasBasics ? explore.filter((id) => id !== favorite) : [] });
     if (choice && choice !== 'keep' && choice !== 'test' && resolved) {
       setPlacement(resolved.level);
       dispatch({ type: 'PLACEMENT_DONE', rating: resolved.rating, level: resolved.level });
@@ -67,18 +90,20 @@ export function PlanSetupPage() {
     navigate(choice === 'test' ? '/test-nivel' : '/', { replace: true });
   };
 
+  const toggleFocus = (f: FocusArea) => setFocus((fs) => (fs.includes(f) ? fs.filter((x) => x !== f) : [...fs, f]));
+  const toggleExplore = (id: string) => setExplore((xs) => (xs.includes(id) ? xs.filter((x) => x !== id) : xs.length >= 3 ? xs : [...xs, id]));
   const toggleDay = (d: number) => setDays((ds) => (ds.includes(d) ? ds.filter((x) => x !== d) : [...ds, d]));
 
   return (
     <div className={styles.page}>
       <header className={styles.head}>
         <p className="eyebrow" style={{ margin: 0 }}>
-          Tu plan de entrenamiento · paso {step + 1} de 4
+          Tu plan de entrenamiento · paso {step + 1} de {steps.length}
         </p>
-        <ProgressBar value={(step + 1) / 4} height={3} />
+        <ProgressBar value={(step + 1) / steps.length} height={3} />
       </header>
 
-      {step === 0 && (
+      {key === 'level' && (
         <section className={styles.step}>
           <h1 className={styles.title}>¿Cuál es tu nivel hoy?</h1>
           <p className="muted">Así empezamos donde te corresponde, sin repetir lo que ya sabes.</p>
@@ -105,7 +130,73 @@ export function PlanSetupPage() {
         </section>
       )}
 
-      {step === 1 && (
+      {key === 'focus' && (
+        <section className={styles.step}>
+          <h1 className={styles.title}>¿Qué quieres reforzar?</h1>
+          <p className="muted">Elige una o varias áreas y le damos más peso en tu plan. Si no eliges ninguna, el plan es equilibrado.</p>
+          <div className={styles.options}>
+            {FOCUS.map((f) => (
+              <Option key={f.id} multi selected={focus.includes(f.id)} onClick={() => toggleFocus(f.id)} icon={f.icon} title={f.title} detail={f.detail} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {key === 'openings' && (
+        <section className={styles.step}>
+          <h1 className={styles.title}>Aperturas</h1>
+          <p className="muted">Elige una apertura para repasarla a fondo; te recomendamos videos y libros de tu biblioteca.</p>
+          <p className="eyebrow" style={{ margin: 0 }}>
+            Quiero repasar
+          </p>
+          <div className={styles.chips} role="radiogroup" aria-label="Apertura a repasar">
+            <button type="button" role="radio" aria-checked={!favorite} className={[styles.chip, !favorite && styles.chipOn].filter(Boolean).join(' ')} onClick={() => setFavorite(null)}>
+              Ninguna por ahora
+            </button>
+            {allOpenings.map((o) => (
+              <button key={o.id} type="button" role="radio" aria-checked={favorite === o.id} className={[styles.chip, favorite === o.id && styles.chipOn].filter(Boolean).join(' ')} onClick={() => setFavorite(o.id)}>
+                {o.name} <small>{o.side === 'w' ? '· blancas' : '· negras'}</small>
+              </button>
+            ))}
+          </div>
+          {favOpening && (
+            <Card tone="accent" icon="video" title={`Material para ${favOpening.name}`} subtitle="Videos y libros recomendados de tu biblioteca">
+              {recommended.length ? (
+                <ul className={styles.resList}>
+                  {recommended.map((r) => (
+                    <li key={r.id}>
+                      <button type="button" className={styles.res} onClick={() => setViewing(r)}>
+                        <Icon name={r.type === 'video' ? 'play' : 'book'} weight="light" />
+                        <span>{r.title}</span>
+                        <Icon name="caret-right" />
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="muted" style={{ margin: 0 }}>
+                  Aún no hay material de esta apertura en la biblioteca; igual la practicarás con sus líneas.
+                </p>
+              )}
+            </Card>
+          )}
+          <p className="eyebrow" style={{ margin: 'var(--space-2) 0 0' }}>
+            Quiero conocer otras (hasta 3)
+          </p>
+          <div className={styles.chips}>
+            {allOpenings
+              .filter((o) => o.id !== favorite)
+              .map((o) => (
+                <button key={o.id} type="button" aria-pressed={explore.includes(o.id)} className={[styles.chip, explore.includes(o.id) && styles.chipOn].filter(Boolean).join(' ')} onClick={() => toggleExplore(o.id)}>
+                  {o.name}
+                </button>
+              ))}
+          </div>
+          <ResourceViewer resource={viewing} onClose={() => setViewing(null)} />
+        </section>
+      )}
+
+      {key === 'time' && (
         <section className={styles.step}>
           <h1 className={styles.title}>¿Cuánto tiempo tienes al día?</h1>
           <p className="muted">Mejor poco y constante que mucho de vez en cuando.</p>
@@ -120,7 +211,7 @@ export function PlanSetupPage() {
         </section>
       )}
 
-      {step === 2 && (
+      {key === 'days' && (
         <section className={styles.step}>
           <h1 className={styles.title}>¿Qué días entrenarás?</h1>
           <p className="muted">Los demás días son de descanso: tu racha no se rompe por no practicar en ellos.</p>
@@ -145,7 +236,7 @@ export function PlanSetupPage() {
         </section>
       )}
 
-      {step === 3 && (
+      {key === 'summary' && (
         <section className={styles.step}>
           <h1 className={styles.title}>Tu plan</h1>
           <Card tone="primary">
@@ -179,7 +270,12 @@ export function PlanSetupPage() {
               </li>
               {minutes > 10 && (
                 <li>
-                  <Icon name="books" /> Una línea de apertura
+                  <Icon name="books" /> Una línea de apertura{favOpening ? `: sobre todo ${favOpening.name}` : ''}
+                </li>
+              )}
+              {hasBasics && focus.length > 0 && (
+                <li>
+                  <Icon name="target" /> Más peso en: {focus.map((f) => FOCUS.find((x) => x.id === f)?.title.toLowerCase()).join(', ')}
                 </li>
               )}
               {minutes >= 20 && level !== 'principiante' && (
@@ -207,7 +303,7 @@ export function PlanSetupPage() {
         ) : (
           <span />
         )}
-        {step < 3 ? (
+        {!last ? (
           <Button size="lg" onClick={() => setStep(step + 1)} disabled={!canNext} icon="arrow-right">
             Siguiente
           </Button>
@@ -221,9 +317,9 @@ export function PlanSetupPage() {
   );
 }
 
-function Option({ selected, onClick, icon, title, detail }: { selected: boolean; onClick: () => void; icon: string; title: string; detail: string }) {
+function Option({ selected, onClick, icon, title, detail, multi }: { selected: boolean; onClick: () => void; icon: string; title: string; detail: string; multi?: boolean }) {
   return (
-    <button type="button" role="radio" aria-checked={selected} className={[styles.option, selected && styles.optionOn].filter(Boolean).join(' ')} onClick={onClick}>
+    <button type="button" role={multi ? 'checkbox' : 'radio'} aria-checked={selected} className={[styles.option, selected && styles.optionOn].filter(Boolean).join(' ')} onClick={onClick}>
       <span className={styles.optionIcon}>
         <Icon name={icon} />
       </span>

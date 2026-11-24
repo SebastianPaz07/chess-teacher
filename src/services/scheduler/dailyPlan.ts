@@ -5,6 +5,15 @@ import { pickAdaptive } from '@/services/game/rating';
 import { isModuleUnlocked, levelForRating, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
 import type { ReviewCard } from './sm2';
 
+export type FocusArea = 'tactica' | 'teoria' | 'finales' | 'medio-juego';
+
+/** Temas de ejercicio que trabaja cada área de refuerzo */
+export const FOCUS_TAGS: Record<Exclude<FocusArea, 'teoria'>, string[]> = {
+  tactica: ['tactica', 'mate', 'pasillo', 'horquilla', 'clavada', 'ensartada', 'descubierta', 'jaque-doble', 'sacrificio', 'desviacion', 'atraccion', 'despeje', 'interferencia', 'intermedia', 'sobrecarga', 'eliminar-defensor', 'pieza-atrapada', 'captura'],
+  finales: ['final', 'final-torres', 'final-peones', 'peon-pasado', 'promocion', 'zugzwang', 'mate-ahogado'],
+  'medio-juego': ['medio-juego', 'ataque-al-rey', 'ataque-flanco-dama', 'defensa', 'jugada-tranquila', 'ventaja', 'ventaja-decisiva', 'estrategia'],
+};
+
 /**
  * Plan del día: poco pero constante, adaptado al nivel.
  *  - Principiante: repaso · lección · práctica · apertura
@@ -29,6 +38,13 @@ export interface DailyPlanInput {
   trainedLines: Record<string, unknown>;
   /** Pool extra de ejercicios (puzzles importados) que se suma a los de los módulos. */
   puzzlePool?: Exercise[];
+  /** Ejercicios inéditos traídos de Lichess: si alcanzan, la práctica del día sale solo de aquí */
+  freshPool?: Exercise[];
+  /** Áreas que el alumno quiere reforzar */
+  focus?: FocusArea[];
+  /** Apertura a repasar con más frecuencia y aperturas por conocer */
+  favoriteOpening?: string | null;
+  exploreOpenings?: string[];
   /** Día de descanso del plan: sesión ligera y opcional */
   restDay?: boolean;
 }
@@ -68,7 +84,7 @@ function nearRating(pool: Exercise[], rating: number, need: number, margin = 300
 }
 
 export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
-  const { date, modules, progress, dueCards, rating, solvedIds, puzzlePool, restDay } = input;
+  const { date, modules, progress, dueCards, rating, solvedIds, puzzlePool, freshPool = [], restDay, focus = [], favoriteOpening, exploreOpenings = [] } = input;
   const dailyMinutes = restDay ? 10 : input.dailyMinutes;
   const rand = seededRandom(hashString(`plan:${date}`));
   const tasks: DailyTask[] = [];
@@ -86,20 +102,23 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   // 2. Lección (los avanzados la tienen en días alternos: priorizamos cálculo)
   const candidates = nextLessons(modules, progress);
   let lesson: Lesson | undefined;
-  const lessonToday = !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30);
+  const lessonToday = !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30 || focus.includes('teoria'));
   if (candidates.length && lessonToday) {
     lesson = candidates[day % candidates.length];
     tasks.push({ id: `lesson:${lesson.id}`, kind: 'lesson', title: lesson.title, lessonId: lesson.id, minutes: lesson.minutes });
   }
 
   // 3. Práctica / cálculo adaptativo
-  const basePool: Exercise[] = [...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
+  const fresh = freshPool.filter((e) => !solvedIds.has(e.id));
+  const basePool: Exercise[] = fresh.length >= practiceCount ? fresh : [...fresh, ...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
   const pool = level === 'principiante' ? basePool : nearRating(basePool, rating, practiceCount);
   const weak = weakTopics(progress);
   const focusTags = new Set([...(lesson?.tags ?? []), ...weak.slice(0, 2)]);
+  for (const f of focus) if (f !== 'teoria') FOCUS_TAGS[f].forEach((t) => focusTags.add(t));
+  const chosenShare = focus.some((f) => f !== 'teoria') ? 0.7 : 0.5;
   const focused = pool.filter((e) => e.tags.some((t) => focusTags.has(t)));
   // Mitad enfocada en temas débiles / lección, mitad libre (para no sesgar el rating)
-  const focusN = focused.length >= Math.ceil(practiceCount / 2) ? Math.ceil(practiceCount / 2) : 0;
+  const focusN = Math.min(focused.length, Math.ceil(practiceCount * chosenShare));
   const first = focusN ? pickAdaptive(focused, rating, focusN, solvedIds, rand) : [];
   const taken = new Set(first.map((e) => e.id));
   const rest = pickAdaptive(
@@ -119,9 +138,21 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   // 4. Apertura del día (de módulos desbloqueados)
   const openings: Opening[] = unlocked.flatMap((m) => m.openings);
   if (openings.length && !restDay && dailyMinutes > 10) {
-    const o = openings[Math.floor(rand() * openings.length)];
-    const lineIndex = Math.floor(rand() * o.lines.length);
-    tasks.push({ id: `opening:${o.id}#${lineIndex}`, kind: 'opening', title: `Apertura del día: ${o.name}`, openingId: o.id, lineIndex, minutes: 3 });
+    // La apertura elegida sale ~2 de cada 3 días; las demás rotan (las «por conocer» primero)
+    const byId = (id?: string | null) => (id ? modules.flatMap((m) => m.openings).find((x) => x.id === id) : undefined);
+    const fav = byId(favoriteOpening);
+    const explore = exploreOpenings.map(byId).filter((x): x is Opening => Boolean(x));
+    let o = openings[Math.floor(rand() * openings.length)];
+    let prefix = 'Apertura del día';
+    if (fav && day % 3 !== 2) {
+      o = fav;
+      prefix = 'Repasa tu apertura';
+    } else if (explore.length && (day % 3 === 2 || !fav)) {
+      o = explore[day % explore.length];
+      prefix = 'Conoce esta apertura';
+    }
+    const lineIndex = fav && o.id === fav.id ? day % o.lines.length : Math.floor(rand() * o.lines.length);
+    tasks.push({ id: `opening:${o.id}#${lineIndex}`, kind: 'opening', title: `${prefix}: ${o.name}`, openingId: o.id, lineIndex, minutes: focus.includes('teoria') ? 5 : 3 });
   }
 
   // 5. Partida clásica: "adivina la jugada" (cálculo y comprensión estratégica)
