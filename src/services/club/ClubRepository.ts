@@ -11,6 +11,7 @@ import type {
   LeaderPeriod,
   LeaderRow,
   MemberDetail,
+  MemberRole,
   MemberStats,
   MemberSummary,
   Nudge,
@@ -43,10 +44,20 @@ export interface ClubRepository {
   getMyProfile(): Promise<MyProfile | null>;
   saveMyProfile(p: MyProfile): Promise<void>;
   getMyClub(): Promise<Club | null>;
+  /** ¿Puede esta persona crear clubes? Solo el admin de la plataforma o quien llegó por un link de creación. */
+  canCreateClub(): Promise<boolean>;
+  /** Admin: genera el token del link `/crear-club/:token` para que otra persona cree un club. */
+  createClubInvite(): Promise<string>;
+  /** Canjea el token de un link de creación; devuelve si es válido. */
+  redeemCreatorToken(token: string): Promise<boolean>;
   createClub(name: string): Promise<Club>;
   /** Devuelve el club o lanza un error si el código no existe */
   joinClub(code: string): Promise<Club>;
   leaveClub(): Promise<void>;
+  /** Solo el organizador: nombra o quita colaboradores. */
+  setMemberRole(memberId: string, role: Exclude<MemberRole, 'owner'>): Promise<void>;
+  /** Organizador y colaboradores (estos solo a participantes). */
+  removeMember(memberId: string): Promise<void>;
 
   // Datos del club
   getMembers(): Promise<MemberSummary[]>;

@@ -2,11 +2,11 @@ import { allLessons, modules } from '@/content/registry';
 import { addDays, diffDays, toDateKey, weekStart } from '@/lib/date';
 import { hashString, seededRandom } from '@/lib/random';
 import { levelFromXp } from '@/services/game/xp';
-import { BOTS, botMember, botProfile, emptyStats, type BotProfile } from './bots';
+import { BOTS, botMember, botProfile, demoClubName, emptyStats, type BotProfile } from './bots';
 import { CHALLENGE_TTL_HOURS, pickChallengePuzzles, pickWeeklyPuzzles, scoreChallenge, simulateRun } from './challenges';
 import type { ClubRepository, MyProfile } from './ClubRepository';
-import { computeLeaderboard, sumActivity, visibleStreak, weeklyGoal, type LeaderInput } from './logic';
-import type { Challenge, Club, ClubWeek, DailyActivity, FeedItem, Member, MemberStats, MemberSummary, Nudge, Session, WeekMetric, WeekResult } from './types';
+import { canRemove, computeLeaderboard, sumActivity, visibleStreak, weeklyGoal, type LeaderInput } from './logic';
+import type { Challenge, Club, ClubWeek, DailyActivity, FeedItem, Member, MemberRole, MemberStats, MemberSummary, Nudge, Session, WeekMetric, WeekResult } from './types';
 
 /** Puzzle mínimo que necesita el mock para armar retos. */
 export interface PoolPuzzle {
@@ -46,6 +46,10 @@ export interface MockDb {
   seedStart: string | null;
   /** Bots que respondieron a un ánimo: practican hoy sin esperar a su hora */
   forced: Record<string, string>;
+  /** Compañeros simulados que el organizador sacó del club */
+  removed: string[];
+  /** Esta persona canjeó un link para crear un club */
+  creatorGrant: boolean;
 }
 
 export interface MockDeps {
@@ -59,6 +63,8 @@ export interface MockDeps {
   latencyMs?: number;
   /** Segundos que tarda un bot en jugar tu reto */
   botReplySeconds?: [number, number];
+  /** ¿Es admin de la plataforma? (en Supabase será un rol real) */
+  isPlatformAdmin?: () => boolean;
 }
 
 export const CLUB_FEED_ID = '__club__';
@@ -82,6 +88,8 @@ const fresh = (): MockDb => ({
   simulatedThrough: null,
   seedStart: null,
   forced: {},
+  removed: [],
+  creatorGrant: false,
 });
 
 const uid = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
@@ -114,6 +122,8 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
   const today = () => toDateKey(deps.now());
   const nowIso = () => deps.now().toISOString();
   const me = () => db.session?.userId ?? '';
+  const activeBots = () => BOTS.filter((b) => !db.removed.includes(b.id));
+  const myRole = (): MemberRole | undefined => db.members.find((m) => m.id === me())?.role;
   const memberName = (id: string) => db.members.find((m) => m.id === id)?.name ?? 'Alguien';
 
   function requireClub(): Club {
@@ -346,11 +356,11 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       const start = db.simulatedThrough ? addDays(db.simulatedThrough, 1) : addDays(t, -30);
       for (let d = start; d < t; d = addDays(d, 1)) {
         ensureWeek(pool, d);
-        for (const b of BOTS) simulateBotDay(b, d, pool, false);
+        for (const b of activeBots()) simulateBotDay(b, d, pool, false);
       }
       db.simulatedThrough = addDays(t, -1);
       ensureWeek(pool, t);
-      for (const b of BOTS) simulateBotDay(b, t, pool, true);
+      for (const b of activeBots()) simulateBotDay(b, t, pool, true);
       botReplies(pool);
       expire();
       closeWeeks();
@@ -375,6 +385,7 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
     db.weeks = {};
     db.goalsMet = 0;
     db.forced = {};
+    db.removed = [];
     db.simulatedThrough = null;
     const start = addDays(t, -30);
     db.seedStart = start;
@@ -395,7 +406,7 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
         modules: botModules(b.base.lessons),
       };
     });
-    const mine: Member = { id: me(), name: db.profile?.name ?? 'Yo', avatar: db.profile?.avatar ?? 'piece-knight', role: club.createdBy === me() ? 'admin' : 'member', joinedAt: nowIso() };
+    const mine: Member = { id: me(), name: db.profile?.name ?? 'Yo', avatar: db.profile?.avatar ?? 'piece-knight', role: club.createdBy === me() ? 'owner' : 'member', joinedAt: nowIso() };
     db.members.push(mine);
     db.stats[me()] ??= emptyStats(nowIso());
     pushFeed(me(), 'joined', 'user-plus', club.createdBy === me() ? `fundó el club ${club.name}` : 'se unió al club');
@@ -451,12 +462,32 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       await wait();
       return db.session ? db.club : null;
     },
+    async canCreateClub() {
+      await wait();
+      return Boolean(db.session) && (Boolean(deps.isPlatformAdmin?.()) || db.creatorGrant);
+    },
+    async createClubInvite() {
+      await wait();
+      if (!deps.isPlatformAdmin?.()) throw new Error('Solo el administrador puede invitar a crear clubes');
+      // Demo: cualquier token de 8+ caracteres sirve; con Supabase será de un solo uso y con vencimiento
+      return `CR${randomCode()}${randomCode()}`;
+    },
+    async redeemCreatorToken(token: string) {
+      await wait();
+      if (!db.session || !/^[A-Z0-9]{8,}$/i.test(token.trim())) return false;
+      db.creatorGrant = true;
+      persist();
+      notify();
+      return true;
+    },
     async createClub(name: string) {
       await wait();
       if (!db.session) throw new Error('Inicia sesión primero');
+      if (!deps.isPlatformAdmin?.() && !db.creatorGrant) throw new Error('Solo puedes crear un club con un link de invitación del administrador');
       const clean = name.trim();
       if (clean.length < 3) throw new Error('El nombre del club debe tener al menos 3 letras');
       const club: Club = { id: uid('club'), name: clean.slice(0, 40), inviteCode: randomCode(), createdBy: me(), createdAt: nowIso() };
+      db.creatorGrant = false;
       seedClub(club);
       await simulate();
       notify();
@@ -469,7 +500,7 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       if (c.length < 4) throw new Error('El código tiene 6 letras o números');
       if (db.club?.inviteCode === c) return db.club;
       // Demo: cualquier código válido abre un club con compañeros simulados
-      const club: Club = { id: `club-${c.toLowerCase()}`, name: `Club ${c}`, inviteCode: c, createdBy: 'bot-ramiro', createdAt: isoAt(addDays(today(), -60), 9, 0) };
+      const club: Club = { id: `club-${c.toLowerCase()}`, name: demoClubName(hashString(c)), inviteCode: c, createdBy: 'bot-ramiro', createdAt: isoAt(addDays(today(), -60), 9, 0) };
       seedClub(club);
       await simulate();
       notify();
@@ -477,7 +508,30 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
     },
     async leaveClub() {
       await wait();
-      db = { ...fresh(), session: db.session, profile: db.profile, ownerId: db.ownerId };
+      db = { ...fresh(), session: db.session, profile: db.profile, ownerId: db.ownerId, creatorGrant: db.creatorGrant };
+      persist();
+      notify();
+    },
+    async setMemberRole(memberId: string, role: 'manager' | 'member') {
+      await wait();
+      requireClub();
+      if (myRole() !== 'owner') throw new Error('Solo el organizador puede nombrar colaboradores');
+      const m = db.members.find((x) => x.id === memberId);
+      if (!m || m.role === 'owner') throw new Error('No se puede cambiar ese rol');
+      m.role = role;
+      pushFeed(memberId, 'joined', 'shield', role === 'manager' ? 'ahora es colaborador del club' : 'dejó de ser colaborador');
+      persist();
+      notify();
+    },
+    async removeMember(memberId: string) {
+      await wait();
+      requireClub();
+      const actor = db.members.find((x) => x.id === me());
+      const target = db.members.find((x) => x.id === memberId);
+      if (!target || !canRemove(actor, target)) throw new Error('No puedes sacar a esa persona');
+      db.members = db.members.filter((x) => x.id !== memberId);
+      if (target.isBot) db.removed.push(memberId);
+      db.challenges = db.challenges.filter((c) => c.status !== 'open' || (c.challengerId !== memberId && c.opponentId !== memberId));
       persist();
       notify();
     },
@@ -674,7 +728,7 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
     // ── Herramientas del modo demo (Ajustes) ──
     _db: () => db,
     _reset: () => {
-      const keep = { session: db.session, profile: db.profile, ownerId: db.ownerId };
+      const keep = { session: db.session, profile: db.profile, ownerId: db.ownerId, creatorGrant: db.creatorGrant };
       const club = db.club;
       db = { ...fresh(), ...keep };
       if (club) seedClub({ ...club, createdAt: nowIso() });
@@ -689,7 +743,9 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       requireClub();
       const pool = await deps.pool();
       const open = new Set(db.challenges.filter((c) => c.status === 'open').map((c) => c.challengerId));
-      const b = BOTS.find((x) => !open.has(x.id)) ?? BOTS[0];
+      const bots = activeBots();
+      const b = bots.find((x) => !open.has(x.id)) ?? bots[0];
+      if (!b) return;
       botCreatesChallenge(b, pool, nowIso(), Math.random() < 0.5 ? 'puzzles' : 'rush');
       pushFeed(b.id, 'challenge', 'sword', `retó a ${memberName(me())}`);
       persist();

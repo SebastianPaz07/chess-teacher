@@ -34,7 +34,7 @@ const ICONS = {
   wink: 'smiley-wink', nervous: 'smiley-nervous', sparkle: 'sparkle', mountain: 'mountains', more: 'dots-three-outline',
   engine: 'cpu', exam: 'exam', seal: 'seal-check', strategy: 'strategy',
   users: 'users-three', 'user-plus': 'user-plus', share: 'share-network', copy: 'copy', bell: 'bell', ranking: 'ranking',
-  handshake: 'handshake', 'sign-out': 'sign-out', envelope: 'envelope-simple', 'caret-up': 'caret-up', 'caret-down': 'caret-down', clock: 'clock',
+  handshake: 'handshake', 'sign-out': 'sign-out', envelope: 'envelope-simple', 'caret-up': 'caret-up', 'caret-down': 'caret-down', clock: 'clock', link: 'link-simple', 'dots-vertical': 'dots-three-vertical', 'caret-right': 'caret-right', 'user-minus': 'user-minus', 'seal-star': 'seal-check',
 };
 
 /** Extrae el contenido interior del <svg> (sin el <rect> de fondo transparente). */

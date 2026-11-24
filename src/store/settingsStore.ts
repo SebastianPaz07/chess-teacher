@@ -5,6 +5,9 @@ import { storeKey, zustandStorage } from '@/services/storage/localStorageAdapter
 
 export type ThemeMode = 'system' | 'light' | 'dark';
 
+/** En qué quiere reforzar más el plan de entrenamiento */
+export type FocusArea = 'tactica' | 'teoria' | 'finales' | 'medio-juego';
+
 interface SettingsState {
   playerName: string;
   /** Minutos de estudio por día (plan personalizado) */
@@ -17,6 +20,14 @@ interface SettingsState {
   /** Depuración: simular días futuros */
   dayOffset: number;
   onboarded: boolean;
+  /** Demo: soy admin de la plataforma y puedo crear clubes y compartir el link de creación */
+  isPlatformAdmin: boolean;
+  /** Áreas a reforzar (vacío = plan equilibrado) */
+  focusAreas: FocusArea[];
+  /** Apertura que el alumno quiere repasar */
+  favoriteOpening: string | null;
+  /** Aperturas que quiere conocer */
+  exploreOpenings: string[];
   update: (patch: Partial<Omit<SettingsState, 'update'>>) => void;
 }
 
@@ -31,6 +42,10 @@ export const useSettingsStore = create<SettingsState>()(
       theme: 'system',
       dayOffset: 0,
       onboarded: false,
+      isPlatformAdmin: false,
+      focusAreas: [],
+      favoriteOpening: null,
+      exploreOpenings: [],
       update: (patch) => {
         if (patch.dayOffset !== undefined) setDayOffset(patch.dayOffset);
         set(patch);

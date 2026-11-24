@@ -34,6 +34,11 @@
 .clubName { margin: 0; font-size: 1.9rem; }
 .clubMeta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); color: var(--color-text-muted); font-size: 0.9rem; }
 .code { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.18em; color: var(--color-text); }
+.codeBox { display: inline-flex; align-items: center; gap: var(--space-2); }
+.iconBtn { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-text-muted); cursor: pointer; flex-shrink: 0; }
+.iconBtn:hover { color: var(--color-text); border-color: var(--color-rule); }
+.memberItem { display: flex; align-items: center; gap: var(--space-2); border-bottom: 1px solid var(--color-border); }
+.memberItem > a { flex: 1; min-width: 0; border-bottom: none; }
 .demo { font-size: 0.82rem; color: var(--color-text-muted); border-left: 2px solid var(--color-accent); padding-left: var(--space-3); margin: 0; }
 
 /* ── Layout de pestañas ── */
@@ -48,7 +53,7 @@
 .todayCount small { font-size: 1rem; color: var(--color-text-muted); font-family: var(--font-body); }
 .faces { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 .face { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 64px; text-align: center; font-size: 0.75rem; color: var(--color-text); text-decoration: none; }
-.face span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.face > span:last-child { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 /* ── Filas de miembros / ranking ── */
 .list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--color-rule); }
@@ -78,6 +83,13 @@ a.row:hover .rowName { text-decoration: underline; text-underline-offset: 3px; }
 .down { color: var(--color-danger); }
 .stickyMe { position: sticky; bottom: calc(var(--bottom-nav) + env(safe-area-inset-bottom)); background: var(--color-bg); border-top: 2px solid var(--color-rule); z-index: 5; }
 .filters { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+.filterBar { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-3); align-items: center; }
+.segmented { display: inline-flex; border: 1px solid var(--color-border); border-radius: var(--radius-sm); overflow: hidden; }
+.seg { min-height: 40px; padding: 0 var(--space-3); border: none; background: transparent; color: var(--color-text); font-weight: 600; font-size: 0.85rem; cursor: pointer; }
+.seg + .seg { border-left: 1px solid var(--color-border); }
+.seg:disabled { opacity: 0.45; cursor: not-allowed; }
+.segOn { background: var(--color-primary); color: var(--color-on-primary); }
+.select { width: 100%; min-height: 40px; padding: 0 var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-text); font-weight: 600; font-size: 0.9rem; }
 .chip {
   min-height: 36px;
   padding: 0 var(--space-3);
@@ -102,8 +114,8 @@ a.row:hover .rowName { text-decoration: underline; text-underline-offset: 3px; }
 /* ── Meta semanal ── */
 .goalNum { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums; }
 .goalNum small { font-size: 0.95rem; color: var(--color-text-muted); font-weight: 500; }
-.contrib { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-3); font-size: 0.8rem; color: var(--color-text-muted); }
-.contrib span { display: inline-flex; align-items: center; gap: 4px; }
+.contrib { margin: 0; font-size: 0.88rem; color: var(--color-text-muted); }
+.contrib strong { color: var(--color-text); }
 
 /* ── Retos ── */
 .challenge { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); }

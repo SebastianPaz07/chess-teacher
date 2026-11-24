@@ -26,6 +26,11 @@ export function Leaderboard({ meId, members, initialMetric = 'puzzles' }: Props 
   const [period, setPeriod] = useState<LeaderPeriod>('week');
   const [metric, setMetric] = useState<LeaderMetric>(initialMetric);
   const meta = METRICS.find((m) => m.value === metric)!;
+  const selectMetric = (v: LeaderMetric) => {
+    setMetric(v);
+    const m = METRICS.find((x) => x.value === v)!;
+    if (!m.periods.includes(period)) setPeriod(m.periods[0]);
+  };
   const effectivePeriod = meta.periods.includes(period) ? period : meta.periods[0];
   const q = useClubQuery(() => clubRepo.getLeaderboard(effectivePeriod, metric), [effectivePeriod, metric]);
   const today = new Map(members?.map((m) => [m.member.id, m]) ?? []);
@@ -34,19 +39,21 @@ export function Leaderboard({ meId, members, initialMetric = 'puzzles' }: Props 
 
   return (
     <div className={styles.section}>
-      <div className={styles.filters} role="group" aria-label="Periodo">
-        {(['week', 'all'] as const).map((p) => (
-          <button key={p} type="button" className={[styles.chip, effectivePeriod === p && styles.chipOn].filter(Boolean).join(' ')} onClick={() => setPeriod(p)} disabled={!meta.periods.includes(p)} aria-pressed={effectivePeriod === p}>
-            {p === 'week' ? 'Esta semana' : 'Total'}
-          </button>
-        ))}
-      </div>
-      <div className={styles.filters} role="group" aria-label="Métrica">
-        {METRICS.map((m) => (
-          <button key={m.value} type="button" className={[styles.chip, metric === m.value && styles.chipOn].filter(Boolean).join(' ')} onClick={() => setMetric(m.value)} aria-pressed={metric === m.value}>
-            {m.label}
-          </button>
-        ))}
+      <div className={styles.filterBar}>
+        <div className={styles.segmented} role="group" aria-label="Periodo">
+          {(['week', 'all'] as const).map((p) => (
+            <button key={p} type="button" className={[styles.seg, effectivePeriod === p && styles.segOn].filter(Boolean).join(' ')} onClick={() => setPeriod(p)} disabled={!meta.periods.includes(p)} aria-pressed={effectivePeriod === p}>
+              {p === 'week' ? 'Semana' : 'Total'}
+            </button>
+          ))}
+        </div>
+        <select className={styles.select} value={metric} onChange={(e) => selectMetric(e.target.value as LeaderMetric)} aria-label="Ordenar por">
+          {METRICS.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
       </div>
       {metric !== 'rating' && metric !== 'streak' && <RivalNudge rows={q.data} members={members} meId={meId} unit={metric === 'puzzles' ? 'ejercicios' : metric === 'minutes' ? 'minutos' : 'XP'} />}
       {!q.data ? (

@@ -6,6 +6,7 @@ import { modules } from '@/content/registry';
 import { ActivityCalendar } from '@/features/progress/components/ActivityCalendar';
 import { rankForLevel } from '@/services/game/xp';
 import { clubRepo } from '@/services/club';
+import { ROLE_LABEL } from '@/services/club/logic';
 import { useClubStore } from '@/store/clubStore';
 import { Avatar } from './components/Avatar';
 import { ChallengeItem, NewChallengeModal } from './components/Challenges';
@@ -78,7 +79,7 @@ function MemberProfile() {
             ) : (
               <Badge tone="neutral">{d.stats.lastActive ? `Última práctica ${timeAgo(`${d.stats.lastActive}T12:00:00`)}` : 'Sin actividad'}</Badge>
             )}
-            {d.member.role === 'admin' && <Badge tone="accent">admin</Badge>}
+            {d.member.role !== 'member' && <Badge tone={d.member.role === 'owner' ? 'accent' : 'primary'}>{ROLE_LABEL[d.member.role]}</Badge>}
           </div>
         </div>
       </header>

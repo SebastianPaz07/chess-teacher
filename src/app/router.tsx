@@ -24,6 +24,7 @@ const SettingsPage = page(() => import('@/features/settings/SettingsPage'), 'Set
 const PlanSetupPage = page(() => import('@/features/onboarding/PlanSetupPage'), 'PlanSetupPage');
 const LoginPage = page(() => import('@/features/auth/LoginPage'), 'LoginPage');
 const ClubPage = page(() => import('@/features/club/ClubPage'), 'ClubPage');
+const CreateClubPage = page(() => import('@/features/club/CreateClubPage'), 'CreateClubPage');
 const JoinPage = page(() => import('@/features/club/JoinPage'), 'JoinPage');
 const MemberProfilePage = page(() => import('@/features/club/MemberProfilePage'), 'MemberProfilePage');
 const ChallengePage = page(() => import('@/features/club/ChallengePage'), 'ChallengePage');
@@ -57,6 +58,7 @@ export const router = createBrowserRouter([
       { path: 'club/miembro/:memberId', element: withSuspense(<MemberProfilePage />) },
       { path: 'club/reto/:challengeId', element: withSuspense(<ChallengePage />) },
       { path: 'club/semana', element: withSuspense(<WeeklyChallengePage />) },
+      { path: 'crear-club/:token', element: withSuspense(<CreateClubPage />) },
       { path: 'unirse/:code', element: withSuspense(<JoinPage />) },
       { path: '*', element: <EmptyState icon="compass" title="Página no encontrada" action={<Button to="/">Volver al inicio</Button>} /> },
     ],

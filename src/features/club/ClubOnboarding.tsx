@@ -4,6 +4,7 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { Button, Card } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { clubRepo } from '@/services/club';
+import { useClubQuery } from './hooks/useClubQuery';
 import { useClubStore } from '@/store/clubStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { AVATAR_CHOICES, Avatar } from './components/Avatar';
@@ -69,6 +70,7 @@ function ClubStep({ initialCode }: { initialCode?: string }) {
   const [code, setCode] = useState(initialCode ?? '');
   const [busy, setBusy] = useState<'create' | 'join' | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const canCreate = useClubQuery(() => clubRepo.canCreateClub());
 
   const run = async (kind: 'create' | 'join', fn: () => Promise<unknown>) => {
     setBusy(kind);
@@ -86,9 +88,9 @@ function ClubStep({ initialCode }: { initialCode?: string }) {
 
   return (
     <div className={styles.auth} style={{ maxWidth: 760 }}>
-      <PageHeader icon="users" eyebrow="Paso 2 de 2" title="Tu club" subtitle="Únete al club de tus compañeros con su código, o crea uno nuevo e invítalos." />
+      <PageHeader icon="users" eyebrow="Paso 2 de 2" title="Tu club" subtitle={canCreate.data ? 'Únete al club de tus compañeros con su código, o crea uno nuevo e invítalos.' : 'Únete al club con el código o el link que te compartió tu organizador.'} />
       {error && <p style={{ color: 'var(--color-danger)', margin: 0 }}>{error}</p>}
-      <div className={styles.choice}>
+      <div className={canCreate.data ? styles.choice : undefined}>
         <Card tone={initialCode ? 'accent' : 'default'} icon="user-plus" title="Unirme con un código">
           <form
             className="stack"
@@ -106,6 +108,7 @@ function ClubStep({ initialCode }: { initialCode?: string }) {
             </Button>
           </form>
         </Card>
+        {canCreate.data && (
         <Card icon="flag" title="Crear un club">
           <form
             className="stack"
@@ -123,6 +126,7 @@ function ClubStep({ initialCode }: { initialCode?: string }) {
             </Button>
           </form>
         </Card>
+        )}
       </div>
       {clubRepo.isDemo && (
         <p className={styles.demo}>

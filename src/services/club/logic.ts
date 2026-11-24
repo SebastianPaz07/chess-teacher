@@ -1,6 +1,6 @@
 import { addDays, daysBetween, diffDays, weekStart } from '@/lib/date';
 import { hashString } from '@/lib/random';
-import type { DailyActivity, LeaderMetric, LeaderPeriod, LeaderRow, Member, MemberStats, WeekMetric } from './types';
+import type { DailyActivity, LeaderMetric, LeaderPeriod, LeaderRow, Member, MemberRole, MemberStats, WeekMetric } from './types';
 
 /** Racha visible hoy: se pierde si pasó más de un día sin practicar. */
 export function visibleStreak(stats: Pick<MemberStats, 'streak' | 'lastActive'>, today: string): number {
@@ -86,3 +86,15 @@ export function weekDays(today: string): string[] {
   return daysBetween(weekStart(today), today);
 }
 
+
+/** Organizador y colaboradores pueden gestionar el club (miembros, invitaciones). */
+export const canManage = (role: MemberRole | undefined): boolean => role === 'owner' || role === 'manager';
+
+export const ROLE_LABEL: Record<MemberRole, string> = { owner: 'Organizador', manager: 'Colaborador', member: 'Participante' };
+
+/** ¿Puede `actor` sacar a `target` del club? Nadie saca al organizador ni a sí mismo. */
+export function canRemove(actor: Member | undefined, target: Member): boolean {
+  if (!actor || actor.id === target.id || target.role === 'owner') return false;
+  if (actor.role === 'owner') return true;
+  return actor.role === 'manager' && target.role === 'member';
+}

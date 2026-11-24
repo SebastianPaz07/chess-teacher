@@ -2,6 +2,7 @@ import { allExercises } from '@/content/registry';
 import { loadPuzzles } from '@/content/puzzles';
 import { now } from '@/lib/date';
 import { storage, storeKey } from '@/services/storage/localStorageAdapter';
+import { useSettingsStore } from '@/store/settingsStore';
 import { createMockRepository } from './mockRepository';
 
 /**
@@ -16,6 +17,7 @@ export const clubRepo = createMockRepository({
   realNow: () => Date.now(),
   pool: async () => [...allExercises, ...(await loadPuzzles().catch(() => []))],
   latencyMs: 120,
+  isPlatformAdmin: () => useSettingsStore.getState().isPlatformAdmin,
 });
 
 export type { ClubRepository, MyProfile } from './ClubRepository';

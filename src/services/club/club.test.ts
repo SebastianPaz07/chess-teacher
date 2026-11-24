@@ -117,10 +117,10 @@ describe('motor de juego: eventos del club', () => {
 });
 
 describe('repositorio demo', () => {
-  function make(day = new Date(2026, 10, 25, 21, 0)) {
+  function make(day = new Date(2026, 10, 25, 21, 0), admin = true) {
     let saved: string | null = null;
     let realNow = 0;
-    const repo = createMockRepository({ load: () => saved, save: (j) => (saved = j), now: () => day, realNow: () => realNow, pool: async () => pool, botReplySeconds: [10, 10] });
+    const repo = createMockRepository({ load: () => saved, save: (j) => (saved = j), now: () => day, realNow: () => realNow, pool: async () => pool, botReplySeconds: [10, 10], isPlatformAdmin: () => admin });
     return { repo, tick: (ms: number) => (realNow += ms) };
   }
 
@@ -158,5 +158,42 @@ describe('repositorio demo', () => {
     await repo.createClub('Club');
     await repo.sendNudge('bot-andres');
     await expect(repo.sendNudge('bot-andres')).rejects.toThrow(/Ya animaste/);
+  });
+
+  it('solo el admin o quien llega por un link puede crear clubes', async () => {
+    const { repo } = make(undefined, false);
+    await repo.confirmMagicLink('amigo@test.com');
+    await repo.saveMyProfile({ name: 'Amigo', avatar: 'piece-pawn' });
+    expect(await repo.canCreateClub()).toBe(false);
+    await expect(repo.createClub('Club de prueba')).rejects.toThrow(/link de invitación/);
+    expect(await repo.redeemCreatorToken('corto')).toBe(false);
+    expect(await repo.redeemCreatorToken('CRABCD2345')).toBe(true);
+    expect(await repo.canCreateClub()).toBe(true);
+    await repo.createClub('Club de prueba');
+    expect(await repo.canCreateClub()).toBe(false);
+  });
+
+  it('quien crea el club es organizador y puede nombrar colaboradores', async () => {
+    const { repo } = make();
+    await repo.confirmMagicLink('yo@test.com');
+    await repo.saveMyProfile({ name: 'Yo', avatar: 'piece-knight' });
+    await repo.createClub('Club');
+    let members = await repo.getMembers();
+    expect(members.find((m) => !m.member.isBot)?.member.role).toBe('owner');
+    await repo.setMemberRole('bot-mateo', 'manager');
+    members = await repo.getMembers();
+    expect(members.find((m) => m.member.id === 'bot-mateo')?.member.role).toBe('manager');
+    await repo.removeMember('bot-andres');
+    expect((await repo.getMembers()).some((m) => m.member.id === 'bot-andres')).toBe(false);
+  });
+
+  it('un club al que te invitan no se llama como su código', async () => {
+    const { repo } = make();
+    await repo.confirmMagicLink('yo@test.com');
+    await repo.saveMyProfile({ name: 'Yo', avatar: 'piece-knight' });
+    const club = await repo.joinClub('K7PQ2M');
+    expect(club.name).not.toContain(club.inviteCode);
+    expect((await repo.getMembers()).find((m) => !m.member.isBot)?.member.role).toBe('member');
+    await expect(repo.setMemberRole('bot-mateo', 'manager')).rejects.toThrow(/organizador/);
   });
 });

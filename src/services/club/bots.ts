@@ -56,10 +56,14 @@ export const BOTS: BotProfile[] = [
   },
 ];
 
+/** Nombres de clubes simulados: así un club que te invitan no se llama como su código. */
+const DEMO_CLUB_NAMES = ['Club de los jueves', 'Enroque Largo', 'Peones al Poder', 'Los Alfiles', 'Jaque Mate Café', 'Torre y Caballo', 'Gambito del Barrio', 'Zugzwang Social'];
+export const demoClubName = (hash: number) => DEMO_CLUB_NAMES[hash % DEMO_CLUB_NAMES.length];
+
 export const botProfile = (id: string) => BOTS.find((b) => b.id === id);
 
 export function botMember(b: BotProfile, joinedAt: string): Member {
-  return { id: b.id, name: b.name, avatar: b.avatar, role: b.id === 'bot-ramiro' ? 'admin' : 'member', joinedAt, isBot: true, motto: b.motto };
+  return { id: b.id, name: b.name, avatar: b.avatar, role: b.id === 'bot-ramiro' ? 'owner' : b.id === 'bot-sofia' ? 'manager' : 'member', joinedAt, isBot: true, motto: b.motto };
 }
 
 export function emptyStats(nowIso: string): MemberStats {

@@ -18,12 +18,15 @@ export interface Club {
   createdAt: string;
 }
 
+/** owner = organizador del club; manager = colaborador que ayuda a gestionarlo; member = participante. */
+export type MemberRole = 'owner' | 'manager' | 'member';
+
 export interface Member {
   id: string;
   name: string;
   /** Icono de pieza del avatar (piece-knight, piece-rook…) */
   avatar: string;
-  role: 'admin' | 'member';
+  role: MemberRole;
   joinedAt: string;
   /** Solo en el modo demo: compañero simulado */
   isBot?: boolean;

@@ -71,7 +71,7 @@ export function SettingsPage() {
         {club.status === 'ready' && club.club ? (
           <div className="stack" style={{ gap: 'var(--space-3)' }}>
             <p style={{ margin: 0 }}>
-              Club <strong>{club.club.name}</strong> · código <strong style={{ letterSpacing: '0.15em' }}>{club.club.inviteCode}</strong>
+              Club <strong>{club.club.name}</strong>
             </p>
             <div className="row">
               <InviteButton club={club.club} />
@@ -146,6 +146,14 @@ export function SettingsPage() {
           </span>
         </div>
       </Card>
+      {clubRepo.isDemo && (
+        <Card title="Administrador (demo)" icon="shield" subtitle="Solo el administrador de la plataforma puede crear clubes y compartir el link para que otros creen el suyo.">
+          <label className="row" style={{ cursor: 'pointer' }}>
+            <input type="checkbox" checked={s.isPlatformAdmin} onChange={(e) => { s.update({ isPlatformAdmin: e.target.checked }); club.bump(); }} />
+            <span>Soy el administrador de la plataforma</span>
+          </label>
+        </Card>
+      )}
       {clubRepo.isDemo && club.status === 'ready' && (
         <Card title="Club (simulación)" icon="flask" subtitle="Herramientas del modo demo para probar la dinámica del club con compañeros simulados.">
           <div className="row">

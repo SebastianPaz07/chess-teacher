@@ -1,8 +1,8 @@
 import { Badge, Button, Card, ProgressBar, Skeleton } from '@/components/ui';
+import { Icon } from '@/components/ui/Icon';
 import type { ClubWeek, MemberSummary } from '@/services/club';
 import { WEEK_METRIC_LABEL } from '@/services/club/logic';
 import { addDays, diffDays, todayKey } from '@/lib/date';
-import { Avatar } from './Avatar';
 import styles from '../club.module.css';
 
 interface Props {
@@ -18,10 +18,7 @@ export function WeekGoalCard({ week, members, meId, compact }: Props) {
   const meta = WEEK_METRIC_LABEL[week.metric];
   const ratio = week.progress / Math.max(1, week.target);
   const daysLeft = diffDays(todayKey(), addDays(week.weekStart, 6));
-  const top = members
-    .map((m) => ({ m, v: week.contributions[m.member.id] ?? 0 }))
-    .filter((x) => x.v > 0)
-    .sort((a, b) => b.v - a.v);
+  const mine = week.contributions[meId] ?? 0;
   const played = week.results.some((r) => r.memberId === meId);
   const myResult = week.results.find((r) => r.memberId === meId);
   const best = [...week.results].sort((a, b) => b.solved - a.solved || a.timeMs - b.timeMs)[0];
@@ -33,7 +30,7 @@ export function WeekGoalCard({ week, members, meId, compact }: Props) {
         tone={ratio >= 1 ? 'success' : 'default'}
         icon={meta.icon}
         title="Meta del club esta semana"
-        subtitle={`${meta.verb} ${week.target} ${meta.label} entre todos · ${daysLeft <= 0 ? 'último día' : `quedan ${daysLeft + 1} días`}`}
+        subtitle={`${meta.verb} ${week.target} ${meta.label} entre todos los del club · ${daysLeft <= 0 ? 'último día' : `quedan ${daysLeft + 1} días`}`}
       >
         <div className="stack" style={{ gap: 'var(--space-3)' }}>
           <p className={styles.goalNum}>
@@ -42,16 +39,16 @@ export function WeekGoalCard({ week, members, meId, compact }: Props) {
           </p>
           <ProgressBar value={ratio} color={ratio >= 1 ? 'var(--color-success)' : 'var(--color-accent)'} height={10} />
           {ratio >= 1 && <p style={{ margin: 0, fontWeight: 600 }}>¡Meta cumplida! Todo lo que sumen ahora es récord.</p>}
-          {!compact && top.length > 0 && (
-            <div className={styles.contrib}>
-              {top.slice(0, 7).map(({ m, v }) => (
-                <span key={m.member.id}>
-                  <Avatar avatar={m.member.avatar} name={m.member.name} size={20} me={m.member.id === meId} /> {v}
-                </span>
-              ))}
-            </div>
+          {!compact && (
+            <p className={styles.contrib}>
+              Tu aporte: <strong>{mine}</strong> {meta.label}
+            </p>
           )}
-          {week.goalsMet > 0 && <Badge tone="success" icon="trophy">{week.goalsMet} {week.goalsMet === 1 ? 'meta cumplida' : 'metas cumplidas'}</Badge>}
+          {!compact && week.goalsMet > 0 && (
+            <p className={styles.contrib}>
+              <Icon name="trophy" /> El club cumplió la meta en {week.goalsMet} {week.goalsMet === 1 ? 'semana anterior' : 'semanas anteriores'}
+            </p>
+          )}
         </div>
       </Card>
       {!compact && (

@@ -1,16 +1,20 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Badge, Button, Card, Skeleton, Tabs } from '@/components/ui';
+import { Badge, Button, Card, Modal, Skeleton, Tabs } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { rankForLevel } from '@/services/game/xp';
-import { clubRepo, type MemberSummary } from '@/services/club';
+import { clubRepo, type Member, type MemberSummary } from '@/services/club';
+import { canManage, canRemove, ROLE_LABEL } from '@/services/club/logic';
 import { useClubStore } from '@/store/clubStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { Avatar } from './components/Avatar';
 import { ChallengesTab } from './components/Challenges';
+import { CopyCode } from './components/CopyCode';
 import { FeedList } from './components/FeedList';
 import { InviteButton } from './components/InviteButton';
 import { Leaderboard } from './components/Leaderboard';
 import { WeekGoalCard } from './components/WeekGoalCard';
+import { copyText } from './copy';
 import { timeAgo } from './format';
 import { ClubGate } from './ClubGate';
 import { useChallengeRewards } from './hooks/useChallengeRewards';
@@ -34,7 +38,10 @@ function ClubHome() {
   const club = useClubStore((s) => s.club)!;
   const meId = useClubStore((s) => s.session?.userId ?? '');
 
+  const isAdmin = useSettingsStore((s) => s.isPlatformAdmin);
+
   const members = useClubQuery(() => clubRepo.getMembers());
+  const myRole = members.data?.find((m) => m.member.id === meId)?.member.role;
   const challenges = useClubQuery(() => clubRepo.listChallenges());
   useChallengeRewards(challenges.data, meId);
   const pending = challenges.data?.filter((c) => c.status === 'open' && !c.results.some((r) => r.memberId === meId)).length ?? 0;
@@ -50,11 +57,15 @@ function ClubHome() {
           <span>
             <Icon name="users" /> {members.data?.length ?? '…'} miembros
           </span>
-          <span>
-            Código <span className={styles.code}>{club.inviteCode}</span>
-          </span>
+          <CopyCode code={club.inviteCode} />
           <InviteButton club={club} />
+          {isAdmin && <CreatorLinkButton />}
         </div>
+        {myRole && myRole !== 'member' && (
+          <p className="muted" style={{ margin: 0, fontSize: '0.85rem' }}>
+            Eres {ROLE_LABEL[myRole].toLowerCase()} de este club y también participas como un jugador más.
+          </p>
+        )}
       </header>
 
       <Tabs<Tab>
@@ -196,35 +207,106 @@ function PracticedToday({ members, meId }: { members: MemberSummary[] | undefine
   );
 }
 
-function MembersTab({ members, meId }: { members: MemberSummary[] | undefined; meId: string }) {
-  if (!members) return <Skeleton lines={6} height={56} />;
-  const sorted = [...members].sort((a, b) => Number(b.practicedToday) - Number(a.practicedToday) || b.streak - a.streak || b.stats.xp - a.stats.xp);
+/** Admin de la plataforma: copia el link para que otra persona cree su propio club. */
+function CreatorLinkButton() {
+  const [copied, setCopied] = useState(false);
+  const run = async () => {
+    const token = await clubRepo.createClubInvite();
+    if (await copyText(`${window.location.origin}/crear-club/${token}`, 'Copia el link para crear un club')) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2500);
+    }
+  };
   return (
-    <ul className={styles.list}>
-      {sorted.map((m) => {
-        const rank = rankForLevel(m.stats.level);
-        const me = m.member.id === meId;
-        return (
-          <li key={m.member.id}>
-            <Link to={me ? '/progreso' : `/club/miembro/${m.member.id}`} className={[styles.row, me && styles.rowMe].filter(Boolean).join(' ')}>
-              <Avatar avatar={m.member.avatar} name={m.member.name} size={42} me={me} active={m.practicedToday} />
-              <span className={styles.rowText}>
-                <span className={styles.rowName}>
-                  {me ? `${m.member.name} (tú)` : m.member.name} {m.member.role === 'admin' && <Badge tone="accent">admin</Badge>}
+    <Button size="sm" variant="ghost" icon={copied ? 'check' : 'seal'} onClick={run}>
+      {copied ? 'Link copiado' : 'Link para crear clubes'}
+    </Button>
+  );
+}
+
+function MembersTab({ members, meId }: { members: MemberSummary[] | undefined; meId: string }) {
+  const [managing, setManaging] = useState<Member | null>(null);
+  if (!members) return <Skeleton lines={6} height={56} />;
+  const meMember = members.find((m) => m.member.id === meId)?.member;
+  const sorted = [...members].sort(
+    (a, b) => Number(b.member.role === 'owner') - Number(a.member.role === 'owner') || Number(b.practicedToday) - Number(a.practicedToday) || b.streak - a.streak || b.stats.xp - a.stats.xp,
+  );
+  return (
+    <>
+      <ul className={styles.list}>
+        {sorted.map((m) => {
+          const rank = rankForLevel(m.stats.level);
+          const me = m.member.id === meId;
+          const manageable = !me && canManage(meMember?.role) && (meMember?.role === 'owner' ? m.member.role !== 'owner' : canRemove(meMember, m.member));
+          return (
+            <li key={m.member.id} className={styles.memberItem}>
+              <Link to={me ? '/progreso' : `/club/miembro/${m.member.id}`} className={[styles.row, me && styles.rowMe].filter(Boolean).join(' ')}>
+                <Avatar avatar={m.member.avatar} name={m.member.name} size={42} me={me} active={m.practicedToday} />
+                <span className={styles.rowText}>
+                  <span className={styles.rowName}>
+                    {me ? `${m.member.name} (tú)` : m.member.name}{' '}
+                    {m.member.role !== 'member' && <Badge tone={m.member.role === 'owner' ? 'accent' : 'primary'}>{ROLE_LABEL[m.member.role]}</Badge>}
+                  </span>
+                  <span className={styles.rowSub}>
+                    Nivel {m.stats.level} · {rank.name} · rating {m.stats.rating}
+                  </span>
                 </span>
-                <span className={styles.rowSub}>
-                  Nivel {m.stats.level} · {rank.name} · rating {m.stats.rating}
+                <span className={styles.rowEnd}>
+                  <Badge tone={m.streak > 0 ? 'accent' : 'neutral'} icon="fire">
+                    {m.streak}
+                  </Badge>
                 </span>
-              </span>
-              <span className={styles.rowEnd}>
-                <Badge tone={m.streak > 0 ? 'accent' : 'neutral'} icon="fire">
-                  {m.streak}
-                </Badge>
-              </span>
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+              </Link>
+              {manageable && (
+                <button type="button" className={styles.iconBtn} onClick={() => setManaging(m.member)} aria-label={`Gestionar a ${m.member.name}`}>
+                  <Icon name="dots-vertical" />
+                </button>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+      <ManageMemberModal member={managing} actor={meMember} onClose={() => setManaging(null)} />
+    </>
+  );
+}
+
+function ManageMemberModal({ member, actor, onClose }: { member: Member | null; actor: Member | undefined; onClose: () => void }) {
+  const [error, setError] = useState<string | null>(null);
+  const run = async (fn: () => Promise<void>) => {
+    setError(null);
+    try {
+      await fn();
+      onClose();
+    } catch (e) {
+      setError((e as Error).message);
+    }
+  };
+  return (
+    <Modal open={Boolean(member)} onClose={onClose} size="sm" title={member ? `Gestionar a ${member.name}` : undefined}>
+      {member && (
+        <div className="stack" style={{ gap: 'var(--space-2)' }}>
+          <p className="muted" style={{ margin: 0 }}>
+            Rol actual: {ROLE_LABEL[member.role]}
+          </p>
+          {actor?.role === 'owner' &&
+            (member.role === 'manager' ? (
+              <Button variant="secondary" icon="user" block onClick={() => run(() => clubRepo.setMemberRole(member.id, 'member'))}>
+                Quitar como colaborador
+              </Button>
+            ) : (
+              <Button variant="secondary" icon="shield" block onClick={() => run(() => clubRepo.setMemberRole(member.id, 'manager'))}>
+                Nombrar colaborador
+              </Button>
+            ))}
+          {canRemove(actor, member) && (
+            <Button variant="danger" icon="user-minus" block onClick={() => run(() => clubRepo.removeMember(member.id))}>
+              Sacar del club
+            </Button>
+          )}
+          {error && <p style={{ color: 'var(--color-danger)', margin: 0 }}>{error}</p>}
+        </div>
+      )}
+    </Modal>
   );
 }
