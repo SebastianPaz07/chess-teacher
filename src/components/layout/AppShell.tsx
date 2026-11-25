@@ -43,6 +43,7 @@ export function AppShell() {
   // (import diferido para no inflar el bundle inicial)
   useEffect(() => {
     import('@/store/clubStore').then((m) => m.useClubStore.getState().init());
+    import('@/store/authStore').then((m) => m.useAuthStore.getState().init());
   }, []);
 
   // Cierra la hoja al navegar

@@ -9,6 +9,7 @@ import { useSettingsStore, type ThemeMode } from '@/store/settingsStore';
 import { InviteButton } from '@/features/club/components/InviteButton';
 import { clubRepo } from '@/services/club';
 import { useClubStore } from '@/store/clubStore';
+import { useAuthStore } from '@/store/authStore';
 import { formatDays } from '@/features/onboarding/days';
 import styles from './SettingsPage.module.css';
 
@@ -90,7 +91,7 @@ export function SettingsPage() {
         )}
         {club.session && (
           <div style={{ marginTop: 'var(--space-3)' }}>
-            <Button variant="ghost" size="sm" icon="sign-out" onClick={() => clubRepo.signOut().then(club.refresh)}>
+            <Button variant="ghost" size="sm" icon="sign-out" onClick={() => useAuthStore.getState().signOut().then(() => clubRepo.signOut()).then(club.refresh)}>
               Cerrar sesión
             </Button>
           </div>

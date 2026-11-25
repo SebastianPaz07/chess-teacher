@@ -6,3 +6,4 @@ source-material
 *.tsbuildinfo
 .env
 .env.*
+!.env.example
