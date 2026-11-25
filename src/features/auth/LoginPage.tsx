@@ -26,8 +26,9 @@ export function LoginPage() {
   const auth = useAuthStore();
   const clubStatus = useClubStore((s) => s.status);
   const refresh = useClubStore((s) => s.refresh);
-  const [mode, setMode] = useState<Mode>('link');
-  const [creating, setCreating] = useState(false);
+  const wantsSignup = params.get('registro') === '1';
+  const [mode, setMode] = useState<Mode>(wantsSignup ? 'password' : 'link');
+  const [creating, setCreating] = useState(wantsSignup);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [step, setStep] = useState<Step>('form');
