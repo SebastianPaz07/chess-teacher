@@ -134,6 +134,7 @@ export function SettingsPage() {
         </div>
         {msg && <p style={{ color: 'var(--color-danger)' }}>{msg}</p>}
       </Card>
+      {import.meta.env.DEV && (
       <Card title="Modo depuración" icon="flask" subtitle="Simula días futuros para probar rachas, repasos y el plan diario.">
         <div className="row">
           <Button variant="secondary" onClick={() => s.update({ dayOffset: s.dayOffset + 1 })}>
@@ -147,7 +148,8 @@ export function SettingsPage() {
           </span>
         </div>
       </Card>
-      {clubRepo.isDemo && (
+      )}
+      {import.meta.env.DEV && clubRepo.isDemo && (
         <Card title="Administrador (demo)" icon="shield" subtitle="Solo el administrador de la plataforma puede crear clubes y compartir el link para que otros creen el suyo.">
           <label className="row" style={{ cursor: 'pointer' }}>
             <input type="checkbox" checked={s.isPlatformAdmin} onChange={(e) => { s.update({ isPlatformAdmin: e.target.checked }); club.bump(); }} />
@@ -155,7 +157,7 @@ export function SettingsPage() {
           </label>
         </Card>
       )}
-      {clubRepo.isDemo && club.status === 'ready' && (
+      {import.meta.env.DEV && clubRepo.isDemo && club.status === 'ready' && (
         <Card title="Club (simulación)" icon="flask" subtitle="Herramientas del modo demo para probar la dinámica del club con compañeros simulados.">
           <div className="row">
             <Button variant="secondary" onClick={() => sim('Avanzó un día: los compañeros practicaron', () => { s.update({ dayOffset: s.dayOffset + 1 }); return clubRepo._advance(); })}>

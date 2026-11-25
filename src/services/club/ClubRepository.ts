@@ -46,6 +46,8 @@ export interface ClubRepository {
   getMyClub(): Promise<Club | null>;
   /** ¿Puede esta persona crear clubes? Solo el admin de la plataforma o quien llegó por un link de creación. */
   canCreateClub(): Promise<boolean>;
+  /** ¿Es administrador de la plataforma? (puede generar links para que otros creen clubes) */
+  isAdmin(): Promise<boolean>;
   /** Admin: genera el token del link `/crear-club/:token` para que otra persona cree un club. */
   createClubInvite(): Promise<string>;
   /** Canjea el token de un link de creación; devuelve si es válido. */

@@ -242,6 +242,10 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
       const { data, error } = await sb.rpc('can_create_club');
       return !error && data === true;
     },
+    async isAdmin() {
+      const { data, error } = await sb.rpc('is_platform_admin');
+      return !error && data === true;
+    },
     async createClubInvite() {
       return unwrap(await sb.rpc('create_club_invite')) as string;
     },

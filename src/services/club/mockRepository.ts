@@ -466,6 +466,9 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       await wait();
       return Boolean(db.session) && (Boolean(deps.isPlatformAdmin?.()) || db.creatorGrant);
     },
+    async isAdmin() {
+      return Boolean(deps.isPlatformAdmin?.());
+    },
     async createClubInvite() {
       await wait();
       if (!deps.isPlatformAdmin?.()) throw new Error('Solo el administrador puede invitar a crear clubes');

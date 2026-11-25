@@ -59,7 +59,8 @@ export const useSettingsStore = create<SettingsState>()(
       storage: zustandStorage,
       version: 1,
       onRehydrateStorage: () => (state) => {
-        if (state) setDayOffset(state.dayOffset);
+        // El desfase de días es solo una herramienta de desarrollo: en producción siempre es 0
+        if (state) setDayOffset(import.meta.env.DEV ? state.dayOffset : 0);
       },
     },
   ),

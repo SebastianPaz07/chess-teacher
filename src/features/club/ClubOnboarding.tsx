@@ -128,7 +128,7 @@ function ClubStep({ initialCode }: { initialCode?: string }) {
         </Card>
         )}
       </div>
-      {clubRepo.isDemo && (
+      {import.meta.env.DEV && clubRepo.isDemo && (
         <p className={styles.demo}>
           <Icon name="flask" /> Modo demo: cualquier código de 6 caracteres funciona, y el club se llena con 6 compañeros simulados que practican, te retan y te animan, para que puedas probar la dinámica.
         </p>

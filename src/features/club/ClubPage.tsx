@@ -6,7 +6,6 @@ import { rankForLevel } from '@/services/game/xp';
 import { clubRepo, type Member, type MemberSummary } from '@/services/club';
 import { canManage, canRemove, ROLE_LABEL } from '@/services/club/logic';
 import { useClubStore } from '@/store/clubStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { Avatar } from './components/Avatar';
 import { ChallengesTab } from './components/Challenges';
 import { CopyCode } from './components/CopyCode';
@@ -38,7 +37,7 @@ function ClubHome() {
   const club = useClubStore((s) => s.club)!;
   const meId = useClubStore((s) => s.session?.userId ?? '');
 
-  const isAdmin = useSettingsStore((s) => s.isPlatformAdmin);
+  const isAdmin = useClubQuery(() => clubRepo.isAdmin()).data ?? false;
 
   const members = useClubQuery(() => clubRepo.getMembers());
   const myRole = members.data?.find((m) => m.member.id === meId)?.member.role;
@@ -86,7 +85,7 @@ function ClubHome() {
       {tab === 'retos' && <ChallengesTab challenges={challenges.data} members={members.data} meId={meId} />}
       {tab === 'miembros' && <MembersTab members={members.data} meId={meId} />}
 
-      {clubRepo.isDemo && (
+      {import.meta.env.DEV && clubRepo.isDemo && (
         <p className={styles.demo}>
           <Icon name="flask" /> Modo demo: tus compañeros son simulados y viven en este navegador. Desde Ajustes puedes adelantar días o hacer que te reten.
         </p>

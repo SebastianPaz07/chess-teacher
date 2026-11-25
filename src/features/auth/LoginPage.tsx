@@ -137,7 +137,7 @@ export function LoginPage() {
         <Card tone="primary" icon="envelope" title="Revisa tu correo" subtitle={`Enviamos un enlace a ${email}.`}>
           <div className="stack">
             <p style={{ margin: 0 }}>{text}</p>
-            {!auth.enabled && clubRepo.isDemo && (
+            {import.meta.env.DEV && !auth.enabled && clubRepo.isDemo && (
               <>
                 <p className={styles.demo}>
                   <Icon name="flask" /> Modo demo: todavía no hay servidor de correo. Pulsa el botón para simular que abriste el enlace.
