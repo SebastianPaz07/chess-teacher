@@ -68,33 +68,64 @@ export function SettingsPage() {
           Cambiar mi plan
         </Button>
       </Card>
-      <Card title="Cuenta y club" icon="users" subtitle={club.session ? `Sesión: ${club.session.email}` : 'Entra para practicar con tu club.'}>
-        {club.status === 'ready' && club.club ? (
-          <div className="stack" style={{ gap: 'var(--space-3)' }}>
-            <p style={{ margin: 0 }}>
-              Club <strong>{club.club.name}</strong>
-            </p>
-            <div className="row">
-              <InviteButton club={club.club} />
-              <Button variant="secondary" to="/club">
-                Ir al club
-              </Button>
-              <Button variant="ghost" onClick={() => setConfirmLeave(true)}>
-                Salir del club
+      <Card title="Cuenta y club" icon="users">
+        <section className={styles.block}>
+          <h3 className={styles.blockTitle}>Cuenta</h3>
+          {club.session ? (
+            <div className={styles.line}>
+              <div className={styles.lineText}>
+                <span className={styles.lineLabel}>Sesión iniciada</span>
+                <strong className={styles.lineValue}>{club.session.email}</strong>
+              </div>
+              <Button variant="secondary" size="sm" icon="sign-out" onClick={() => useAuthStore.getState().signOut().then(() => clubRepo.signOut()).then(club.refresh)}>
+                Cerrar sesión
               </Button>
             </div>
-          </div>
-        ) : (
-          <Button to="/club" variant="secondary">
-            {club.session ? 'Elegir mi club' : 'Entrar'}
-          </Button>
-        )}
+          ) : (
+            <div className={styles.line}>
+              <div className={styles.lineText}>
+                <span className={styles.lineLabel}>Sin sesión</span>
+                <span className={styles.lineValue}>Entra para guardar tu progreso y practicar con tu club.</span>
+              </div>
+              <Button to="/entrar?next=/ajustes" size="sm">
+                Entrar
+              </Button>
+            </div>
+          )}
+        </section>
         {club.session && (
-          <div style={{ marginTop: 'var(--space-3)' }}>
-            <Button variant="ghost" size="sm" icon="sign-out" onClick={() => useAuthStore.getState().signOut().then(() => clubRepo.signOut()).then(club.refresh)}>
-              Cerrar sesión
-            </Button>
-          </div>
+          <section className={styles.block}>
+            <h3 className={styles.blockTitle}>Club</h3>
+            {club.status === 'ready' && club.club ? (
+              <>
+                <div className={styles.line}>
+                  <div className={styles.lineText}>
+                    <span className={styles.lineLabel}>Tu club</span>
+                    <strong className={styles.lineValue}>{club.club.name}</strong>
+                  </div>
+                  <Button variant="secondary" size="sm" to="/club">
+                    Ir al club
+                  </Button>
+                </div>
+                <div className="row" style={{ marginTop: 'var(--space-3)' }}>
+                  <InviteButton club={club.club} />
+                  <Button variant="ghost" size="sm" onClick={() => setConfirmLeave(true)}>
+                    Salir del club
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div className={styles.line}>
+                <div className={styles.lineText}>
+                  <span className={styles.lineLabel}>Sin club</span>
+                  <span className={styles.lineValue}>Únete o crea uno para competir con amigos.</span>
+                </div>
+                <Button to="/club" variant="secondary" size="sm">
+                  Elegir mi club
+                </Button>
+              </div>
+            )}
+          </section>
         )}
       </Card>
       <Card title="Nivel" icon="compass" subtitle={`Rating de entrenamiento ${rating}${placementLevel ? ` · ${placementLevel}` : ''}`}>
@@ -134,21 +165,6 @@ export function SettingsPage() {
         </div>
         {msg && <p style={{ color: 'var(--color-danger)' }}>{msg}</p>}
       </Card>
-      {import.meta.env.DEV && (
-      <Card title="Modo depuración" icon="flask" subtitle="Simula días futuros para probar rachas, repasos y el plan diario.">
-        <div className="row">
-          <Button variant="secondary" onClick={() => s.update({ dayOffset: s.dayOffset + 1 })}>
-            +1 día
-          </Button>
-          <Button variant="ghost" onClick={() => s.update({ dayOffset: 0 })} disabled={s.dayOffset === 0}>
-            Volver a hoy
-          </Button>
-          <span className="muted">
-            Fecha simulada: <strong>{todayKey()}</strong> {s.dayOffset ? `(+${s.dayOffset})` : ''}
-          </span>
-        </div>
-      </Card>
-      )}
       {import.meta.env.DEV && clubRepo.isDemo && (
         <Card title="Administrador (demo)" icon="shield" subtitle="Solo el administrador de la plataforma puede crear clubes y compartir el link para que otros creen el suyo.">
           <label className="row" style={{ cursor: 'pointer' }}>
