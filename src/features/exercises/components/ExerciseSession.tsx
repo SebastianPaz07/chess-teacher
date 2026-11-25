@@ -6,7 +6,6 @@ import { RichText } from '@/components/ui/RichText';
 import type { Exercise } from '@/content/schema';
 import { TeacherBubble, type TeacherMood } from '@/features/gamification/components/TeacherBubble';
 import { teacherSays } from '@/features/gamification/teacherMessages';
-import type { Reward } from '@/services/game/events';
 import { useRecordExercise } from '../hooks/useRecordExercise';
 import styles from './ExerciseSession.module.css';
 
@@ -28,7 +27,7 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
   const record = useRecordExercise();
   const [index, setIndex] = useState(0);
   const [results, setResults] = useState<SessionResult[]>([]);
-  const [current, setCurrent] = useState<{ r: PuzzleResult; rating?: Extract<Reward, { kind: 'rating' }> } | null>(null);
+  const [current, setCurrent] = useState<{ r: PuzzleResult } | null>(null);
   const [teacher, setTeacher] = useState<{ msg: string; mood: TeacherMood }>({ msg: 'Encuentra la mejor jugada.', mood: 'thinking' });
   const [streak, setStreak] = useState(0);
 
@@ -36,10 +35,9 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
   if (!ex) return null;
 
   const onFinish = (r: PuzzleResult) => {
-    const rewards = record(ex, r, context);
+    record(ex, r, context);
     onEach?.(ex, r);
-    const rating = rewards.find((x): x is Extract<Reward, { kind: 'rating' }> => x.kind === 'rating');
-    setCurrent({ r, rating });
+    setCurrent({ r });
     setResults((prev) => [...prev, { exercise: ex, result: r }]);
     const s = r.success && r.mistakes === 0 ? streak + 1 : 0;
     setStreak(s);
@@ -92,15 +90,6 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
         {current && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
             <Card tone={current.r.success ? 'success' : 'danger'} icon={current.r.success ? 'check-circle' : 'x-circle'} title={current.r.success ? (current.r.mistakes === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}>
-              {current.rating && (
-                <p>
-                  Rating: <strong>{current.rating.rating}</strong>{' '}
-                  <span style={{ color: current.rating.delta >= 0 ? 'var(--color-success)' : 'var(--color-danger)', fontWeight: 800 }}>
-                    ({current.rating.delta >= 0 ? '+' : ''}
-                    {current.rating.delta})
-                  </span>
-                </p>
-              )}
               {ex.explanation && <RichText text={ex.explanation} />}
               {ex.source && <p className="muted">Fuente: {ex.source.startsWith('lichess:') ? <a href={`https://lichess.org/training/${ex.source.slice(8)}`} target="_blank" rel="noreferrer">Lichess</a> : ex.source}</p>}
               <Button block size="lg" onClick={next} className={styles.cardNext}>
@@ -115,13 +104,6 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
         <div className={styles.nextBar}>
           <span className={styles.nextStatus} style={{ color: current.r.success ? 'var(--color-success)' : 'var(--color-danger)' }}>
             {current.r.success ? (current.r.mistakes === 0 && current.r.hintsUsed === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}
-            {current.rating && (
-              <small>
-                {' '}
-                · rating {current.rating.delta >= 0 ? '+' : ''}
-                {current.rating.delta}
-              </small>
-            )}
           </span>
           <Button size="md" onClick={next} icon="arrow-right">
             {index + 1 >= exercises.length ? 'Resultados' : 'Siguiente'}

@@ -6,6 +6,7 @@ import { RichText } from '@/components/ui/RichText';
 import type { Step } from '@/content/schema';
 import { sound } from '@/services/sound';
 import type { StepViewProps } from './stepRegistry';
+import { LessonAction } from './LessonAction';
 import styles from './steps.module.css';
 
 export function QuizStepView({ step, onDone, onMistake, onCorrect }: StepViewProps<Extract<Step, { type: 'quiz' }>>) {
@@ -55,9 +56,11 @@ export function QuizStepView({ step, onDone, onMistake, onCorrect }: StepViewPro
         {solved && (
           <Card tone="success" title="¡Correcto!" icon="check-circle">
             {step.explanation && <RichText text={step.explanation} />}
-            <Button size="lg" onClick={onDone}>
-              Continuar
-            </Button>
+            <LessonAction>
+          <Button size="lg" block onClick={onDone}>
+            Continuar
+          </Button>
+        </LessonAction>
           </Card>
         )}
       </div>

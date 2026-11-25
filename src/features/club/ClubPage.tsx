@@ -57,8 +57,10 @@ function ClubHome() {
           <span>
             <Icon name="users" /> {members.data?.length ?? '…'} miembros
           </span>
+        </div>
+        <div className={styles.clubActions}>
           <CopyCode code={club.inviteCode} />
-          <InviteButton club={club} />
+          <InviteButton club={club} variant="secondary" />
           {isAdmin && <CreatorLinkButton />}
         </div>
         {myRole && myRole !== 'member' && (
@@ -118,11 +120,10 @@ function TodayTab({ members, meId, pending, onGoChallenges }: { members: MemberS
           </Card>
         )}
         {pending > 0 && (
-          <Card tone="primary" icon="sword" title={pending === 1 ? 'Tienes un reto por jugar' : `Tienes ${pending} retos por jugar`}>
-            <Button size="sm" onClick={onGoChallenges}>
-              Ver retos
-            </Button>
-          </Card>
+          <button type="button" className={styles.notice} onClick={onGoChallenges}>
+            <Icon name="sword" /> <span>{pending === 1 ? 'Tienes un reto por jugar' : `Tienes ${pending} retos por jugar`}</span>
+            <small>Ver</small>
+          </button>
         )}
         <PracticedToday members={members} meId={meId} />
         <WeekGoalCard week={week.data} members={members} meId={meId} />

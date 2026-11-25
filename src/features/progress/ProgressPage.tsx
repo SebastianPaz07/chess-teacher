@@ -25,7 +25,7 @@ export function ProgressPage() {
 
   return (
     <div className="stack">
-      <PageHeader icon="progress" title="Tu progreso" subtitle="Todo se guarda en este navegador (puedes exportarlo en Ajustes)." />
+      <PageHeader compact icon="progress" title="Tu progreso" subtitle="Todo se guarda en este navegador (puedes exportarlo en Ajustes)." />
 
       <div className={styles.kpis}>
         <StatPill icon={g.rank.icon} value={`Nivel ${g.level}`} label={g.rank.name} />

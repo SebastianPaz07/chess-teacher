@@ -1,7 +1,7 @@
 .page { display: flex; flex-direction: column; gap: var(--space-4); }
-.header { display: flex; align-items: center; gap: var(--space-3); }
+.header { position: sticky; top: 56px; z-index: 20; display: flex; align-items: center; gap: var(--space-3); padding: var(--space-2) var(--space-3); margin: 0 calc(var(--space-2) * -1); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(10px); box-shadow: var(--shadow-sm); }
 .progress { flex: 1; }
-.meta { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start; border-bottom: 1px solid var(--color-rule); padding-bottom: var(--space-3); }
+.meta { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start; }
 .title { margin: 0; font-size: 1.6rem; }
 .teacher { max-width: 640px; }
 .sources { color: var(--color-text-muted); font-size: 0.82rem; margin: var(--space-4) 0 0; border-top: 1px solid var(--color-border); padding-top: var(--space-3); }
@@ -9,3 +9,9 @@
 @media (min-width: 768px) {
   .title { font-size: 2rem; }
 }
+
+/* Botón de avanzar fijo abajo, por encima del menú flotante */
+.actions { position: sticky; z-index: 15; bottom: calc(var(--bottom-nav) + var(--space-5) + env(safe-area-inset-bottom)); }
+.actions:empty { display: none; }
+.actions:not(:empty) { padding: var(--space-2); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-bg) 84%, transparent); backdrop-filter: blur(10px); box-shadow: var(--shadow-pop); }
+@media (min-width: 1100px) { .actions { bottom: var(--space-4); } }

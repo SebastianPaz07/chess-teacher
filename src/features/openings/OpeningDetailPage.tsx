@@ -45,6 +45,7 @@ export function OpeningDetailPage() {
   return (
     <div className="stack">
       <PageHeader
+        compact
         icon={opening.side === 'w' ? 'piece-king-w' : 'piece-king'}
         title={opening.name}
         subtitle={opening.description}
@@ -52,8 +53,9 @@ export function OpeningDetailPage() {
       />
       <div className={styles.layout}>
         <div>
-          <div className="row" style={{ marginBottom: 12 }}>
+          <div className="row" style={{ marginBottom: 8 }}>
             <Tabs
+              size="sm"
               value={mode}
               onChange={(m) => {
                 setMode(m);

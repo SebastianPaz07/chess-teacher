@@ -1,4 +1,5 @@
 import { Link, Navigate } from 'react-router-dom';
+import { PieceScene } from '@/components/illustrations/PieceScene';
 import { Button, ProgressBar, Skeleton } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { ClubCard } from '@/features/club/components/ClubCard';
@@ -51,7 +52,7 @@ function taskLink(t: DailyTask): string {
 const dateLabel = () => new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date());
 
 /**
- * Inicio guiado: misiones arriba, el siguiente paso del plan bien visible
+ * Inicio guiado: la sesión de hoy primero, las misiones debajo
  * y la competencia del club (ejercicios y minutos de estudio).
  */
 export function HomePage() {
@@ -72,6 +73,9 @@ export function HomePage() {
   return (
     <div className={styles.page}>
       <header className={styles.masthead}>
+        <div className={styles.mastArt} aria-hidden>
+          <PieceScene size={72} scene={{ b: '...../..k../...../..N../.K...', a: ['2,3>3,1'] }} />
+        </div>
         <p className="eyebrow">{dateLabel()}</p>
         <h1 className={styles.hello}>{name ? `Buenas, ${name}.` : 'Tu sesión de hoy.'}</h1>
         <p className={styles.dek}>
@@ -93,8 +97,6 @@ export function HomePage() {
 
       <div className={styles.grid}>
         <div className={styles.main}>
-          <QuestsCard compact />
-
           <section aria-labelledby="plan-title" className={styles.session}>
             <div className={styles.sectionHead}>
               <h2 id="plan-title" className={styles.sectionTitle}>
@@ -130,7 +132,7 @@ export function HomePage() {
                 )}
                 {nextTask && (
                   <Button to={taskLink(nextTask)} size="lg" block className={styles.cta}>
-                    {plan.done === 0 ? 'Empezar la sesión' : 'Continuar'} · ≈ {minutesLeft} min
+                    {plan.done === 0 ? 'Empezar sesión' : 'Continuar'} · {minutesLeft} min
                   </Button>
                 )}
                 {allDone && <p className={styles.doneMsg}>¡Sesión completa! Mira cómo vas en el club o reta a un compañero.</p>}
@@ -152,6 +154,8 @@ export function HomePage() {
               </>
             )}
           </section>
+
+          <QuestsCard compact />
         </div>
 
         <aside className={styles.side}>

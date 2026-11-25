@@ -12,7 +12,7 @@ type Toast = Reward & { key: number };
 
 export function celebrate(intensity: 'small' | 'big' = 'small') {
   const count = intensity === 'big' ? 160 : 70;
-  confetti({ particleCount: count, spread: intensity === 'big' ? 100 : 65, origin: { y: 0.65 }, colors: ['#24453a', '#b0893f', '#161512', '#f3eee3'] });
+  confetti({ particleCount: count, spread: intensity === 'big' ? 100 : 65, origin: { y: 0.65 }, colors: ['#8b7dff', '#4fc3f7', '#ffd166', '#5fd8a4', '#ff7a8a'] });
 }
 
 /**

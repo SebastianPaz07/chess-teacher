@@ -10,10 +10,12 @@ interface PageHeaderProps {
   eyebrow?: ReactNode;
   /** Menos espacio alrededor (pantallas con listas largas) */
   compact?: boolean;
+  /** Sin línea inferior */
+  plain?: boolean;
 }
 
 /** Cabecera de página editorial: rótulo, titular serif y filete inferior. */
-export function PageHeader({ title, subtitle, icon, actions, eyebrow, compact }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, icon, actions, eyebrow, compact, plain }: PageHeaderProps) {
   return (
     <header
       style={{
@@ -22,7 +24,7 @@ export function PageHeader({ title, subtitle, icon, actions, eyebrow, compact }:
         gap: 'var(--space-4)',
         marginBottom: compact ? 0 : 'var(--space-5)',
         paddingBottom: compact ? 'var(--space-3)' : 'var(--space-4)',
-        borderBottom: '1px solid var(--color-rule)',
+        borderBottom: plain ? 'none' : '1px solid var(--color-rule)',
         flexWrap: 'wrap',
       }}
     >

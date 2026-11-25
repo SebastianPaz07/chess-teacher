@@ -3,8 +3,9 @@
   align-items: center;
   gap: var(--space-3);
   padding: calc(var(--space-2) + env(safe-area-inset-top)) var(--space-4) var(--space-2);
-  border-bottom: 1px solid var(--color-rule);
-  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  background: color-mix(in srgb, var(--color-bg) 78%, transparent);
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 40;
@@ -12,7 +13,7 @@
 }
 .brand { display: flex; align-items: center; gap: var(--space-2); text-decoration: none; color: var(--color-text); margin-right: auto; min-width: 0; }
 .logo { font-family: var(--font-pieces); font-size: 1.6rem; line-height: 1; color: var(--color-primary); }
-.brandText { display: none; font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.brandText { display: none; font-family: var(--font-display); font-weight: 800; font-size: 1.15rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .level { display: none; align-items: center; gap: var(--space-3); text-decoration: none; color: inherit; }
 .rankIcon { display: inline-flex; color: var(--color-text); }
 .levelText { display: flex; flex-direction: column; line-height: 1.2; font-size: 0.85rem; }

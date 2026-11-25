@@ -4,6 +4,7 @@ import { Button, Card } from '@/components/ui';
 import { RichText } from '@/components/ui/RichText';
 import type { Step } from '@/content/schema';
 import type { StepViewProps } from './stepRegistry';
+import { LessonAction } from './LessonAction';
 import styles from './steps.module.css';
 
 export function MakeMoveStepView({ step, onDone, onMistake, onCorrect }: StepViewProps<Extract<Step, { type: 'make-move' }>>) {
@@ -30,9 +31,11 @@ export function MakeMoveStepView({ step, onDone, onMistake, onCorrect }: StepVie
         {result && (
           <Card tone={result === 'solved' ? 'success' : 'accent'} title={result === 'solved' ? '¡Correcto!' : 'Mira la solución'} icon={result === 'solved' ? 'check-circle' : 'eye'}>
             {step.explanation && <RichText text={step.explanation} />}
-            <Button size="lg" onClick={onDone}>
-              Continuar
-            </Button>
+            <LessonAction>
+          <Button size="lg" block onClick={onDone}>
+            Continuar
+          </Button>
+        </LessonAction>
           </Card>
         )}
       </div>

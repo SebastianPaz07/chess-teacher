@@ -11,7 +11,7 @@ export const NAV_ITEMS = [
   { to: '/', label: 'Hoy', icon: 'home', end: true },
   { to: '/practica', label: 'Práctica', icon: 'puzzle' },
   { to: '/club', label: 'Club', icon: 'users' },
-  { to: '/mapa', label: 'Índice', icon: 'map' },
+  { to: '/mapa', label: 'Índice', icon: 'notebook' },
   { to: '/aperturas', label: 'Aperturas', icon: 'books' },
   { to: '/repaso', label: 'Repaso', icon: 'review' },
   { to: '/rush', label: 'Rush', icon: 'lightning' },
@@ -32,7 +32,7 @@ export function AppShell() {
   const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const canGoBack = location.pathname !== '/';
+  const canGoBack = location.pathname !== '/' && !location.pathname.startsWith('/leccion/');
   // Si no hay historial (se abrió el enlace directo), «Volver» lleva a Hoy
   const goBack = () => ((window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/'));
   const inMore = SECONDARY.some((it) => location.pathname.startsWith(it.to));
@@ -79,11 +79,13 @@ export function AppShell() {
           {canGoBack && (
             <div className={styles.backRow}>
               <button type="button" className={styles.backBtn} onClick={goBack}>
-                <Icon name="arrow-left" /> Volver
+                <Icon name="arrow-left" size="1em" /> Volver
               </button>
             </div>
           )}
-          <Outlet />
+          <motion.div key={location.pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}>
+            <Outlet />
+          </motion.div>
         </main>
       </div>
 

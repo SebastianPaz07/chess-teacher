@@ -2,7 +2,7 @@
 .lines { display: flex; flex-direction: column; border-top: 1px solid var(--color-rule); }
 .line { display: flex; justify-content: space-between; align-items: center; gap: 8px; text-align: left; min-height: var(--tap); border: none; border-bottom: 1px solid var(--color-border); background: transparent; color: var(--color-text); padding: 8px 4px; font-weight: 500; cursor: pointer; }
 .line:hover { background: var(--color-surface-2); }
-.active { font-weight: 700; box-shadow: inset 3px 0 0 var(--color-primary); padding-left: 12px; }
+.active { font-weight: 800; background: var(--color-primary-soft); border-radius: var(--radius-md); }
 
 @media (min-width: 960px) {
   .layout { grid-template-columns: minmax(0, 560px) minmax(280px, 1fr); gap: var(--space-6); }

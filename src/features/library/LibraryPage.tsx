@@ -2,14 +2,14 @@ import { Icon } from '@/components/ui/Icon';
 import { useMemo, useState } from 'react';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Card, EmptyState, Tabs } from '@/components/ui';
-import { driveRootFolderId, resources } from '@/content/registry';
+import { resources } from '@/content/registry';
 import type { Resource } from '@/content/schema';
 import { ResourceViewer } from './components/ResourceViewer';
 import styles from './LibraryPage.module.css';
 
 type Filter = 'all' | 'video' | 'pdf';
 
-/** Biblioteca: todo el material disponible (catálogo generado con `npm run inventory`). */
+/** Biblioteca: base de conocimientos con videos y libros (catálogo generado con `npm run inventory`). */
 export function LibraryPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
@@ -29,17 +29,10 @@ export function LibraryPage() {
   return (
     <div className="stack">
       <PageHeader
+        compact
         icon="video"
         title="Biblioteca"
-        subtitle={
-          <>
-            {resources.length} recursos en{' '}
-            <a href={`https://drive.google.com/drive/folders/${driveRootFolderId}`} target="_blank" rel="noreferrer">
-              nuestra biblioteca
-            </a>
-            . Las lecciones enlazan automáticamente el material relacionado.
-          </>
-        }
+        subtitle={`${resources.length} videos y libros de nuestra base de conocimientos. Las lecciones enlazan automáticamente el material relacionado.`}
       />
       <div className={styles.searchBox}>
         <Icon name="search" className={styles.searchIcon} />

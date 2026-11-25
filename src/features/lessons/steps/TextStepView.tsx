@@ -3,6 +3,7 @@ import { Button } from '@/components/ui';
 import type { Step } from '@/content/schema';
 import { RichText } from '@/components/ui/RichText';
 import type { StepViewProps } from './stepRegistry';
+import { LessonAction } from './LessonAction';
 import styles from './steps.module.css';
 
 export function TextStepView({ step, onDone }: StepViewProps<Extract<Step, { type: 'text' }>>) {
@@ -16,9 +17,11 @@ export function TextStepView({ step, onDone }: StepViewProps<Extract<Step, { typ
       <div className={styles.text}>
         {step.title && <h2>{step.title}</h2>}
         <RichText text={step.body} />
-        <Button size="lg" onClick={onDone}>
-          Continuar
-        </Button>
+        <LessonAction>
+          <Button size="lg" block onClick={onDone}>
+            Continuar
+          </Button>
+        </LessonAction>
       </div>
     </div>
   );

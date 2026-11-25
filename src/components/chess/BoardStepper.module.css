@@ -1,4 +1,4 @@
 .wrap { display: flex; flex-direction: column; gap: var(--space-3); width: 100%; min-width: 0; }
 .controls { display: flex; align-items: center; justify-content: center; gap: var(--space-2); }
 .counter { font-weight: 600; min-width: 54px; text-align: center; font-variant-numeric: tabular-nums; }
-.note { border-left: 2px solid var(--color-accent); padding: var(--space-1) 0 var(--space-1) var(--space-4); margin: 0; font-family: var(--font-display); font-style: italic; font-size: 1.02rem; }
+.note { background: var(--color-surface-2); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); margin: 0; font-family: var(--font-display); font-style: italic; font-size: 1.02rem; }

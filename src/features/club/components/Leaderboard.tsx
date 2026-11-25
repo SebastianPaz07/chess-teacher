@@ -5,6 +5,8 @@ import { Icon } from '@/components/ui/Icon';
 import { clubRepo, type LeaderMetric, type LeaderPeriod, type LeaderRow, type MemberSummary } from '@/services/club';
 import { useClubQuery } from '../hooks/useClubQuery';
 import { Avatar } from './Avatar';
+import { Podium } from './Podium';
+import { RankUpBanner, useRankUp } from './RankUp';
 import { RivalNudge } from './RivalNudge';
 import styles from '../club.module.css';
 
@@ -36,6 +38,9 @@ export function Leaderboard({ meId, members, initialMetric = 'puzzles' }: Props 
   const today = new Map(members?.map((m) => [m.member.id, m]) ?? []);
   const mine = q.data?.find((r) => r.member.id === meId);
   const meVisible = q.data && q.data.length <= 8;
+  const rankUp = useRankUp(`${effectivePeriod}:${metric}`, mine?.rank);
+  const activeIds = new Set([...today.values()].filter((m) => m.practicedToday).map((m) => m.member.id));
+  const rest = q.data?.slice(3) ?? [];
 
   return (
     <div className={styles.section}>
@@ -55,17 +60,23 @@ export function Leaderboard({ meId, members, initialMetric = 'puzzles' }: Props 
           ))}
         </select>
       </div>
+      <RankUpBanner gained={rankUp.gained} rank={mine?.rank} onClose={rankUp.dismiss} />
       {metric !== 'rating' && metric !== 'streak' && <RivalNudge rows={q.data} members={members} meId={meId} unit={metric === 'puzzles' ? 'ejercicios' : metric === 'minutes' ? 'minutos' : 'XP'} />}
       {!q.data ? (
         <Skeleton lines={6} height={52} />
       ) : (
-        <ol className={styles.list}>
-          {q.data.map((r) => (
-            <LeaderItem key={r.member.id} row={r} me={r.member.id === meId} unit={meta.unit} active={today.get(r.member.id)?.practicedToday} />
-          ))}
-        </ol>
+        <>
+          <Podium rows={q.data} meId={meId} unit={meta.unit} activeIds={activeIds} />
+          {rest.length > 0 && (
+            <ol className={styles.list} start={4}>
+              {rest.map((r) => (
+                <LeaderItem key={r.member.id} row={r} me={r.member.id === meId} unit={meta.unit} active={today.get(r.member.id)?.practicedToday} />
+              ))}
+            </ol>
+          )}
+        </>
       )}
-      {mine && !meVisible && (
+      {mine && mine.rank > 3 && !meVisible && (
         <div className={styles.stickyMe}>
           <LeaderItem row={mine} me unit={meta.unit} active={today.get(meId)?.practicedToday} />
         </div>

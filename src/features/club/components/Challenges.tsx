@@ -1,6 +1,8 @@
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Badge, Button, EmptyState, Modal, Skeleton } from '@/components/ui';
+import { Icon } from '@/components/ui/Icon';
 import { clubRepo, type Challenge, type ChallengeKind, type MemberSummary } from '@/services/club';
 import { formatMs, timeAgo, timeLeft } from '../format';
 import { Avatar } from './Avatar';
@@ -101,6 +103,102 @@ interface TabProps {
   meId: string;
 }
 
+function BlockHead({ icon, title, count, tone }: { icon: string; title: string; count?: number; tone: 'danger' | 'accent' | 'neutral' }) {
+  return (
+    <header className={styles.blockHead}>
+      <span className={[styles.blockIcon, styles[`tone_${tone}`]].join(' ')}>
+        <Icon name={icon} />
+      </span>
+      <h3 className={styles.blockTitle}>{title}</h3>
+      {count !== undefined && count > 0 && <Badge tone={tone === 'danger' ? 'danger' : 'neutral'}>{count}</Badge>}
+    </header>
+  );
+}
+
+/** Reto que te falta jugar: destaca y tiene un único botón claro. */
+function PendingCard({ c, meId, members, index }: { c: Challenge; meId: string; members: Map<string, MemberSummary>; index: number }) {
+  const navigate = useNavigate();
+  const [busy, setBusy] = useState(false);
+  const iChallenged = c.challengerId === meId;
+  const rivalId = iChallenged ? c.opponentId : c.challengerId;
+  const rival = members.get(rivalId)?.member;
+  const rivalPlayed = c.results.some((r) => r.memberId === rivalId);
+  const decline = async () => {
+    setBusy(true);
+    await clubRepo.declineChallenge(c.id).finally(() => setBusy(false));
+  };
+  return (
+    <motion.li className={styles.pendingCard} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.06 }}>
+      <div className={styles.pendingTop}>
+        <Badge tone="danger" icon="sword">Por jugar</Badge>
+        <span className="muted">{timeLeft(c.expiresAt)}</span>
+      </div>
+      <div className={styles.pendingBody}>
+        <Avatar avatar={rival?.avatar ?? 'piece-pawn'} name={rival?.name ?? ''} size={44} />
+        <div className={styles.pendingText}>
+          <strong>{iChallenged ? `Retaste a ${rival?.name ?? 'un compañero'}` : `${rival?.name ?? 'Un compañero'} te retó`}</strong>
+          <span className="muted">
+            {c.kind === 'rush' ? 'Rush 3 min' : `${c.puzzleIds.length} ejercicios`}
+            {rivalPlayed ? ' · ya jugó, ¡te toca!' : ''}
+          </span>
+        </div>
+      </div>
+      <div className={styles.pendingActions}>
+        <Button icon="play" onClick={() => navigate(`/club/reto/${c.id}`)}>
+          {iChallenged ? 'Jugar mi parte' : 'Aceptar y jugar'}
+        </Button>
+        {!iChallenged && (
+          <Button size="sm" variant="ghost" onClick={decline} loading={busy}>
+            Rechazar
+          </Button>
+        )}
+      </div>
+    </motion.li>
+  );
+}
+
+/** Fila compacta: lo esencial; al tocarla se ven los detalles. */
+function ChallengeRow({ c, meId, members, index }: { c: Challenge; meId: string; members: Map<string, MemberSummary>; index: number }) {
+  const navigate = useNavigate();
+  const rivalId = c.challengerId === meId ? c.opponentId : c.challengerId;
+  const rival = members.get(rivalId)?.member;
+  const mine = c.results.find((r) => r.memberId === meId);
+  const theirs = c.results.find((r) => r.memberId === rivalId);
+  const name = rival?.name ?? 'tu compañero';
+  let headline: string;
+  let tone: 'win' | 'lose' | 'draw' | 'wait' | 'off' = 'off';
+  if (c.status === 'open') {
+    headline = `Esperando a ${name}`;
+    tone = 'wait';
+  } else if (c.status === 'done') {
+    headline = c.winnerId === meId ? `Ganaste a ${name}` : c.winnerId === null ? `Empataste con ${name}` : `Ganó ${name}`;
+    tone = c.winnerId === meId ? 'win' : c.winnerId === null ? 'draw' : 'lose';
+  } else {
+    headline = c.status === 'declined' ? `Rechazado · ${name}` : `Venció sin jugarse · ${name}`;
+  }
+  const sub =
+    c.status === 'done' && mine && theirs
+      ? `${mine.solved} – ${theirs.solved} · ${timeAgo(c.results[c.results.length - 1]?.finishedAt ?? c.createdAt)}`
+      : c.status === 'open'
+        ? `${mine ? `Tu resultado: ${mine.solved}` : ''} · ${timeLeft(c.expiresAt)}`
+        : timeAgo(c.createdAt);
+  const icon = tone === 'win' ? 'trophy' : tone === 'draw' ? 'handshake' : tone === 'lose' ? 'sword' : tone === 'wait' ? 'timer' : 'close';
+  return (
+    <motion.li initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 8) * 0.04 }}>
+      <button type="button" className={[styles.challengeRow, styles[`row_${tone}`]].join(' ')} onClick={() => navigate(`/club/reto/${c.id}`)} aria-label={`${headline}. Ver detalles`}>
+        <span className={styles.rowBadge}>
+          <Icon name={icon} />
+        </span>
+        <span className={styles.rowTextCol}>
+          <strong>{headline}</strong>
+          <span className="muted">{sub}</span>
+        </span>
+        <Icon name="caret-right" />
+      </button>
+    </motion.li>
+  );
+}
+
 export function ChallengesTab({ challenges, members, meId }: TabProps) {
   const [picker, setPicker] = useState<{ opponentId?: string; rematchOf?: string } | null>(null);
   if (!challenges || !members) return <Skeleton lines={4} height={70} />;
@@ -109,68 +207,44 @@ export function ChallengesTab({ challenges, members, meId }: TabProps) {
   const waiting = challenges.filter((c) => c.status === 'open' && c.results.some((r) => r.memberId === meId));
   const history = challenges.filter((c) => c.status !== 'open');
 
-  // Balance por rival: ganados – perdidos
-  const balance = new Map<string, { w: number; l: number; d: number }>();
-  for (const c of history.filter((x) => x.status === 'done')) {
-    const rival = c.challengerId === meId ? c.opponentId : c.challengerId;
-    const b = balance.get(rival) ?? { w: 0, l: 0, d: 0 };
-    if (c.winnerId === meId) b.w++;
-    else if (c.winnerId === null) b.d++;
-    else b.l++;
-    balance.set(rival, b);
-  }
-
   return (
-    <div className={styles.section}>
+    <div className={styles.retosWrap}>
       <Button icon="sword" block size="lg" onClick={() => setPicker({})}>
         Retar a un compañero
       </Button>
 
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Por jugar {pendingMine.length > 0 && <Badge tone="danger">{pendingMine.length}</Badge>}</h3>
+      <section className={[styles.block, pendingMine.length > 0 && styles.blockHot].filter(Boolean).join(' ')} aria-label="Por jugar">
+        <BlockHead icon="sword" title="Por jugar" count={pendingMine.length} tone="danger" />
         {pendingMine.length === 0 ? (
-          <p className="muted">No tienes retos pendientes.</p>
+          <p className="muted" style={{ margin: 0 }}>Estás al día: no tienes retos pendientes.</p>
         ) : (
-          <ul className={styles.feed}>
-            {pendingMine.map((c) => (
-              <ChallengeItem key={c.id} c={c} meId={meId} members={byId} />
+          <ul className={styles.cardList}>
+            {pendingMine.map((c, i) => (
+              <PendingCard key={c.id} c={c} meId={meId} members={byId} index={i} />
             ))}
           </ul>
         )}
       </section>
 
       {waiting.length > 0 && (
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Esperando al rival</h3>
-          <ul className={styles.feed}>
-            {waiting.map((c) => (
-              <ChallengeItem key={c.id} c={c} meId={meId} members={byId} />
+        <section className={styles.block} aria-label="Esperando al rival">
+          <BlockHead icon="timer" title="Esperando al rival" count={waiting.length} tone="accent" />
+          <ul className={styles.cardList}>
+            {waiting.map((c, i) => (
+              <ChallengeRow key={c.id} c={c} meId={meId} members={byId} index={i} />
             ))}
           </ul>
         </section>
       )}
 
-      {balance.size > 0 && (
-        <section className={styles.section}>
-          <h3 className={styles.sectionTitle}>Tu balance</h3>
-          <div className={styles.balance}>
-            {[...balance.entries()].map(([id, b]) => (
-              <Badge key={id} tone={b.w > b.l ? 'success' : b.w < b.l ? 'danger' : 'neutral'}>
-                {byId.get(id)?.member.name ?? '—'} · {b.w}G {b.l}P{b.d ? ` ${b.d}E` : ''}
-              </Badge>
-            ))}
-          </div>
-        </section>
-      )}
-
-      <section className={styles.section}>
-        <h3 className={styles.sectionTitle}>Historial</h3>
+      <section className={styles.block} aria-label="Historial">
+        <BlockHead icon="clock" title="Historial" tone="neutral" />
         {history.length === 0 ? (
-          <EmptyState icon="sword" title="Todavía no hay retos" description="Reta a alguien del club: los dos juegan los mismos ejercicios y gana quien resuelva más." />
+          <EmptyState scene={{ b: 'r...R/...../..N../...../K...k', a: ['2,2>4,0'] }} title="Todavía no hay retos" description="Reta a alguien del club: los dos juegan los mismos ejercicios y gana quien resuelva más." />
         ) : (
-          <ul className={styles.feed}>
-            {history.slice(0, 20).map((c) => (
-              <ChallengeItem key={c.id} c={c} meId={meId} members={byId} onRematch={c.status === 'done' ? (opponentId, rematchOf) => setPicker({ opponentId, rematchOf }) : undefined} />
+          <ul className={styles.cardList}>
+            {history.slice(0, 20).map((c, i) => (
+              <ChallengeRow key={c.id} c={c} meId={meId} members={byId} index={i} />
             ))}
           </ul>
         )}

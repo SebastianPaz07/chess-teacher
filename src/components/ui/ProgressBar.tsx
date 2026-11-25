@@ -8,7 +8,7 @@ interface ProgressBarProps {
   showValue?: boolean;
 }
 
-export function ProgressBar({ value, color = 'var(--color-primary)', height = 14, label, showValue }: ProgressBarProps) {
+export function ProgressBar({ value, color = 'var(--gradient-accent)', height = 14, label, showValue }: ProgressBarProps) {
   const pct = Math.round(Math.max(0, Math.min(1, value)) * 100);
   return (
     <div className={styles.wrap}>

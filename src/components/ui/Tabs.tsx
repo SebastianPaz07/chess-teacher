@@ -5,11 +5,13 @@ interface TabsProps<T extends string> {
   value: T;
   onChange: (v: T) => void;
   items: { value: T; label: string; icon?: string }[];
+  /** `sm`: más pequeño (selectores de dos opciones) */
+  size?: 'md' | 'sm';
 }
 
-export function Tabs<T extends string>({ value, onChange, items }: TabsProps<T>) {
+export function Tabs<T extends string>({ value, onChange, items, size = 'md' }: TabsProps<T>) {
   return (
-    <div className={styles.tabs} role="tablist">
+    <div className={[styles.tabs, size === 'sm' && styles.small].filter(Boolean).join(' ')} role="tablist">
       {items.map((it) => (
         <button
           key={it.value}

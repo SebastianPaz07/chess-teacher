@@ -52,19 +52,28 @@ export function WeekGoalCard({ week, members, meId, compact }: Props) {
         </div>
       </Card>
       {!compact && (
-        <Card
-          tone={played ? 'default' : 'accent'}
-          icon="users"
-          title="Desafío de la semana"
-          subtitle={`${week.puzzleIds.length} ejercicios iguales para todo el club. Una sola oportunidad.`}
-          actions={!played ? <Button to="/club/semana" size="sm" icon="play">Jugar</Button> : undefined}
-        >
-          <div className="row">
-            {myResult && <Badge tone="primary" icon="check">Tu resultado: {myResult.solved}/{week.puzzleIds.length}</Badge>}
-            <span className="muted" style={{ fontSize: '0.88rem' }}>
-              {week.results.length} de {members.length} ya jugaron
-              {best && bestName ? ` · va ganando ${best.memberId === meId ? 'tú' : bestName} (${best.solved}/${week.puzzleIds.length})` : ''}
-            </span>
+        <Card tone={played ? 'default' : 'accent'} icon="users" title="Desafío de la semana" subtitle={`${week.puzzleIds.length} ejercicios iguales para todo el club. Una sola oportunidad.`}>
+          <div className={styles.challengeBody}>
+            <ul className={styles.challengeFacts}>
+              {myResult && (
+                <li>
+                  <Badge tone="primary" icon="check">Tu resultado: {myResult.solved}/{week.puzzleIds.length}</Badge>
+                </li>
+              )}
+              <li>
+                <Icon name="users" /> {week.results.length} de {members.length} ya jugaron
+              </li>
+              {best && bestName && (
+                <li>
+                  <Icon name="trophy" /> Va ganando <strong>{best.memberId === meId ? 'tú' : bestName}</strong> ({best.solved}/{week.puzzleIds.length})
+                </li>
+              )}
+            </ul>
+            {!played && (
+              <Button to="/club/semana" icon="play" block>
+                Jugar el desafío
+              </Button>
+            )}
           </div>
         </Card>
       )}

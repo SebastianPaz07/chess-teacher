@@ -22,7 +22,7 @@ export function MapPage() {
   const done = Object.keys(progress.lessons).length;
   return (
     <div className="stack">
-      <PageHeader eyebrow="Índice del curso" title="Capítulos" subtitle={`${done}/${totalLessons} lecciones completadas o saltadas.`} />
+      <PageHeader plain compact eyebrow="Índice del curso" title="Capítulos" subtitle={`${done}/${totalLessons} lecciones completadas o saltadas.`} />
       {!progress.placementLevel && (
         <Card tone="accent" icon="exam" title="¿Ya sabes jugar?" subtitle="Haz el test de nivel y se saltan automáticamente los capítulos básicos, o salta capítulos uno por uno con «Ya lo domino».">
           <Button to="/test-nivel" size="sm">
@@ -32,7 +32,7 @@ export function MapPage() {
       )}
       <PathMap modules={modules} progress={progress} />
       <section className="stack" style={{ gap: 'var(--space-3)' }}>
-        <header style={{ borderTop: '2px solid var(--color-rule)', paddingTop: 'var(--space-3)' }}>
+        <header style={{ paddingTop: 'var(--space-2)' }}>
           <p className="eyebrow" style={{ margin: 0 }}>
             Después del curso
           </p>

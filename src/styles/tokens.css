@@ -1,36 +1,39 @@
 /*
- * Design tokens — estética editorial / club de ajedrez.
- * Papel crema, tinta, verde de tablero y latón. Reglas finas en vez de
- * sombras, radios mínimos y una serif con carácter para los títulos.
+ * Design tokens — estética "juego / lobby": azul-índigo profundo, tarjetas
+ * suaves y muy redondeadas, sombras blandas, acentos violeta y cian,
+ * títulos gruesos en sans redondeada. Oscuro por defecto; el claro es una
+ * variante lavanda con la misma forma.
  */
 :root {
-  --color-bg: #f3eee3;
-  --color-surface: #faf7f0;
-  --color-surface-2: #e9e2d2;
-  --color-border: #d4cbb8;
-  --color-rule: #161512;
-  --color-text: #161512;
-  --color-text-muted: #6a6356;
-  --color-primary: #24453a;
-  --color-primary-strong: #17302a;
-  --color-primary-soft: #dde6df;
-  --color-on-primary: #f7f3ea;
-  --color-accent: #b0893f;
-  --color-accent-strong: #7d5f22;
-  --color-accent-soft: #f0e5cc;
-  --color-success: #2f6b45;
-  --color-success-soft: #dde9df;
-  --color-danger: #a3362a;
-  --color-danger-soft: #f3dcd6;
-  --color-xp: #5b4a8a;
-  --color-streak: #b5562a;
+  --color-bg: #1d1f4a;
+  --color-bg-2: #2b2d6b;
+  --color-surface: #363a7a;
+  --color-surface-2: #2a2d66;
+  --color-border: rgb(255 255 255 / 0.1);
+  --color-rule: rgb(255 255 255 / 0.14);
+  --color-text: #f1f2ff;
+  --color-text-muted: #aeb1de;
+  --color-primary: #8b7dff;
+  --color-primary-strong: #a99eff;
+  --color-primary-soft: rgb(139 125 255 / 0.2);
+  --color-on-primary: #ffffff;
+  --color-accent: #4fc3f7;
+  --color-accent-strong: #8ad9fb;
+  --color-accent-soft: rgb(79 195 247 / 0.16);
+  --color-success: #5fd8a4;
+  --color-success-soft: rgb(95 216 164 / 0.16);
+  --color-danger: #ff7a8a;
+  --color-danger-soft: rgb(255 122 138 / 0.16);
+  --color-xp: #ffd166;
+  --color-streak: #ff9a62;
 
-  --board-light: #ebe2cd;
-  --board-dark: #6e8a72;
+  --board-light: #d9d6f5;
+  --board-dark: #6a62c9;
 
-  --radius-sm: 2px;
-  --radius-md: 3px;
-  --radius-lg: 4px;
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-pill: 999px;
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -38,64 +41,74 @@
   --space-5: 24px;
   --space-6: 32px;
   --space-7: 48px;
-  --shadow-sm: none;
-  --shadow-md: 0 1px 0 var(--color-border);
-  --shadow-pop: none;
-  --font-body: 'Inter Tight', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --shadow-sm: 0 2px 6px rgb(10 11 40 / 0.3), inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --shadow-md: 0 8px 20px rgb(10 11 40 / 0.35), inset 0 1px 0 rgb(255 255 255 / 0.08);
+  --shadow-pop: 0 14px 34px rgb(10 11 40 / 0.5);
+  --gradient-primary: linear-gradient(135deg, #8b7dff 0%, #6a5cf0 100%);
+  --gradient-accent: linear-gradient(135deg, #5fd0fb 0%, #3aa8ee 100%);
+  --glow-primary: 0 6px 18px rgb(124 108 242 / 0.5);
+  --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-pieces: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'DejaVu Sans', serif;
   --tap: 44px;
   --sidebar-width: 248px;
   --bottom-nav: 64px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    --color-bg: #12110f;
-    --color-surface: #1a1916;
-    --color-surface-2: #24221e;
-    --color-border: #36332c;
-    --color-rule: #ece6d8;
-    --color-text: #ece6d8;
-    --color-text-muted: #a39b8a;
-    --color-primary: #9cc2ad;
-    --color-primary-strong: #c0dccd;
-    --color-primary-soft: #1f2c27;
-    --color-on-primary: #12110f;
-    --color-accent: #d1ab62;
-    --color-accent-strong: #e5c88f;
-    --color-accent-soft: #2f2818;
-    --color-success: #8cc29c;
-    --color-success-soft: #1c2a20;
-    --color-danger: #e08a7c;
-    --color-danger-soft: #3a1f1a;
-    --color-xp: #b3a3e0;
-    --color-streak: #e39a6c;
-    --board-light: #c9bfa8;
-    --board-dark: #566e5a;
+/* Variante clara (lavanda) */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']):not([data-theme='light']) {
+    --color-bg: #eceaff;
+    --color-bg-2: #f6f5ff;
+    --color-surface: #ffffff;
+    --color-surface-2: #e3e0fb;
+    --color-border: rgb(60 50 140 / 0.12);
+    --color-rule: rgb(60 50 140 / 0.18);
+    --color-text: #23245a;
+    --color-text-muted: #6b6ca3;
+    --color-primary: #6a5cf0;
+    --color-primary-strong: #5546d6;
+    --color-primary-soft: rgb(106 92 240 / 0.12);
+    --color-accent: #1f9bd8;
+    --color-accent-strong: #137ab0;
+    --color-accent-soft: rgb(31 155 216 / 0.12);
+    --color-success: #1f9a6a;
+    --color-success-soft: rgb(31 154 106 / 0.12);
+    --color-danger: #d8455a;
+    --color-danger-soft: rgb(216 69 90 / 0.12);
+    --color-xp: #c98a00;
+    --color-streak: #e0702f;
+    --board-light: #efedff;
+    --board-dark: #8a82e0;
+    --shadow-sm: 0 2px 6px rgb(60 50 140 / 0.1);
+    --shadow-md: 0 8px 20px rgb(60 50 140 / 0.14);
+    --shadow-pop: 0 14px 34px rgb(60 50 140 / 0.22);
   }
 }
-:root[data-theme='dark'] {
-  --color-bg: #12110f;
-  --color-surface: #1a1916;
-  --color-surface-2: #24221e;
-  --color-border: #36332c;
-  --color-rule: #ece6d8;
-  --color-text: #ece6d8;
-  --color-text-muted: #a39b8a;
-  --color-primary: #9cc2ad;
-  --color-primary-strong: #c0dccd;
-  --color-primary-soft: #1f2c27;
-  --color-on-primary: #12110f;
-  --color-accent: #d1ab62;
-  --color-accent-strong: #e5c88f;
-  --color-accent-soft: #2f2818;
-  --color-success: #8cc29c;
-  --color-success-soft: #1c2a20;
-  --color-danger: #e08a7c;
-  --color-danger-soft: #3a1f1a;
-  --color-xp: #b3a3e0;
-  --color-streak: #e39a6c;
-  --board-light: #c9bfa8;
-  --board-dark: #566e5a;
+:root[data-theme='light'] {
+  --color-bg: #eceaff;
+  --color-bg-2: #f6f5ff;
+  --color-surface: #ffffff;
+  --color-surface-2: #e3e0fb;
+  --color-border: rgb(60 50 140 / 0.12);
+  --color-rule: rgb(60 50 140 / 0.18);
+  --color-text: #23245a;
+  --color-text-muted: #6b6ca3;
+  --color-primary: #6a5cf0;
+  --color-primary-strong: #5546d6;
+  --color-primary-soft: rgb(106 92 240 / 0.12);
+  --color-accent: #1f9bd8;
+  --color-accent-strong: #137ab0;
+  --color-accent-soft: rgb(31 155 216 / 0.12);
+  --color-success: #1f9a6a;
+  --color-success-soft: rgb(31 154 106 / 0.12);
+  --color-danger: #d8455a;
+  --color-danger-soft: rgb(216 69 90 / 0.12);
+  --color-xp: #c98a00;
+  --color-streak: #e0702f;
+  --board-light: #efedff;
+  --board-dark: #8a82e0;
+  --shadow-sm: 0 2px 6px rgb(60 50 140 / 0.1);
+  --shadow-md: 0 8px 20px rgb(60 50 140 / 0.14);
+  --shadow-pop: 0 14px 34px rgb(60 50 140 / 0.22);
 }

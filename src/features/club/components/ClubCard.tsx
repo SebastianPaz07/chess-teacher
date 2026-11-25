@@ -5,6 +5,8 @@ import { clubRepo } from '@/services/club';
 import { useClubStore } from '@/store/clubStore';
 import { useClubQuery } from '../hooks/useClubQuery';
 import { Avatar } from './Avatar';
+import { Podium } from './Podium';
+import { RankUpBanner, useRankUp } from './RankUp';
 import { RivalNudge } from './RivalNudge';
 import styles from '../club.module.css';
 
@@ -42,8 +44,10 @@ function ClubSummary() {
   const topXp = members.data ? [...members.data].sort((a, b) => b.stats.xp - a.stats.xp)[0] : undefined;
   const rows = board.data ?? [];
   const mineIdx = rows.findIndex((r) => r.member.id === meId);
-  // Top 4 + tu fila si quedas fuera
-  const visible = rows.filter((_, i) => i < 4 || i === mineIdx);
+  // Podio (top 3) y debajo el 4º y tu fila si quedas fuera
+  const visible = rows.filter((_, i) => i >= 3 && (i < 4 || i === mineIdx));
+  const rankUp = useRankUp('week:puzzles', mineIdx >= 0 ? rows[mineIdx].rank : undefined);
+  const activeIds = new Set((members.data ?? []).filter((m) => m.practicedToday).map((m) => m.member.id));
 
   return (
     <Card
@@ -59,9 +63,11 @@ function ClubSummary() {
         <Skeleton lines={4} height={32} />
       ) : (
         <div className={styles.homeCard}>
+          <RankUpBanner gained={rankUp.gained} rank={mineIdx >= 0 ? rows[mineIdx].rank : undefined} onClose={rankUp.dismiss} />
           {pending > 0 && (
-            <Link to="/club?tab=retos" className={styles.alert} style={{ borderTop: 'none', paddingTop: 0 }}>
-              <Icon name="sword" /> {pending === 1 ? 'Tienes un reto por jugar' : `Tienes ${pending} retos por jugar`}
+            <Link to="/club?tab=retos" className={styles.notice}>
+              <Icon name="sword" /> <span>{pending === 1 ? 'Tienes un reto por jugar' : `Tienes ${pending} retos por jugar`}</span>
+              <Icon name="caret-right" />
             </Link>
           )}
           {unread.length > 0 && (
@@ -69,14 +75,9 @@ function ClubSummary() {
               <Icon name="wave" /> {byId.get(unread[0].fromId)?.member.name ?? 'Alguien'} {unread.length > 1 ? `y ${unread.length - 1} más te animan` : 'te anima'} a practicar
             </Link>
           )}
-          <ol className={styles.mini}>
-            <li className={styles.miniRow} style={{ borderBottomColor: 'var(--color-rule)' }}>
-              <span />
-              <span />
-              <span className="eyebrow">Compañero</span>
-              <span className={`eyebrow ${styles.miniNum}`}>Ejerc.</span>
-              <span className={`eyebrow ${styles.miniSub}`}>Min</span>
-            </li>
+          <Podium rows={rows} meId={meId} unit="ejerc." compact activeIds={activeIds} />
+          {visible.length > 0 && (
+          <ol className={styles.mini} start={4}>
             {visible.map((r) => {
               const m = byId.get(r.member.id);
               const me = r.member.id === meId;
@@ -95,6 +96,7 @@ function ClubSummary() {
               );
             })}
           </ol>
+          )}
           <RivalNudge rows={rows} members={members.data} meId={meId} unit="ejercicios" />
           <p className="muted" style={{ margin: 0, fontSize: '0.82rem' }}>
             <Icon name="fire" /> {practiced}/{members.data.length} practicaron hoy

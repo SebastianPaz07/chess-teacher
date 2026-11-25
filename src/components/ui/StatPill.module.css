@@ -2,3 +2,18 @@
 .icon { font-size: 1.1rem; line-height: 1; display: inline-flex; }
 .value { font-variant-numeric: tabular-nums lining-nums; font-family: var(--font-display); font-size: 1.05rem; }
 .label { color: var(--color-text-muted); font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* Versión clicable: sin borde ni fondo de botón nativo */
+button.pill {
+  appearance: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  color: inherit;
+  cursor: pointer;
+  border-radius: var(--radius-pill);
+  padding: 2px 6px;
+  transition: background-color 0.15s ease;
+}
+button.pill:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
+button.pill:focus-visible { outline: 2px solid var(--color-accent, currentColor); outline-offset: 2px; }

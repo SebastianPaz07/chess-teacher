@@ -1,12 +1,15 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ProgressRing, StatPill } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { useGameSummary } from '@/features/gamification/hooks/useGameSummary';
+import { RatingInfoModal } from '@/features/gamification/components/RatingInfoModal';
 import styles from './TopBar.module.css';
 
 /** Cabecera tipo "mancheta": marca en móvil, nivel y cifras clave del día. */
 export function TopBar() {
   const g = useGameSummary();
+  const [ratingOpen, setRatingOpen] = useState(false);
   return (
     <header className={styles.bar}>
       <Link to="/" className={styles.brand} aria-label="Inicio">
@@ -36,8 +39,9 @@ export function TopBar() {
         <span className={styles.hideSm}>
           <StatPill icon="diamond" value={g.xpToday} label="XP hoy" color="var(--color-xp)" title="XP ganada hoy" />
         </span>
-        <StatPill icon="chart" value={g.rating} label="rating" title="Rating de entrenamiento (sube solo con ejercicios resueltos a la primera)" />
+        <StatPill icon="chart" value={g.rating} label="rating" title="Toca para ver qué es tu puntaje y cómo funciona" onClick={() => setRatingOpen(true)} />
       </div>
+      <RatingInfoModal open={ratingOpen} onClose={() => setRatingOpen(false)} />
     </header>
   );
 }

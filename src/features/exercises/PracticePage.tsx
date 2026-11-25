@@ -1,6 +1,8 @@
+import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { PageHeader } from '@/components/layout/PageHeader';
+import { PieceScene } from '@/components/illustrations/PieceScene';
 import { Button, EmptyState, Loader } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { getExercise, modules } from '@/content/registry';
@@ -12,7 +14,9 @@ import { fetchLichessPuzzles } from '@/services/lichess/lichessPuzzles';
 import { isModuleUnlocked, masteryRatio } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { THEME_GROUPS, themeGroup, themeLabel } from './themes';
+import { FALLBACK_INFO, THEME_INFO } from './themeInfo';
 import { ExerciseSession, type SessionResult } from './components/ExerciseSession';
 import { SessionSummary } from './components/SessionSummary';
 import styles from './PracticePage.module.css';
@@ -24,6 +28,7 @@ export function PracticePage() {
   const daily = useCompleteDailyTask();
   const plan = useGameStore((s) => s.plan);
   const rating = useGameStore((s) => s.rating);
+  const learnedBasics = useSettingsStore((s) => s.learnedBasics);
   const progress = useProgressStore();
   const [theme, setTheme] = useState<string | null>(null);
   const [session, setSession] = useState<Exercise[] | null>(null);
@@ -31,6 +36,13 @@ export function PracticePage() {
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<SessionResult[] | null>(null);
   const [round, setRound] = useState(0);
+  const [openGroups, setOpenGroups] = useState<Set<string>>(() => new Set(['tactica']));
+  const toggleGroup = (id: string) =>
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (!next.delete(id)) next.add(id);
+      return next;
+    });
 
   const { puzzles, ready } = usePuzzles();
   const pool = useMemo(
@@ -72,6 +84,18 @@ export function PracticePage() {
 
   const active = session ?? (ready && dailySet && !results ? dailySet : null);
 
+  // Principiante absoluto: primero aprende a mover las piezas
+  if (!learnedBasics) {
+    return (
+      <EmptyState
+        icon="piece-pawn-w"
+        title="Primero, aprende a mover las piezas"
+        description="Antes de resolver ejercicios necesitas conocer el tablero y cómo se mueve cada pieza. Son solo unos minutos."
+        action={<Button size="lg" to="/leccion/fund-01-tablero">Empezar la lección</Button>}
+      />
+    );
+  }
+
   if (loading) return <Loader label="Buscando ejercicios nuevos…" />;
 
   if (results) {
@@ -108,53 +132,85 @@ export function PracticePage() {
   const selectedCount = theme ? (themes.find(([t]) => t === theme)?.[1] ?? 0) : pool.length;
 
   return (
-    <div className="stack" style={{ gap: 'var(--space-3)' }}>
-      <PageHeader compact icon="puzzle" title="Práctica" subtitle={`Siempre ejercicios nuevos, a tu nivel (rating ${rating}). Toca un tema para elegirlo.`} />
+    <div className={styles.page}>
+      <PageHeader compact icon="puzzle" title="Práctica" subtitle={`Siempre ejercicios nuevos, a tu nivel (rating ${rating}). Abre un tema y elige el que quieras practicar.`} />
       <div className={styles.group} role="radiogroup" aria-label="Tema de práctica">
         <button type="button" role="radio" aria-checked={!theme} className={[styles.theme, styles.mix, !theme && styles.on].filter(Boolean).join(' ')} onClick={() => setTheme(null)}>
-          <span>
+          <PieceScene size={64} scene={{ b: 'r.bqk/...../..N../.P..B/R..QK', a: ['2,2>3,0'] }} />
+          <span className={styles.themeBody}>
             <span className={styles.themeName}>Mezcla de todos los temas</span>
-            <span className={styles.themeSub}>{!theme ? 'Seleccionado' : 'Toca para elegir'}</span>
+            <span className={styles.themeDesc}>Un poco de todo: la mejor forma de entrenar si no sabes por dónde empezar.</span>
           </span>
           <Radio on={!theme} />
         </button>
-        {grouped.map((g) => (
-          <section key={g.id} className={styles.group} aria-label={g.label}>
-            <header className={styles.groupHead}>
-              <h2 className={styles.groupTitle}>{g.label}</h2>
-              {g.description && <span className={styles.groupHint}>{g.description}</span>}
-            </header>
-            <div className={styles.grid}>
-              {g.items.map(([t, n]) => {
-                const m = progress.mastery[t];
-                const ratio = m && m.total > 0 ? masteryRatio(m) : null;
-                const attempted = m ? m.total : 0;
-                const on = theme === t;
-                return (
-                  <button key={t} type="button" role="radio" aria-checked={on} className={[styles.theme, on && styles.on].filter(Boolean).join(' ')} onClick={() => setTheme(t)}>
-                    <span className={styles.themeTop}>
-                      <span className={styles.themeName}>{themeLabel(t)}</span>
-                      <Radio on={on} />
-                    </span>
-                    <span className={styles.themeMeta}>
-                      <span>{n} disponibles</span>
-                      {ratio !== null && (
-                        <span title={`Has intentado ${attempted} ejercicios con ${Math.round(ratio * 100)}% de aciertos`}>
-                          {Math.round(ratio * 100)}% de {attempted}
-                        </span>
-                      )}
-                    </span>
-                    {ratio !== null && (
-                      <span className={styles.mastery} aria-hidden>
-                        <span style={{ width: `${Math.round(ratio * 100)}%` }} />
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        ))}
+        {grouped.map((g) => {
+          const isOpen = openGroups.has(g.id) || g.items.some(([t]) => t === theme);
+          const panelId = `group-${g.id}`;
+          return (
+            <section key={g.id} className={styles.accordion} aria-label={g.label}>
+              <button type="button" className={styles.groupToggle} onClick={() => toggleGroup(g.id)} aria-expanded={isOpen} aria-controls={panelId}>
+                <span className={styles.groupIcon}>
+                  <Icon name={GROUP_ICON[g.id] ?? 'puzzle'} />
+                </span>
+                <span className={styles.groupTexts}>
+                  <span className={styles.groupTitle}>{g.label}</span>
+                  {g.description && <span className={styles.groupHint}>{g.description}</span>}
+                </span>
+                <span className={styles.groupCount}>{g.items.length}</span>
+                <Icon name="caret-down" className={[styles.caret, isOpen && styles.caretOpen].filter(Boolean).join(' ')} />
+              </button>
+              <AnimatePresence initial={false}>
+                {isOpen && (
+                  <motion.div id={panelId} key="panel" initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.22 }} style={{ overflow: 'hidden' }}>
+                    <div className={styles.grid}>
+                      {g.items.map(([t, n], i) => {
+                        const m = progress.mastery[t];
+                        const ratio = m && m.total > 0 ? masteryRatio(m) : null;
+                        const on = theme === t;
+                        const info = THEME_INFO[t] ?? FALLBACK_INFO;
+                        return (
+                          <motion.button
+                            key={t}
+                            type="button"
+                            role="radio"
+                            aria-checked={on}
+                            className={[styles.theme, on && styles.on].filter(Boolean).join(' ')}
+                            onClick={() => setTheme(t)}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: Math.min(i, 6) * 0.04 }}
+                          >
+                            <PieceScene size={84} scene={info.scene} />
+                            <span className={styles.themeBody}>
+                              <span className={styles.themeTop}>
+                                <span className={styles.themeName}>{themeLabel(t)}</span>
+                                <Radio on={on} />
+                              </span>
+                              <span className={styles.themeDesc}>{info.description}</span>
+                              <span className={styles.themeMeta}>
+                                <span>{n} disponibles</span>
+                                {ratio !== null && (
+                                  <span title={`Has intentado ${m?.total ?? 0} ejercicios con ${Math.round(ratio * 100)}% de aciertos`}>
+                                    {Math.round(ratio * 100)}% de {m?.total ?? 0}
+                                  </span>
+                                )}
+                              </span>
+                              {ratio !== null && (
+                                <span className={styles.mastery} aria-hidden>
+                                  <span style={{ width: `${Math.round(ratio * 100)}%` }} />
+                                </span>
+                              )}
+                            </span>
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </section>
+          );
+        })}
       </div>
       <div className={styles.start}>
         <Button size="lg" block onClick={start} icon="play" disabled={selectedCount === 0}>
@@ -164,6 +220,8 @@ export function PracticePage() {
     </div>
   );
 }
+
+const GROUP_ICON: Record<string, string> = { tactica: 'crosshair', ataque: 'sword', finales: 'flag', partida: 'books', ventaja: 'scales', otros: 'puzzle' };
 
 /** Indicador de selección: círculo vacío o marcado. */
 function Radio({ on }: { on: boolean }) {

@@ -1,13 +1,12 @@
 import { Icon } from '@/components/ui/Icon';
 import { useState } from 'react';
-import { Badge, Button, Card, Loader, Modal } from '@/components/ui';
+import { Badge, Card, Loader, Modal } from '@/components/ui';
 import type { Resource } from '@/content/schema';
 import styles from './ResourceViewer.module.css';
 
 const previewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
-const openUrl = (id: string) => `https://drive.google.com/file/d/${id}/view`;
 
-/** Abre un PDF o video dentro de la app (vista previa embebida). */
+/** Abre un video o libro dentro de la app (vista previa embebida). */
 export function ResourceViewer({ resource, onClose }: { resource: Resource | null; onClose: () => void }) {
   const [loaded, setLoaded] = useState(false);
   return (
@@ -19,13 +18,6 @@ export function ResourceViewer({ resource, onClose }: { resource: Resource | nul
       }}
       size="lg"
       title={resource?.title}
-      footer={
-        resource && (
-          <Button variant="secondary" onClick={() => window.open(openUrl(resource.id), '_blank', 'noopener')}>
-            Abrir en nueva pestaña <Icon name="external" size="1em" />
-          </Button>
-        )
-      }
     >
       {resource && (
         <div className={styles.frameWrap}>
@@ -49,7 +41,7 @@ export function ResourceList({ items, title = 'Material relacionado' }: { items:
   const [open, setOpen] = useState<Resource | null>(null);
   if (!items.length) return null;
   return (
-    <Card title={title} icon="video" subtitle="Videos y libros relacionados con este tema">
+    <Card title={title} icon="video" subtitle="Videos y libros de la base de conocimientos sobre este tema">
       <ul className={styles.list}>
         {items.map((r) => (
           <li key={r.id}>

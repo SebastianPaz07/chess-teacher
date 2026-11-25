@@ -1,9 +1,11 @@
 import { Icon } from '@/components/ui/Icon';
-import { useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useEffect, useRef, useState } from 'react';
 import { Badge, Button, Card } from '@/components/ui';
 import type { Exercise } from '@/content/schema';
 import { themeLabel } from '../themes';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
+import { useGameStore } from '@/store/gameStore';
 import type { SessionResult } from './ExerciseSession';
 
 interface Props {
@@ -19,6 +21,16 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
   const failed = results.filter((r) => !r.result.success || r.result.mistakes > 0);
   const solved = results.filter((r) => r.result.success).length;
   const clean = results.filter((r) => r.result.success && r.result.mistakes === 0).length;
+  const dispatch = useGameStore((g) => g.dispatch);
+  const flushed = useRef(false);
+  const [ratingChange, setRatingChange] = useState<{ gain: number; loss: number; delta: number; rating: number } | null>(null);
+  // El rating se aplica ahora, al final: suma lo ganado y resta lo perdido de golpe
+  useEffect(() => {
+    if (flushed.current) return;
+    flushed.current = true;
+    const r = dispatch({ type: 'RATING_FLUSH' }).find((x) => x.kind === 'rating');
+    if (r && r.kind === 'rating') setRatingChange(r);
+  }, [dispatch]);
   useEffect(() => {
     if (results.length && solved / results.length >= 0.6) celebrate('small');
   }, [results.length, solved]);
@@ -43,6 +55,24 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
           <div className="muted">A repasar</div>
         </Card>
       </div>
+      {ratingChange && (
+        <motion.div initial={{ opacity: 0, scale: 0.85 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: 'spring', stiffness: 220, damping: 14, delay: 0.2 }}>
+        <Card tone="primary" icon="chart" title="Tu puntaje en esta sesión">
+          <p style={{ margin: 0 }}>
+            <strong style={{ color: 'var(--color-success)' }}>+{ratingChange.gain}</strong> ganados
+            {ratingChange.loss > 0 && (
+              <>
+                {' · '}
+                <strong style={{ color: 'var(--color-danger)' }}>−{ratingChange.loss}</strong> perdidos
+              </>
+            )}
+          </p>
+          <p style={{ margin: 0 }}>
+            Total: <strong>{ratingChange.delta >= 0 ? '+' : ''}{ratingChange.delta}</strong> → nuevo puntaje <strong>{ratingChange.rating}</strong>
+          </p>
+        </Card>
+        </motion.div>
+      )}
       {failed.length > 0 && (
         <Card tone="danger" icon="review" title={`Para repasar (${failed.length})`} subtitle="Estos ejercicios los fallaste o los resolviste con errores. También volverán en tu repaso de mañana.">
           <ul className="stack" style={{ listStyle: 'none', margin: 0, padding: 0, textAlign: 'left', gap: 'var(--space-2)' }}>

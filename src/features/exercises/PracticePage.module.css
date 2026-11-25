@@ -1,30 +1,49 @@
+.page { display: flex; flex-direction: column; gap: var(--space-3); padding-bottom: var(--space-4); }
 .group { display: flex; flex-direction: column; gap: var(--space-3); }
-.groupHead { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-3); border-bottom: 1px solid var(--color-rule); padding-bottom: var(--space-1); }
-.groupTitle { margin: 0; font-size: 1.1rem; }
-.groupHint { font-size: 0.78rem; color: var(--color-text-muted); text-align: right; }
-.grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
+.accordion { display: flex; flex-direction: column; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface-2); box-shadow: var(--shadow-sm); overflow: hidden; }
+.groupToggle { display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; align-items: center; gap: var(--space-3); width: 100%; padding: var(--space-3) var(--space-4); border: none; background: transparent; color: var(--color-text); text-align: left; cursor: pointer; }
+.groupToggle:hover { background: var(--color-primary-soft); }
+.groupToggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: -2px; }
+.groupIcon { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--color-primary-soft); color: var(--color-primary-strong); font-size: 1.2rem; }
+.groupTexts { display: flex; flex-direction: column; min-width: 0; }
+.groupTitle { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; line-height: 1.2; }
+.groupHint { font-size: 0.78rem; color: var(--color-text-muted); }
+.groupCount { min-width: 26px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--color-surface); font-size: 0.78rem; font-weight: 800; text-align: center; }
+.caret { color: var(--color-text-muted); transition: transform 0.2s; font-size: 1.3rem; }
+.caretOpen { transform: rotate(180deg); }
+.grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-2); padding: 0 var(--space-3) var(--space-3); }
 .theme {
-  display: flex; flex-direction: column; justify-content: space-between; gap: var(--space-2);
+  display: flex; align-items: center; gap: var(--space-3);
   min-height: 72px; padding: var(--space-3); text-align: left;
-  border: 1px solid var(--color-border); border-radius: var(--radius-sm); background: transparent; color: var(--color-text); cursor: pointer;
+  border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); box-shadow: var(--shadow-sm); color: var(--color-text); cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
 }
-.theme:hover { border-color: var(--color-rule); background: var(--color-surface-2); }
-.on:hover { background: var(--color-primary); }
+.theme:hover { border-color: var(--color-primary); transform: translateY(-1px); }
+.themeBody { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
 .themeTop { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-2); }
-.themeSub { display: block; font-size: 0.75rem; color: var(--color-text-muted); margin-top: 2px; }
-.on .themeSub { color: inherit; opacity: 0.85; }
-.radio { display: inline-grid; place-items: center; flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--color-rule); font-size: 0.8rem; }
+.themeDesc { font-size: 0.8rem; line-height: 1.35; color: var(--color-text-muted); }
+.radio { display: inline-grid; place-items: center; flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--color-border); font-size: 0.8rem; }
 .radioOn { background: var(--color-on-primary); border-color: var(--color-on-primary); color: var(--color-primary); }
-.themeName { font-weight: 600; font-size: 0.92rem; line-height: 1.2; overflow-wrap: anywhere; }
-.themeMeta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); font-size: 0.75rem; color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
-.mastery { height: 3px; background: var(--color-border); }
-.mastery > span { display: block; height: 100%; background: var(--color-accent); }
-.on { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-on-primary); }
-.on .themeMeta { color: inherit; opacity: 0.85; }
+.themeName { font-family: var(--font-display); font-weight: 800; font-size: 1.02rem; line-height: 1.2; overflow-wrap: anywhere; }
+.themeMeta { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); font-size: 0.74rem; font-weight: 700; color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+.mastery { height: 5px; border-radius: var(--radius-pill); background: var(--color-surface-2); overflow: hidden; }
+.mastery > span { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--gradient-accent); }
+.on { background: var(--gradient-primary); border-color: transparent; color: var(--color-on-primary); box-shadow: var(--glow-primary); }
+.on:hover { border-color: transparent; }
+.on .themeDesc, .on .themeMeta { color: inherit; opacity: 0.9; }
 .on .mastery { background: rgba(255, 255, 255, 0.3); }
 .on .mastery > span { background: var(--color-on-primary); }
-.mix { min-height: 60px; flex-direction: row; align-items: center; justify-content: space-between; }
-.start { position: sticky; bottom: calc(var(--bottom-nav) + env(safe-area-inset-bottom) + var(--space-2)); z-index: 5; }
+.mix { min-height: 76px; }
+.mix .themeBody { gap: 2px; }
+.start {
+  position: sticky; z-index: 5;
+  /* Siempre por encima del menú flotante de abajo, con aire entre los dos */
+  bottom: calc(var(--bottom-nav) + var(--space-5) + env(safe-area-inset-bottom));
+  padding: var(--space-2); border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-bg) 82%, transparent); backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-pop);
+}
 
-@media (min-width: 640px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-@media (min-width: 960px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .start { position: static; } }
+@media (min-width: 760px) { .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 960px) { .start { position: static; background: none; box-shadow: none; backdrop-filter: none; padding: 0; } }
+@media (min-width: 1200px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }

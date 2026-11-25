@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, ProgressBar } from '@/components/ui';
+import { Button, Card, ProgressBar } from '@/components/ui';
 import { allOpenings } from '@/content/registry';
 import type { Resource } from '@/content/schema';
 import { ResourceViewer } from '@/features/library/components/ResourceViewer';
@@ -80,12 +80,12 @@ export function PlanSetupPage() {
   const exercises = practiceCountFor(level, minutes);
 
   const save = () => {
-    settings.update({ dailyMinutes: minutes, trainingDays: [...days].sort(), onboarded: true, focusAreas: hasBasics ? focus : [], favoriteOpening: hasBasics ? favorite : null, exploreOpenings: hasBasics ? explore.filter((id) => id !== favorite) : [] });
+    settings.update({ dailyMinutes: minutes, trainingDays: [...days].sort(), onboarded: true, learnedBasics: choice !== 'new', focusAreas: hasBasics ? focus : [], favoriteOpening: hasBasics ? favorite : null, exploreOpenings: hasBasics ? explore.filter((id) => id !== favorite) : [] });
     if (choice && choice !== 'keep' && choice !== 'test' && resolved) {
       setPlacement(resolved.level);
       dispatch({ type: 'PLACEMENT_DONE', rating: resolved.rating, level: resolved.level });
     }
-    navigate(choice === 'test' ? '/test-nivel' : '/', { replace: true });
+    navigate(choice === 'test' ? '/test-nivel' : choice === 'new' ? '/leccion/fund-01-tablero' : '/', { replace: true });
   };
 
   const toggleFocus = (f: FocusArea) => setFocus((fs) => (fs.includes(f) ? fs.filter((x) => x !== f) : [...fs, f]));

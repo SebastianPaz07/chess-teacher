@@ -1,3 +1,4 @@
+import { useSettingsStore } from '@/store/settingsStore';
 import { Icon } from '@/components/ui/Icon';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useRef, useState, type ComponentType } from 'react';
@@ -15,6 +16,7 @@ import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
 import { useReviewStore } from '@/store/reviewStore';
 import { LessonComplete, type LessonSummary } from './components/LessonComplete';
+import { LessonActionSlot } from './steps/LessonAction';
 import { isGraded, stepRegistry, type StepViewProps } from './steps/stepRegistry';
 import styles from './LessonPage.module.css';
 
@@ -43,6 +45,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
   const addCard = useReviewStore((s) => s.addCard);
   const daily = useCompleteDailyTask();
 
+  const [slot, setSlot] = useState<HTMLElement | null>(null);
   const [index, setIndex] = useState(0);
   const [hearts, setHearts] = useState(MAX_HEARTS);
   const [mistakes, setMistakes] = useState(0);
@@ -80,6 +83,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
     dispatch({ type: 'LESSON_COMPLETED', lessonId: lesson.id, moduleId: mod.id, mistakes, graded, xp, tags: lesson.tags });
     const snapshot = useProgressStore.getState();
     if (moduleCompletion(mod, snapshot) >= 1) dispatch({ type: 'MODULE_COMPLETED', moduleId: mod.id });
+    if (lesson.id === 'fund-01-tablero') useSettingsStore.getState().update({ learnedBasics: true });
     daily.complete();
     setSummary({ stars: record.stars, mistakes, xp: xp + (mistakes === 0 ? 25 : 0), graded, combo });
   };
@@ -111,9 +115,6 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
   return (
     <div className={styles.page}>
       <div className={styles.header}>
-        <Button variant="ghost" size="sm" onClick={() => navigate(-1)} aria-label="Salir">
-          <Icon name="close" weight="bold" />
-        </Button>
         <div className={styles.progress}>
           <ProgressBar value={index / lesson.steps.length} height={16} />
         </div>
@@ -142,9 +143,12 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
 
       <AnimatePresence mode="wait">
         <motion.div key={index} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.25 }}>
-          <View step={step} onDone={next} onMistake={onMistake} onCorrect={onCorrect} />
+          <LessonActionSlot.Provider value={slot}>
+            <View step={step} onDone={next} onMistake={onMistake} onCorrect={onCorrect} />
+          </LessonActionSlot.Provider>
         </motion.div>
       </AnimatePresence>
+      <div ref={setSlot} className={styles.actions} />
 
       {lesson.sources.length > 0 && (
         <p className={styles.sources}>

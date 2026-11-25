@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { PieceScene } from '@/components/illustrations/PieceScene';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Card, ProgressBar, Tabs } from '@/components/ui';
 import { allOpenings } from '@/content/registry';
@@ -13,8 +14,9 @@ export function OpeningsPage() {
 
   return (
     <div className="stack">
-      <PageHeader icon="books" title="Aperturas" subtitle="Tu repertorio, basado en las clases y libros disponibles. Mira la línea y luego entrénala de memoria." />
+      <PageHeader compact icon="books" title="Aperturas" subtitle="Tu repertorio, basado en nuestras clases y libros. Mira la línea y luego entrénala de memoria." />
       <Tabs
+        size="sm"
         value={side}
         onChange={setSide}
         items={[
@@ -34,9 +36,12 @@ export function OpeningsPage() {
               subtitle={o.eco}
               icon={o.side === 'w' ? 'piece-king-w' : 'piece-king'}
             >
-              <p className="muted" style={{ fontSize: '0.9rem' }}>
-                {o.description}
-              </p>
+              <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', marginBottom: 'var(--space-2)' }}>
+                <PieceScene size={72} scene={o.side === 'w' ? { b: '...../ppppp/...../..P../RNBQK', a: ['1,4>2,2'] } : { b: 'rnbqk/ppppp/...../..P../.....', a: ['1,0>2,2'] }} />
+                <p className="muted" style={{ fontSize: '0.9rem', margin: 0 }}>
+                  {o.description}
+                </p>
+              </div>
               <div className="row" style={{ marginBottom: 8 }}>
                 <Badge tone="primary">{o.lines.length} líneas</Badge>
               </div>

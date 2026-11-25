@@ -1,6 +1,6 @@
 /* En móvil el modal es una hoja inferior; en pantallas grandes, un diálogo centrado */
-.backdrop { position: fixed; inset: 0; background: rgb(18 17 15 / 0.55); display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
-.dialog { background: var(--color-surface); border-top: 3px solid var(--color-rule); padding: var(--space-5) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom)); width: 100%; max-height: 92dvh; overflow: auto; }
+.backdrop { position: fixed; inset: 0; background: rgb(10 11 40 / 0.65); backdrop-filter: blur(4px); display: flex; align-items: flex-end; justify-content: center; z-index: 100; }
+.dialog { background: var(--color-surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0; box-shadow: var(--shadow-pop); border: 1px solid var(--color-border); padding: var(--space-5) var(--space-4) calc(var(--space-5) + env(safe-area-inset-bottom)); width: 100%; max-height: 92dvh; overflow: auto; }
 .sm, .md, .lg { max-width: 100%; }
 .title { text-align: left; font-size: 1.5rem; }
 .body { text-align: left; }
@@ -9,7 +9,7 @@
 
 @media (min-width: 640px) {
   .backdrop { align-items: center; padding: var(--space-4); }
-  .dialog { padding: var(--space-6); }
+  .dialog { padding: var(--space-6); border-radius: var(--radius-lg); }
   .sm { max-width: 400px; }
   .md { max-width: 540px; }
   .lg { max-width: 960px; padding: var(--space-4); }

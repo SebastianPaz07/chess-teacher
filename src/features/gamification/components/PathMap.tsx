@@ -33,18 +33,11 @@ export function PathMap({ modules, progress }: { modules: Module[]; progress: Pr
       if (!next.delete(id)) next.add(id);
       return next;
     });
-  const allOpen = open.size === modules.length;
 
   let currentMarked = false;
 
   return (
     <div className={styles.index}>
-      <div className={styles.toolbar}>
-        <Button size="sm" variant="ghost" icon={allOpen ? 'caret-up' : 'caret-down'} onClick={() => setOpen(allOpen ? new Set() : new Set(modules.map((m) => m.id)))}>
-          {allOpen ? 'Contraer todos' : 'Expandir todos'}
-        </Button>
-      </div>
-
       {modules.map((m, mi) => {
         const state = moduleState(m, modules, progress);
         const label = STATE_LABEL[state];
@@ -54,7 +47,7 @@ export function PathMap({ modules, progress }: { modules: Module[]; progress: Pr
         const panelId = `chapter-${m.id}`;
         const canSkip = state !== 'locked' && state !== 'completed' && state !== 'mastered';
         return (
-          <section key={m.id} className={[styles.chapter, state === 'locked' && styles.chapterLocked].filter(Boolean).join(' ')}>
+          <section key={m.id} className={[styles.chapter, isOpen && styles.chapterOpen, state === 'locked' && styles.chapterLocked].filter(Boolean).join(' ')}>
             <button type="button" className={styles.chapterToggle} onClick={() => toggle(m.id)} aria-expanded={isOpen} aria-controls={panelId}>
               <span className={`${styles.chapterNum} num`}>{String(mi + 1).padStart(2, '0')}</span>
               <span className={styles.chapterTitles}>

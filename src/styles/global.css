@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter+Tight:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 @import './tokens.css';
 
 /* Mobile-first: los estilos base son para teléfono; se amplían con min-width. */
@@ -18,12 +18,13 @@ html,
 body {
   margin: 0;
   background: var(--color-bg);
+  background-image: linear-gradient(160deg, var(--color-bg) 0%, var(--color-bg-2) 100%);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  font-feature-settings: 'ss01', 'cv11';
 }
 
 h1,
@@ -31,13 +32,12 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.01em;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: 0;
   margin: 0 0 var(--space-3);
-  font-variation-settings: 'opsz' 72;
 }
-h1 { font-size: 1.85rem; }
+h1 { font-size: 1.8rem; }
 h2 { font-size: 1.4rem; }
 h3 { font-size: 1.15rem; }
 
@@ -61,9 +61,10 @@ input,
 select {
   min-height: var(--tap);
   padding: 0 var(--space-3);
-  background: var(--color-surface);
+  background: var(--color-surface-2);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.15);
 }
 input:focus-visible,
 select:focus-visible {
@@ -72,7 +73,7 @@ select:focus-visible {
 }
 
 ::selection {
-  background: var(--color-accent-soft);
+  background: var(--color-primary-soft);
 }
 
 #root {
@@ -112,10 +113,9 @@ table {
 .eyebrow {
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--color-text-muted);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--color-accent);
 }
 
 .num {
@@ -148,7 +148,7 @@ table {
 }
 
 @media (min-width: 768px) {
-  h1 { font-size: 2.35rem; }
+  h1 { font-size: 2.3rem; }
   h2 { font-size: 1.6rem; }
 }
 
