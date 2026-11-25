@@ -1,7 +1,8 @@
 import { Icon } from '@/components/ui/Icon';
 import { PageHeader } from '@/components/layout/PageHeader';
-import { Card, ProgressBar, ProgressRing, StatPill } from '@/components/ui';
+import { Button, Card, ProgressBar, ProgressRing, StatPill } from '@/components/ui';
 import { modules } from '@/content/registry';
+import { useIsSignedIn } from '@/hooks/useIsSignedIn';
 import { useGameSummary } from '@/features/gamification/hooks/useGameSummary';
 import { masteryRatio, moduleCompletion, moduleStars, weakTopics } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
@@ -13,6 +14,7 @@ import styles from './ProgressPage.module.css';
 const WEEKS = 12;
 
 export function ProgressPage() {
+  const signedIn = useIsSignedIn();
   const g = useGameSummary();
   const stats = useGameStore((s) => s.stats);
   const history = useGameStore((s) => s.history);
@@ -22,6 +24,22 @@ export function ProgressPage() {
   const mastery = Object.entries(progress.mastery).sort((a, b) => b[1].total - a[1].total);
 
   const accuracy = stats.puzzlesAttempted ? Math.round((stats.puzzlesSolved / stats.puzzlesAttempted) * 100) : 0;
+
+  if (!signedIn) {
+    return (
+      <div className="stack">
+        <PageHeader compact icon="progress" title="Tu progreso" />
+        <Card tone="primary" icon="shield" title="Regístrate para ver tu progreso">
+          <div className="stack">
+            <p style={{ margin: 0 }}>Crea tu cuenta para guardar tu actividad, tus rachas y tu avance por módulos, y verlos aquí.</p>
+            <Button to="/entrar?next=%2Fprogreso" size="lg" block>
+              Registrarme o entrar
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="stack">

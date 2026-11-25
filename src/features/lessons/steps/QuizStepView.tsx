@@ -57,7 +57,7 @@ export function QuizStepView({ step, onDone, onMistake, onCorrect }: StepViewPro
           <Card tone="success" title="¡Correcto!" icon="check-circle">
             {step.explanation && <RichText text={step.explanation} />}
             <LessonAction>
-          <Button size="lg" block onClick={onDone}>
+          <Button size="md" block onClick={onDone}>
             Continuar
           </Button>
         </LessonAction>

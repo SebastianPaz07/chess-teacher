@@ -17,7 +17,7 @@ export function BoardDemoStepView({ step, onDone }: StepViewProps<Extract<Step, 
         {step.body && <RichText text={step.body} />}
         {step.moves.length > 0 && <p className="muted">Usa los controles para recorrer las jugadas.</p>}
         <LessonAction>
-          <Button size="lg" block onClick={onDone}>
+          <Button size="md" block onClick={onDone}>
             Continuar
           </Button>
         </LessonAction>

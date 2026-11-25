@@ -4,6 +4,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@/components/ui/Icon';
 import { RewardsCenter } from '@/features/gamification/components/RewardsCenter';
 import { useStudyTimer } from '@/hooks/useStudyTimer';
+import { useSettingsStore } from '@/store/settingsStore';
 import { TopBar } from './TopBar';
 import styles from './AppShell.module.css';
 
@@ -26,13 +27,22 @@ export const NAV_ITEMS = [
 const PRIMARY = ['/', '/practica', '/club', '/mapa'];
 const SECONDARY = NAV_ITEMS.filter((it) => !PRIMARY.includes(it.to));
 
-const linkClass = (base: string) => ({ isActive }: { isActive: boolean }) => [base, isActive && styles.active].filter(Boolean).join(' ');
+/** Las lecciones cuelgan del Índice: allí se resalta el menú aunque se esté dentro de una lección. */
+const linkClass = (base: string, to?: string) => ({ isActive }: { isActive: boolean }) => {
+  const active = isActive || (to === '/mapa' && window.location.pathname.startsWith('/leccion/'));
+  return [base, active && styles.active].filter(Boolean).join(' ');
+};
 
 export function AppShell() {
   const [moreOpen, setMoreOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const canGoBack = location.pathname !== '/' && !location.pathname.startsWith('/leccion/');
+  const onboarded = useSettingsStore((s) => s.onboarded);
+  // Primer arranque: aún no hay plan ni cuenta, así que sin menú ni cabecera de progreso
+  const bare = !onboarded && location.pathname === '/empezar';
+  // «Volver» solo en pantallas internas, no en las secciones principales del menú
+  const isSection = NAV_ITEMS.some((it) => it.to === location.pathname);
+  const canGoBack = !bare && !isSection && location.pathname !== '/empezar' && location.pathname !== '/entrar';
   // Si no hay historial (se abrió el enlace directo), «Volver» lleva a Hoy
   const goBack = () => ((window.history.state?.idx ?? 0) > 0 ? navigate(-1) : navigate('/'));
   const inMore = SECONDARY.some((it) => location.pathname.startsWith(it.to));
@@ -46,11 +56,14 @@ export function AppShell() {
     import('@/store/authStore').then((m) => m.useAuthStore.getState().init());
   }, []);
 
-  // Cierra la hoja al navegar
-  useEffect(() => setMoreOpen(false), [location.pathname]);
+  // Cierra la hoja al navegar y empieza cada pantalla desde arriba
+  useEffect(() => {
+    setMoreOpen(false);
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
 
   return (
-    <div className={styles.shell}>
+    <div className={[styles.shell, bare && styles.bare].filter(Boolean).join(' ')}>
       <aside className={styles.sidebar}>
         <NavLink to="/" className={styles.brand}>
           <span className={styles.logo} aria-hidden>
@@ -64,7 +77,7 @@ export function AppShell() {
         </NavLink>
         <nav className={styles.nav} aria-label="Secciones">
           {NAV_ITEMS.map((it, i) => (
-            <NavLink key={it.to} to={it.to} end={it.end} className={linkClass(styles.link)}>
+            <NavLink key={it.to} to={it.to} end={it.end} className={linkClass(styles.link, it.to)}>
               <span className={styles.linkNum}>{String(i + 1).padStart(2, '0')}</span>
               <span className={styles.linkLabel}>{it.label}</span>
               <Icon name={it.icon} className={styles.linkIcon} weight="light" />
@@ -75,7 +88,7 @@ export function AppShell() {
       </aside>
 
       <div className={styles.main}>
-        <TopBar />
+        {!bare && <TopBar />}
         <main className={styles.content}>
           {canGoBack && (
             <div className={styles.backRow}>
@@ -90,18 +103,20 @@ export function AppShell() {
         </main>
       </div>
 
-      <nav className={styles.bottomNav} aria-label="Navegación principal">
-        {NAV_ITEMS.filter((it) => PRIMARY.includes(it.to)).map((it) => (
-          <NavLink key={it.to} to={it.to} end={it.end} className={linkClass(styles.bottomLink)}>
-            <Icon name={it.icon} size={24} weight="regular" />
-            <span>{it.label}</span>
-          </NavLink>
-        ))}
-        <button type="button" className={[styles.bottomLink, (inMore || moreOpen) && styles.active].filter(Boolean).join(' ')} onClick={() => setMoreOpen((o) => !o)} aria-expanded={moreOpen}>
-          <Icon name="more" size={24} weight="regular" />
-          <span>Más</span>
-        </button>
-      </nav>
+      {!bare && (
+        <nav className={styles.bottomNav} aria-label="Navegación principal">
+          {NAV_ITEMS.filter((it) => PRIMARY.includes(it.to)).map((it) => (
+            <NavLink key={it.to} to={it.to} end={it.end} className={linkClass(styles.bottomLink, it.to)}>
+              <Icon name={it.icon} size={24} weight="regular" />
+              <span>{it.label}</span>
+            </NavLink>
+          ))}
+          <button type="button" className={[styles.bottomLink, (inMore || moreOpen) && styles.active].filter(Boolean).join(' ')} onClick={() => setMoreOpen((o) => !o)} aria-expanded={moreOpen}>
+            <Icon name="more" size={24} weight="regular" />
+            <span>Más</span>
+          </button>
+        </nav>
+      )}
 
       <AnimatePresence>
         {moreOpen && (

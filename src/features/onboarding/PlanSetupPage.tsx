@@ -8,6 +8,8 @@ import { Icon } from '@/components/ui/Icon';
 import type { Level } from '@/content/schema';
 import { practiceCountFor } from '@/services/scheduler/dailyPlan';
 import { ratingFromElo, type EloSource } from '@/services/scheduler/placement';
+import { useAuthStore } from '@/store/authStore';
+import { useClubStore } from '@/store/clubStore';
 import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
 import { useSettingsStore, type FocusArea } from '@/store/settingsStore';
@@ -44,6 +46,11 @@ export function PlanSetupPage() {
   const setPlacement = useProgressStore((s) => s.setPlacement);
   const dispatch = useGameStore((s) => s.dispatch);
 
+  const firstRun = !settings.onboarded;
+  const clubStatus = useClubStore((s) => s.status);
+  const auth = useAuthStore();
+  // Con Supabase manda la sesión real; en modo demo, la sesión del club simulado
+  const signedIn = auth.enabled ? auth.status === 'signed-in' : clubStatus !== 'signed-out' && clubStatus !== 'loading';
   const hasLevel = placementDone || Boolean(placementLevel);
   const [step, setStep] = useState(0);
   const [focus, setFocus] = useState<FocusArea[]>(settings.focusAreas);
@@ -85,7 +92,9 @@ export function PlanSetupPage() {
       setPlacement(resolved.level);
       dispatch({ type: 'PLACEMENT_DONE', rating: resolved.rating, level: resolved.level });
     }
-    navigate(choice === 'test' ? '/test-nivel' : choice === 'new' ? '/leccion/fund-01-tablero' : '/', { replace: true });
+    const dest = choice === 'test' ? '/test-nivel' : choice === 'new' ? '/leccion/fund-01-tablero' : '/';
+    // Primer arranque sin cuenta: invitamos a registrarse (se puede continuar sin cuenta)
+    navigate(firstRun && !signedIn ? `/entrar?inicio=1&next=${encodeURIComponent(dest)}` : dest, { replace: true });
   };
 
   const toggleFocus = (f: FocusArea) => setFocus((fs) => (fs.includes(f) ? fs.filter((x) => x !== f) : [...fs, f]));
@@ -268,7 +277,7 @@ export function PlanSetupPage() {
         </section>
       )}
 
-      <footer className={styles.footer}>
+      <footer className={[styles.footer, firstRun && styles.footerBare].filter(Boolean).join(' ')}>
         {step > 0 ? (
           <Button variant="ghost" onClick={() => setStep(step - 1)}>
             Atrás

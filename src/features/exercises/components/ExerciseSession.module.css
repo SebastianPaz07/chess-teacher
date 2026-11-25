@@ -16,21 +16,22 @@
   position: fixed;
   left: 0;
   right: 0;
-  bottom: calc(var(--bottom-nav) + var(--space-5) + env(safe-area-inset-bottom));
+  bottom: calc(var(--bottom-nav) + var(--space-4) + env(safe-area-inset-bottom));
   z-index: 45;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
-  padding: var(--space-2) var(--space-4);
-  background: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  box-shadow: var(--shadow-pop);
+  margin: 0 var(--space-3);
+  padding: 4px var(--space-3);
+  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
 }
 .nextStatus { font-weight: 700; min-width: 0; }
 .nextStatus small { color: var(--color-text-muted); font-weight: 500; }
-.withBar { padding-bottom: 64px; }
+.withBar { padding-bottom: 48px; }
 .cardNext { display: none; }
 
 @media (min-width: 960px) {

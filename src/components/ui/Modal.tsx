@@ -9,7 +9,7 @@ interface ModalProps {
   title?: ReactNode;
   children: ReactNode;
   footer?: ReactNode;
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
 export function Modal({ open, onClose, title, children, footer, size = 'md' }: ModalProps) {

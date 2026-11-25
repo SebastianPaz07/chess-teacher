@@ -78,6 +78,9 @@
 .backBtn { display: inline-flex; align-items: center; gap: 4px; min-height: 30px; padding: 0 var(--space-2); border: none; background: transparent; color: var(--color-text-muted); border-radius: var(--radius-pill); font-weight: 700; font-size: 0.78rem; cursor: pointer; }
 .backBtn:hover { color: var(--color-text); background: var(--color-primary-soft); }
 
+/* Primer arranque: sin menú lateral */
+.bare .sidebar { display: none; }
+
 @media (min-width: 768px) {
   .content { padding: var(--space-5) var(--space-5) calc(var(--bottom-nav) + var(--space-6)); }
 }
@@ -85,6 +88,7 @@
 @media (min-width: 1100px) {
   .shell { display: flex; }
   .bottomNav, .sheet, .sheetBackdrop { display: none; }
+  .bare .sidebar { display: none; }
   .content { padding: var(--space-6) var(--space-6) var(--space-7); }
   .sidebar {
     display: flex;

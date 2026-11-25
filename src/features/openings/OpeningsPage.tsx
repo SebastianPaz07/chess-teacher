@@ -10,11 +10,16 @@ export function OpeningsPage() {
   const [side, setSide] = useState<'w' | 'b'>('w');
   const progress = useProgressStore();
   const navigate = useNavigate();
-  const list = allOpenings.filter((o) => o.side === side);
+  const [query, setQuery] = useState('');
+  const q = query.trim().toLowerCase();
+  // Con texto, busca en ambos colores; sin texto, filtra por el color elegido
+  const list = allOpenings.filter((o) => (q ? `${o.name} ${o.eco ?? ''}`.toLowerCase().includes(q) : o.side === side));
 
   return (
     <div className="stack">
       <PageHeader compact icon="books" title="Aperturas" subtitle="Tu repertorio, basado en nuestras clases y libros. Mira la línea y luego entrénala de memoria." />
+      <input type="search" inputMode="search" enterKeyHint="search" placeholder="Buscar apertura por nombre…" aria-label="Buscar apertura" value={query} onChange={(e) => setQuery(e.target.value)} style={{ width: '100%', minHeight: 48 }} />
+      {!q && (
       <Tabs
         size="sm"
         value={side}
@@ -24,6 +29,8 @@ export function OpeningsPage() {
           { value: 'b', label: 'Con negras', icon: 'piece-pawn' },
         ]}
       />
+      )}
+      {list.length === 0 && <p className="muted">Ninguna apertura coincide con «{query}».</p>}
       <div className="grid-auto">
         {list.map((o) => {
           const trained = o.lines.filter((_, i) => progress.openingLines[`${o.id}#${i}`]).length;

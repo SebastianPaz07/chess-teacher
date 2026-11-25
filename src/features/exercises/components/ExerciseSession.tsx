@@ -105,7 +105,7 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
           <span className={styles.nextStatus} style={{ color: current.r.success ? 'var(--color-success)' : 'var(--color-danger)' }}>
             {current.r.success ? (current.r.mistakes === 0 && current.r.hintsUsed === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}
           </span>
-          <Button size="md" onClick={next} icon="arrow-right">
+          <Button size="sm" onClick={next} icon="arrow-right">
             {index + 1 >= exercises.length ? 'Resultados' : 'Siguiente'}
           </Button>
         </div>

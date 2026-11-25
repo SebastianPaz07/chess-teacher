@@ -32,7 +32,7 @@ export function MakeMoveStepView({ step, onDone, onMistake, onCorrect }: StepVie
           <Card tone={result === 'solved' ? 'success' : 'accent'} title={result === 'solved' ? '¡Correcto!' : 'Mira la solución'} icon={result === 'solved' ? 'check-circle' : 'eye'}>
             {step.explanation && <RichText text={step.explanation} />}
             <LessonAction>
-          <Button size="lg" block onClick={onDone}>
+          <Button size="md" block onClick={onDone}>
             Continuar
           </Button>
         </LessonAction>

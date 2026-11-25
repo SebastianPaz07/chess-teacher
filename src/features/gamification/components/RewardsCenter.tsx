@@ -54,7 +54,7 @@ export function RewardsCenter() {
               key={t.key}
               layout
               className={[styles.toast, styles[t.kind]].join(' ')}
-              initial={{ opacity: 0, y: 30, scale: 0.8 }}
+              initial={{ opacity: 0, y: -30, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, x: 80 }}
             >

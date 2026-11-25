@@ -16,7 +16,7 @@ export function ResourceViewer({ resource, onClose }: { resource: Resource | nul
         setLoaded(false);
         onClose();
       }}
-      size="lg"
+      size="xl"
       title={resource?.title}
     >
       {resource && (

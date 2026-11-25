@@ -19,6 +19,9 @@ export function LoginPage() {
   const [params] = useSearchParams();
   const next = params.get('next') || '/club';
   const recovering = params.get('recuperar') === '1';
+  // Viene de armar su plan: puede seguir sin cuenta, salvo que entre por una invitación a un club
+  const fromStart = params.get('inicio') === '1';
+  const forced = next.startsWith('/unirse/') || next.startsWith('/crear-club/');
   const navigate = useNavigate();
   const auth = useAuthStore();
   const clubStatus = useClubStore((s) => s.status);
@@ -55,7 +58,8 @@ export function LoginPage() {
     e.preventDefault();
     void guard(async () => {
       if (auth.enabled) await auth.signInWithMagicLink(email);
-      else await clubRepo.requestMagicLink(email);
+      else if (import.meta.env.DEV) await clubRepo.requestMagicLink(email);
+      else throw new Error('Esta versión aún no está conectada al servicio de correo (faltan las variables VITE_SUPABASE_* en el despliegue).');
       setStep('sent-link');
     });
   };
@@ -205,6 +209,11 @@ export function LoginPage() {
           </form>
         )}
       </Card>
+      {fromStart && !forced && (
+        <Button variant="ghost" block onClick={() => navigate(next, { replace: true })}>
+          Continuar sin cuenta
+        </Button>
+      )}
     </div>
   );
 }

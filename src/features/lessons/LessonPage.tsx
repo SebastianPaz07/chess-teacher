@@ -116,7 +116,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
     <div className={styles.page}>
       <div className={styles.header}>
         <div className={styles.progress}>
-          <ProgressBar value={index / lesson.steps.length} height={16} />
+          <ProgressBar value={index / lesson.steps.length} height={8} />
         </div>
         <AnimatePresence>
           {mult > 1 && (
@@ -137,10 +137,6 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
         </h1>
       </div>
 
-      <div className={styles.teacher}>
-        <TeacherBubble message={teacher.msg} mood={teacher.mood} />
-      </div>
-
       <AnimatePresence mode="wait">
         <motion.div key={index} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.25 }}>
           <LessonActionSlot.Provider value={slot}>
@@ -148,6 +144,9 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
           </LessonActionSlot.Provider>
         </motion.div>
       </AnimatePresence>
+      <div className={styles.teacher}>
+        <TeacherBubble message={teacher.msg} mood={teacher.mood} />
+      </div>
       <div ref={setSlot} className={styles.actions} />
 
       {lesson.sources.length > 0 && (

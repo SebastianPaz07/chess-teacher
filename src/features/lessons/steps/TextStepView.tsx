@@ -18,7 +18,7 @@ export function TextStepView({ step, onDone }: StepViewProps<Extract<Step, { typ
         {step.title && <h2>{step.title}</h2>}
         <RichText text={step.body} />
         <LessonAction>
-          <Button size="lg" block onClick={onDone}>
+          <Button size="md" block onClick={onDone}>
             Continuar
           </Button>
         </LessonAction>

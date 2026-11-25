@@ -51,7 +51,7 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
           <div className="muted">A la primera</div>
         </Card>
         <Card tone="primary">
-          <strong style={{ fontSize: '1.5rem' }}>{results.length - solved}</strong>
+          <strong style={{ fontSize: '1.5rem' }}>{failed.length}</strong>
           <div className="muted">A repasar</div>
         </Card>
       </div>
