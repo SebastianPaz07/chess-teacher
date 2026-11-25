@@ -1,7 +1,7 @@
 import { ACHIEVEMENTS, initialStats, type GameStats } from './achievements';
 import type { GameEvent, Reward } from './events';
 import { questsForDay, questTemplate, type QuestProgress } from './quests';
-import { INITIAL_RATING, updateRating } from './rating';
+import { INITIAL_RATING, MIN_RATING, updateRating } from './rating';
 import { initialStreak, registerActivity, type StreakState } from './streak';
 import { XP, levelFromXp, rankForLevel } from './xp';
 
@@ -26,6 +26,9 @@ export interface GameState {
   xp: number;
   rating: number;
   ratingGames: number;
+  /** Puntos de rating ganados/perdidos en la sesión en curso; se aplican al terminarla (RATING_FLUSH) */
+  pendingGain?: number;
+  pendingLoss?: number;
   streak: StreakState;
   stats: GameStats;
   achievements: Record<string, string>;
@@ -40,6 +43,8 @@ export const initialGameState = (today: string): GameState => ({
   xp: 0,
   rating: INITIAL_RATING,
   ratingGames: 0,
+  pendingGain: 0,
+  pendingLoss: 0,
   streak: initialStreak,
   stats: initialStats,
   achievements: {},
@@ -155,18 +160,32 @@ export function applyEvent(prev: GameState, e: GameEvent, today: string, extra?:
   };
   state.activityLog = { ...(state.activityLog ?? {}), [today]: dayNext };
 
-  // 3. Rating
+  // 3. Rating: los cambios se acumulan y se aplican al terminar la sesión
   if (e.type === 'PUZZLE_SOLVED' && e.context !== 'placement') {
-    // Para el rating solo cuenta resolverlo a la primera, sin pistas (como en Lichess)
+    // limpio = 1, resuelto con errores/pistas = 0.5, no resuelto = 0
     const clean = e.success && e.mistakes === 0 && !e.hintsUsed;
-    const { rating, delta } = updateRating(state.rating, e.puzzleRating, clean, state.ratingGames);
-    state.rating = rating;
+    const score = clean ? 1 : e.success ? 0.5 : 0;
+    const { delta } = updateRating(state.rating + (state.pendingGain ?? 0) - (state.pendingLoss ?? 0), e.puzzleRating, score, state.ratingGames);
+    if (delta >= 0) state.pendingGain = (state.pendingGain ?? 0) + delta;
+    else state.pendingLoss = (state.pendingLoss ?? 0) - delta;
     state.ratingGames += 1;
-    rewards.push({ kind: 'rating', delta, rating });
   }
   if (e.type === 'PLACEMENT_DONE') {
     state.rating = e.rating;
     state.ratingGames = 5;
+    state.pendingGain = 0;
+    state.pendingLoss = 0;
+  }
+  // Fin de sesión (o de Rush / reto): se suma lo ganado y se resta lo perdido de una vez
+  if (e.type === 'RATING_FLUSH' || e.type === 'RUSH_FINISHED' || e.type === 'CHALLENGE_FINISHED' || e.type === 'WEEKLY_CHALLENGE_FINISHED') {
+    const gain = state.pendingGain ?? 0;
+    const loss = state.pendingLoss ?? 0;
+    if (gain || loss) {
+      state.rating = Math.max(MIN_RATING, state.rating + gain - loss);
+      rewards.push({ kind: 'rating', delta: gain - loss, rating: state.rating, gain, loss });
+      state.pendingGain = 0;
+      state.pendingLoss = 0;
+    }
   }
 
   // 4. Racha (cualquier actividad cuenta)

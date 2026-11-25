@@ -48,6 +48,8 @@ export interface DailyPlanInput {
   exploreOpenings?: string[];
   /** Día de descanso del plan: sesión ligera y opcional */
   restDay?: boolean;
+  /** false = principiante absoluto: solo lecciones de fundamentos, sin ejercicios */
+  learnedBasics?: boolean;
 }
 
 /** Nº de ejercicios según el tiempo disponible (10 a 60 min). */
@@ -139,6 +141,7 @@ function generateRecommendations(input: {
 
 export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   const { date, modules, progress, dueCards, rating, solvedIds, puzzlePool, freshPool = [], restDay, focus = [], favoriteOpening, exploreOpenings = [] } = input;
+  const basicsFirst = input.learnedBasics === false;
   const dailyMinutes = restDay ? 10 : input.dailyMinutes;
   const rand = seededRandom(hashString(`plan:${date}`));
   const tasks: DailyTask[] = [];
@@ -148,7 +151,7 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   const unlocked = modules.filter((m) => isModuleUnlocked(m, modules, progress));
 
   // 1. Repaso
-  if (dueCards.length) {
+  if (dueCards.length && !basicsFirst) {
     const cards = dueCards.slice(0, Math.max(3, Math.round(dailyMinutes / 4)));
     tasks.push({ id: 'review', kind: 'review', title: `Calentamiento: ${cards.length} repasos`, cardIds: cards.map((c) => c.id), minutes: Math.ceil(cards.length * 0.7) });
   }
@@ -156,11 +159,14 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   // 2. Lección (los avanzados la tienen en días alternos: priorizamos cálculo)
   const candidates = nextLessons(modules, progress);
   let lesson: Lesson | undefined;
-  const lessonToday = !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30 || focus.includes('teoria'));
+  const lessonToday = basicsFirst || !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30 || focus.includes('teoria'));
   if (candidates.length && lessonToday) {
-    lesson = candidates[day % candidates.length];
+    lesson = basicsFirst ? candidates[0] : candidates[day % candidates.length];
     tasks.push({ id: `lesson:${lesson.id}`, kind: 'lesson', title: lesson.title, lessonId: lesson.id, minutes: lesson.minutes });
   }
+
+  // Principiante absoluto: primero aprende a mover las piezas, sin ejercicios
+  if (basicsFirst) return tasks;
 
   // 3. Práctica / cálculo adaptativo
   const fresh = freshPool.filter((e) => !solvedIds.has(e.id));

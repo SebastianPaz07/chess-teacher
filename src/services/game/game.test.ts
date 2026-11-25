@@ -37,6 +37,14 @@ describe('rating', () => {
     // Resolver uno muy fácil da poco
     expect(updateRating(1500, 600, true, 50).delta).toBeLessThanOrEqual(1);
   });
+  it('las pérdidas se suavizan y tienen tope', () => {
+    expect(updateRating(1000, 1000, false, 5).delta).toBeGreaterThanOrEqual(-8);
+    // fallar uno muy fácil nunca resta más de 8
+    expect(updateRating(1000, 400, false, 5).delta).toBe(-8);
+    expect(Math.abs(updateRating(1000, 1000, false, 50).delta)).toBeLessThan(updateRating(1000, 1000, true, 50).delta + 1);
+    // resolver con ayuda (0.5) pierde menos que fallar
+    expect(updateRating(1000, 1000, 0.5, 50).delta).toBeGreaterThan(updateRating(1000, 1000, false, 50).delta);
+  });
 });
 
 describe('racha', () => {
@@ -85,7 +93,12 @@ describe('motor de juego', () => {
   it('ejercicio fallado baja rating y no da XP base', () => {
     const s0 = initialGameState(D);
     const { state } = applyEvent(s0, { type: 'PUZZLE_SOLVED', exerciseId: 'e', themes: ['mate'], success: false, mistakes: 1, puzzleRating: 800, context: 'practice' }, D);
-    expect(state.rating).toBeLessThan(s0.rating);
+    // El rating no cambia en pleno ejercicio: queda pendiente hasta el fin de la sesión
+    expect(state.rating).toBe(s0.rating);
+    expect(state.pendingLoss).toBeGreaterThan(0);
+    const flushed = applyEvent(state, { type: 'RATING_FLUSH' }, D);
+    expect(flushed.state.rating).toBeLessThan(s0.rating);
+    expect(flushed.state.pendingLoss).toBe(0);
     expect(state.stats.puzzlesAttempted).toBe(1);
     expect(state.stats.mates).toBe(0);
   });
@@ -109,15 +122,26 @@ describe('motor de juego', () => {
 });
 
 describe('ajustes de exigencia y plan', () => {
-  it('el rating solo sube si se resuelve a la primera y sin pistas', async () => {
+  it('el rating se aplica al final: suma lo ganado y resta lo perdido', async () => {
     const { applyEvent, initialGameState } = await import('./engine');
     const s0 = initialGameState('2026-11-23');
     const base = { type: 'PUZZLE_SOLVED' as const, exerciseId: 'x', themes: [], success: true, puzzleRating: 800, context: 'practice' as const };
-    expect(applyEvent(s0, { ...base, mistakes: 0 }, '2026-11-23').state.rating).toBeGreaterThan(s0.rating);
-    expect(applyEvent(s0, { ...base, mistakes: 2 }, '2026-11-23').state.rating).toBeLessThan(s0.rating);
-    expect(applyEvent(s0, { ...base, mistakes: 0, hintsUsed: 1 }, '2026-11-23').state.rating).toBeLessThan(s0.rating);
-    // Un ejercicio de tu nivel no da +24 de golpe
-    expect(applyEvent(s0, { ...base, mistakes: 0 }, '2026-11-23').state.rating - s0.rating).toBeLessThanOrEqual(12);
+    const flush = (evs: Parameters<typeof applyEvent>[1][]) => {
+      let st = s0;
+      for (const ev of evs) st = applyEvent(st, ev, '2026-11-23').state;
+      expect(st.rating).toBe(s0.rating); // sin cambios durante la sesión
+      return applyEvent(st, { type: 'RATING_FLUSH' }, '2026-11-23');
+    };
+    const clean = flush([{ ...base, mistakes: 0 }]);
+    expect(clean.state.rating).toBeGreaterThan(s0.rating);
+    expect(clean.state.rating - s0.rating).toBeLessThanOrEqual(12);
+    // Con pistas / errores ya no suma
+    expect(flush([{ ...base, mistakes: 0, hintsUsed: 1 }]).state.rating).toBeLessThanOrEqual(s0.rating);
+    // Un acierto y un fallo: informa ganado, perdido y neto
+    const mixed = flush([{ ...base, mistakes: 0 }, { ...base, success: false, mistakes: 1 }]);
+    const r = mixed.rewards.find((x) => x.kind === 'rating');
+    expect(r && r.kind === 'rating' && r.gain > 0 && r.loss > 0 && r.delta === r.gain - r.loss).toBe(true);
+    expect(mixed.state.pendingGain).toBe(0);
   });
 
   it('los días de descanso no rompen la racha', async () => {

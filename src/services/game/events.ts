@@ -11,6 +11,8 @@ export type GameEvent =
   | { type: 'GUESS_GAME_FINISHED'; gameId: string; correct: number; total: number }
   | { type: 'RUSH_FINISHED'; score: number }
   | { type: 'PLACEMENT_DONE'; rating: number; level: string }
+  /** Fin de una sesión de ejercicios: aplica el rating acumulado */
+  | { type: 'RATING_FLUSH' }
   | { type: 'DAILY_TASK_DONE'; taskId: string }
   | { type: 'MODULE_COMPLETED'; moduleId: string }
   /** Reto 1 vs 1 del club ya decidido. `won` es null en empate. */
@@ -27,5 +29,5 @@ export type Reward =
   | { kind: 'achievement'; id: string; title: string; icon: string }
   | { kind: 'quest'; id: string; title: string; xp: number }
   | { kind: 'streak'; days: number }
-  | { kind: 'rating'; delta: number; rating: number }
+  | { kind: 'rating'; delta: number; rating: number; gain: number; loss: number }
   | { kind: 'daily-complete' };

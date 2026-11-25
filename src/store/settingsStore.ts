@@ -20,6 +20,8 @@ interface SettingsState {
   /** Depuración: simular días futuros */
   dayOffset: number;
   onboarded: boolean;
+  /** false = principiante absoluto que aún no completa la lección de cómo mover las piezas: sin ejercicios hasta entonces */
+  learnedBasics: boolean;
   /** Demo: soy admin de la plataforma y puedo crear clubes y compartir el link de creación */
   isPlatformAdmin: boolean;
   /** Áreas a reforzar (vacío = plan equilibrado) */
@@ -42,6 +44,7 @@ export const useSettingsStore = create<SettingsState>()(
       theme: 'system',
       dayOffset: 0,
       onboarded: false,
+      learnedBasics: true,
       isPlatformAdmin: false,
       focusAreas: [],
       favoriteOpening: null,

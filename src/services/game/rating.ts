@@ -17,8 +17,18 @@ export function kFactor(gamesPlayed: number) {
   return 12;
 }
 
-export function updateRating(player: number, puzzle: number, success: boolean, gamesPlayed: number) {
-  const delta = Math.round(kFactor(gamesPlayed) * ((success ? 1 : 0) - expectedScore(player, puzzle)));
+/** Pérdida máxima por ejercicio y suavizado de las pérdidas (para no desmotivar). */
+export const MAX_LOSS = 8;
+export const LOSS_FACTOR = 0.6;
+
+/**
+ * `score`: 1 = resuelto a la primera, 0.5 = resuelto con errores/pistas, 0 = no resuelto
+ * (también acepta boolean). Las pérdidas se suavizan y tienen un tope.
+ */
+export function updateRating(player: number, puzzle: number, score: number | boolean, gamesPlayed: number) {
+  const s = typeof score === 'boolean' ? (score ? 1 : 0) : score;
+  let delta = Math.round(kFactor(gamesPlayed) * (s - expectedScore(player, puzzle)));
+  if (delta < 0) delta = -Math.min(MAX_LOSS, Math.max(1, Math.round(-delta * LOSS_FACTOR)));
   return { rating: Math.max(MIN_RATING, player + delta), delta };
 }
 

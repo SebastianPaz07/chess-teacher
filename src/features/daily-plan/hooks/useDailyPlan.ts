@@ -26,11 +26,12 @@ export function useDailyPlan() {
   const focusAreas = useSettingsStore((s) => s.focusAreas);
   const favoriteOpening = useSettingsStore((s) => s.favoriteOpening);
   const exploreOpenings = useSettingsStore((s) => s.exploreOpenings);
+  const learnedBasics = useSettingsStore((s) => s.learnedBasics);
   const restDay = trainingDays.length > 0 && !trainingDays.includes(now().getDay());
 
   // El plan se congela por día, pero se regenera si cambia el nivel del
   // test (p. ej. al recalibrar) o la versión del generador.
-  const key = `v4:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
+  const key = `v5:${learnedBasics ? 'b' : 'nb'}:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
   const needsNew = !plan || plan.date !== today || plan.key !== key;
   const { puzzles, ready: puzzlesReady } = usePuzzles();
 
@@ -65,6 +66,7 @@ export function useDailyPlan() {
         favoriteOpening,
         exploreOpenings,
         restDay,
+        learnedBasics,
       });
       setPlan(today, tasks, key);
     });
