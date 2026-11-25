@@ -128,6 +128,7 @@ export function PracticePage() {
               {g.items.map(([t, n]) => {
                 const m = progress.mastery[t];
                 const ratio = m && m.total > 0 ? masteryRatio(m) : null;
+                const attempted = m ? m.total : 0;
                 const on = theme === t;
                 return (
                   <button key={t} type="button" role="radio" aria-checked={on} className={[styles.theme, on && styles.on].filter(Boolean).join(' ')} onClick={() => setTheme(t)}>
@@ -136,8 +137,12 @@ export function PracticePage() {
                       <Radio on={on} />
                     </span>
                     <span className={styles.themeMeta}>
-                      <span>{n} ejerc.</span>
-                      {ratio !== null && <span>{Math.round(ratio * 100)}%</span>}
+                      <span>{n} disponibles</span>
+                      {ratio !== null && (
+                        <span title={`Has intentado ${attempted} ejercicios con ${Math.round(ratio * 100)}% de aciertos`}>
+                          {Math.round(ratio * 100)}% de {attempted}
+                        </span>
+                      )}
                     </span>
                     {ratio !== null && (
                       <span className={styles.mastery} aria-hidden>

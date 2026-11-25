@@ -7,7 +7,7 @@ import styles from './ResourceViewer.module.css';
 const previewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
 const openUrl = (id: string) => `https://drive.google.com/file/d/${id}/view`;
 
-/** Abre un PDF o video del Drive dentro de la app (vista previa embebida). */
+/** Abre un PDF o video dentro de la app (vista previa embebida). */
 export function ResourceViewer({ resource, onClose }: { resource: Resource | null; onClose: () => void }) {
   const [loaded, setLoaded] = useState(false);
   return (
@@ -22,7 +22,7 @@ export function ResourceViewer({ resource, onClose }: { resource: Resource | nul
       footer={
         resource && (
           <Button variant="secondary" onClick={() => window.open(openUrl(resource.id), '_blank', 'noopener')}>
-            Abrir en Drive <Icon name="external" size="1em" />
+            Abrir en nueva pestaña <Icon name="external" size="1em" />
           </Button>
         )
       }
@@ -45,11 +45,11 @@ export function ResourceViewer({ resource, onClose }: { resource: Resource | nul
 }
 
 /** Lista compacta de recursos relacionados (para lecciones y aperturas). */
-export function ResourceList({ items, title = 'Material del Drive' }: { items: Resource[]; title?: string }) {
+export function ResourceList({ items, title = 'Material relacionado' }: { items: Resource[]; title?: string }) {
   const [open, setOpen] = useState<Resource | null>(null);
   if (!items.length) return null;
   return (
-    <Card title={title} icon="video" subtitle="Videos y libros de tu carpeta relacionados con este tema">
+    <Card title={title} icon="video" subtitle="Videos y libros relacionados con este tema">
       <ul className={styles.list}>
         {items.map((r) => (
           <li key={r.id}>

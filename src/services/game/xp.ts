@@ -17,8 +17,8 @@ export const RANKS: Rank[] = [
   { id: 'maestro', name: 'Maestro', icon: 'crown', minLevel: 20 },
 ];
 
-/** XP total necesaria para alcanzar el nivel L: 50·L·(L−1) → 0, 100, 300, 600, 1000… */
-export const xpForLevel = (level: number) => 50 * level * (level - 1);
+/** XP total necesaria para alcanzar el nivel L: 100·L·(L−1) → 0, 200, 600, 1200, 2000… */
+export const xpForLevel = (level: number) => 100 * level * (level - 1);
 
 export function levelFromXp(xp: number): number {
   let level = 1;

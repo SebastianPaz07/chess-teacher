@@ -9,7 +9,7 @@ import styles from './LibraryPage.module.css';
 
 type Filter = 'all' | 'video' | 'pdf';
 
-/** Biblioteca: todo el material del Drive (catálogo generado con `npm run inventory`). */
+/** Biblioteca: todo el material disponible (catálogo generado con `npm run inventory`). */
 export function LibraryPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
@@ -33,9 +33,9 @@ export function LibraryPage() {
         title="Biblioteca"
         subtitle={
           <>
-            {resources.length} recursos de tu{' '}
+            {resources.length} recursos en{' '}
             <a href={`https://drive.google.com/drive/folders/${driveRootFolderId}`} target="_blank" rel="noreferrer">
-              carpeta de Drive
+              nuestra biblioteca
             </a>
             . Las lecciones enlazan automáticamente el material relacionado.
           </>

@@ -6,7 +6,8 @@
 .hello { font-size: 1.8rem; margin: var(--space-1) 0 var(--space-1); }
 .dek { margin: 0; color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; }
 .dek strong { color: var(--color-text); font-weight: 600; }
-.editPlan { white-space: nowrap; }
+.editPlan { white-space: nowrap; text-decoration: none; }
+.editPlan:hover { text-decoration: underline; text-underline-offset: 3px; }
 
 .grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: start; }
 .main { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
@@ -65,4 +66,15 @@
 
 @media (min-width: 960px) {
   .grid { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: var(--space-6); }
+}
+
+/* Recomendaciones */
+.stepRecommendation {
+  opacity: 0.85;
+  font-style: italic;
+}
+
+.stepRecommendation .stepNum {
+  border-color: var(--color-info);
+  color: var(--color-info);
 }

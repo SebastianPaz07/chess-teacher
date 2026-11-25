@@ -18,6 +18,7 @@ const TASK_META: Record<DailyTask['kind'], { icon: string; label: string }> = {
   practice: { icon: 'crosshair', label: 'Ejercicios' },
   opening: { icon: 'books', label: 'Apertura' },
   classic: { icon: 'classic', label: 'Partida clásica' },
+  recommendation: { icon: 'lightbulb', label: 'Recomendación' },
 };
 
 function taskLink(t: DailyTask): string {
@@ -33,6 +34,17 @@ function taskLink(t: DailyTask): string {
       return `/aperturas/${t.openingId}?line=${t.lineIndex}&${daily}`;
     case 'classic':
       return `/partidas?game=${encodeURIComponent(t.gameId)}&${daily}`;
+    case 'recommendation':
+      switch (t.subtype) {
+        case 'library':
+          return '/biblioteca';
+        case 'rush':
+          return '/rush';
+        case 'resource':
+          return `/biblioteca?resource=${t.resourceId}`;
+        case 'classic':
+          return `/partidas?game=${encodeURIComponent(t.gameId!)}`;
+      }
   }
 }
 
@@ -128,7 +140,7 @@ export function HomePage() {
                     const done = plan.tasksDone.includes(t.id);
                     return (
                       <li key={t.id}>
-                        <Link to={taskLink(t)} className={[styles.stepRow, done && styles.stepDone, nextTask?.id === t.id && styles.stepNext].filter(Boolean).join(' ')}>
+                        <Link to={taskLink(t)} className={[styles.stepRow, done && styles.stepDone, nextTask?.id === t.id && styles.stepNext, t.kind === 'recommendation' && styles.stepRecommendation].filter(Boolean).join(' ')}>
                           <span className={styles.stepNum}>{done ? <Icon name="check" /> : i + 1}</span>
                           <span className={styles.stepTitle}>{t.title}</span>
                           <span className={styles.stepMin}>{t.minutes}′</span>

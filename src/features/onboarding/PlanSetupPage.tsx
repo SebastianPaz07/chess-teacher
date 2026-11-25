@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Card, ProgressBar } from '@/components/ui';
-import { allOpenings, resourcesByTags } from '@/content/registry';
+import { Button, ProgressBar } from '@/components/ui';
+import { allOpenings } from '@/content/registry';
 import type { Resource } from '@/content/schema';
 import { ResourceViewer } from '@/features/library/components/ResourceViewer';
 import { Icon } from '@/components/ui/Icon';
@@ -75,8 +75,6 @@ export function PlanSetupPage() {
   const last = step >= steps.length - 1;
   const canNext = key === 'level' ? Boolean(resolved) : key === 'days' ? days.length > 0 : true;
   const favOpening = allOpenings.find((o) => o.id === favorite);
-  const specific = favOpening ? resourcesByTags(favOpening.resourceTags, 4) : [];
-  const recommended = favOpening ? (specific.length ? specific : resourcesByTags(['aperturas'], 4)) : [];
   const weekly = minutes * days.length;
   const level = resolved?.level ?? 'principiante';
   const exercises = practiceCountFor(level, minutes);
@@ -145,7 +143,7 @@ export function PlanSetupPage() {
       {key === 'openings' && (
         <section className={styles.step}>
           <h1 className={styles.title}>Aperturas</h1>
-          <p className="muted">Elige una apertura para repasarla a fondo; te recomendamos videos y libros de tu biblioteca.</p>
+          <p className="muted">Elige una apertura para repasarla a fondo; te recomendamos videos y libros relacionados.</p>
           <p className="eyebrow" style={{ margin: 0 }}>
             Quiero repasar
           </p>
@@ -159,27 +157,6 @@ export function PlanSetupPage() {
               </button>
             ))}
           </div>
-          {favOpening && (
-            <Card tone="accent" icon="video" title={`Material para ${favOpening.name}`} subtitle="Videos y libros recomendados de tu biblioteca">
-              {recommended.length ? (
-                <ul className={styles.resList}>
-                  {recommended.map((r) => (
-                    <li key={r.id}>
-                      <button type="button" className={styles.res} onClick={() => setViewing(r)}>
-                        <Icon name={r.type === 'video' ? 'play' : 'book'} weight="light" />
-                        <span>{r.title}</span>
-                        <Icon name="caret-right" />
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p className="muted" style={{ margin: 0 }}>
-                  Aún no hay material de esta apertura en la biblioteca; igual la practicarás con sus líneas.
-                </p>
-              )}
-            </Card>
-          )}
           <p className="eyebrow" style={{ margin: 'var(--space-2) 0 0' }}>
             Quiero conocer otras (hasta 3)
           </p>

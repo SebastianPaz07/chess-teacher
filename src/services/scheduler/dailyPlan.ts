@@ -25,7 +25,8 @@ export type DailyTask =
   | { id: string; kind: 'lesson'; title: string; lessonId: string; minutes: number }
   | { id: string; kind: 'practice'; title: string; exerciseIds: string[]; minutes: number }
   | { id: string; kind: 'opening'; title: string; openingId: string; lineIndex: number; minutes: number }
-  | { id: string; kind: 'classic'; title: string; gameId: string; minutes: number };
+  | { id: string; kind: 'classic'; title: string; gameId: string; minutes: number }
+  | { id: string; kind: 'recommendation'; title: string; subtype: 'library' | 'resource' | 'classic' | 'rush'; resourceId?: string; gameId?: string; minutes: number };
 
 export interface DailyPlanInput {
   date: string;
@@ -81,6 +82,59 @@ function nearRating(pool: Exercise[], rating: number, need: number, margin = 300
   if (near.length >= need) return near;
   // Si no alcanza, los más difíciles disponibles
   return [...pool].sort((a, b) => b.rating - a.rating).slice(0, Math.max(need * 2, near.length));
+}
+
+function generateRecommendations(input: {
+  date: string;
+  level: Level;
+  dailyMinutes: number;
+  day: number;
+  favoriteOpening?: string | null;
+  modules: Module[];
+}): DailyTask[] {
+  const { day, level, dailyMinutes, modules } = input;
+  const recs: DailyTask[] = [];
+  const rotation = day % 7;
+
+  // 1. Biblioteca (cada 3 días)
+  if (rotation % 3 === 0) {
+    recs.push({
+      id: `rec:library:${day}`,
+      kind: 'recommendation',
+      title: 'Visita la Biblioteca para consultar libros y ver clases grabadas',
+      subtype: 'library',
+      minutes: 0,
+    });
+  }
+
+  // 2. Rush mode (intermedio/avanzado, 2x por semana)
+  if ((level === 'intermedio' || level === 'avanzado') && (rotation % 3 === 1)) {
+    recs.push({
+      id: `rec:rush:${day}`,
+      kind: 'recommendation',
+      title: 'Prueba el modo Rush: 3 minutos de táctica intensa',
+      subtype: 'rush',
+      minutes: 0,
+    });
+  }
+
+  // 3. Partida clásica (en planes cortos que no tienen classic game)
+  if (rotation % 5 === 3 && dailyMinutes < 20) {
+    const games = modules.flatMap(m => m.games);
+    if (games.length > 0) {
+      const game = games[day % games.length];
+      recs.push({
+        id: `rec:classic:${game.id}:${day}`,
+        kind: 'recommendation',
+        title: `Ve esta partida clásica: ${game.white} – ${game.black}`,
+        subtype: 'classic',
+        gameId: game.id,
+        minutes: 0,
+      });
+    }
+  }
+
+  return recs.slice(0, 2); // Max 2 recomendaciones por día
 }
 
 export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
@@ -162,6 +216,10 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
     const g = games[day % games.length];
     tasks.push({ id: `classic:${g.id}`, kind: 'classic', title: `Adivina la jugada: ${g.white} – ${g.black}`, gameId: g.id, minutes: 6 });
   }
+
+  // 6. Recomendaciones
+  const recommendations = generateRecommendations({ date, level, dailyMinutes, day, favoriteOpening, modules });
+  tasks.push(...recommendations);
 
   return tasks;
 }

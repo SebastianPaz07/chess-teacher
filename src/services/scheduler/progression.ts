@@ -34,8 +34,12 @@ export function moduleStars(m: Module, p: ProgressSnapshot): number {
 /**
  * Un módulo está desbloqueado si sus prerrequisitos están al 80 %,
  * o si el test de nivel ubicó al alumno en un nivel ≥ al del módulo.
+ * Los módulos de aperturas siempre están desbloqueados para permitir libre práctica.
  */
 export function isModuleUnlocked(m: Module, all: Module[], p: ProgressSnapshot): boolean {
+  // Aperturas siempre desbloqueadas para permitir libre práctica
+  if (m.category === 'aperturas') return true;
+
   if (p.placementLevel && LEVEL_RANK[m.level] <= LEVEL_RANK[p.placementLevel]) return true;
   return m.prerequisites.every((id) => {
     const req = all.find((x) => x.id === id);
