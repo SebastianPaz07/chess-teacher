@@ -38,6 +38,10 @@ function ClubHome() {
   const meId = useClubStore((s) => s.session?.userId ?? '');
 
   const isAdmin = useClubQuery(() => clubRepo.isAdmin()).data ?? false;
+  const refresh = useClubStore((s) => s.refresh);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const [leaving, setLeaving] = useState(false);
+  const [leaveError, setLeaveError] = useState<string | null>(null);
 
   const members = useClubQuery(() => clubRepo.getMembers());
   const myRole = members.data?.find((m) => m.member.id === meId)?.member.role;
@@ -84,6 +88,56 @@ function ClubHome() {
       {tab === 'ranking' && <Leaderboard meId={meId} members={members.data} />}
       {tab === 'retos' && <ChallengesTab challenges={challenges.data} members={members.data} meId={meId} />}
       {tab === 'miembros' && <MembersTab members={members.data} meId={meId} />}
+
+      <div className={styles.leaveRow}>
+        <Button variant="ghost" size="sm" icon="sign-out" onClick={() => setConfirmLeave(true)}>
+          Salir del club
+        </Button>
+      </div>
+
+      <Modal
+        open={confirmLeave}
+        onClose={() => !leaving && setConfirmLeave(false)}
+        size="sm"
+        title="¿Salir del club?"
+        showClose
+        footer={
+          <>
+            <Button variant="secondary" onClick={() => setConfirmLeave(false)} disabled={leaving}>
+              Cancelar
+            </Button>
+            <Button
+              variant="danger"
+              loading={leaving}
+              onClick={async () => {
+                setLeaving(true);
+                setLeaveError(null);
+                try {
+                  await clubRepo.leaveClub();
+                  await refresh();
+                  setConfirmLeave(false);
+                } catch (e) {
+                  setLeaveError((e as Error).message);
+                } finally {
+                  setLeaving(false);
+                }
+              }}
+            >
+              Salir
+            </Button>
+          </>
+        }
+      >
+        <div className="stack">
+          <p style={{ margin: 0 }}>Dejarás de aparecer en el ranking y en las novedades de {club.name}. Tu progreso personal no se pierde y podrás volver con el código de invitación.</p>
+          {myRole === 'owner' && (
+            <p className="muted" style={{ margin: 0 }}>
+              Eres el organizador: si hay más miembros, el cargo pasará a quien lleve más tiempo en el club (primero los colaboradores). Si eres la única persona, el club se eliminará.
+            </p>
+          )}
+          {leaveError && <p style={{ margin: 0, color: 'var(--color-danger)' }}>{leaveError}</p>}
+        </div>
+      </Modal>
 
       {import.meta.env.DEV && clubRepo.isDemo && (
         <p className={styles.demo}>

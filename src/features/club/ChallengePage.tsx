@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Button, Card, EmptyState, Loader } from '@/components/ui';
+import { Icon } from '@/components/ui/Icon';
 import { clubRepo, type Challenge, type MemberSummary } from '@/services/club';
 import { useClubStore } from '@/store/clubStore';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
@@ -52,6 +53,11 @@ function ChallengeView() {
           try {
             const updated = await clubRepo.submitChallengeResult(c.id, r);
             if (updated.status === 'done' && updated.winnerId === meId) celebrate('big');
+            // Aviso general para el club: quién le ganó a quién (el que juega último lo publica)
+            if (updated.status === 'done' && rival) {
+              const text = updated.winnerId === meId ? `le ganó a ${rival.member.name} en un reto` : updated.winnerId === null ? `empató con ${rival.member.name} en un reto` : `perdió contra ${rival.member.name} en un reto`;
+              clubRepo.postFeed({ kind: 'challenge', icon: 'trophy', text }).catch(() => undefined);
+            }
           } catch (e) {
             setError((e as Error).message);
           }
@@ -96,40 +102,63 @@ function ResultCard({ c, meId, byId }: { c: Challenge; meId: string; byId: Map<s
   const me = byId.get(meId)?.member;
   const mine = c.results.find((r) => r.memberId === meId);
   const theirs = c.results.find((r) => r.memberId === rivalId);
-  const tone = c.status !== 'done' ? 'default' : c.winnerId === meId ? 'success' : c.winnerId === null ? 'accent' : 'danger';
+  const done = c.status === 'done';
+  const won = done && c.winnerId === meId;
+  const lost = done && c.winnerId !== null && c.winnerId !== meId;
+  const outcome = !done ? 'wait' : won ? 'win' : lost ? 'lose' : 'draw';
   const headline =
-    c.status === 'open' ? `Esperando a ${rival?.name ?? 'tu rival'}…` : c.status === 'done' ? (c.winnerId === meId ? '¡Ganaste el reto!' : c.winnerId === null ? 'Empate' : `Ganó ${rival?.name}`) : c.status === 'declined' ? 'Reto rechazado' : 'El reto venció';
+    c.status === 'open' ? `Esperando a ${rival?.name ?? 'tu rival'}` : done ? (won ? '¡Ganaste el reto!' : c.winnerId === null ? 'Empate' : `Ganó ${rival?.name}`) : c.status === 'declined' ? 'Reto rechazado' : 'El reto venció';
+  const eyebrow = `${c.kind === 'rush' ? 'Rush de 3 min' : `${c.puzzleIds.length} ejercicios`} · ${done ? 'Reto terminado' : c.status === 'open' ? 'En juego' : 'Cerrado'}`;
+  const total = c.kind === 'puzzles' ? c.puzzleIds.length : undefined;
+  const showTheirs = Boolean(theirs && (mine || done));
 
   return (
-    <Card tone={tone} className={styles.result}>
-      <p className={styles.resultBig}>{headline}</p>
-      <div className={styles.vs} style={{ marginTop: 'var(--space-4)' }}>
-        <div className="stack" style={{ alignItems: 'center', gap: 4 }}>
-          <Avatar avatar={me?.avatar ?? 'piece-knight'} name="Tú" size={56} me />
-          <strong>Tú</strong>
-          {mine ? <Stats r={mine} total={c.kind === 'puzzles' ? c.puzzleIds.length : undefined} /> : <span className="muted">Sin jugar</span>}
-        </div>
-        <span className={styles.vsScore} style={{ fontSize: '2rem' }}>
-          {mine?.solved ?? '–'} : {theirs && (mine || c.status === 'done') ? theirs.solved : '?'}
+    <Card className={styles.result}>
+      <div className={[styles.resultHead, styles[`res_${outcome}`]].join(' ')}>
+        <span className={styles.resultIcon}>
+          <Icon name={outcome === 'win' ? 'trophy' : outcome === 'draw' ? 'handshake' : outcome === 'lose' ? 'sword' : 'timer'} />
         </span>
-        <div className="stack" style={{ alignItems: 'center', gap: 4 }}>
-          <Avatar avatar={rival?.avatar ?? 'piece-pawn'} name={rival?.name ?? ''} size={56} />
-          <strong>{rival?.name}</strong>
-          {theirs && (mine || c.status === 'done') ? <Stats r={theirs} total={c.kind === 'puzzles' ? c.puzzleIds.length : undefined} /> : <span className="muted">{theirs ? 'Ya jugó' : 'Por jugar'}</span>}
+        <div>
+          <span className="eyebrow">{eyebrow}</span>
+          <h2 className={styles.resultTitle}>{headline}</h2>
         </div>
       </div>
-      {c.status === 'open' && <p className="muted" style={{ marginTop: 'var(--space-4)' }}>Te avisaremos en el club cuando juegue. {timeLeft(c.expiresAt)}.</p>}
-      {c.status === 'done' && c.winnerId === meId && <Badge tone="xp" icon="diamond">+80 XP</Badge>}
-      {c.status === 'done' && c.winnerId !== meId && <Badge tone="xp" icon="diamond">+30 XP por jugar</Badge>}
+
+      <div className={styles.scoreboard}>
+        <Player name="Tú" avatar={me?.avatar ?? 'piece-knight'} me winner={won} score={mine?.solved} stats={mine} total={total} empty="Sin jugar" />
+        <span className={styles.scoreVs}>vs</span>
+        <Player name={rival?.name ?? 'Rival'} avatar={rival?.avatar ?? 'piece-pawn'} winner={lost} score={showTheirs ? theirs?.solved : undefined} stats={showTheirs ? theirs : undefined} total={total} empty={theirs ? 'Ya jugó' : 'Por jugar'} />
+      </div>
+
+      {c.status === 'open' && <p className={styles.resultNote}>Te avisaremos en las notificaciones cuando juegue. {timeLeft(c.expiresAt)}.</p>}
+      {done && (
+        <div className={styles.resultFoot}>
+          <Badge tone="xp" icon="diamond">
+            {won ? '+80 XP' : '+30 XP por jugar'}
+          </Badge>
+        </div>
+      )}
     </Card>
   );
 }
 
-function Stats({ r, total }: { r: { solved: number; mistakes: number; timeMs: number }; total?: number }) {
+function Player({ name, avatar, me, winner, score, stats, total, empty }: { name: string; avatar: string; me?: boolean; winner?: boolean; score?: number; stats?: { solved: number; mistakes: number; timeMs: number }; total?: number; empty: string }) {
   return (
-    <span className="muted" style={{ fontSize: '0.82rem', textAlign: 'center' }}>
-      {r.solved}
-      {total ? `/${total}` : ''} resueltos · {r.mistakes} fallos · {formatMs(r.timeMs)}
-    </span>
+    <div className={[styles.player, winner && styles.playerWin].filter(Boolean).join(' ')}>
+      {winner && <span className={styles.crown}>Ganador</span>}
+      <Avatar avatar={avatar} name={name} size={52} me={me} />
+      <strong className={styles.playerName}>{name}</strong>
+      <span className={styles.playerScore}>
+        {score ?? '–'}
+        {score !== undefined && total ? <small>/{total}</small> : null}
+      </span>
+      {stats ? (
+        <span className={styles.playerStats}>
+          {stats.mistakes} {stats.mistakes === 1 ? 'fallo' : 'fallos'} · {formatMs(stats.timeMs)}
+        </span>
+      ) : (
+        <span className={styles.playerStats}>{empty}</span>
+      )}
+    </div>
   );
 }
