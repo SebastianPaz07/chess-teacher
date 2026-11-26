@@ -86,12 +86,27 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
     return id;
   }
 
-  /** Mi club (o null) */
-  async function myClubRow(): Promise<Row | null> {
-    const id = await me();
-    const m = unwrap(await sb.from('club_members').select('club_id').eq('user_id', id).maybeSingle());
-    if (!m) return null;
-    return unwrap(await sb.from('clubs').select('*').eq('id', m.club_id).maybeSingle());
+  /**
+   * Mi club (o null). Se recuerda un rato y las consultas simultáneas comparten
+   * la misma petición: antes cada consulta del club repetía estas 2 lecturas.
+   * Se descarta al crear, unirse o salir de un club.
+   */
+  const CLUB_TTL_MS = 5 * 60_000;
+  let clubMemo: { at: number; value: Promise<Row | null> } | null = null;
+  const forgetClub = () => {
+    clubMemo = null;
+  };
+  function myClubRow(): Promise<Row | null> {
+    if (clubMemo && Date.now() - clubMemo.at < CLUB_TTL_MS) return clubMemo.value;
+    const value = (async () => {
+      const id = await me();
+      const m = unwrap(await sb.from('club_members').select('club_id').eq('user_id', id).maybeSingle());
+      if (!m) return null;
+      return unwrap(await sb.from('clubs').select('*').eq('id', m.club_id).maybeSingle()) as Row | null;
+    })();
+    clubMemo = { at: Date.now(), value };
+    value.catch(forgetClub);
+    return value;
   }
 
   async function requireClub(): Promise<Club> {
@@ -199,6 +214,9 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
     return unwrap(await sb.from('club_weeks').select('*').eq('club_id', club.id).eq('week_start', ws).single());
   }
 
+  // Otra cuenta = otro club
+  sb.auth.onAuthStateChange(() => forgetClub());
+
   const repo: ClubRepository = {
     isDemo: false,
 
@@ -255,12 +273,14 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
       return data === true;
     },
     async createClub(name) {
+      forgetClub();
       const club = toClub(unwrap(await sb.rpc('create_club', { p_name: name })) as Row);
       await postFeedRow(club.id, club.createdBy, 'joined', 'user-plus', `fundó el club ${club.name}`);
       notify();
       return club;
     },
     async joinClub(code) {
+      forgetClub();
       const { data, error } = await sb.rpc('join_club', { p_code: code });
       if (error) throw new Error(error.message);
       const club = toClub(data as Row);
@@ -269,7 +289,9 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
       return club;
     },
     async leaveClub() {
+      forgetClub();
       unwrap(await sb.rpc('leave_club'));
+      forgetClub();
       notify();
     },
     async setMemberRole(memberId, role) {

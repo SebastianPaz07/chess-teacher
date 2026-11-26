@@ -13,10 +13,14 @@ interface ClubState {
   club: Club | null;
   /** Sube con cada cambio de datos: las consultas se recargan */
   version: number;
+  /** Versión pedida explícitamente (acción del usuario): se recarga sin esperar */
+  forcedVersion: number;
   init: () => Promise<void>;
   /** Recarga sesión, perfil y club */
   refresh: () => Promise<void>;
   bump: () => void;
+  /** Recarga ya, sin respetar la espera mínima entre consultas */
+  forceReload: () => void;
 }
 
 let initialized = false;
@@ -27,13 +31,28 @@ export const useClubStore = create<ClubState>()((set, get) => ({
   profile: null,
   club: null,
   version: 0,
+  forcedVersion: -1,
 
   init: async () => {
     if (initialized) return;
     initialized = true;
     startClubSync();
-    clubRepo.subscribe(() => get().bump());
-    window.addEventListener('focus', () => get().bump());
+    // Los avisos en vivo se agrupan: varias novedades seguidas = una sola recarga
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    clubRepo.subscribe(() => {
+      if (timer) return;
+      timer = setTimeout(() => {
+        timer = null;
+        get().bump();
+      }, 3000);
+    });
+    // Al volver a la pestaña solo se recarga si pasaron más de 2 minutos
+    let lastFocusBump = Date.now();
+    window.addEventListener('focus', () => {
+      if (Date.now() - lastFocusBump < 2 * 60_000) return;
+      lastFocusBump = Date.now();
+      get().bump();
+    });
     await get().refresh();
   },
 
@@ -43,7 +62,7 @@ export const useClubStore = create<ClubState>()((set, get) => ({
       const profile = session ? await clubRepo.getMyProfile() : null;
       const club = session ? await clubRepo.getMyClub() : null;
       const status: Status = !session ? 'signed-out' : !profile ? 'no-profile' : !club ? 'no-club' : 'ready';
-      set({ session, profile, club, status, version: get().version + 1 });
+      set({ session, profile, club, status, version: get().version + 1, forcedVersion: get().version + 1 });
       if (status === 'ready') publishNow();
     } catch {
       set({ status: 'signed-out' });
@@ -51,6 +70,7 @@ export const useClubStore = create<ClubState>()((set, get) => ({
   },
 
   bump: () => set((s) => ({ version: s.version + 1 })),
+  forceReload: () => set((s) => ({ version: s.version + 1, forcedVersion: s.version + 1 })),
 }));
 
 /** Recompensas ya cobradas (para no dar XP dos veces por el mismo reto). Se guarda en el navegador. */
