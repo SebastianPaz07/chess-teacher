@@ -43,7 +43,8 @@ export function Icon({ name, size = '1.25em', weight = 'regular', color, classNa
   if (name in PIECES) {
     return (
       <span className={className} style={{ fontFamily: 'var(--font-pieces)', fontSize: size, lineHeight: 1, color, display: 'inline-block', ...style }} {...a11y}>
-        {PIECES[name as keyof typeof PIECES]}
+        {/* Selector de variacion U+FE0E: el peon es emoji por defecto en muchos sistemas; asi se dibuja como glifo, igual que las demas piezas */}
+        {PIECES[name as keyof typeof PIECES]}{'\uFE0E'}
       </span>
     );
   }

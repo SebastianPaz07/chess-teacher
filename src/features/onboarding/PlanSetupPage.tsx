@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button, Card, ProgressBar } from '@/components/ui';
 import { allOpenings } from '@/content/registry';
 import type { Resource } from '@/content/schema';
@@ -39,6 +39,10 @@ const LEVEL_NAME: Record<Level, string> = { principiante: 'principiante', interm
 /** Plan de entrenamiento personalizado: nivel → tiempo por día → días de la semana → resumen. */
 export function PlanSetupPage() {
   const navigate = useNavigate();
+  const [params] = useSearchParams();
+  // Llegada desde un enlace de invitación a un club: al terminar el plan se vuelve a la invitación
+  const nextParam = params.get('next');
+  const joinNext = nextParam && /^\/(unirse|crear-club)\//.test(nextParam) ? nextParam : null;
   const settings = useSettingsStore();
   const rating = useGameStore((s) => s.rating);
   const placementDone = useGameStore((s) => s.stats.placementDone);
@@ -92,7 +96,7 @@ export function PlanSetupPage() {
       setPlacement(resolved.level);
       dispatch({ type: 'PLACEMENT_DONE', rating: resolved.rating, level: resolved.level });
     }
-    const dest = choice === 'test' ? '/test-nivel' : choice === 'new' ? '/leccion/fund-01-tablero' : '/';
+    const dest = joinNext ?? (choice === 'test' ? '/test-nivel' : choice === 'new' ? '/leccion/fund-01-tablero' : '/');
     // Primer arranque sin cuenta: invitamos a registrarse (se puede continuar sin cuenta)
     navigate(firstRun && !signedIn ? `/entrar?inicio=1&next=${encodeURIComponent(dest)}` : dest, { replace: true });
   };

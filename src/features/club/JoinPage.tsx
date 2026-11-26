@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { Button, Card, Loader } from '@/components/ui';
 import { clubRepo } from '@/services/club';
 import { useClubStore } from '@/store/clubStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { ClubOnboarding } from './ClubOnboarding';
 import styles from './club.module.css';
 
@@ -13,11 +14,16 @@ export function JoinPage() {
   const status = useClubStore((s) => s.status);
   const club = useClubStore((s) => s.club);
   const refresh = useClubStore((s) => s.refresh);
+  const onboarded = useSettingsStore((s) => s.onboarded);
   const [busy, setBusy] = useState(false);
   const upper = code.toUpperCase();
 
   if (status === 'loading') return <Loader />;
-  if (status === 'signed-out') return <Navigate to={`/entrar?next=${encodeURIComponent(`/unirse/${upper}`)}`} replace />;
+  if (status === 'signed-out') {
+    const here = encodeURIComponent(`/unirse/${upper}`);
+    // Quien aún no ha configurado su plan empieza por ahí (calcular el nivel); luego, el correo
+    return <Navigate to={onboarded ? `/entrar?next=${here}` : `/empezar?next=${here}`} replace />;
+  }
   if (status !== 'ready') return <ClubOnboarding initialCode={upper} />;
   if (club?.inviteCode === upper) return <Navigate to="/club" replace />;
 
