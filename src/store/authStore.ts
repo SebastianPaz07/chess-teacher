@@ -1,4 +1,4 @@
-import type { Session } from '@supabase/supabase-js';
+import type { Session, User } from '@supabase/supabase-js';
 import { create } from 'zustand';
 import { isSupabaseConfigured, supabase } from '@/services/supabase/client';
 
@@ -11,9 +11,11 @@ interface AuthState {
   enabled: boolean;
   init: () => Promise<void>;
   signInWithMagicLink: (email: string) => Promise<void>;
-  signInWithPassword: (email: string, password: string) => Promise<void>;
+  /** Devuelve false si falta confirmar el correo */
+  signInWithPassword: (email: string, password: string) => Promise<boolean>;
   /** Devuelve true si la cuenta quedó activa; false si falta confirmar el correo */
   signUp: (email: string, password: string) => Promise<boolean>;
+  resendConfirmation: (email: string) => Promise<void>;
   resetPassword: (email: string) => Promise<void>;
   updatePassword: (password: string) => Promise<void>;
   signOut: () => Promise<void>;
@@ -38,6 +40,9 @@ async function bridgeDemoClub(session: Session | null) {
   else return;
   await useClubStore.getState().refresh();
 }
+
+/** A donde vuelven los enlaces del correo (acceso y confirmación): la sesión se abre sola al llegar */
+const emailRedirectTo = () => `${window.location.origin}/entrar`;
 
 const need = () => {
   if (!supabase) throw new Error('El inicio de sesión no está configurado todavía.');
@@ -84,18 +89,28 @@ export const useAuthStore = create<AuthState>()((set) => ({
 
   signInWithMagicLink: async (email) => {
     const sb = need();
-    await run(() => sb.auth.signInWithOtp({ email, options: { emailRedirectTo: `${window.location.origin}/entrar` } }));
+    await run(() => sb.auth.signInWithOtp({ email, options: { emailRedirectTo: emailRedirectTo() } }));
   },
 
   signInWithPassword: async (email, password) => {
     const sb = need();
-    await run(() => sb.auth.signInWithPassword({ email, password }));
+    const { error } = await sb.auth.signInWithPassword({ email, password });
+    if (error?.code === 'email_not_confirmed') return false;
+    if (error) throw new Error(friendly(error.message));
+    return true;
   },
 
   signUp: async (email, password) => {
     const sb = need();
-    const data = (await run(() => sb.auth.signUp({ email, password, options: { emailRedirectTo: `${window.location.origin}/entrar` } }))) as { session: Session | null };
+    const data = (await run(() => sb.auth.signUp({ email, password, options: { emailRedirectTo: emailRedirectTo() } }))) as { session: Session | null; user: User | null };
+    // Con un correo ya confirmado, Supabase responde sin error pero no envía nada: el usuario llega sin identidades
+    if (data.user?.identities?.length === 0) throw new Error('Ese correo ya tiene una cuenta. Entra con tu contraseña o usa «Olvidé mi contraseña» para crear una.');
     return !!data.session;
+  },
+
+  resendConfirmation: async (email) => {
+    const sb = need();
+    await run(() => sb.auth.resend({ type: 'signup', email, options: { emailRedirectTo: emailRedirectTo() } }));
   },
 
   resetPassword: async (email) => {

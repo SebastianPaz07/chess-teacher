@@ -11,13 +11,24 @@ import styles from '@/features/club/club.module.css';
 type Mode = 'link' | 'password';
 type Step = 'form' | 'sent-link' | 'sent-confirm' | 'sent-reset';
 
+/** Por ahora solo se entra con enlace por correo; en `true` vuelve «Correo y contraseña» */
+const PASSWORD_LOGIN: boolean = false;
+
+/** El enlace de confirmación vuelve a /entrar sin más datos: aquí se recuerda a dónde iba el usuario */
+const NEXT_KEY = 'chess-teacher:next-after-confirm';
+
+/** Si el enlace del correo caducó o ya se usó, Supabase lo avisa en la dirección */
+const linkError = () =>
+  new URLSearchParams(window.location.hash.slice(1)).has('error_code') ? 'Ese enlace caducó o ya se usó. Pide uno nuevo.' : null;
+
 /**
  * Entrar: enlace mágico por correo o correo + contraseña (Supabase Auth).
  * Si Supabase no está configurado, queda el modo demo (el "correo" se simula).
  */
 export function LoginPage() {
   const [params] = useSearchParams();
-  const next = params.get('next') || '/club';
+  const [pendingNext] = useState(() => localStorage.getItem(NEXT_KEY));
+  const next = params.get('next') || pendingNext || '/club';
   const recovering = params.get('recuperar') === '1';
   // Viene de armar su plan: puede seguir sin cuenta, salvo que entre por una invitación a un club
   const fromStart = params.get('inicio') === '1';
@@ -27,13 +38,14 @@ export function LoginPage() {
   const clubStatus = useClubStore((s) => s.status);
   const refresh = useClubStore((s) => s.refresh);
   const wantsSignup = params.get('registro') === '1';
-  const [mode, setMode] = useState<Mode>(wantsSignup ? 'password' : 'link');
+  const [mode, setMode] = useState<Mode>(PASSWORD_LOGIN && wantsSignup ? 'password' : 'link');
   const [creating, setCreating] = useState(wantsSignup);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [step, setStep] = useState<Step>('form');
   const [busy, setBusy] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(linkError);
+  const [resent, setResent] = useState(false);
 
   useEffect(() => {
     void useAuthStore.getState().init();
@@ -41,7 +53,9 @@ export function LoginPage() {
 
   const clubReady = clubStatus !== 'loading' && clubStatus !== 'signed-out';
   const signedIn = auth.enabled ? auth.status === 'signed-in' && clubReady : clubReady;
-  if (signedIn && step === 'form' && !recovering) return <Navigate to={next} replace />;
+  useEffect(() => {
+    if (signedIn) localStorage.removeItem(NEXT_KEY);
+  }, [signedIn]);
 
   const guard = async (fn: () => Promise<void>) => {
     setBusy(true);
@@ -68,12 +82,19 @@ export function LoginPage() {
   const submitPassword = (e: FormEvent) => {
     e.preventDefault();
     void guard(async () => {
-      if (creating) {
-        const active = await auth.signUp(email, password);
-        if (!active) setStep('sent-confirm');
-      } else {
-        await auth.signInWithPassword(email, password);
+      const active = creating ? await auth.signUp(email, password) : await auth.signInWithPassword(email, password);
+      if (!active) {
+        localStorage.setItem(NEXT_KEY, next);
+        setResent(false);
+        setStep('sent-confirm');
       }
+    });
+  };
+
+  const resend = () => {
+    void guard(async () => {
+      await auth.resendConfirmation(email);
+      setResent(true);
     });
   };
 
@@ -109,6 +130,9 @@ export function LoginPage() {
     </label>
   );
 
+  // También cubre la pestaña que esperaba mientras el correo se confirmaba en otra
+  if (signedIn && step !== 'sent-reset' && !recovering) return <Navigate to={next} replace />;
+
   // Llegó desde el enlace de "olvidé mi contraseña"
   if (recovering && auth.status === 'signed-in') {
     return (
@@ -133,13 +157,13 @@ export function LoginPage() {
   if (step !== 'form') {
     const text = {
       'sent-link': 'Ábrelo desde este dispositivo para entrar.',
-      'sent-confirm': 'Confirma tu correo con ese enlace y luego vuelve a entrar con tu contraseña.',
+      'sent-confirm': 'Ábrelo para confirmar que el correo es tuyo: volverás a la app con la sesión iniciada. Las próximas veces entras solo con tu correo y contraseña.',
       'sent-reset': 'Ábrelo para elegir una contraseña nueva.',
     }[step];
     return (
       <div className={styles.auth}>
         {header}
-        <Card tone="primary" icon="envelope" title="Revisa tu correo" subtitle={`Enviamos un enlace a ${email}.`}>
+        <Card tone="primary" icon="envelope" title={step === 'sent-confirm' ? 'Confirma tu correo' : 'Revisa tu correo'} subtitle={`Enviamos un enlace a ${email}.`}>
           <div className="stack">
             <p style={{ margin: 0 }}>{text}</p>
             {import.meta.env.DEV && !auth.enabled && clubRepo.isDemo && (
@@ -152,7 +176,23 @@ export function LoginPage() {
                 </Button>
               </>
             )}
-            <Button variant="ghost" onClick={() => setStep('form')}>
+            {step === 'sent-confirm' && (
+              <>
+                {errorLine}
+                <Button variant="ghost" onClick={resend} loading={busy} disabled={resent}>
+                  {resent ? 'Correo reenviado' : 'Reenviar el correo'}
+                </Button>
+              </>
+            )}
+            <Button
+              variant="ghost"
+              onClick={() => {
+                // Al volver desde la confirmación ya toca entrar, no crear otra cuenta
+                if (step === 'sent-confirm') setCreating(false);
+                setError(null);
+                setStep('form');
+              }}
+            >
               Volver
             </Button>
           </div>
@@ -165,7 +205,7 @@ export function LoginPage() {
     <div className={styles.auth}>
       {header}
       <Card>
-        {auth.enabled && (
+        {auth.enabled && PASSWORD_LOGIN && (
           <div className="row" style={{ marginBottom: 'var(--space-3)' }}>
             <Button variant={mode === 'link' ? 'primary' : 'ghost'} size="sm" onClick={() => setMode('link')}>
               Enlace por correo
@@ -198,11 +238,11 @@ export function LoginPage() {
               {creating ? 'Crear mi cuenta' : 'Entrar'}
             </Button>
             <div className="row">
-              <Button variant="ghost" size="sm" onClick={() => setCreating((c) => !c)}>
+              <Button type="button" variant="ghost" size="sm" onClick={() => setCreating((c) => !c)}>
                 {creating ? 'Ya tengo cuenta' : 'Crear una cuenta'}
               </Button>
               {!creating && (
-                <Button variant="ghost" size="sm" onClick={forgot}>
+                <Button type="button" variant="ghost" size="sm" onClick={forgot}>
                   Olvidé mi contraseña
                 </Button>
               )}
