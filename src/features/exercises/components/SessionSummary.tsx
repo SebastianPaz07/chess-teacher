@@ -2,6 +2,7 @@ import { Icon } from '@/components/ui/Icon';
 import { motion } from 'framer-motion';
 import { useEffect, useRef, useState } from 'react';
 import { Badge, Button, Card } from '@/components/ui';
+import { BoardTip } from '@/components/ui/BoardTip';
 import type { Exercise } from '@/content/schema';
 import { themeLabel } from '../themes';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
@@ -89,6 +90,7 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
               </li>
             ))}
           </ul>
+          <BoardTip />
           {onRetryMistakes && (
             <Button block variant="secondary" icon="review" onClick={() => onRetryMistakes(failed.map((f) => f.exercise))} style={{ marginTop: 'var(--space-3)' }}>
               Repasarlos ahora

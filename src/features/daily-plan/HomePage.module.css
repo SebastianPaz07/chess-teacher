@@ -84,3 +84,23 @@
 
 .masthead { position: relative; padding-right: 88px; min-height: 72px; }
 .mastArt { position: absolute; right: 0; top: 0; filter: drop-shadow(0 6px 14px rgb(10 11 40 / 0.35)); transform: rotate(4deg); }
+
+.timeNote { margin: 0; font-size: 0.8rem; color: var(--color-text-muted); text-align: center; }
+
+/* Entrenador */
+.coach, .free { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+.coachTitle { margin: 0; font-size: 1.1rem; }
+.coachHead { margin: 0; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.35; }
+.coachList { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.45; }
+.goal { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; margin-top: var(--space-1); }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; height: 36px; align-items: end; }
+.weekDay { display: flex; align-items: flex-end; height: 100%; background: var(--color-border); border-radius: 3px; overflow: hidden; }
+.weekBar { display: block; width: 100%; min-height: 2px; background: var(--color-primary); border-radius: 3px; }
+
+/* Ratos libres */
+.freeList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.freeItem { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-size: 0.9rem; }
+.freeItem:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.freeItem strong { font-weight: 600; display: block; }
+.freeItem small { display: block; color: var(--color-text-muted); font-size: 0.8rem; margin-top: 2px; }
+

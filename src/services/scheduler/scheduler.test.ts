@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { modules } from '@/content/registry';
 import { addDays } from '@/lib/date';
-import { generateDailyPlan } from './dailyPlan';
+import { difficultyStretch, generateDailyPlan, isCoreTask } from './dailyPlan';
 import { isLessonUnlocked, isModuleMastered, isModuleUnlocked, moduleState, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
 import { estimatePlacement, nextTarget, ratingFromElo } from './placement';
 import { allLessons } from '@/content/registry';
@@ -72,7 +72,7 @@ describe('plan diario', () => {
   const base = { modules, progress: empty, dueCards: [], rating: 800, dailyMinutes: 15, solvedIds: new Set<string>(), trainedLines: {} };
   it('alumno nuevo: lección + práctica', () => {
     const plan = generateDailyPlan({ ...base, date: D });
-    expect(plan.map((t) => t.kind)).toEqual(['lesson', 'practice']);
+    expect(plan.filter(isCoreTask).map((t) => t.kind).slice(0, 2)).toEqual(['lesson', 'practice']);
     const lesson = plan[0];
     expect(lesson.kind === 'lesson' && lesson.lessonId).toBe('fund-01-tablero');
   });
@@ -102,8 +102,46 @@ describe('plan diario por nivel', () => {
         if (t.kind === 'lesson') expect(['fundamentos', 'tactica']).not.toContain(lessonModule(t.lessonId));
       }
       expect(plan.some((t) => t.kind === 'practice')).toBe(true);
-      expect(plan.some((t) => t.kind === 'classic')).toBe(true);
     }
+  });
+
+  it('el plan respeta el tiempo elegido (nunca lo supera más que un par de minutos)', () => {
+    for (const dailyMinutes of [10, 15, 20, 30, 45, 60]) {
+      for (let i = 0; i < 14; i++) {
+        for (const lvl of [{ rating: 800, placementLevel: null }, { rating: 1300, placementLevel: 'intermedio' as const }, { rating: 1909, placementLevel: 'avanzado' as const }]) {
+          const plan = generateDailyPlan({ ...advanced, rating: lvl.rating, progress: { ...empty, placementLevel: lvl.placementLevel }, dailyMinutes, date: addDays(D, i) });
+          const total = plan.filter(isCoreTask).reduce((a, t) => a + t.minutes, 0);
+          expect(total).toBeLessThanOrEqual(dailyMinutes + 3);
+        }
+      }
+    }
+  });
+
+  it('las recomendaciones no cuentan como pasos y siempre hay una lectura o video', () => {
+    const plan = generateDailyPlan({ ...advanced, date: D });
+    const recs = plan.filter((t) => !isCoreTask(t));
+    expect(recs.some((t) => t.kind === 'recommendation' && (t.subtype === 'book' || t.subtype === 'video') && t.url)).toBe(true);
+    expect(recs.every((t) => t.minutes === 0)).toBe(true);
+  });
+
+  it('la dificultad sube poco a poco si te va bien y baja si te cuesta', () => {
+    expect(difficultyStretch(3, 5)).toBe(0); // pocos datos
+    expect(difficultyStretch(18, 20)).toBeGreaterThan(difficultyStretch(14, 20));
+    expect(difficultyStretch(14, 20)).toBeGreaterThan(difficultyStretch(9, 20));
+    expect(difficultyStretch(6, 20)).toBeLessThan(0);
+  });
+
+  it('con stretch positivo los ejercicios elegidos son más difíciles', () => {
+    const pool = Array.from({ length: 60 }, (_, i) => ({ id: `s${i}`, fen: 'start', solution: ['e4'], themes: ['horquilla'], rating: 1000 + i * 20, moduleId: 'x', tags: ['horquilla'] }));
+    const avg = (stretch: number) => {
+      const plan = generateDailyPlan({ ...advanced, rating: 1300, progress: { ...empty, placementLevel: 'intermedio' }, date: D, puzzlePool: pool, stretch });
+      const practice = plan.find((t) => t.kind === 'practice');
+      if (practice?.kind !== 'practice') return 0;
+      const all = [...pool, ...modules.flatMap((m) => m.exercises)];
+      const r = practice.exerciseIds.map((id) => all.find((p) => p.id === id)!.rating);
+      return r.reduce((a, b) => a + b, 0) / r.length;
+    };
+    expect(avg(100)).toBeGreaterThan(avg(-50));
   });
 
   it('avanzado: la práctica usa los ejercicios más cercanos a su rating', () => {

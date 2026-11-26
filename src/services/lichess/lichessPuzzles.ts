@@ -106,6 +106,43 @@ export async function fetchLichessPuzzles({ count, rating, theme, exclude, timeo
   return list;
 }
 
+/** Ejercicios guardados que aún no has resuelto, cerca de tu nivel (sin red). */
+export function cachedUnseen({ rating, theme, exclude, margin = 350 }: { rating: number; theme?: string | null; exclude: Set<string>; margin?: number }): Exercise[] {
+  return readCache().filter((e) => !exclude.has(e.id) && Math.abs(e.rating - rating) <= margin && (!theme || e.themes.includes(theme)));
+}
+
+/**
+ * Primero usa lo guardado; solo pide a Lichess lo que falte. Así la mayoría
+ * de sesiones no hacen ninguna consulta y la pantalla no espera a la red.
+ */
+export async function takeFresh(opts: FetchOptions): Promise<Exercise[]> {
+  const local = cachedUnseen(opts).sort(() => Math.random() - 0.5).slice(0, opts.count);
+  if (local.length >= opts.count) {
+    registerExercises(local);
+    return local;
+  }
+  const have = new Set([...opts.exclude, ...local.map((e) => e.id)]);
+  const net = await fetchLichessPuzzles({ ...opts, count: opts.count - local.length, exclude: have });
+  registerExercises(local);
+  return [...local, ...net];
+}
+
+const TOPUP_KEY = storeKey('lichess-topup');
+const TOPUP_EVERY_MS = 30 * 60_000;
+const STOCK_MIN = 25;
+
+/**
+ * Reabastece la caché en segundo plano (como mucho cada 30 min y solo si queda
+ * poco material sin ver). No bloquea ninguna pantalla.
+ */
+export function topUpInBackground(rating: number, exclude: Set<string>) {
+  if (cachedUnseen({ rating, exclude, margin: 400 }).length >= STOCK_MIN) return;
+  const last = Number(storage.getItem(TOPUP_KEY) ?? 0);
+  if (Date.now() - last < TOPUP_EVERY_MS) return;
+  storage.setItem(TOPUP_KEY, String(Date.now()));
+  void fetchLichessPuzzles({ count: 12, rating, exclude, timeoutMs: 15_000 }).catch(() => undefined);
+}
+
 // ── Caché local (para repasar ejercicios traídos de Lichess aunque no haya red) ──
 
 function readCache(): Exercise[] {

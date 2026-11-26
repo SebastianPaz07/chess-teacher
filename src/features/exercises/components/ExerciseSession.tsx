@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { PuzzleBoard, type PuzzleResult } from '@/components/chess';
 import { Badge, Button, Card, ProgressBar } from '@/components/ui';
+import { BoardTip } from '@/components/ui/BoardTip';
 import { RichText } from '@/components/ui/RichText';
 import type { Exercise } from '@/content/schema';
 import { TeacherBubble, type TeacherMood } from '@/features/gamification/components/TeacherBubble';
@@ -91,6 +92,7 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
             <Card tone={current.r.success ? 'success' : 'danger'} icon={current.r.success ? 'check-circle' : 'x-circle'} title={current.r.success ? (current.r.mistakes === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}>
               {ex.explanation && <RichText text={ex.explanation} />}
+              <BoardTip />
               {ex.source && <p className="muted">Fuente: {ex.source.startsWith('lichess:') ? <a href={`https://lichess.org/training/${ex.source.slice(8)}`} target="_blank" rel="noreferrer">Lichess</a> : ex.source}</p>}
               <Button block size="lg" onClick={next} className={styles.cardNext}>
                 {index + 1 >= exercises.length ? 'Ver resultados' : 'Siguiente'}

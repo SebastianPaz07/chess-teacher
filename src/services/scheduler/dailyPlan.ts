@@ -1,3 +1,4 @@
+import { pickReading, readingUrl } from '@/content/readings';
 import { LEVEL_RANK, type ClassicGame, type Exercise, type Lesson, type Level, type Module, type Opening } from '@/content/schema';
 import { dayNumber } from '@/lib/date';
 import { hashString, seededRandom } from '@/lib/random';
@@ -26,7 +27,25 @@ export type DailyTask =
   | { id: string; kind: 'practice'; title: string; exerciseIds: string[]; minutes: number }
   | { id: string; kind: 'opening'; title: string; openingId: string; lineIndex: number; minutes: number }
   | { id: string; kind: 'classic'; title: string; gameId: string; minutes: number }
-  | { id: string; kind: 'recommendation'; title: string; subtype: 'library' | 'resource' | 'classic' | 'rush'; resourceId?: string; gameId?: string; minutes: number };
+  | { id: string; kind: 'recommendation'; title: string; subtype: 'library' | 'resource' | 'classic' | 'rush' | 'book' | 'video'; resourceId?: string; gameId?: string; url?: string; note?: string; minutes: number };
+
+/** Las recomendaciones son opcionales (ratos libres): no cuentan como pasos del plan. */
+export const isCoreTask = (t: DailyTask) => t.kind !== 'recommendation';
+
+/**
+ * Cuánto subir la dificultad sobre el rating actual según tu puntería reciente:
+ * si te va bien, los ejercicios se ponen un poco más difíciles (de 25 en 25);
+ * si te cuesta, se afloja. Cambios pequeños para que el avance sea muy gradual.
+ */
+export function difficultyStretch(solved: number, attempted: number): number {
+  if (attempted < 10) return 0;
+  const acc = solved / attempted;
+  if (acc >= 0.85) return 100;
+  if (acc >= 0.75) return 60;
+  if (acc >= 0.6) return 25;
+  if (acc >= 0.45) return 0;
+  return -50;
+}
 
 export interface DailyPlanInput {
   date: string;
@@ -50,7 +69,12 @@ export interface DailyPlanInput {
   restDay?: boolean;
   /** false = principiante absoluto: solo lecciones de fundamentos, sin ejercicios */
   learnedBasics?: boolean;
+  /** Ajuste de dificultad sobre el rating (ver difficultyStretch) */
+  stretch?: number;
 }
+
+/** Minutos que se estiman por ejercicio. */
+export const MINUTES_PER_EXERCISE: Record<Level, number> = { principiante: 1.5, intermedio: 1.5, avanzado: 2 };
 
 /** Nº de ejercicios según el tiempo disponible (10 a 60 min). */
 export function practiceCountFor(level: Level, minutes: number): number {
@@ -93,10 +117,33 @@ function generateRecommendations(input: {
   day: number;
   favoriteOpening?: string | null;
   modules: Module[];
+  focus?: FocusArea[];
+  weak?: string[];
 }): DailyTask[] {
   const { day, level, dailyMinutes, modules } = input;
   const recs: DailyTask[] = [];
   const rotation = day % 7;
+
+  // Temas que más te conviene leer: lo que elegiste reforzar + tus puntos débiles
+  const wanted = new Set<string>(input.focus ?? []);
+  for (const w of input.weak ?? []) {
+    for (const [area, tags] of Object.entries(FOCUS_TAGS)) if (tags.includes(w)) wanted.add(area);
+  }
+  const wantedTags = [...wanted];
+
+  // 0. Una lectura o un video para tus ratos libres (alternan; siempre hay uno)
+  const reading = pickReading(day % 2 === 0 ? 'book' : 'video', level, wantedTags, day);
+  if (reading) {
+    recs.push({
+      id: `rec:${reading.kind}:${reading.id}:${day}`,
+      kind: 'recommendation',
+      title: `${reading.kind === 'book' ? 'Lee' : 'Mira'}: ${reading.title} — ${reading.by}`,
+      subtype: reading.kind,
+      url: readingUrl(reading),
+      note: reading.why,
+      minutes: 0,
+    });
+  }
 
   // 1. Biblioteca (cada 3 días)
   if (rotation % 3 === 0) {
@@ -136,7 +183,7 @@ function generateRecommendations(input: {
     }
   }
 
-  return recs.slice(0, 2); // Max 2 recomendaciones por día
+  return recs.slice(0, 3); // Max 3 recomendaciones por día (la lectura siempre va primero)
 }
 
 export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
@@ -168,23 +215,47 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   // Principiante absoluto: primero aprende a mover las piezas, sin ejercicios
   if (basicsFirst) return tasks;
 
+  // Presupuesto de tiempo: el plan respeta los minutos que elegiste.
+  // Repaso y lección van primero; apertura y partida clásica solo entran si caben
+  // dejando al menos unos ejercicios; el resto del tiempo es práctica.
+  const perExercise = MINUTES_PER_EXERCISE[level];
+  let remaining = dailyMinutes - tasks.reduce((a, t) => a + t.minutes, 0);
+  const minPractice = Math.ceil(3 * perExercise);
+
+  const openingPick = pickOpening();
+  // Una línea que nunca has entrenado lleva más tiempo: primero se estudia y luego se practica
+  const openingIsNew = Boolean(openingPick) && !(`${openingPick!.opening.id}#${openingPick!.lineIndex}` in (input.trainedLines ?? {}));
+  const openingMinutes = focus.includes('teoria') || openingIsNew ? 5 : 3;
+  const wantOpening = Boolean(openingPick) && remaining - openingMinutes >= minPractice;
+  if (wantOpening) remaining -= openingMinutes;
+
+  const games: ClassicGame[] = unlocked.flatMap((m) => m.games);
+  const classicToday = level === 'avanzado' || (level === 'intermedio' && day % 2 === 1);
+  const CLASSIC_MINUTES = 6;
+  const wantClassic = games.length > 0 && classicToday && !restDay && dailyMinutes >= 20 && remaining - CLASSIC_MINUTES >= minPractice;
+  if (wantClassic) remaining -= CLASSIC_MINUTES;
+
+  const practiceTarget = Math.max(2, Math.min(practiceCount, Math.floor(remaining / perExercise)));
+  // La dificultad sube poco a poco si te va bien (ver difficultyStretch)
+  const target = rating + (input.stretch ?? 0);
+
   // 3. Práctica / cálculo adaptativo
   const fresh = freshPool.filter((e) => !solvedIds.has(e.id));
-  const basePool: Exercise[] = fresh.length >= practiceCount ? fresh : [...fresh, ...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
-  const pool = level === 'principiante' ? basePool : nearRating(basePool, rating, practiceCount);
+  const basePool: Exercise[] = fresh.length >= practiceTarget ? fresh : [...fresh, ...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
+  const pool = level === 'principiante' ? basePool : nearRating(basePool, target, practiceTarget);
   const weak = weakTopics(progress);
   const focusTags = new Set([...(lesson?.tags ?? []), ...weak.slice(0, 2)]);
   for (const f of focus) if (f !== 'teoria') FOCUS_TAGS[f].forEach((t) => focusTags.add(t));
   const chosenShare = focus.some((f) => f !== 'teoria') ? 0.7 : 0.5;
   const focused = pool.filter((e) => e.tags.some((t) => focusTags.has(t)));
   // Mitad enfocada en temas débiles / lección, mitad libre (para no sesgar el rating)
-  const focusN = Math.min(focused.length, Math.ceil(practiceCount * chosenShare));
-  const first = focusN ? pickAdaptive(focused, rating, focusN, solvedIds, rand) : [];
+  const focusN = Math.min(focused.length, Math.ceil(practiceTarget * chosenShare));
+  const first = focusN ? pickAdaptive(focused, target, focusN, solvedIds, rand) : [];
   const taken = new Set(first.map((e) => e.id));
   const rest = pickAdaptive(
     pool.filter((e) => !taken.has(e.id)),
-    rating,
-    practiceCount - first.length,
+    target,
+    practiceTarget - first.length,
     solvedIds,
     rand,
   );
@@ -192,13 +263,32 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   if (exercises.length) {
     const label = level === 'principiante' ? `${exercises.length} ejercicios tácticos` : `${exercises.length} posiciones de tu nivel`;
     const title = weak.length ? `${label} · refuerza ${weak[0].replace(/-/g, ' ')}` : label;
-    tasks.push({ id: 'practice', kind: 'practice', title, exerciseIds: exercises.map((e) => e.id), minutes: Math.ceil(exercises.length * (level === 'avanzado' ? 2 : 1.5)) });
+    tasks.push({ id: 'practice', kind: 'practice', title, exerciseIds: exercises.map((e) => e.id), minutes: Math.ceil(exercises.length * perExercise) });
   }
 
   // 4. Apertura del día (de módulos desbloqueados)
-  const openings: Opening[] = unlocked.flatMap((m) => m.openings);
-  if (openings.length && !restDay && dailyMinutes > 10) {
-    // La apertura elegida sale ~2 de cada 3 días; las demás rotan (las «por conocer» primero)
+  if (wantOpening && openingPick) {
+    const { opening: o, lineIndex } = openingPick;
+    const prefix = openingIsNew ? 'Estudia y practica la apertura' : openingPick.prefix;
+    tasks.push({ id: `opening:${o.id}#${lineIndex}`, kind: 'opening', title: `${prefix}: ${o.name}`, openingId: o.id, lineIndex, minutes: openingMinutes });
+  }
+
+  // 5. Partida clásica: "adivina la jugada" (cálculo y comprensión estratégica)
+  if (wantClassic) {
+    const g = games[day % games.length];
+    tasks.push({ id: `classic:${g.id}`, kind: 'classic', title: `Adivina la jugada: ${g.white} – ${g.black}`, gameId: g.id, minutes: CLASSIC_MINUTES });
+  }
+
+  // 6. Recomendaciones para los ratos libres (no cuentan como pasos del plan)
+  const recommendations = generateRecommendations({ date, level, dailyMinutes, day, favoriteOpening, modules, focus, weak });
+  tasks.push(...recommendations);
+
+  return tasks;
+
+  /** Apertura del día: la elegida sale ~2 de cada 3 días; las demás rotan (las «por conocer» primero). */
+  function pickOpening(): { opening: Opening; prefix: string; lineIndex: number } | null {
+    const openings: Opening[] = unlocked.flatMap((m) => m.openings);
+    if (!openings.length || restDay || dailyMinutes <= 10) return null;
     const byId = (id?: string | null) => (id ? modules.flatMap((m) => m.openings).find((x) => x.id === id) : undefined);
     const fav = byId(favoriteOpening);
     const explore = exploreOpenings.map(byId).filter((x): x is Opening => Boolean(x));
@@ -212,20 +302,6 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
       prefix = 'Conoce esta apertura';
     }
     const lineIndex = fav && o.id === fav.id ? day % o.lines.length : Math.floor(rand() * o.lines.length);
-    tasks.push({ id: `opening:${o.id}#${lineIndex}`, kind: 'opening', title: `${prefix}: ${o.name}`, openingId: o.id, lineIndex, minutes: focus.includes('teoria') ? 5 : 3 });
+    return { opening: o, prefix, lineIndex };
   }
-
-  // 5. Partida clásica: "adivina la jugada" (cálculo y comprensión estratégica)
-  const games: ClassicGame[] = unlocked.flatMap((m) => m.games);
-  const classicToday = level === 'avanzado' || (level === 'intermedio' && day % 2 === 1);
-  if (games.length && classicToday && !restDay && dailyMinutes >= 20) {
-    const g = games[day % games.length];
-    tasks.push({ id: `classic:${g.id}`, kind: 'classic', title: `Adivina la jugada: ${g.white} – ${g.black}`, gameId: g.id, minutes: 6 });
-  }
-
-  // 6. Recomendaciones
-  const recommendations = generateRecommendations({ date, level, dailyMinutes, day, favoriteOpening, modules });
-  tasks.push(...recommendations);
-
-  return tasks;
 }

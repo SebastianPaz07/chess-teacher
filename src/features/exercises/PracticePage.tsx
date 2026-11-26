@@ -10,7 +10,7 @@ import type { Exercise } from '@/content/schema';
 import { useCompleteDailyTask } from '@/features/daily-plan/hooks/useDailyPlan';
 import { usePuzzles } from '@/hooks/usePuzzles';
 import { pickAdaptive } from '@/services/game/rating';
-import { fetchLichessPuzzles } from '@/services/lichess/lichessPuzzles';
+import { takeFresh } from '@/services/lichess/lichessPuzzles';
 import { isModuleUnlocked, masteryRatio } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
@@ -58,13 +58,30 @@ export function PracticePage() {
 
   // Sesión del plan diario
   const dailyIds = params.get('daily') === 'practice' ? plan?.tasks.find((t) => t.kind === 'practice') : undefined;
-  const dailySet = dailyIds && dailyIds.kind === 'practice' ? dailyIds.exerciseIds.map(getExercise).filter((e): e is Exercise => Boolean(e)) : null;
+  const dailySet = useMemo(() => {
+    if (!dailyIds || dailyIds.kind !== 'practice') return null;
+    const found = dailyIds.exerciseIds.map(getExercise).filter((e): e is Exercise => Boolean(e));
+    if (found.length >= dailyIds.exerciseIds.length) return found;
+    // Faltan ejercicios (p. ej. se limpió la caché del navegador): se completan con otros del
+    // mismo nivel para que la sesión del plan nunca se pierda ni quede sin registrar.
+    const have = new Set(found.map((e) => e.id));
+    const seen = new Set(Object.keys(progress.exercises));
+    const extra = pickAdaptive(
+      pool.filter((e) => !have.has(e.id)),
+      rating,
+      dailyIds.exerciseIds.length - found.length,
+      seen,
+    );
+    return [...found, ...extra];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // Fija la sesión: no debe cambiar mientras resuelves (el pool varía con cada intento)
+  }, [dailyIds, ready]);
 
   /** Ronda nueva: primero ejercicios inéditos de Lichess; si no hay red, los del pool que aún no has visto. */
   const start = async () => {
     setLoading(true);
     const seen = new Set(Object.keys(progress.exercises));
-    const fresh = await fetchLichessPuzzles({ count: SESSION_SIZE, rating, theme, exclude: seen });
+    const fresh = await takeFresh({ count: SESSION_SIZE, rating, theme, exclude: seen, timeoutMs: 4000 });
     const filtered = (theme ? pool.filter((e) => e.themes.includes(theme)) : pool).filter((e) => !fresh.some((f) => f.id === e.id));
     const fill = pickAdaptive(filtered, rating, Math.max(0, SESSION_SIZE - fresh.length), seen);
     setSession([...fresh, ...fill]);
@@ -103,7 +120,7 @@ export function PracticePage() {
       <SessionSummary
         results={results}
         onRetryMistakes={retryMistakes}
-        primary={daily.fromDaily ? { label: 'Volver al plan de hoy', to: '/' } : { label: 'Otra ronda con ejercicios nuevos', onClick: start }}
+        primary={daily.fromDaily ? { label: daily.continueLabel, to: daily.continueTo } : { label: 'Otra ronda con ejercicios nuevos', onClick: start }}
         secondary={daily.fromDaily ? { label: 'Seguir practicando', onClick: start } : { label: 'Volver al inicio', to: '/' }}
       />
     );

@@ -40,7 +40,7 @@
   /* Siempre por encima del menú flotante de abajo, con aire entre los dos */
   bottom: calc(var(--bottom-nav) + var(--space-5) + env(safe-area-inset-bottom));
   padding: var(--space-2); border-radius: var(--radius-lg);
-  background: color-mix(in srgb, var(--color-bg) 82%, transparent); backdrop-filter: blur(10px);
+  background: var(--color-bg);
   box-shadow: var(--shadow-pop);
 }
 

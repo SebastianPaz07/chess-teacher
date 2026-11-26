@@ -102,8 +102,8 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
       <LessonComplete
         lesson={lesson}
         summary={summary}
-        onContinue={() => navigate(daily.fromDaily ? '/' : nextLesson ? `/leccion/${nextLesson.id}` : '/mapa')}
-        continueLabel={daily.fromDaily ? 'Volver al plan de hoy' : nextLesson ? `Siguiente: ${nextLesson.title}` : 'Volver al mapa'}
+        onContinue={() => navigate(daily.fromDaily ? daily.continueTo : nextLesson ? `/leccion/${nextLesson.id}` : '/mapa')}
+        continueLabel={daily.fromDaily ? daily.continueLabel : nextLesson ? `Siguiente: ${nextLesson.title}` : 'Volver al mapa'}
         onRetry={onRetry}
       />
     );

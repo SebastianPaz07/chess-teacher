@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Icon } from '@/components/ui/Icon';
+import { DailyStepBanner } from '@/features/daily-plan/components/DailyStepBanner';
 import { RewardsCenter } from '@/features/gamification/components/RewardsCenter';
 import { useStudyTimer } from '@/hooks/useStudyTimer';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -98,6 +99,7 @@ export function AppShell() {
             </div>
           )}
           <motion.div key={location.pathname} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.22, ease: [0.2, 0.8, 0.2, 1] }}>
+            <DailyStepBanner />
             <Outlet />
           </motion.div>
         </main>

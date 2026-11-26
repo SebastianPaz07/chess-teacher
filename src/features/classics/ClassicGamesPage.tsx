@@ -7,6 +7,7 @@ import { allGames } from '@/content/registry';
 import type { ClassicGame } from '@/content/schema';
 import { useCompleteDailyTask } from '@/features/daily-plan/hooks/useDailyPlan';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
+import { BoardTip } from '@/components/ui/BoardTip';
 import { useGameStore } from '@/store/gameStore';
 
 /** "Adivina la jugada": juega como un campeón en partidas históricas. */
@@ -53,8 +54,9 @@ export function ClassicGamesPage() {
         {result && (
           <Card tone="accent" icon="trophy" title={`Adivinaste ${result.correct} de ${result.total} jugadas`}>
             <p className="muted">Cada acierto vale XP. ¡Los campeones también fallan la primera vez!</p>
+            <BoardTip what="partida" />
             <div className="row">
-              {daily.fromDaily && <Button to="/">Volver al plan de hoy</Button>}
+              {daily.fromDaily && <Button to={daily.continueTo}>{daily.continueLabel}</Button>}
               <Button variant={daily.fromDaily ? 'secondary' : 'primary'} onClick={() => { setResult(null); setRound((x) => x + 1); }}>Jugar otra vez</Button>
             </div>
           </Card>

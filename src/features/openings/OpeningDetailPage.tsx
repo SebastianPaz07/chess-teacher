@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom';
 import { BoardStepper, LineTrainer, type LineResult } from '@/components/chess';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Button, Card, EmptyState, Tabs } from '@/components/ui';
+import { BoardTip } from '@/components/ui/BoardTip';
 import { getOpening, resourcesByTags } from '@/content/registry';
 import { useCompleteDailyTask } from '@/features/daily-plan/hooks/useDailyPlan';
 import { ResourceList } from '@/features/library/components/ResourceViewer';
@@ -16,7 +17,7 @@ export function OpeningDetailPage() {
   const [params] = useSearchParams();
   const opening = getOpening(openingId);
   const [lineIndex, setLineIndex] = useState(() => Number(params.get('line') ?? 0));
-  const [mode, setMode] = useState<'ver' | 'entrenar'>(params.get('daily') ? 'entrenar' : 'ver');
+  const [mode, setMode] = useState<'ver' | 'entrenar'>('ver');
   const [round, setRound] = useState(0);
   const [result, setResult] = useState<LineResult | null>(null);
   const openingLines = useProgressStore((s) => s.openingLines);
@@ -67,19 +68,33 @@ export function OpeningDetailPage() {
               ]}
             />
           </div>
+          {mode === 'ver' && daily.fromDaily && (
+            <Card tone="primary" icon="book-open" title="Paso 1: estudia la línea" style={{ marginBottom: 12 }}>
+              <p className="muted" style={{ margin: 0 }}>
+                Avanza jugada por jugada y lee las notas: lo importante es entender la idea, no memorizar. Cuando la tengas clara, pásala a «Entrenar».
+              </p>
+              <Button size="sm" onClick={() => { setMode('entrenar'); restart(); }} style={{ marginTop: 8 }}>
+                Ya la estudié: entrenar
+              </Button>
+            </Card>
+          )}
           {mode === 'ver' ? (
-            <BoardStepper key={`v-${lineIndex}`} moves={line.moves} notes={line.notes} orientation={opening.side === 'w' ? 'white' : 'black'} />
+            <>
+              <BoardStepper key={`v-${lineIndex}`} moves={line.moves} notes={line.notes} orientation={opening.side === 'w' ? 'white' : 'black'} />
+              <BoardTip what="línea" />
+            </>
           ) : (
             <LineTrainer key={`t-${lineIndex}-${round}`} moves={line.moves} side={opening.side} notes={line.notes} onFinish={onFinish} />
           )}
           {result && mode === 'entrenar' && (
             <Card tone={result.mistakes === 0 ? 'success' : 'accent'} title={result.mistakes === 0 ? '¡Línea perfecta!' : `Línea completada con ${result.mistakes} errores`} icon={result.mistakes === 0 ? 'trophy' : 'check'} style={{ marginTop: 16 }}>
               <p className="muted">La línea se añadió a tu repaso espaciado.</p>
+              <BoardTip what="línea" compact />
               <div className="row">
                 <Button onClick={restart}>Repetir</Button>
                 {daily.fromDaily && (
-                  <Button variant="secondary" to="/">
-                    Volver al plan de hoy
+                  <Button variant="secondary" to={daily.continueTo}>
+                    {daily.continueLabel}
                   </Button>
                 )}
               </div>

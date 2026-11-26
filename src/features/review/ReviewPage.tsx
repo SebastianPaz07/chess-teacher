@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { LineTrainer } from '@/components/chess';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Button, Card, EmptyState, Loader } from '@/components/ui';
@@ -21,7 +21,7 @@ export function ReviewPage() {
   const dispatch = useGameStore((s) => s.dispatch);
   const recordLine = useProgressStore((s) => s.recordOpeningLine);
   const daily = useCompleteDailyTask();
-  const [phase, setPhase] = useState<'intro' | 'exercises' | 'openings' | 'done'>('intro');
+  const [phase, setPhase] = useState<'auto' | 'intro' | 'exercises' | 'openings' | 'done'>(daily.fromDaily ? 'auto' : 'intro');
   const [results, setResults] = useState<SessionResult[]>([]);
   const [lineIdx, setLineIdx] = useState(0);
 
@@ -38,6 +38,15 @@ export function ReviewPage() {
   const total = Object.keys(cards).length;
   const upcoming = Object.values(cards).filter((c) => !due.includes(c)).sort((a, b) => a.due.localeCompare(b.due))[0];
 
+  // Desde el plan del día no hay pantalla intermedia: se empieza directo
+  const view = phase === 'auto' ? (exercises.length ? 'exercises' : lineCards.length ? 'openings' : 'intro') : phase;
+  const nothingDue = due.length === 0;
+  useEffect(() => {
+    // Sin tarjetas vencidas el paso queda cumplido (si no, el plan se quedaría atascado)
+    if (daily.fromDaily && ready && nothingDue) daily.complete();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, nothingDue]);
+
   if (!ready) return <Loader />;
 
   const finishAll = () => {
@@ -51,11 +60,11 @@ export function ReviewPage() {
     else finishAll();
   };
 
-  if (phase === 'done') {
-    return <SessionSummary title="¡Repaso completado!" results={results} primary={{ label: daily.fromDaily ? 'Volver al plan de hoy' : 'Volver al inicio', to: '/' }} />;
+  if (view === 'done') {
+    return <SessionSummary title="¡Repaso completado!" results={results} primary={{ label: daily.fromDaily ? daily.continueLabel : 'Volver al inicio', to: daily.fromDaily ? daily.continueTo : '/' }} />;
   }
 
-  if (phase === 'exercises' && exercises.length) {
+  if (view === 'exercises' && exercises.length) {
     return (
       <ExerciseSession
         exercises={exercises}
@@ -69,7 +78,7 @@ export function ReviewPage() {
     );
   }
 
-  if (phase === 'openings' && lineCards[lineIdx]) {
+  if (view === 'openings' && lineCards[lineIdx]) {
     const card = lineCards[lineIdx];
     const [openingId, li] = card.ref.split('#');
     const opening = getOpening(openingId)!;
@@ -103,7 +112,7 @@ export function ReviewPage() {
           icon="strategy"
           title="¡Nada pendiente por hoy!"
           description={total ? `Tienes ${total} tarjetas en tu mazo. La próxima vuelve el ${upcoming?.due ?? '—'}.` : 'Completa lecciones y ejercicios para llenar tu mazo de repaso.'}
-          action={<Button to="/practica">Practicar ejercicios</Button>}
+          action={daily.fromDaily ? <Button to={daily.continueTo}>{daily.continueLabel}</Button> : <Button to="/practica">Practicar ejercicios</Button>}
         />
       ) : (
         <Card tone="primary" icon="brain" title={`${due.length} tarjetas para repasar`} subtitle={`${exercises.length} ejercicios · ${lineCards.length} líneas de apertura`}>
