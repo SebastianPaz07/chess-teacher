@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
+import { Icon } from './Icon';
 import styles from './Modal.module.css';
 
 interface ModalProps {
@@ -10,9 +11,11 @@ interface ModalProps {
   children: ReactNode;
   footer?: ReactNode;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  /** Muestra una X para cerrar en la esquina (requiere onClose) */
+  showClose?: boolean;
 }
 
-export function Modal({ open, onClose, title, children, footer, size = 'md' }: ModalProps) {
+export function Modal({ open, onClose, title, children, footer, size = 'md', showClose }: ModalProps) {
   useEffect(() => {
     if (!open || !onClose) return;
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -34,7 +37,16 @@ export function Modal({ open, onClose, title, children, footer, size = 'md' }: M
             transition={{ type: 'spring', stiffness: 320, damping: 24 }}
             onClick={(e) => e.stopPropagation()}
           >
-            {title && <h2 className={styles.title}>{title}</h2>}
+            {showClose && onClose ? (
+              <div className={styles.head}>
+                {title && <h2 className={styles.title}>{title}</h2>}
+                <button type="button" className={styles.close} onClick={onClose} aria-label="Cerrar">
+                  <Icon name="close" size="1.1rem" />
+                </button>
+              </div>
+            ) : (
+              title && <h2 className={styles.title}>{title}</h2>
+            )}
             <div className={styles.body}>{children}</div>
             {footer && <div className={styles.footer}>{footer}</div>}
           </motion.div>

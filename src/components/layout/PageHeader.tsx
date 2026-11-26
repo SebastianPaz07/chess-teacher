@@ -20,8 +20,8 @@ export function PageHeader({ title, subtitle, icon, actions, eyebrow, compact, p
     <header
       style={{
         display: 'flex',
-        alignItems: 'flex-end',
-        gap: 'var(--space-4)',
+        alignItems: 'flex-start',
+        gap: 'var(--space-2) var(--space-4)',
         marginBottom: compact ? 0 : 'var(--space-5)',
         paddingBottom: compact ? 'var(--space-3)' : 'var(--space-4)',
         borderBottom: plain ? 'none' : '1px solid var(--color-rule)',

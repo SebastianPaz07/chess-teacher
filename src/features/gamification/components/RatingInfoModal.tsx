@@ -11,7 +11,7 @@ export function RatingInfoModal({ open, onClose }: { open: boolean; onClose: () 
   const pendingLoss = useGameStore((g) => g.pendingLoss ?? 0);
   const level = levelForRating(rating) as keyof typeof LEVEL_LABEL;
   return (
-    <Modal open={open} onClose={onClose} title="Tu puntaje (rating)">
+    <Modal open={open} onClose={onClose} title="Tu puntaje (rating)" showClose>
       <div className="stack">
         <p>
           Tu puntaje actual es <strong>{rating}</strong> · nivel <strong>{LEVEL_LABEL[level] ?? level}</strong>.

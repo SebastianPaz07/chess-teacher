@@ -60,3 +60,18 @@ export function displayStreak(s: StreakState, today: string, trainingDays?: numb
   if (missed === 1 && s.freezes > 0) return s.current;
   return 0;
 }
+
+/**
+ * Días seguidos con actividad, contando hacia atrás desde hoy (o desde ayer si
+ * hoy aún no has jugado: la racha sigue viva hasta que termine el día).
+ * Es estricta: cualquier día sin jugar la corta, sin descansos ni protectores.
+ */
+export function consecutiveDays(activeDays: ReadonlySet<string>, today: string): number {
+  let day = activeDays.has(today) ? today : addDays(today, -1);
+  let n = 0;
+  while (activeDays.has(day)) {
+    n++;
+    day = addDays(day, -1);
+  }
+  return n;
+}

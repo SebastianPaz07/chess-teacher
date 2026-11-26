@@ -5,6 +5,7 @@ import { Icon } from '@/components/ui/Icon';
 import { useGameSummary } from '@/features/gamification/hooks/useGameSummary';
 import { RatingInfoModal } from '@/features/gamification/components/RatingInfoModal';
 import { AVATAR_CHOICES } from '@/features/club/components/Avatar';
+import { NotificationBell } from '@/features/notifications/NotificationBell';
 import { clubRepo } from '@/services/club';
 import { useAuthStore } from '@/store/authStore';
 import { useClubStore } from '@/store/clubStore';
@@ -18,6 +19,8 @@ function ProfileMenu() {
   const clubSession = useClubStore((s) => s.session);
   const profile = useClubStore((s) => s.profile);
   const authStatus = useAuthStore((s) => s.status);
+  const g = useGameSummary();
+  const [ratingOpen, setRatingOpen] = useState(false);
   const signedIn = !!clubSession || authStatus === 'signed-in';
   const next = encodeURIComponent(pathname === '/entrar' ? '/' : pathname);
 
@@ -56,6 +59,23 @@ function ProfileMenu() {
       </button>
       {open && (
         <div className={styles.menu} role="menu">
+          <button
+            role="menuitem"
+            type="button"
+            className={styles.ratingRow}
+            title="Toca para ver qué es tu puntaje y cómo funciona"
+            onClick={() => {
+              setOpen(false);
+              setRatingOpen(true);
+            }}
+          >
+            <Icon name="chart" />
+            <span>
+              Tu puntaje
+              <small>Qué es y cómo sube</small>
+            </span>
+            <strong className="num">{g.rating}</strong>
+          </button>
           {signedIn ? (
             <>
               <div className={styles.menuHead}>{profile?.name || clubSession?.email || 'Mi cuenta'}</div>
@@ -94,6 +114,7 @@ function ProfileMenu() {
           )}
         </div>
       )}
+      <RatingInfoModal open={ratingOpen} onClose={() => setRatingOpen(false)} />
     </div>
   );
 }
@@ -101,14 +122,17 @@ function ProfileMenu() {
 /** Cabecera tipo "mancheta": marca en móvil, nivel y cifras clave del día. */
 export function TopBar() {
   const g = useGameSummary();
-  const [ratingOpen, setRatingOpen] = useState(false);
   return (
     <header className={styles.bar}>
       <Link to="/" className={styles.brand} aria-label="Inicio">
         <span className={styles.logo} aria-hidden>
           ♞
         </span>
-        <span className={styles.brandText}>Profe de Ajedrez</span>
+        <span className={styles.brandText}>
+          Chess
+          <br />
+          Team
+        </span>
       </Link>
       <Link to="/progreso" className={styles.level} title={`Nivel ${g.level} · ${g.rank.name}`}>
         <ProgressRing value={g.levelRatio} size={36} stroke={3} color="var(--color-accent)">
@@ -127,14 +151,17 @@ export function TopBar() {
       </Link>
       <div className={styles.stats}>
         <StatPill icon="fire" value={g.streak} color={g.streak > 0 ? 'var(--color-streak)' : undefined} title={`Racha: ${g.streak} días · Mejor: ${g.streakBest}`} />
-        {g.freezes > 0 && <StatPill icon="shield" value={g.freezes} title="Protectores de racha" />}
+        {g.freezes > 0 && (
+          <span className={styles.hideSm}>
+            <StatPill icon="shield" value={g.freezes} title="Protectores de racha" />
+          </span>
+        )}
         <span className={styles.hideSm}>
           <StatPill icon="diamond" value={g.xpToday} label="XP hoy" color="var(--color-xp)" title="XP ganada hoy" />
         </span>
-        <StatPill icon="chart" value={g.rating} label="rating" title="Toca para ver qué es tu puntaje y cómo funciona" onClick={() => setRatingOpen(true)} />
       </div>
+      <NotificationBell />
       <ProfileMenu />
-      <RatingInfoModal open={ratingOpen} onClose={() => setRatingOpen(false)} />
     </header>
   );
 }

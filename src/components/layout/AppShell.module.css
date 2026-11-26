@@ -19,8 +19,7 @@
   z-index: 50;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  background: color-mix(in srgb, var(--color-surface) 92%, transparent);
-  backdrop-filter: blur(14px);
+  background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-pop);
@@ -56,7 +55,7 @@
   background: var(--color-surface);
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   box-shadow: var(--shadow-pop);
-  padding: var(--space-4) var(--space-4) calc(var(--bottom-nav) + var(--space-5) + env(safe-area-inset-bottom));
+  padding: var(--space-4) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
 }
 .sheetGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 var(--space-4); margin-top: var(--space-2); }
 .sheetLink {

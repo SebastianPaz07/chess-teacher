@@ -3,7 +3,7 @@ import { addDays } from '@/lib/date';
 import { applyEvent, initialGameState } from './engine';
 import { questsForDay } from './quests';
 import { expectedScore, updateRating } from './rating';
-import { displayStreak, initialStreak, registerActivity } from './streak';
+import { consecutiveDays, displayStreak, initialStreak, registerActivity } from './streak';
 import { comboMultiplier, levelFromXp, levelProgress, rankForLevel, xpForLevel } from './xp';
 
 const D = '2026-11-22';
@@ -161,5 +161,19 @@ describe('ajustes de exigencia y plan', () => {
     const { practiceCountFor } = await import('@/services/scheduler/dailyPlan');
     expect(practiceCountFor('intermedio', 10)).toBeLessThan(practiceCountFor('intermedio', 20));
     expect(practiceCountFor('intermedio', 60)).toBeGreaterThan(practiceCountFor('intermedio', 30));
+  });
+});
+
+describe('días seguidos jugando', () => {
+  const days = (...d: string[]) => new Set(d);
+  it('cuenta los días consecutivos hasta hoy', () => {
+    expect(consecutiveDays(days('2026-11-23', '2026-11-24', '2026-11-25'), '2026-11-25')).toBe(3);
+  });
+  it('si hoy aún no jugaste, la racha de ayer sigue viva', () => {
+    expect(consecutiveDays(days('2026-11-23', '2026-11-24'), '2026-11-25')).toBe(2);
+  });
+  it('un día sin jugar corta la cuenta', () => {
+    expect(consecutiveDays(days('2026-11-20', '2026-11-21', '2026-11-25'), '2026-11-25')).toBe(1);
+    expect(consecutiveDays(days('2026-11-22', '2026-11-23'), '2026-11-25')).toBe(0);
   });
 });

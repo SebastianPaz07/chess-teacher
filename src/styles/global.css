@@ -18,9 +18,9 @@ html,
 body {
   margin: 0;
   background: var(--color-bg);
-  background-image: linear-gradient(160deg, var(--color-bg) 0%, var(--color-bg-2) 100%);
-  background-attachment: fixed;
   color: var(--color-text);
+  touch-action: manipulation; /* sin el retraso de ~300 ms al tocar en móvil */
+  -webkit-tap-highlight-color: transparent;
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
@@ -78,6 +78,17 @@ select:focus-visible {
 
 #root {
   min-height: 100dvh;
+}
+
+/* El degradado va en su propia capa fija: con background-attachment: fixed
+   el navegador repinta toda la página en cada fotograma del scroll. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: linear-gradient(160deg, var(--color-bg) 0%, var(--color-bg-2) 100%);
 }
 
 /* Red de seguridad: nada puede provocar scroll horizontal en la página. */
