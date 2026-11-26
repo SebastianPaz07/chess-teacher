@@ -1,0 +1,35 @@
+.picker { display: flex; flex-direction: column; gap: var(--space-3); }
+/* El selector de color se ajusta a sus dos botones en vez de ocupar todo el ancho */
+.picker > [role='tablist'] { align-self: flex-start; max-width: 100%; }
+.group { display: flex; flex-direction: column; gap: var(--space-2); }
+.list { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 56px;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  cursor: pointer;
+}
+.row:hover:not(:disabled) { border-color: var(--color-primary); }
+.row:disabled { opacity: 0.5; cursor: default; }
+.rowOn { background: var(--color-primary-soft); border-color: var(--color-primary); box-shadow: var(--glow-primary); }
+.text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.name { font-weight: 700; }
+.name small { margin-left: var(--space-1); color: var(--color-text-muted); font-weight: 500; }
+.detail {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+.check { color: var(--color-primary); }
