@@ -1,4 +1,4 @@
-# ♞ Profe de Ajedrez
+# ♞ ChezzClub
 
 App React (Vite + TypeScript) que enseña ajedrez **un poco cada día**, de forma progresiva y gamificada. El temario sigue el material de la carpeta de Drive (clases grabadas + libros). El progreso se guarda en `localStorage`.
 
@@ -18,7 +18,7 @@ npm run inventory  # vuelve a leer la carpeta de Drive (solo nombres) → src/co
 | **Repetición espaciada SM-2** de ejercicios y líneas de apertura | `services/scheduler/sm2.ts` |
 | **Desbloqueo progresivo** (prerrequisitos al 80 %, o test de nivel) | `services/scheduler/progression.ts` |
 | **Práctica adaptativa** según rating y temas débiles | `services/game/rating.ts` |
-| **XP, niveles y rangos** (Peón → Maestro), racha 🔥 con protectores, misiones diarias, logros | `services/game/*` |
+| **XP, niveles y rangos** (Novato → Maestro), racha 🔥 con protectores, misiones diarias, medallas | `services/game/*` |
 | Vidas ❤️ y combos en lecciones, Rush táctico, "Adivina la jugada", profesor animado, confeti y sonidos | `features/*` |
 
 ## Arquitectura
@@ -35,7 +35,8 @@ src/
 │  ├─ daily-plan/  "Hoy"           ├─ lessons/    lector de lecciones
 │  ├─ exercises/   práctica        ├─ review/     repaso SM-2
 │  ├─ openings/    repertorio      ├─ classics/   partidas clásicas
-│  ├─ gamification/ mapa, logros, rush, recompensas, profesor
+│  ├─ gamification/ índice, mapa, logros, rush, recompensas, profesor
+│  ├─ profile/      perfil: cuenta, puntaje, avatar y accesos
 │  ├─ progress/  placement/  library/  settings/
 ├─ content/
 │  ├─ schema.ts     Esquemas Zod (Module, Lesson, Step, Exercise, Opening, ClassicGame)
