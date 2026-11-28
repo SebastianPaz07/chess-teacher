@@ -1,0 +1,31 @@
+/* Todo se mide en `em`: el tamaño cambia solo con font-size */
+.medal { display: inline-flex; flex-direction: column; align-items: center; flex-shrink: 0; line-height: 1; }
+.md { font-size: 2.1rem; }
+.sm { font-size: 1.1rem; }
+
+.ribbon {
+  width: 1.2em;
+  height: 0.8em;
+  margin-bottom: -0.25em;
+  background: linear-gradient(90deg, var(--color-primary) 0 33%, var(--color-accent) 33% 67%, var(--color-primary) 67%);
+  clip-path: polygon(0 0, 100% 0, 78% 100%, 22% 100%);
+}
+.disc {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 1.85em;
+  height: 1.85em;
+  border-radius: 50%;
+  background: radial-gradient(circle at 32% 28%, var(--medal-shine), var(--medal-base) 68%);
+  border: 0.1em solid var(--medal-edge);
+  box-shadow: inset 0 0 0 0.09em rgb(255 255 255 / 0.45), var(--shadow-sm);
+  color: var(--medal-ink);
+}
+
+.bronce { --medal-shine: var(--medal-bronze-shine); --medal-base: var(--medal-bronze); --medal-edge: var(--medal-bronze-edge); --medal-ink: var(--medal-bronze-ink); }
+.plata { --medal-shine: var(--medal-silver-shine); --medal-base: var(--medal-silver); --medal-edge: var(--medal-silver-edge); --medal-ink: var(--medal-silver-ink); }
+.oro { --medal-shine: var(--medal-gold-shine); --medal-base: var(--medal-gold); --medal-edge: var(--medal-gold-edge); --medal-ink: var(--medal-gold-ink); }
+
+.locked .ribbon { background: var(--color-border); }
+.locked .disc { background: var(--color-surface-2); border-color: var(--color-rule); box-shadow: none; color: var(--color-text-muted); }

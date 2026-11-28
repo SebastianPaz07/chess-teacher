@@ -8,12 +8,12 @@ export interface Rank {
 }
 
 export const RANKS: Rank[] = [
-  { id: 'peon', name: 'Peón', icon: 'piece-pawn', minLevel: 1 },
-  { id: 'caballo', name: 'Caballo', icon: 'piece-knight', minLevel: 3 },
-  { id: 'alfil', name: 'Alfil', icon: 'piece-bishop', minLevel: 5 },
-  { id: 'torre', name: 'Torre', icon: 'piece-rook', minLevel: 8 },
-  { id: 'dama', name: 'Dama', icon: 'piece-queen', minLevel: 11 },
-  { id: 'rey', name: 'Rey', icon: 'piece-king', minLevel: 15 },
+  { id: 'novato', name: 'Novato', icon: 'piece-pawn', minLevel: 1 },
+  { id: 'aprendiz', name: 'Aprendiz', icon: 'piece-knight', minLevel: 3 },
+  { id: 'aficionado', name: 'Aficionado', icon: 'piece-bishop', minLevel: 5 },
+  { id: 'competidor', name: 'Competidor', icon: 'piece-rook', minLevel: 8 },
+  { id: 'veterano', name: 'Veterano', icon: 'piece-queen', minLevel: 11 },
+  { id: 'experto', name: 'Experto', icon: 'piece-king', minLevel: 15 },
   { id: 'maestro', name: 'Maestro', icon: 'crown', minLevel: 20 },
 ];
 

@@ -1,0 +1,17 @@
+{
+  "id": "ataque-rey",
+  "order": 10,
+  "level": "intermedio",
+  "category": "tactica",
+  "icon": "sword",
+  "color": "#922b21",
+  "title": "Ataque al rey",
+  "prerequisites": [
+    "tactica"
+  ],
+  "tags": [
+    "tactica",
+    "ataque-al-rey"
+  ],
+  "description": "Rey en el centro, sacrificio en h7, enroques opuestos y cómo sumar piezas al ataque."
+}

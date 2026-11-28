@@ -185,6 +185,9 @@ export function SettingsPage() {
             <Button variant="secondary" onClick={() => sim('Los compañeros jugaron tus retos', clubRepo._botsReplyNow)}>
               Responder mis retos ya
             </Button>
+            <Button variant="secondary" onClick={() => sim('Un compañero publicó en el muro', clubRepo._botPost)}>
+              Que publiquen
+            </Button>
             <Button variant="ghost" onClick={() => sim('Club simulado reiniciado', clubRepo._reset)}>
               Reiniciar club simulado
             </Button>

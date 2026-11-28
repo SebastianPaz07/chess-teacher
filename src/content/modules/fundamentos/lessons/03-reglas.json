@@ -4,24 +4,46 @@
   "title": "Enroque, captura al paso y coronación",
   "summary": "Las tres reglas especiales que todo jugador debe dominar.",
   "icon": "castle",
-  "xp": 50,
-  "minutes": 8,
-  "tags": ["fundamentos"],
-  "sources": [{ "title": "Rey Enigma – CAPTURA al PASO (Curso de Ajedrez desde cero #18)", "resourceTags": ["fundamentos"] }],
-  "practice": ["fund-ex-mate-torre"],
+  "xp": 80,
+  "minutes": 20,
+  "tags": [
+    "fundamentos"
+  ],
+  "sources": [
+    {
+      "title": "Rey Enigma – CAPTURA al PASO (Curso de Ajedrez desde cero #18)",
+      "resourceTags": [
+        "fundamentos"
+      ]
+    }
+  ],
+  "practice": [
+    "fund-ex-mate-torre"
+  ],
   "steps": [
     {
       "type": "text",
       "title": "El enroque",
       "fen": "4k3/8/8/8/8/8/5PPP/4K2R w K - 0 1",
-      "arrows": [["e1", "g1"], ["h1", "f1"]],
+      "arrows": [
+        [
+          "e1",
+          "g1"
+        ],
+        [
+          "h1",
+          "f1"
+        ]
+      ],
       "body": "El enroque mueve **rey y torre a la vez**: el rey va dos casillas hacia la torre y la torre salta al otro lado.\n\n- No se puede si el rey o esa torre ya se movieron.\n- No puede haber piezas entre ellos.\n- El rey no puede estar en jaque, ni pasar ni llegar a una casilla atacada.\n\nEnrocar **protege al rey** y **activa la torre**."
     },
     {
       "type": "make-move",
       "fen": "4k3/8/8/8/8/8/5PPP/4K2R w K - 0 1",
       "prompt": "Enroca **corto** (mueve el rey dos casillas hacia la torre).",
-      "solution": ["O-O"],
+      "solution": [
+        "O-O"
+      ],
       "hint": "Arrastra el rey de e1 a g1.",
       "explanation": "¡Perfecto! En notación se escribe **O-O** (corto) y **O-O-O** (largo)."
     },
@@ -34,7 +56,9 @@
       "type": "make-move",
       "fen": "4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1",
       "prompt": "El peón negro acaba de jugar **d7-d5**. Captúralo **al paso**.",
-      "solution": ["exd6"],
+      "solution": [
+        "exd6"
+      ],
       "hint": "Tu peón de e5 captura en diagonal hacia d6.",
       "explanation": "**exd6** a.p. El peón negro desaparece de d5 aunque tu peón termine en d6."
     },
@@ -42,7 +66,9 @@
       "type": "make-move",
       "fen": "7k/1P6/8/8/8/8/8/K7 w - - 0 1",
       "prompt": "Un peón que llega a la última fila **corona**: se convierte en otra pieza. ¡Corona en dama!",
-      "solution": ["b8=Q+"],
+      "solution": [
+        "b8=Q+"
+      ],
       "explanation": "**b8=D+** ¡Y además con jaque! Casi siempre se corona en dama, la pieza más fuerte."
     },
     {
@@ -55,6 +81,62 @@
       ],
       "answer": 1,
       "explanation": "El ahogado es **tablas** (empate). ¡Cuidado al ganar: no dejes al rival sin jugadas si no le das jaque!"
+    },
+    {
+      "type": "video",
+      "resourceId": "1sLOsv-hCppD4DPpgTeMankLvm--wpiro",
+      "title": "La captura al paso"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **4 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 672",
+      "fen": "1k6/pp5p/3p1P2/3P4/8/1q6/2p3PP/5R1K w - - 0 31",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "f7",
+        "Kc7",
+        "f8=Q"
+      ],
+      "explanation": "Solución: **f7 Rc7 f8=D**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 752",
+      "fen": "3R4/p1r2p1k/1pq3p1/4Q3/5P1p/P1P1P3/5P2/4K3 w - - 1 39",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qh8#"
+      ],
+      "explanation": "Solución: **Dh8#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 837",
+      "fen": "8/8/p7/5PP1/P4K2/2p5/3k4/4R3 b - - 0 52",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Kxe1",
+        "f6",
+        "c2",
+        "f7",
+        "c1=Q+"
+      ],
+      "explanation": "Solución: **Rxe1 f6 c2 f7 c1=D+**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 896",
+      "fen": "r2qkbnr/1p1bnppp/p2p4/1Np5/Q3P3/2PB4/PP3PPP/RNB1K2R w KQkq - 0 10",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Nxd6#"
+      ],
+      "explanation": "Solución: **Cxd6#**. Revisa cada casilla de escape antes de dar el jaque."
     }
   ]
 }

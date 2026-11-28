@@ -1,0 +1,225 @@
+{
+  "id": "fto-01-actividad",
+  "order": 1,
+  "title": "Actividad ante todo",
+  "summary": "Una torre activa vale más que un peón.",
+  "icon": "lightning",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "finales",
+    "final-torres"
+  ],
+  "sources": [
+    {
+      "title": "Finales de torre esenciales",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Tres reglas",
+      "body": "1. **Torre activa** antes que defensiva.\n2. La torre, **detrás** del peón pasado (tuyo o del rival).\n3. El **rey** al centro de la acción."
+    },
+    {
+      "type": "board-demo",
+      "title": "Capablanca contra Tartakower",
+      "moves": [
+        "d4",
+        "e6",
+        "Nf3",
+        "f5",
+        "c4",
+        "Nf6",
+        "Bg5",
+        "Be7",
+        "Nc3",
+        "O-O",
+        "e3",
+        "b6",
+        "Bd3",
+        "Bb7",
+        "O-O",
+        "Qe8",
+        "Qe2",
+        "Ne4",
+        "Bxe7",
+        "Nxc3",
+        "bxc3",
+        "Qxe7",
+        "a4",
+        "Bxf3",
+        "Qxf3",
+        "Nc6",
+        "Rfb1",
+        "Rae8",
+        "Qh3",
+        "Rf6",
+        "f4",
+        "Na5",
+        "Qf3",
+        "d6",
+        "Re1",
+        "Qd7",
+        "e4",
+        "fxe4",
+        "Qxe4",
+        "g6",
+        "g3",
+        "Kf8",
+        "Kg2",
+        "Rf7",
+        "h4",
+        "d5",
+        "cxd5",
+        "exd5",
+        "Qxe8+",
+        "Qxe8",
+        "Rxe8+",
+        "Kxe8",
+        "h5",
+        "Rf6",
+        "hxg6",
+        "hxg6",
+        "Rh1",
+        "Kf8",
+        "Rh7",
+        "Rc6",
+        "g4",
+        "Nc4",
+        "g5",
+        "Ne3+",
+        "Kf3",
+        "Nf5",
+        "Bxf5",
+        "gxf5",
+        "Kg3",
+        "Rxc3+",
+        "Kh4",
+        "Rf3",
+        "g6",
+        "Rxf4+",
+        "Kg5",
+        "Re4",
+        "Kf6",
+        "Kg8",
+        "Rg7+",
+        "Kh8",
+        "Rxc7",
+        "Re8",
+        "Kxf5",
+        "Re4",
+        "Kf6",
+        "Rf4+",
+        "Ke5",
+        "Rg4",
+        "g7+",
+        "Kg8",
+        "Rxa7",
+        "Rg1",
+        "Kxd5",
+        "Rc1",
+        "Kd6",
+        "Rc2",
+        "d5",
+        "Rc1",
+        "Rc7",
+        "Ra1",
+        "Kc6",
+        "Rxa4",
+        "d6"
+      ],
+      "notes": {
+        "0": "J. R. Capablanca – Savielly Tartakower, 1924.",
+        "40": "Capablanca entrega peones a cambio de actividad.",
+        "59": "La torre entra en séptima.",
+        "77": "Rey y peón pasado trabajan juntos."
+      },
+      "body": "El final de torres más estudiado: míralo entero en tu tablero."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Dónde suele estar mejor la torre respecto a un peón pasado?",
+      "options": [
+        "Detrás del peón",
+        "En una esquina",
+        "Delante del peón"
+      ],
+      "answer": 0,
+      "explanation": "Detrás gana espacio cuando el peón avanza."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1074",
+      "fen": "8/6p1/5p1p/4r3/5kP1/1R3P1P/5K2/8 w - - 4 46",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rb4+",
+        "Kg5",
+        "f4+",
+        "Kh4",
+        "fxe5"
+      ],
+      "explanation": "Solución: **Tb4+ Rg5 f4+ Rh4 fxe5**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1198",
+      "fen": "8/5k2/7p/1R3Kp1/4P3/5P1P/1pr5/8 b - - 3 51",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rc5+",
+        "Rxc5",
+        "b1=Q"
+      ],
+      "explanation": "Solución: **Tc5+ Txc5 b1=D**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1285",
+      "fen": "4r3/1p3p2/1p6/3p1kP1/2pP3P/P1P2K2/1P2R3/8 b - - 0 34",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxe2",
+        "Kxe2",
+        "Kg4",
+        "g6",
+        "fxg6"
+      ],
+      "explanation": "Solución: **Txe2 Rxe2 Rg4 g6 fxg6**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1407",
+      "fen": "8/8/5pkp/8/PP3rPp/7P/r4P2/1R1R1K2 b - - 0 37",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rfxf2+",
+        "Kg1",
+        "Rg2+",
+        "Kh1",
+        "Rh2+"
+      ],
+      "explanation": "Solución: **Tfxf2+ Rg1 Tg2+ Rh1 Th2+**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1555",
+      "fen": "4k3/R3P3/1p3Kpp/2p5/2P5/4r3/4p1P1/8 w - - 3 38",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Ra8+",
+        "Kd7",
+        "Rd8+",
+        "Kc7",
+        "e8=Q",
+        "Rxe8",
+        "Rxe8"
+      ],
+      "explanation": "Solución: **Ta8+ Rd7 Td8+ Rc7 e8=D Txe8 Txe8**. Actividad primero; torre detrás del peón."
+    }
+  ]
+}

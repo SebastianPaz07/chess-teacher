@@ -1,0 +1,188 @@
+{
+  "id": "cal-04-largas",
+  "order": 4,
+  "title": "Combinaciones largas",
+  "summary": "Variantes de 4 y 5 jugadas.",
+  "icon": "strategy",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "tactica",
+    "sacrificio",
+    "ataque-al-rey"
+  ],
+  "sources": [
+    {
+      "title": "Clases de cálculo y táctica",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Divide el problema",
+      "body": "Una combinación larga es una cadena de ideas cortas. Calcula hasta una posición **que puedas evaluar**, guárdala en la memoria y continúa desde ahí."
+    },
+    {
+      "type": "board-demo",
+      "title": "La joya de Rotlewi–Rubinstein",
+      "moves": [
+        "d4",
+        "d5",
+        "Nf3",
+        "e6",
+        "e3",
+        "c5",
+        "c4",
+        "Nc6",
+        "Nc3",
+        "Nf6",
+        "dxc5",
+        "Bxc5",
+        "a3",
+        "a6",
+        "b4",
+        "Bd6",
+        "Bb2",
+        "O-O",
+        "Qd2",
+        "Qe7",
+        "Bd3",
+        "dxc4",
+        "Bxc4",
+        "b5",
+        "Bd3",
+        "Rd8",
+        "Qe2",
+        "Bb7",
+        "O-O",
+        "Ne5",
+        "Nxe5",
+        "Bxe5",
+        "f4",
+        "Bc7",
+        "e4",
+        "Rac8",
+        "e5",
+        "Bb6+",
+        "Kh1",
+        "Ng4",
+        "Be4",
+        "Qh4",
+        "g3",
+        "Rxc3",
+        "gxh4",
+        "Rd2",
+        "Qxd2",
+        "Bxe4+",
+        "Qg2",
+        "Rh3"
+      ],
+      "notes": {
+        "0": "Georg Rotlewi – Akiba Rubinstein, 1907.",
+        "44": "Empieza la combinación: las negras entregan la dama.",
+        "46": "Segunda ofrenda, ahora de torre."
+      },
+      "body": "Detente antes de **...Txc3** y calcula todo lo que puedas."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuándo puedes dejar de calcular una variante?",
+      "options": [
+        "Cuando llegas a una posición tranquila que puedes evaluar",
+        "Siempre a las tres jugadas",
+        "Cuando te cansas"
+      ],
+      "answer": 0,
+      "explanation": "Nunca evalúes en medio de una secuencia de capturas o jaques."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1434",
+      "fen": "5r1k/2p3p1/7p/p4N2/Pb1B4/3n1b2/1PP4P/R5K1 w - - 0 24",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Bxg7+",
+        "Kh7",
+        "Bxf8",
+        "Bxf8",
+        "cxd3"
+      ],
+      "explanation": "Solución: **Axg7+ Rh7 Axf8 Axf8 cxd3**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1544",
+      "fen": "5rk1/pR1Q1ppp/4N3/3p1n2/8/7P/q4rP1/4R1K1 w - - 0 29",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Qxf7+",
+        "Rxf7",
+        "Rb8+",
+        "Rf8",
+        "Rxf8#"
+      ],
+      "explanation": "Solución: **Dxf7+ Txf7 Tb8+ Tf8 Txf8#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1646",
+      "fen": "5Rbk/6pp/8/p3P3/Pp1pq3/1Q6/1P4PP/6K1 b - - 2 35",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qe1+",
+        "Rf1",
+        "Qxf1+",
+        "Kxf1",
+        "Bxb3"
+      ],
+      "explanation": "Solución: **De1+ Tf1 Dxf1+ Rxf1 Axb3**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1766",
+      "fen": "2kr2nr/pp1b1ppp/2nB4/1B1N4/Q2P4/7P/Pq1NKP2/8 w - - 2 16",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Nb6+",
+        "axb6",
+        "Qa8+",
+        "Nb8",
+        "Qxb8#"
+      ],
+      "explanation": "Solución: **Cb6+ axb6 Da8+ Cb8 Dxb8#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1833",
+      "fen": "8/pp6/2p1k3/2Pp2pp/1P1P1p2/P2K1PP1/7P/8 b - - 0 42",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "fxg3",
+        "hxg3",
+        "h4",
+        "gxh4",
+        "gxh4"
+      ],
+      "explanation": "Solución: **fxg3 hxg3 h4 gxh4 gxh4**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1979",
+      "fen": "8/5p1p/K3p1p1/2k5/Pp2PP2/1P3n2/2B5/8 w - - 2 42",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Kb7",
+        "Nd4",
+        "a5",
+        "Nxc2",
+        "a6",
+        "Nd4",
+        "a7"
+      ],
+      "explanation": "Solución: **Rb7 Cd4 a5 Cxc2 a6 Cd4 a7**. Calcula hasta ver qué recuperas."
+    }
+  ]
+}

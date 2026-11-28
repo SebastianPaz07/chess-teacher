@@ -1,10 +1,12 @@
-import { pickReading, readingUrl } from '@/content/readings';
+import { pickBook, pickOpeningStudy } from '@/content/readings';
 import { LEVEL_RANK, type ClassicGame, type Exercise, type Lesson, type Level, type Module, type Opening } from '@/content/schema';
 import { dayNumber } from '@/lib/date';
 import { hashString, seededRandom } from '@/lib/random';
-import { pickAdaptive } from '@/services/game/rating';
+import { pickVaried } from '@/services/game/rating';
+import { motifOf } from '@/services/lichess/themes';
 import { isModuleUnlocked, levelForRating, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
 import type { ReviewCard } from './sm2';
+import { THEMES, type ThemeId } from './weekPlan';
 
 export type FocusArea = 'tactica' | 'teoria' | 'finales' | 'medio-juego';
 
@@ -23,11 +25,11 @@ export const FOCUS_TAGS: Record<Exclude<FocusArea, 'teoria'>, string[]> = {
  */
 export type DailyTask =
   | { id: string; kind: 'review'; title: string; cardIds: string[]; minutes: number }
-  | { id: string; kind: 'lesson'; title: string; lessonId: string; minutes: number }
+  | { id: string; kind: 'lesson'; title: string; lessonId: string; minutes: number; totalMinutes: number }
   | { id: string; kind: 'practice'; title: string; exerciseIds: string[]; minutes: number }
   | { id: string; kind: 'opening'; title: string; openingId: string; lineIndex: number; minutes: number }
   | { id: string; kind: 'classic'; title: string; gameId: string; minutes: number }
-  | { id: string; kind: 'recommendation'; title: string; subtype: 'library' | 'resource' | 'classic' | 'rush' | 'book' | 'video'; resourceId?: string; gameId?: string; url?: string; note?: string; minutes: number };
+  | { id: string; kind: 'recommendation'; title: string; subtype: 'library' | 'classic' | 'rush' | 'book' | 'video'; resourceId?: string; gameId?: string; note?: string; minutes: number };
 
 /** Las recomendaciones son opcionales (ratos libres): no cuentan como pasos del plan. */
 export const isCoreTask = (t: DailyTask) => t.kind !== 'recommendation';
@@ -58,7 +60,7 @@ export interface DailyPlanInput {
   trainedLines: Record<string, unknown>;
   /** Pool extra de ejercicios (puzzles importados) que se suma a los de los módulos. */
   puzzlePool?: Exercise[];
-  /** Ejercicios inéditos traídos de Lichess: si alcanzan, la práctica del día sale solo de aquí */
+  /** Ejercicios inéditos traídos de Lichess: se mezclan con el resto del material */
   freshPool?: Exercise[];
   /** Áreas que el alumno quiere reforzar */
   focus?: FocusArea[];
@@ -71,7 +73,12 @@ export interface DailyPlanInput {
   learnedBasics?: boolean;
   /** Ajuste de dificultad sobre el rating (ver difficultyStretch) */
   stretch?: number;
+  /** Tema del día según el plan semanal */
+  theme?: ThemeId | null;
 }
+
+/** Minutos de lección que caben en un día: las largas se avanzan por bloques. */
+export const lessonBlock = (lessonMinutes: number, dailyMinutes: number) => Math.min(lessonMinutes, Math.max(5, Math.round(dailyMinutes * 0.3)));
 
 /** Minutos que se estiman por ejercicio. */
 export const MINUTES_PER_EXERCISE: Record<Level, number> = { principiante: 1.5, intermedio: 1.5, avanzado: 2 };
@@ -116,6 +123,7 @@ function generateRecommendations(input: {
   dailyMinutes: number;
   day: number;
   favoriteOpening?: string | null;
+  exploreOpenings?: string[];
   modules: Module[];
   focus?: FocusArea[];
   weak?: string[];
@@ -131,16 +139,34 @@ function generateRecommendations(input: {
   }
   const wantedTags = [...wanted];
 
-  // 0. Una lectura o un video para tus ratos libres (alternan; siempre hay uno)
-  const reading = pickReading(day % 2 === 0 ? 'book' : 'video', level, wantedTags, day);
-  if (reading) {
+  // 0. Material de estudio de una apertura que elegiste (video de clase o libro)
+  const chosen = [input.favoriteOpening, ...(input.exploreOpenings ?? [])]
+    .map((id) => modules.flatMap((m) => m.openings).find((o) => o.id === id))
+    .filter((o): o is Opening => Boolean(o));
+  const study = pickOpeningStudy(chosen, day);
+  if (study) {
+    const video = study.resource.type === 'video';
     recs.push({
-      id: `rec:${reading.kind}:${reading.id}:${day}`,
+      id: `rec:opening-study:${study.resource.id}:${day}`,
       kind: 'recommendation',
-      title: `${reading.kind === 'book' ? 'Lee' : 'Mira'}: ${reading.title} — ${reading.by}`,
-      subtype: reading.kind,
-      url: readingUrl(reading),
-      note: reading.why,
+      title: `${video ? 'Mira' : 'Lee'}: ${study.title}`,
+      subtype: video ? 'video' : 'book',
+      resourceId: study.resource.id,
+      note: study.why,
+      minutes: 0,
+    });
+  }
+
+  // Un libro de la biblioteca para tus ratos libres (siempre hay uno)
+  const book = pickBook(level, wantedTags, day);
+  if (book) {
+    recs.push({
+      id: `rec:book:${book.resource.id}:${day}`,
+      kind: 'recommendation',
+      title: `Lee: ${book.title}`,
+      subtype: 'book',
+      resourceId: book.resource.id,
+      note: book.why,
       minutes: 0,
     });
   }
@@ -183,7 +209,7 @@ function generateRecommendations(input: {
     }
   }
 
-  return recs.slice(0, 3); // Max 3 recomendaciones por día (la lectura siempre va primero)
+  return recs.slice(0, 4); // Máximo 4 recomendaciones (el material de estudio va primero)
 }
 
 export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
@@ -194,6 +220,8 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   const tasks: DailyTask[] = [];
   const level = effectiveLevel(progress, rating);
   const day = dayNumber(date);
+  const theme = !restDay && input.theme ? THEMES[input.theme] : undefined;
+  const themeTags = new Set(theme?.tags ?? []);
   const practiceCount = practiceCountFor(level, dailyMinutes);
   const unlocked = modules.filter((m) => isModuleUnlocked(m, modules, progress));
 
@@ -203,13 +231,16 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
     tasks.push({ id: 'review', kind: 'review', title: `Calentamiento: ${cards.length} repasos`, cardIds: cards.map((c) => c.id), minutes: Math.ceil(cards.length * 0.7) });
   }
 
-  // 2. Lección (los avanzados la tienen en días alternos: priorizamos cálculo)
+  // 2. Lección (los avanzados la tienen en días alternos: priorizamos cálculo).
+  // Primero la que encaja con el tema del día; si no hay, la siguiente del índice.
   const candidates = nextLessons(modules, progress);
   let lesson: Lesson | undefined;
   const lessonToday = basicsFirst || !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30 || focus.includes('teoria'));
   if (candidates.length && lessonToday) {
-    lesson = basicsFirst ? candidates[0] : candidates[day % candidates.length];
-    tasks.push({ id: `lesson:${lesson.id}`, kind: 'lesson', title: lesson.title, lessonId: lesson.id, minutes: lesson.minutes });
+    lesson = basicsFirst ? candidates[0] : (candidates.find((l) => l.tags.some((t) => themeTags.has(t))) ?? (theme ? candidates[0] : candidates[day % candidates.length]));
+    const minutes = basicsFirst ? lesson.minutes : lessonBlock(lesson.minutes, dailyMinutes);
+    const title = minutes < lesson.minutes ? `Avanza en: ${lesson.title}` : lesson.title;
+    tasks.push({ id: `lesson:${lesson.id}`, kind: 'lesson', title, lessonId: lesson.id, minutes, totalMinutes: lesson.minutes });
   }
 
   // Principiante absoluto: primero aprende a mover las piezas, sin ejercicios
@@ -225,12 +256,12 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   const openingPick = pickOpening();
   // Una línea que nunca has entrenado lleva más tiempo: primero se estudia y luego se practica
   const openingIsNew = Boolean(openingPick) && !(`${openingPick!.opening.id}#${openingPick!.lineIndex}` in (input.trainedLines ?? {}));
-  const openingMinutes = focus.includes('teoria') || openingIsNew ? 5 : 3;
+  const openingMinutes = focus.includes('teoria') || openingIsNew || theme?.id === 'apertura' ? 5 : 3;
   const wantOpening = Boolean(openingPick) && remaining - openingMinutes >= minPractice;
   if (wantOpening) remaining -= openingMinutes;
 
   const games: ClassicGame[] = unlocked.flatMap((m) => m.games);
-  const classicToday = level === 'avanzado' || (level === 'intermedio' && day % 2 === 1);
+  const classicToday = theme ? theme.id === 'maestros' || (level === 'avanzado' && day % 2 === 0) : level === 'avanzado' || (level === 'intermedio' && day % 2 === 1);
   const CLASSIC_MINUTES = 6;
   const wantClassic = games.length > 0 && classicToday && !restDay && dailyMinutes >= 20 && remaining - CLASSIC_MINUTES >= minPractice;
   if (wantClassic) remaining -= CLASSIC_MINUTES;
@@ -240,30 +271,29 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   const target = rating + (input.stretch ?? 0);
 
   // 3. Práctica / cálculo adaptativo
-  const fresh = freshPool.filter((e) => !solvedIds.has(e.id));
-  const basePool: Exercise[] = fresh.length >= practiceTarget ? fresh : [...fresh, ...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
+  const fresh = freshPool.filter((x) => !solvedIds.has(x.id));
+  const basePool: Exercise[] = [...fresh, ...unlocked.flatMap((m) => m.exercises), ...(puzzlePool ?? [])];
   const pool = level === 'principiante' ? basePool : nearRating(basePool, target, practiceTarget);
   const weak = weakTopics(progress);
   const focusTags = new Set([...(lesson?.tags ?? []), ...weak.slice(0, 2)]);
   for (const f of focus) if (f !== 'teoria') FOCUS_TAGS[f].forEach((t) => focusTags.add(t));
-  const chosenShare = focus.some((f) => f !== 'teoria') ? 0.7 : 0.5;
-  const focused = pool.filter((e) => e.tags.some((t) => focusTags.has(t)));
-  // Mitad enfocada en temas débiles / lección, mitad libre (para no sesgar el rating)
-  const focusN = Math.min(focused.length, Math.ceil(practiceTarget * chosenShare));
-  const first = focusN ? pickAdaptive(focused, target, focusN, solvedIds, rand) : [];
-  const taken = new Set(first.map((e) => e.id));
-  const rest = pickAdaptive(
-    pool.filter((e) => !taken.has(e.id)),
-    target,
-    practiceTarget - first.length,
-    solvedIds,
-    rand,
-  );
-  const exercises = [...first, ...rest];
-  if (exercises.length) {
-    const label = level === 'principiante' ? `${exercises.length} ejercicios tácticos` : `${exercises.length} posiciones de tu nivel`;
-    const title = weak.length ? `${label} · refuerza ${weak[0].replace(/-/g, ' ')}` : label;
-    tasks.push({ id: 'practice', kind: 'practice', title, exerciseIds: exercises.map((e) => e.id), minutes: Math.ceil(exercises.length * perExercise) });
+  const chosen: Exercise[] = [];
+  const add = (from: Exercise[], n: number, maxPerKind: number) => {
+    if (n > 0 && from.length) chosen.push(...pickVaried(from, target, n, solvedIds, rand, motifOf, maxPerKind, chosen));
+  };
+  // Primero el tema del día, luego tus puntos a reforzar y el resto bien variado
+  const matching = (tags: Set<string>) => pool.filter((x) => x.themes.some((t) => tags.has(t)));
+  if (theme) add(matching(themeTags), Math.ceil(practiceTarget * 0.6), Math.max(1, Math.ceil(practiceTarget / 4)));
+  const chosenShare = theme ? 0.2 : focus.some((f) => f !== 'teoria') ? 0.7 : 0.5;
+  add(matching(focusTags), Math.min(practiceTarget - chosen.length, Math.ceil(practiceTarget * chosenShare)), Math.max(1, Math.ceil(practiceTarget / 4)));
+  // Resto libre (para no sesgar el rating)
+  add(pool, practiceTarget - chosen.length, 1);
+  if (chosen.length) {
+    const label = level === 'principiante' ? `${chosen.length} ejercicios tácticos` : `${chosen.length} posiciones de tu nivel`;
+    const title = theme ? `${chosen.length} ejercicios · ${theme.title}` : weak.length ? `${label} · refuerza ${weak[0].replace(/-/g, ' ')}` : label;
+    // De menor a mayor dificultad
+    const exerciseIds = [...chosen].sort((x, y) => x.rating - y.rating).map((x) => x.id);
+    tasks.push({ id: 'practice', kind: 'practice', title, exerciseIds, minutes: Math.ceil(chosen.length * perExercise) });
   }
 
   // 4. Apertura del día (de módulos desbloqueados)
@@ -273,14 +303,14 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
     tasks.push({ id: `opening:${o.id}#${lineIndex}`, kind: 'opening', title: `${prefix}: ${o.name}`, openingId: o.id, lineIndex, minutes: openingMinutes });
   }
 
-  // 5. Partida clásica: "adivina la jugada" (cálculo y comprensión estratégica)
+  // 5. Partida clásica: verla completa y practicar sus jugadas (cálculo y comprensión estratégica)
   if (wantClassic) {
     const g = games[day % games.length];
-    tasks.push({ id: `classic:${g.id}`, kind: 'classic', title: `Adivina la jugada: ${g.white} – ${g.black}`, gameId: g.id, minutes: CLASSIC_MINUTES });
+    tasks.push({ id: `classic:${g.id}`, kind: 'classic', title: `Estudia y practica: ${g.white} – ${g.black}`, gameId: g.id, minutes: CLASSIC_MINUTES });
   }
 
   // 6. Recomendaciones para los ratos libres (no cuentan como pasos del plan)
-  const recommendations = generateRecommendations({ date, level, dailyMinutes, day, favoriteOpening, modules, focus, weak });
+  const recommendations = generateRecommendations({ date, level, dailyMinutes, day, favoriteOpening, exploreOpenings, modules, focus, weak });
   tasks.push(...recommendations);
 
   return tasks;
@@ -301,7 +331,9 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
       o = explore[day % explore.length];
       prefix = 'Conoce esta apertura';
     }
-    const lineIndex = fav && o.id === fav.id ? day % o.lines.length : Math.floor(rand() * o.lines.length);
+    // Se avanza por las líneas que aún no has entrenado; cuando ya las viste todas, rotan
+    const untrained = o.lines.findIndex((_, i) => !(`${o.id}#${i}` in (input.trainedLines ?? {})));
+    const lineIndex = untrained >= 0 ? untrained : day % o.lines.length;
     return { opening: o, prefix, lineIndex };
   }
 }

@@ -20,7 +20,8 @@ import { LessonActionSlot } from './steps/LessonAction';
 import { isGraded, stepRegistry, type StepViewProps } from './steps/stepRegistry';
 import styles from './LessonPage.module.css';
 
-const MAX_HEARTS = 3;
+/** Las lecciones largas dan más margen de error. */
+const heartsFor = (graded: number) => Math.min(5, Math.max(3, Math.ceil(graded / 2) + 1));
 
 export function LessonPage() {
   const { lessonId = '' } = useParams();
@@ -29,9 +30,9 @@ export function LessonPage() {
   const progress = useProgressStore();
   const [attempt, setAttempt] = useState(0);
 
-  if (!lesson || !mod) return <EmptyState icon="question" title="Lección no encontrada" action={<Button to="/mapa">Ir al mapa</Button>} />;
+  if (!lesson || !mod) return <EmptyState icon="question" title="Lección no encontrada" action={<Button to="/mapa/capitulos">Ver las lecciones</Button>} />;
   if (!isLessonUnlocked(lesson, mod, modules, progress)) {
-    return <EmptyState icon="lock" title="Lección bloqueada" description="Completa las lecciones anteriores para desbloquearla." action={<Button to="/mapa">Ir al mapa</Button>} />;
+    return <EmptyState icon="lock" title="Lección bloqueada" description="Completa las lecciones anteriores para desbloquearla." action={<Button to="/mapa/capitulos">Ver las lecciones</Button>} />;
   }
   return <LessonRunner key={`${lesson.id}-${attempt}`} lessonId={lesson.id} onRetry={() => setAttempt((a) => a + 1)} />;
 }
@@ -45,10 +46,16 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
   const addCard = useReviewStore((s) => s.addCard);
   const daily = useCompleteDailyTask();
 
+  const saveDraft = useProgressStore((s) => s.saveLessonDraft);
+  const [draft] = useState(() => useProgressStore.getState().lessonDrafts[lessonId]);
+  const startAt = draft && draft.index < lesson.steps.length ? draft.index : 0;
+  const plan = useGameStore((s) => s.plan);
+
   const [slot, setSlot] = useState<HTMLElement | null>(null);
-  const [index, setIndex] = useState(0);
-  const [hearts, setHearts] = useState(MAX_HEARTS);
-  const [mistakes, setMistakes] = useState(0);
+  const [index, setIndex] = useState(startAt);
+  const maxHearts = heartsFor(lesson.steps.filter(isGraded).length);
+  const [hearts, setHearts] = useState(maxHearts);
+  const [mistakes, setMistakes] = useState(startAt ? (draft?.mistakes ?? 0) : 0);
   const [combo, setCombo] = useState(0);
   const [bonusXp, setBonusXp] = useState(0);
   const [teacher, setTeacher] = useState<{ msg: string; mood: TeacherMood }>({ msg: teacherSays('lessonStart'), mood: 'neutral' });
@@ -57,11 +64,17 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
 
   const graded = useMemo(() => lesson.steps.filter(isGraded).length, [lesson]);
   const step = lesson.steps[index];
+  // Desde el plan del día, una lección larga se puede dejar al cumplir los minutos de hoy
+  const block = daily.fromDaily ? plan?.tasks.find((t) => t.kind === 'lesson' && t.lessonId === lessonId) : undefined;
+  const blockSteps = block?.kind === 'lesson' && block.minutes < block.totalMinutes ? Math.max(1, Math.ceil((lesson.steps.length * block.minutes) / block.totalMinutes)) : null;
+  const blockDone = blockSteps !== null && index - startAt >= blockSteps;
   const related = useMemo(() => resourcesByTags([...lesson.tags, ...lesson.sources.flatMap((s) => s.resourceTags)], 5), [lesson]);
 
   const onMistake = () => {
     setMistakes((m) => m + 1);
     setHearts((h) => Math.max(0, h - 1));
+    // Sin vidas no queda punto de retorno: la próxima vez se empieza de nuevo
+    if (hearts <= 1) saveDraft(lesson.id, null);
     setCombo(0);
     setTeacher({ msg: teacherSays('wrong'), mood: 'oops' });
   };
@@ -77,6 +90,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
   const finish = () => {
     if (finished.current) return;
     finished.current = true;
+    saveDraft(lesson.id, null);
     const record = completeLesson(lesson.id, mistakes);
     lesson.practice.forEach((id) => addCard('exercise', id));
     const xp = lesson.xp + bonusXp;
@@ -92,6 +106,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
     if (index + 1 >= lesson.steps.length) finish();
     else {
       setIndex(index + 1);
+      saveDraft(lesson.id, { index: index + 1, mistakes });
       if (!isGraded(lesson.steps[index + 1])) setTeacher((t) => ({ ...t, mood: 'neutral' }));
     }
   };
@@ -102,7 +117,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
       <LessonComplete
         lesson={lesson}
         summary={summary}
-        onContinue={() => navigate(daily.fromDaily ? daily.continueTo : nextLesson ? `/leccion/${nextLesson.id}` : '/mapa')}
+        onContinue={() => navigate(daily.fromDaily ? daily.continueTo : nextLesson ? `/leccion/${nextLesson.id}` : '/mapa/capitulos')}
         continueLabel={daily.fromDaily ? daily.continueLabel : nextLesson ? `Siguiente: ${nextLesson.title}` : 'Volver al mapa'}
         onRetry={onRetry}
       />
@@ -125,7 +140,7 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
             </motion.div>
           )}
         </AnimatePresence>
-        <Hearts total={MAX_HEARTS} left={hearts} />
+        <Hearts total={maxHearts} left={hearts} />
       </div>
 
       <div className={styles.meta}>
@@ -136,6 +151,40 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
           <Icon name={lesson.icon} /> {lesson.title}
         </h1>
       </div>
+
+      {blockDone && (
+        <div className={styles.block} role="status">
+          <span>
+            <strong>Bloque de hoy cumplido.</strong> Puedes seguir, o dejarlo aquí y retomar donde quedaste.
+          </span>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={() => {
+              daily.complete();
+              navigate(daily.continueTo);
+            }}
+          >
+            Dejarlo por hoy
+          </Button>
+        </div>
+      )}
+
+      {startAt > 0 && index === startAt && (
+        <div className={styles.resume}>
+          <span>Retomas donde quedaste (paso {startAt + 1} de {lesson.steps.length}).</span>
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={() => {
+              saveDraft(lesson.id, null);
+              onRetry();
+            }}
+          >
+            Empezar de nuevo
+          </Button>
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         <motion.div key={index} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }} transition={{ duration: 0.25 }}>
@@ -162,10 +211,17 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
         title="¡Sin vidas!"
         footer={
           <>
-            <Button variant="secondary" to="/mapa">
+            <Button variant="secondary" to="/mapa/capitulos">
               Salir
             </Button>
-            <Button onClick={onRetry}>Reintentar</Button>
+            <Button
+              onClick={() => {
+                saveDraft(lesson.id, null);
+                onRetry();
+              }}
+            >
+              Reintentar
+            </Button>
           </>
         }
       >

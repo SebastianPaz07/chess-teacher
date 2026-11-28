@@ -5,11 +5,13 @@ import { PageHeader } from '@/components/layout/PageHeader';
 import { PieceScene } from '@/components/illustrations/PieceScene';
 import { Button, EmptyState, Loader } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
+import { loadedPuzzles, loadPuzzlesFor, puzzleThemeCounts, puzzleTotal } from '@/content/puzzles';
 import { getExercise, modules } from '@/content/registry';
 import type { Exercise } from '@/content/schema';
 import { useCompleteDailyTask } from '@/features/daily-plan/hooks/useDailyPlan';
-import { usePuzzles } from '@/hooks/usePuzzles';
-import { pickAdaptive } from '@/services/game/rating';
+import { useExercisesReady } from '@/hooks/usePuzzles';
+import { pickAdaptive, pickVaried } from '@/services/game/rating';
+import { motifOf } from '@/services/lichess/themes';
 import { takeFresh } from '@/services/lichess/lichessPuzzles';
 import { isModuleUnlocked, masteryRatio } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
@@ -30,7 +32,8 @@ export function PracticePage() {
   const rating = useGameStore((s) => s.rating);
   const learnedBasics = useSettingsStore((s) => s.learnedBasics);
   const progress = useProgressStore();
-  const [theme, setTheme] = useState<string | null>(null);
+  /** `undefined`: nada elegido todavía; `null`: mezcla; texto: un tema */
+  const [theme, setTheme] = useState<string | null | undefined>(undefined);
   const [session, setSession] = useState<Exercise[] | null>(null);
   const [retrying, setRetrying] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -44,22 +47,27 @@ export function PracticePage() {
       return next;
     });
 
-  const { puzzles, ready } = usePuzzles();
-  const pool = useMemo(
-    () => [...modules.filter((m) => isModuleUnlocked(m, modules, progress)).flatMap((m) => m.exercises), ...puzzles],
-    [progress, puzzles],
-  );
+  /** Ejercicios de las lecciones desbloqueadas (van incluidos en la app) */
+  const local = useMemo(() => modules.filter((m) => isModuleUnlocked(m, modules, progress)).flatMap((m) => m.exercises), [progress]);
 
+  // La lista de temas sale del resumen: no hace falta cargar ningún puzzle
   const themes = useMemo(() => {
-    const count: Record<string, number> = {};
-    pool.forEach((e) => e.themes.forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
+    const count: Record<string, number> = { ...puzzleThemeCounts };
+    local.forEach((e) => e.themes.forEach((t) => (count[t] = (count[t] ?? 0) + 1)));
     return Object.entries(count).sort((a, b) => b[1] - a[1]);
-  }, [pool]);
+  }, [local]);
 
-  // Sesión del plan diario
+  /** Al elegir un tema se van trayendo sus ejercicios, para que «Empezar» no espere */
+  const choose = (t: string) => {
+    setTheme(t);
+    loadPuzzlesFor(rating, t, new Set(Object.keys(progress.exercises))).catch(() => undefined);
+  };
+
+  // Sesión del plan diario: se cargan solo sus ejercicios
   const dailyIds = params.get('daily') === 'practice' ? plan?.tasks.find((t) => t.kind === 'practice') : undefined;
+  const ready = useExercisesReady(dailyIds?.kind === 'practice' ? dailyIds.exerciseIds : []);
   const dailySet = useMemo(() => {
-    if (!dailyIds || dailyIds.kind !== 'practice') return null;
+    if (!ready || !dailyIds || dailyIds.kind !== 'practice') return null;
     const found = dailyIds.exerciseIds.map(getExercise).filter((e): e is Exercise => Boolean(e));
     if (found.length >= dailyIds.exerciseIds.length) return found;
     // Faltan ejercicios (p. ej. se limpió la caché del navegador): se completan con otros del
@@ -67,23 +75,33 @@ export function PracticePage() {
     const have = new Set(found.map((e) => e.id));
     const seen = new Set(Object.keys(progress.exercises));
     const extra = pickAdaptive(
-      pool.filter((e) => !have.has(e.id)),
+      // Si faltaba alguno, `useExercisesReady` ya cargó todos los puzzles
+      [...local, ...(loadedPuzzles() ?? [])].filter((e) => !have.has(e.id)),
       rating,
       dailyIds.exerciseIds.length - found.length,
       seen,
     );
     return [...found, ...extra];
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // Fija la sesión: no debe cambiar mientras resuelves (el pool varía con cada intento)
+    // Fija la sesión: no debe cambiar mientras resuelves
   }, [dailyIds, ready]);
 
   /** Ronda nueva: primero ejercicios inéditos de Lichess; si no hay red, los del pool que aún no has visto. */
   const start = async () => {
     setLoading(true);
+    // Sin tema elegido (seguir practicando tras el plan del día) toca la mezcla
+    const picked = theme ?? null;
     const seen = new Set(Object.keys(progress.exercises));
-    const fresh = await takeFresh({ count: SESSION_SIZE, rating, theme, exclude: seen, timeoutMs: 4000 });
-    const filtered = (theme ? pool.filter((e) => e.themes.includes(theme)) : pool).filter((e) => !fresh.some((f) => f.id === e.id));
-    const fill = pickAdaptive(filtered, rating, Math.max(0, SESSION_SIZE - fresh.length), seen);
+    // En la mezcla, solo una parte llega de Lichess y el resto se elige por motivos distintos
+    const [fresh, stored] = await Promise.all([
+      takeFresh({ count: picked ? SESSION_SIZE : 2, rating, theme: picked, exclude: seen, timeoutMs: 4000 }),
+      // Si no se pueden cargar, quedan los de las lecciones
+      loadPuzzlesFor(rating, picked, seen).catch((): Exercise[] => []),
+    ]);
+    const pool = [...local, ...stored];
+    const filtered = (picked ? pool.filter((e) => e.themes.includes(picked)) : pool).filter((e) => !fresh.some((f) => f.id === e.id));
+    const need = Math.max(0, SESSION_SIZE - fresh.length);
+    const fill = picked ? pickAdaptive(filtered, rating, need, seen) : pickVaried(filtered, rating, need, seen, Math.random, motifOf, 1, fresh);
     setSession([...fresh, ...fill]);
     setRetrying(false);
     setResults(null);
@@ -99,7 +117,7 @@ export function PracticePage() {
     setRound((r) => r + 1);
   };
 
-  const active = session ?? (ready && dailySet && !results ? dailySet : null);
+  const active = session ?? (dailySet && !results ? dailySet : null);
 
   // Principiante absoluto: primero aprende a mover las piezas
   if (!learnedBasics) {
@@ -143,22 +161,23 @@ export function PracticePage() {
   }
 
   if (!ready) return <Loader />;
-  if (!pool.length) return <EmptyState title="Aún no hay ejercicios desbloqueados" action={<Button to="/mapa">Ir al índice</Button>} />;
+  const total = local.length + puzzleTotal;
+  if (!total) return <EmptyState title="Aún no hay ejercicios desbloqueados" action={<Button to="/mapa/capitulos">Ver las lecciones</Button>} />;
 
   const grouped = THEME_GROUPS.map((g) => ({ ...g, items: themes.filter(([t]) => themeGroup(t) === g.id) })).filter((g) => g.items.length > 0);
-  const selectedCount = theme ? (themes.find(([t]) => t === theme)?.[1] ?? 0) : pool.length;
+  const selectedCount = theme === undefined ? 0 : theme === null ? total : (themes.find(([t]) => t === theme)?.[1] ?? 0);
 
   return (
     <div className={styles.page}>
-      <PageHeader compact icon="puzzle" title="Práctica" subtitle={`Siempre ejercicios nuevos, a tu nivel (rating ${rating}). Abre un tema y elige el que quieras practicar.`} />
+      <PageHeader compact icon="puzzle" title="Resolver ejercicios" subtitle={`Siempre ejercicios nuevos, a tu nivel (rating ${rating}). Abre un tema y elige el que quieras practicar.`} />
       <div className={styles.group} role="radiogroup" aria-label="Tema de práctica">
-        <button type="button" role="radio" aria-checked={!theme} className={[styles.theme, styles.mix, !theme && styles.on].filter(Boolean).join(' ')} onClick={() => setTheme(null)}>
+        <button type="button" role="radio" aria-checked={theme === null} className={[styles.theme, styles.mix, theme === null && styles.on].filter(Boolean).join(' ')} onClick={() => setTheme(null)}>
           <PieceScene size={64} scene={{ b: 'r.bqk/...../..N../.P..B/R..QK', a: ['2,2>3,0'] }} />
           <span className={styles.themeBody}>
             <span className={styles.themeName}>Mezcla de todos los temas</span>
             <span className={styles.themeDesc}>Un poco de todo: la mejor forma de entrenar si no sabes por dónde empezar.</span>
           </span>
-          <Radio on={!theme} />
+          <Radio on={theme === null} />
         </button>
         {grouped.map((g) => {
           const isOpen = openGroups.has(g.id) || g.items.some(([t]) => t === theme);
@@ -192,7 +211,7 @@ export function PracticePage() {
                             role="radio"
                             aria-checked={on}
                             className={[styles.theme, on && styles.on].filter(Boolean).join(' ')}
-                            onClick={() => setTheme(t)}
+                            onClick={() => choose(t)}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: Math.min(i, 6) * 0.04 }}
@@ -231,7 +250,7 @@ export function PracticePage() {
       </div>
       <div className={styles.start}>
         <Button size="lg" block onClick={start} icon="play" disabled={selectedCount === 0}>
-          Empezar {SESSION_SIZE} ejercicios{theme ? ` de ${themeLabel(theme).toLowerCase()}` : ''}
+          {theme === undefined ? 'Elige un tema para empezar' : `Empezar ${SESSION_SIZE} ejercicios${theme ? ` de ${themeLabel(theme).toLowerCase()}` : ''}`}
         </Button>
       </div>
     </div>

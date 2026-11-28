@@ -4,11 +4,24 @@
   "title": "Finales básicos",
   "summary": "Mates elementales, el peligro del ahogado y la oposición.",
   "icon": "flag",
-  "xp": 60,
-  "minutes": 8,
-  "tags": ["finales", "final"],
-  "sources": [{ "title": "Estrin – Tratado de ajedrez superior", "resourceTags": ["clasicos"] }],
-  "practice": ["est-ex-dama-ahogado", "est-ex-torre-ensartada"],
+  "xp": 90,
+  "minutes": 19,
+  "tags": [
+    "finales",
+    "final"
+  ],
+  "sources": [
+    {
+      "title": "Estrin – Tratado de ajedrez superior",
+      "resourceTags": [
+        "clasicos"
+      ]
+    }
+  ],
+  "practice": [
+    "est-ex-dama-ahogado",
+    "est-ex-torre-ensartada"
+  ],
   "steps": [
     {
       "type": "text",
@@ -19,7 +32,9 @@
       "type": "make-move",
       "fen": "k7/8/1K6/8/8/8/8/2Q5 w - - 0 1",
       "prompt": "Da **mate** con la dama. ¡Cuidado con el **ahogado**!",
-      "solution": ["Qc8#"],
+      "solution": [
+        "Qc8#"
+      ],
       "hint": "Si juegas Dc7 el rey negro no tiene jugadas… pero no está en jaque.",
       "explanation": "**Dc8#** Ojo: **Dc7??** sería ahogado (tablas). Antes de dar el golpe final, revisa siempre que haya jaque."
     },
@@ -27,13 +42,19 @@
       "type": "make-move",
       "fen": "7k/8/6K1/8/8/8/8/R7 w - - 0 1",
       "prompt": "Ahora con la torre. **Mate en 1**.",
-      "solution": ["Ra8#"],
+      "solution": [
+        "Ra8#"
+      ],
       "explanation": "**Ta8#** El rey blanco quita g7 y h7; la torre da jaque en la fila 8."
     },
     {
       "type": "quiz",
       "question": "Dos reyes están en e4 y e6, y **le toca mover a las negras**. ¿Quién tiene la oposición?",
-      "options": ["Las blancas", "Las negras", "Nadie"],
+      "options": [
+        "Las blancas",
+        "Las negras",
+        "Nadie"
+      ],
       "answer": 0,
       "explanation": "Tiene la oposición el bando que **no** está obligado a mover. Las negras deben ceder terreno."
     },
@@ -42,9 +63,90 @@
       "title": "Truco de torres",
       "fen": "R7/P4k2/8/8/8/7K/r7/8 w - - 0 1",
       "prompt": "Tu peón está bloqueado por tu propia torre. Aparta la torre con una idea táctica: si las negras toman el peón, ¡ensartada!",
-      "solution": ["Rh8", "Rxa7", "Rh7+", "Kf6", "Rxa7"],
+      "solution": [
+        "Rh8",
+        "Rxa7",
+        "Rh7+",
+        "Kf6",
+        "Rxa7"
+      ],
       "hint": "Lleva la torre a la columna h.",
       "explanation": "**1.Th8!** amenaza coronar. Si 1...Txa7 2.Th7+ y **3.Txa7**. Un truco que aparece muchísimo en finales de torres."
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **6 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1047",
+      "fen": "r4k2/1p4R1/3pQ3/pP2p3/4q3/4Pr2/8/7K w - - 5 39",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "Qg8#"
+      ],
+      "explanation": "Solución: **Dg8#**. El rey es una pieza activa."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1155",
+      "fen": "1r6/3R2p1/p5kp/4p2N/2pn2K1/1P6/P5PP/8 w - - 0 31",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "Rxg7#"
+      ],
+      "explanation": "Solución: **Txg7#**. El rey es una pieza activa."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1258",
+      "fen": "8/2p5/3b2kp/3p2p1/P3p1KP/1P2R3/1B4P1/8 b - - 0 36",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "h5+",
+        "Kh3",
+        "g4#"
+      ],
+      "explanation": "Solución: **h5+ Rh3 g4#**. El rey es una pieza activa."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1359",
+      "fen": "2r5/1b3pk1/2qBp1pp/4P3/1P3P2/P7/3Q2PP/2R3K1 b - - 3 43",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "Qxc1+",
+        "Qxc1",
+        "Rxc1+"
+      ],
+      "explanation": "Solución: **Dxc1+ Dxc1 Txc1+**. El rey es una pieza activa."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1472",
+      "fen": "1r6/5p1R/7R/4pPk1/2r2n2/1P3P1P/P4K2/8 w - - 0 44",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "h4+",
+        "Kxf5",
+        "Rxf7#"
+      ],
+      "explanation": "Solución: **h4+ Rxf5 Txf7#**. El rey es una pieza activa."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1569",
+      "fen": "8/ppp1kpp1/3b2np/3p3b/3P1B2/2P4P/PPBN1PP1/5K2 w - - 1 24",
+      "prompt": "Encuentra la jugada precisa del **final**.",
+      "solution": [
+        "Bxd6+",
+        "Kxd6",
+        "g4",
+        "Nf4",
+        "gxh5"
+      ],
+      "explanation": "Solución: **Axd6+ Rxd6 g4 Cf4 gxh5**. El rey es una pieza activa."
     }
   ]
 }

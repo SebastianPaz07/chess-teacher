@@ -1,0 +1,153 @@
+{
+  "id": "cal-02-visualizar",
+  "order": 2,
+  "title": "Visualización sin mover piezas",
+  "summary": "Ver tres jugadas adelante.",
+  "icon": "eye",
+  "xp": 110,
+  "minutes": 18,
+  "tags": [
+    "tactica",
+    "medio-juego"
+  ],
+  "sources": [
+    {
+      "title": "Clases de cálculo y táctica",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Entrena tu tablero mental",
+      "body": "Calcula **sin tocar las piezas**. En tu tablero físico: coloca la posición, piensa la línea completa, di las jugadas en voz alta y solo entonces muévelas para comprobar."
+    },
+    {
+      "type": "text",
+      "title": "Los fantasmas",
+      "body": "Al calcular, recuerda qué piezas **ya no están** y cuáles **cambiaron de casilla**. Muchos errores vienen de contar un defensor que ya fue capturado."
+    },
+    {
+      "type": "board-demo",
+      "title": "Réti contra Tartakower",
+      "moves": [
+        "e4",
+        "c6",
+        "d4",
+        "d5",
+        "Nc3",
+        "dxe4",
+        "Nxe4",
+        "Nf6",
+        "Qd3",
+        "e5",
+        "dxe5",
+        "Qa5+",
+        "Bd2",
+        "Qxe5",
+        "O-O-O",
+        "Nxe4",
+        "Qd8+",
+        "Kxd8",
+        "Bg5+",
+        "Kc7",
+        "Bd8#"
+      ],
+      "notes": {
+        "0": "Richard Réti – Savielly Tartakower, 1910.",
+        "17": "Sacrificio de dama: calcula las respuestas antes de avanzar.",
+        "19": "Jaque doble."
+      },
+      "body": "Detente en la jugada 8 y calcula el mate completo."
+    },
+    {
+      "type": "quiz",
+      "question": "Al calcular una variante larga, ¿qué conviene hacer al final de la línea?",
+      "options": [
+        "Dar la posición por ganada",
+        "Revisar jaques y capturas del rival en la posición final",
+        "Empezar a calcular otra apertura"
+      ],
+      "answer": 1,
+      "explanation": "Las combinaciones fallan en la última jugada: siempre una revisión final."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1234",
+      "fen": "6rk/3RQ1p1/p6p/8/5PPK/2q5/P6P/8 b - - 2 36",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "g5+",
+        "fxg5",
+        "hxg5+"
+      ],
+      "explanation": "Solución: **g5+ fxg5 hxg5+**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1347",
+      "fen": "r6k/3nq1pp/3pBp2/2p1nP2/1p2R2Q/1P5P/r5P1/2B1R1K1 w - - 7 32",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qxh7+",
+        "Kxh7",
+        "Rh4#"
+      ],
+      "explanation": "Solución: **Dxh7+ Rxh7 Th4#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1441",
+      "fen": "2b2rk1/3pbppp/3r4/q7/2p5/6P1/PPQBPPBP/R3K2R b KQ - 3 16",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Rxd2",
+        "Qxd2",
+        "Bb4",
+        "Qxb4",
+        "Qxb4+"
+      ],
+      "explanation": "Solución: **Txd2 Dxd2 Ab4 Dxb4 Dxb4+**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1521",
+      "fen": "8/6QR/pr5p/6p1/5p1k/q6P/2P2PPK/8 b - - 7 39",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qg3+",
+        "fxg3+",
+        "fxg3+",
+        "Kg1",
+        "Rb1#"
+      ],
+      "explanation": "Solución: **Dg3+ fxg3+ fxg3+ Rg1 Tb1#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1639",
+      "fen": "8/p7/5kpp/b1R2p2/8/1B4P1/P2r1P1P/4K3 b - - 7 36",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Rd5+",
+        "Rxa5",
+        "Rxa5"
+      ],
+      "explanation": "Solución: **Td5+ Txa5 Txa5**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1762",
+      "fen": "2k5/pp3p2/5q2/2bNp1p1/4P1Pr/1n3BK1/PPP3P1/R2Q4 b - - 4 23",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qf4+",
+        "Nxf4",
+        "exf4#"
+      ],
+      "explanation": "Solución: **Df4+ Cxf4 exf4#**. Revisa cada casilla de escape antes de dar el jaque."
+    }
+  ]
+}

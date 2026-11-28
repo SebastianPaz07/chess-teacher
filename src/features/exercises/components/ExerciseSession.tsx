@@ -2,12 +2,13 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { useState } from 'react';
 import { PuzzleBoard, type PuzzleResult } from '@/components/chess';
 import { Badge, Button, Card, ProgressBar } from '@/components/ui';
-import { BoardTip } from '@/components/ui/BoardTip';
+import { BoardTip, PhysicalBoard } from '@/components/ui/BoardTip';
 import { RichText } from '@/components/ui/RichText';
 import type { Exercise } from '@/content/schema';
 import { TeacherBubble, type TeacherMood } from '@/features/gamification/components/TeacherBubble';
 import { teacherSays } from '@/features/gamification/teacherMessages';
 import { useRecordExercise } from '../hooks/useRecordExercise';
+import { themeLabel } from '../themes';
 import styles from './ExerciseSession.module.css';
 
 export interface SessionResult {
@@ -63,7 +64,7 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
             <PuzzleBoard
               fen={ex.fen}
               solution={ex.solution}
-              prompt={ex.title}
+              heading={{ title: ex.title ?? themeLabel(ex.themes[0]), aside: `Ejercicio ${index + 1}/${exercises.length}` }}
               onFinish={onFinish}
               onMistake={() => setTeacher({ msg: teacherSays('wrong'), mood: 'oops' })}
             />
@@ -72,9 +73,6 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
       </div>
       <div className={styles.side}>
         <div className="row">
-          <Badge tone="neutral">
-            Ejercicio {index + 1}/{exercises.length}
-          </Badge>
           <Badge tone="xp">{ex.rating}</Badge>
           {streak >= 2 && <Badge tone="accent" icon="fire">{streak} seguidos</Badge>}
         </div>
@@ -88,6 +86,7 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
           ))}
         </div>
         {!current && ex.hint && <p className="muted">Pista disponible si la necesitas.</p>}
+        {!current && <PhysicalBoard key={ex.id} fen={ex.fen} />}
         {current && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
             <Card tone={current.r.success ? 'success' : 'danger'} icon={current.r.success ? 'check-circle' : 'x-circle'} title={current.r.success ? (current.r.mistakes === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}>

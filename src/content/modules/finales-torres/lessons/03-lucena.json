@@ -1,0 +1,135 @@
+{
+  "id": "fto-03-lucena",
+  "order": 3,
+  "title": "Lucena: construir el puente",
+  "summary": "La técnica para ganar con peón en séptima.",
+  "icon": "castle",
+  "xp": 100,
+  "minutes": 13,
+  "tags": [
+    "finales",
+    "final-torres"
+  ],
+  "sources": [
+    {
+      "title": "Finales de torre esenciales",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El problema",
+      "body": "Tu rey está delante del peón en séptima y la torre rival da jaques. La solución es el **puente**: coloca tu torre en la **cuarta fila** para tapar el último jaque."
+    },
+    {
+      "type": "board-demo",
+      "title": "El puente de Lucena",
+      "fen": "1K6/1P1k4/8/8/8/8/r7/2R5 w - - 0 1",
+      "moves": [
+        "Rd1+",
+        "Ke7",
+        "Rd4",
+        "Ra1",
+        "Kc7",
+        "Rc1+",
+        "Kb6",
+        "Rb1+",
+        "Kc6",
+        "Rc1+",
+        "Kb5",
+        "Rb1+",
+        "Rb4"
+      ],
+      "notes": {
+        "1": "Primero se aleja al rey rival.",
+        "3": "La torre prepara el puente.",
+        "13": "El puente: se acabaron los jaques y el peón corona."
+      },
+      "body": "Repítelo en tu tablero hasta ejecutarlo de memoria."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Para qué sirve la torre en la cuarta fila en Lucena?",
+      "options": [
+        "Para dar mate",
+        "Para capturar peones",
+        "Para bloquear los jaques y permitir la coronación"
+      ],
+      "answer": 2,
+      "explanation": "Es el «puente» que protege al rey."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1365",
+      "fen": "4kr2/1R6/p1pKP3/P4r2/8/8/8/8 w - - 0 50",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rb8#"
+      ],
+      "explanation": "Solución: **Tb8#**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1539",
+      "fen": "5r2/7P/5K2/8/2P2k2/P7/8/8 w - - 1 69",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Kg7",
+        "Rd8",
+        "h8=Q",
+        "Rxh8",
+        "Kxh8",
+        "Ke4",
+        "a4",
+        "Kd4",
+        "a5"
+      ],
+      "explanation": "Solución: **Rg7 Td8 h8=D Txh8 Rxh8 Re4 a4 Rd4 a5**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1622",
+      "fen": "8/2p1kp2/3p4/3Pp3/p3P2P/Pr3R2/6P1/4K3 w - - 3 43",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxb3",
+        "axb3",
+        "Kd2",
+        "b2",
+        "Kc2",
+        "b1=R",
+        "Kxb1"
+      ],
+      "explanation": "Solución: **Txb3 axb3 Rd2 b2 Rc2 b1=T Rxb1**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1768",
+      "fen": "2k2r2/1bNp4/pB1P4/8/P7/5n2/1P2KR1p/5R2 b - - 1 43",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Ng1+",
+        "Kd2",
+        "Rxf2+",
+        "Bxf2",
+        "h1=Q"
+      ],
+      "explanation": "Solución: **Cg1+ Rd2 Txf2+ Axf2 h1=D**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1826",
+      "fen": "8/p7/6P1/4p3/R5K1/1r2kp1P/8/8 w - - 0 48",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "g7",
+        "Rb8",
+        "Ra3+"
+      ],
+      "explanation": "Solución: **g7 Tb8 Ta3+**. Actividad primero; torre detrás del peón."
+    }
+  ]
+}

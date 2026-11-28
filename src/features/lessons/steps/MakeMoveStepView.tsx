@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { PuzzleBoard } from '@/components/chess';
 import { Button, Card } from '@/components/ui';
+import { BoardTip, PhysicalBoard } from '@/components/ui/BoardTip';
 import { RichText } from '@/components/ui/RichText';
 import type { Step } from '@/content/schema';
 import type { StepViewProps } from './stepRegistry';
@@ -28,9 +29,11 @@ export function MakeMoveStepView({ step, onDone, onMistake, onCorrect }: StepVie
         {step.title && <h2>{step.title}</h2>}
         <RichText text={step.prompt} />
         {step.hint && !result && <p className="muted">Pista: {step.hint}</p>}
+        {!result && <PhysicalBoard fen={step.fen} />}
         {result && (
           <Card tone={result === 'solved' ? 'success' : 'accent'} title={result === 'solved' ? '¡Correcto!' : 'Mira la solución'} icon={result === 'solved' ? 'check-circle' : 'eye'}>
             {step.explanation && <RichText text={step.explanation} />}
+            <BoardTip />
             <LessonAction>
           <Button size="md" block onClick={onDone}>
             Continuar

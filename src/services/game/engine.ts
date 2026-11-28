@@ -1,7 +1,8 @@
 import { ACHIEVEMENTS, initialStats, type GameStats } from './achievements';
 import type { GameEvent, Reward } from './events';
+import { daysLearning, studySeconds } from './journey';
 import { questsForDay, questTemplate, type QuestProgress } from './quests';
-import { INITIAL_RATING, MIN_RATING, updateRating } from './rating';
+import { DAILY_GAIN_CAP, INITIAL_RATING, MIN_RATING, updateRating } from './rating';
 import { initialStreak, registerActivity, type StreakState } from './streak';
 import { XP, levelFromXp, rankForLevel } from './xp';
 
@@ -11,6 +12,8 @@ export interface DailyState {
   tasksDone: string[];
   xp: number;
   completeRewarded: boolean;
+  /** Puntos de rating netos del día (para el tope diario de subida) */
+  ratingNet?: number;
 }
 
 /** Contadores por día (para metas del club y rankings semanales). */
@@ -136,7 +139,7 @@ function updateStats(s: GameStats, e: GameEvent): GameStats {
  * Motor de juego puro: (estado, evento, hoy) → (nuevo estado, recompensas).
  * Sin efectos secundarios → fácil de testear y de mover a un backend.
  */
-export function applyEvent(prev: GameState, e: GameEvent, today: string, extra?: { dailyTotal?: number; trainingDays?: number[] }): { state: GameState; rewards: Reward[] } {
+export function applyEvent(prev: GameState, e: GameEvent, today: string, extra?: { dailyTotal?: number; trainingDays?: number[]; startedAt?: string | null }): { state: GameState; rewards: Reward[] } {
   const rewards: Reward[] = [];
   let state: GameState = { ...prev, daily: prev.daily.date === today ? prev.daily : freshDaily(today) };
   let gained = 0;
@@ -162,10 +165,14 @@ export function applyEvent(prev: GameState, e: GameEvent, today: string, extra?:
 
   // 3. Rating: los cambios se acumulan y se aplican al terminar la sesión
   if (e.type === 'PUZZLE_SOLVED' && e.context !== 'placement') {
-    // limpio = 1, resuelto con errores/pistas = 0.5, no resuelto = 0
-    const clean = e.success && e.mistakes === 0 && !e.hintsUsed;
-    const score = clean ? 1 : e.success ? 0.5 : 0;
-    const { delta } = updateRating(state.rating + (state.pendingGain ?? 0) - (state.pendingLoss ?? 0), e.puzzleRating, score, state.ratingGames);
+    const score = !e.success ? 0 : e.mistakes > 0 ? 0.25 : e.hintsUsed ? 0.5 : 1;
+    let { delta } = updateRating(state.rating + (state.pendingGain ?? 0) - (state.pendingLoss ?? 0), e.puzzleRating, score, state.ratingGames);
+    const net = state.daily.ratingNet ?? 0;
+    // Repasar una posición ya vista no demuestra más nivel: puede restar, pero no sumar
+    if (e.context === 'review') delta = Math.min(delta, 0);
+    // Tope diario de subida
+    if (delta > 0) delta = Math.min(delta, Math.max(0, DAILY_GAIN_CAP - net));
+    state.daily = { ...state.daily, ratingNet: net + delta };
     if (delta >= 0) state.pendingGain = (state.pendingGain ?? 0) + delta;
     else state.pendingLoss = (state.pendingLoss ?? 0) - delta;
     state.ratingGames += 1;
@@ -230,12 +237,19 @@ export function applyEvent(prev: GameState, e: GameEvent, today: string, extra?:
   }
 
   // 8. Logros
-  const ctx = { stats: state.stats, streakBest: state.streak.best, level: newLevel, rating: state.rating };
+  const ctx = {
+    stats: state.stats,
+    streakBest: state.streak.best,
+    level: newLevel,
+    rating: state.rating,
+    daysLearning: daysLearning({ startedAt: extra?.startedAt, history: state.history, activityLog: state.activityLog }, today),
+    studyMinutes: Math.floor(studySeconds(state.activityLog) / 60),
+  };
   const unlocked = { ...state.achievements };
   for (const a of ACHIEVEMENTS) {
     if (!unlocked[a.id] && a.check(ctx)) {
       unlocked[a.id] = today;
-      rewards.push({ kind: 'achievement', id: a.id, title: a.title, icon: a.icon });
+      rewards.push({ kind: 'achievement', id: a.id, title: a.title, icon: a.icon, tier: a.tier });
     }
   }
   state.achievements = unlocked;

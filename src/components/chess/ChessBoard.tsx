@@ -1,5 +1,5 @@
 import { Chess, type Square } from 'chess.js';
-import { memo, useMemo, useState, type CSSProperties } from 'react';
+import { memo, useMemo, useState, type CSSProperties, type ReactNode } from 'react';
 import { Chessboard } from 'react-chessboard';
 import { useElementWidth } from '@/hooks/useElementWidth';
 import { useViewportHeight } from '@/hooks/useViewportHeight';
@@ -18,18 +18,23 @@ export interface ChessBoardProps {
   lastMove?: [string, string] | null;
   maxWidth?: number;
   flash?: 'good' | 'bad' | null;
+  /** Cabecera justo encima, con el mismo ancho que el tablero */
+  header?: ReactNode;
 }
+
+/** Alto aproximado de la cabecera (título y guía del ejercicio) */
+const HEADER_HEIGHT = 70;
 
 /**
  * Wrapper de react-chessboard: arrastrar o tocar origen→destino,
  * muestra jugadas legales, última jugada, flechas y destellos de acierto/error.
  */
-export const ChessBoard = memo(function ChessBoard({ fen, orientation = 'white', onMove, arrows, highlights, lastMove, maxWidth = 640, flash }: ChessBoardProps) {
+export const ChessBoard = memo(function ChessBoard({ fen, orientation = 'white', onMove, arrows, highlights, lastMove, maxWidth = 640, flash, header }: ChessBoardProps) {
   const [ref, width, measured] = useElementWidth<HTMLDivElement>();
   const viewportH = useViewportHeight();
   // El tablero cabe completo en pantalla: ancho disponible, tope del diseño y alto visible
   // (descontando cabecera, barra inferior y los controles que lo rodean).
-  const chrome = typeof window !== 'undefined' && window.innerWidth >= 1100 ? 200 : 250;
+  const chrome = (typeof window !== 'undefined' && window.innerWidth >= 1100 ? 200 : 250) + (header ? HEADER_HEIGHT : 0);
   const size = Math.max(0, Math.floor(Math.min(width, maxWidth, Math.max(260, viewportH - chrome))));
   const [selected, setSelected] = useState<string | null>(null);
   const position = resolveFen(fen);
@@ -73,7 +78,8 @@ export const ChessBoard = memo(function ChessBoard({ fen, orientation = 'white',
   };
 
   return (
-    <div ref={ref} className={styles.wrap} style={{ maxWidth }}>
+    <div ref={ref} className={[styles.wrap, header && styles.stacked].filter(Boolean).join(' ')} style={{ maxWidth }}>
+      {header && <div style={{ width: size || '100%' }}>{header}</div>}
       <div className={[styles.board, flash && styles[flash]].filter(Boolean).join(' ')} style={{ width: size || '100%', height: size || undefined }}>
         {measured && size > 0 ? (
           <Chessboard

@@ -1,0 +1,169 @@
+{
+  "id": "tin-03-defensor",
+  "order": 3,
+  "title": "Elimina al defensor y la sobrecarga",
+  "summary": "Quita el sostén de la posición rival.",
+  "icon": "shield",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "tactica",
+    "eliminar-defensor",
+    "sobrecarga"
+  ],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Dos ideas hermanas",
+      "body": "**Eliminar al defensor**: capturas la pieza que sostiene algo importante, aunque cueste un poco de material.\n\n**Sobrecarga**: una sola pieza defiende dos cosas. Ataca una; cuando responda, cae la otra."
+    },
+    {
+      "type": "text",
+      "title": "Cómo detectarlo",
+      "body": "1. Haz una lista de las piezas rivales **atacadas por ti**.\n2. Mira **quién** defiende cada una.\n3. Si un nombre se repite, ahí está tu combinación."
+    },
+    {
+      "type": "board-demo",
+      "title": "La Siempreviva",
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "Nc6",
+        "Bc4",
+        "Bc5",
+        "b4",
+        "Bxb4",
+        "c3",
+        "Ba5",
+        "d4",
+        "exd4",
+        "O-O",
+        "d3",
+        "Qb3",
+        "Qf6",
+        "e5",
+        "Qg6",
+        "Re1",
+        "Nge7",
+        "Ba3",
+        "b5",
+        "Qxb5",
+        "Rb8",
+        "Qa4",
+        "Bb6",
+        "Nbd2",
+        "Bb7",
+        "Ne4",
+        "Qf5",
+        "Bxd3",
+        "Qh5",
+        "Nf6+",
+        "gxf6",
+        "exf6",
+        "Rg8",
+        "Rad1",
+        "Qxf3",
+        "Rxe7+",
+        "Nxe7",
+        "Qxd7+",
+        "Kxd7",
+        "Bf5+",
+        "Ke8",
+        "Bd7+",
+        "Kf8",
+        "Bxe7#"
+      ],
+      "notes": {
+        "0": "Adolf Anderssen – Jean Dufour, 1852.",
+        "39": "Anderssen elimina piezas defensoras una a una.",
+        "41": "Sacrificio de dama que abre el camino al jaque doble.",
+        "47": "El mate final."
+      },
+      "body": "Antes de cada jaque pregúntate qué defensor desaparece."
+    },
+    {
+      "type": "quiz",
+      "question": "Una dama rival defiende a la vez un alfil en c5 y la casilla de mate g7. Eso es...",
+      "options": [
+        "Una clavada",
+        "Una pieza sobrecargada",
+        "Un zugzwang"
+      ],
+      "answer": 1,
+      "explanation": "Capturando el alfil, o amenazando g7, la dama no puede con ambas tareas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1190",
+      "fen": "2r3k1/p4ppp/R1B1b3/2P5/4p3/2b1P3/4KPPP/2R5 b - - 7 26",
+      "prompt": "**Elimina al defensor**.",
+      "solution": [
+        "Bc4+",
+        "Kd1",
+        "Bxa6",
+        "Rxc3",
+        "Rxc6"
+      ],
+      "explanation": "Solución: **Ac4+ Rd1 Axa6 Txc3 Txc6**. Quita el sostén y el resto cae."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1331",
+      "fen": "r4rk1/p4ppp/b4b2/3q4/8/PN2P2P/R1P1NPP1/3Q1RK1 b - - 3 18",
+      "prompt": "**Elimina al defensor**.",
+      "solution": [
+        "Qxd1",
+        "Rxd1",
+        "Bxe2"
+      ],
+      "explanation": "Solución: **Dxd1 Txd1 Axe2**. Quita el sostén y el resto cae."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1336",
+      "fen": "r4rk1/BRp2pp1/3b3p/2P5/5P2/6P1/P6P/3R2K1 b - - 0 23",
+      "prompt": "**Elimina al defensor**.",
+      "solution": [
+        "Rxa7",
+        "Rxa7",
+        "Bxc5+",
+        "Kf1",
+        "Bxa7"
+      ],
+      "explanation": "Solución: **Txa7 Txa7 Axc5+ Rf1 Axa7**. Quita el sostén y el resto cae."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1425",
+      "fen": "3r1rk1/pp3pp1/2p2b1p/4p3/4Pnb1/2P2NN1/PP2BP1K/R1B1R3 b - - 3 19",
+      "prompt": "**Elimina al defensor**.",
+      "solution": [
+        "Nxe2",
+        "Nxe2",
+        "Bxf3"
+      ],
+      "explanation": "Solución: **Cxe2 Cxe2 Axf3**. Quita el sostén y el resto cae."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1524",
+      "fen": "6k1/p4rp1/8/2p1Bq1p/2P1b3/2P3QP/P5PK/4R3 b - - 1 30",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "h4",
+        "Qxh4",
+        "Qxe5+"
+      ],
+      "explanation": "Solución: **h4 Dxh4 Dxe5+**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    }
+  ]
+}

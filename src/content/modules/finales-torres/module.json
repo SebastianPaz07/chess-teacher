@@ -1,0 +1,18 @@
+{
+  "id": "finales-torres",
+  "order": 11,
+  "level": "intermedio",
+  "category": "finales",
+  "icon": "castle",
+  "color": "#0e6655",
+  "title": "Finales de torres",
+  "prerequisites": [
+    "finales-peones"
+  ],
+  "tags": [
+    "finales",
+    "final",
+    "final-torres"
+  ],
+  "description": "Los finales más frecuentes: actividad, torre detrás del peón, Philidor y Lucena."
+}

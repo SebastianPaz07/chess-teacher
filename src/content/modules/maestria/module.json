@@ -1,0 +1,19 @@
+{
+  "id": "maestria",
+  "order": 16,
+  "level": "avanzado",
+  "category": "entrenamiento",
+  "icon": "mountain",
+  "color": "#17202a",
+  "title": "Cálculo avanzado y finales difíciles",
+  "prerequisites": [
+    "calculo",
+    "finales-torres"
+  ],
+  "tags": [
+    "entrenamiento",
+    "tactica",
+    "finales"
+  ],
+  "description": "El tramo más exigente: variantes largas, defensas ocultas y finales de precisión. Usa siempre tablero físico."
+}

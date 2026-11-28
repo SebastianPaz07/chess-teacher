@@ -1,32 +1,36 @@
+import { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { PieceScene } from '@/components/illustrations/PieceScene';
 import { Button, ProgressBar, Skeleton } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
+import { getResource } from '@/content/registry';
+import type { Resource } from '@/content/schema';
 import { ClubCard } from '@/features/club/components/ClubCard';
 import { QuestsCard } from '@/features/gamification/components/QuestsCard';
 import { useGameSummary } from '@/features/gamification/hooks/useGameSummary';
-import { formatDays } from '@/features/onboarding/days';
+import { ResourceViewer } from '@/features/library/components/ResourceViewer';
+import { NamePrompt } from '@/features/onboarding/NamePrompt';
 import { addDays, todayKey } from '@/lib/date';
 import { coachNote } from '@/services/scheduler/coach';
-import { difficultyStretch, effectiveLevel, type DailyTask } from '@/services/scheduler/dailyPlan';
+import { difficultyStretch, effectiveLevel } from '@/services/scheduler/dailyPlan';
 import { weakTopics } from '@/services/scheduler/progression';
+import { THEMES } from '@/services/scheduler/weekPlan';
+import { useClubStore } from '@/store/clubStore';
 import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useDailyPlan } from './hooks/useDailyPlan';
+import { useWeekThemes } from './hooks/useWeekThemes';
 import { taskLink } from './taskLink';
+import { TASK_META } from './taskMeta';
 import styles from './HomePage.module.css';
 
-const TASK_META: Record<DailyTask['kind'], { icon: string; label: string }> = {
-  review: { icon: 'review', label: 'Repaso' },
-  lesson: { icon: 'book-open', label: 'Lección' },
-  practice: { icon: 'crosshair', label: 'Ejercicios' },
-  opening: { icon: 'books', label: 'Apertura' },
-  classic: { icon: 'classic', label: 'Partida clásica' },
-  recommendation: { icon: 'lightbulb', label: 'Recomendación' },
-};
-
 const dateLabel = () => new Intl.DateTimeFormat('es', { weekday: 'long', day: 'numeric', month: 'long' }).format(new Date());
+
+const weekdayShort = (date: string) => {
+  const [y, m, d] = date.split('-').map(Number);
+  return new Intl.DateTimeFormat('es', { weekday: 'short' }).format(new Date(y, m - 1, d));
+};
 
 /**
  * Inicio guiado: la sesión de hoy primero, las misiones debajo
@@ -34,7 +38,9 @@ const dateLabel = () => new Intl.DateTimeFormat('es', { weekday: 'long', day: 'n
  */
 export function HomePage() {
   const onboarded = useSettingsStore((s) => s.onboarded);
-  const name = useSettingsStore((s) => s.playerName);
+  const playerName = useSettingsStore((s) => s.playerName);
+  const profileName = useClubStore((s) => s.profile?.name);
+  const clubLoading = useClubStore((s) => s.status === 'loading');
   const trainingDays = useSettingsStore((s) => s.trainingDays);
   const plan = useDailyPlan();
   const g = useGameSummary();
@@ -44,8 +50,15 @@ export function HomePage() {
   const mastery = useProgressStore((s) => s.mastery);
   const placementLevel = useProgressStore((s) => s.placementLevel);
   const studiedSecs = activityLog?.[todayKey()]?.seconds ?? 0;
+  const { themes } = useWeekThemes();
+  /** Libro o video abierto dentro de la app */
+  const [resource, setResource] = useState<Resource | null>(null);
 
   if (!onboarded) return <Navigate to="/empezar" replace />;
+
+  // El saludo siempre lleva nombre: el guardado, el del perfil del club o el que pidamos ahora
+  const name = playerName.trim() || profileName?.trim();
+  if (!name) return clubLoading ? <Skeleton lines={4} height={60} /> : <NamePrompt />;
 
   const nextTask = plan.tasks.find((t) => !plan.tasksDone.includes(t.id));
   const pending = plan.tasks.filter((t) => !plan.tasksDone.includes(t.id));
@@ -80,18 +93,16 @@ export function HomePage() {
           <PieceScene size={72} scene={{ b: '...../..k../...../..N../.K...', a: ['2,3>3,1'] }} />
         </div>
         <p className="eyebrow">{dateLabel()}</p>
-        <h1 className={styles.hello}>{name ? `Buenas, ${name}.` : 'Tu sesión de hoy.'}</h1>
+        <h1 className={styles.hello}>Hola, {name}.</h1>
         <p className={styles.dek}>
           {plan.restDay ? (
-            <>
-              Hoy es <strong>día de descanso</strong>: tu racha está a salvo.
-            </>
+            <strong>Día de descanso</strong>
           ) : (
             <>
-              Plan de <strong>{plan.dailyMinutes} min</strong> · {formatDays(trainingDays)}
+              Plan de <strong>{plan.dailyMinutes} min</strong>
             </>
           )}{' '}
-          · <Icon name="fire" /> {g.streak} · <Icon name="clock" /> {studied} min hoy ·{' '}
+          ·{' '}
           <Link to="/empezar" className={styles.editPlan}>
             Ajustar plan
           </Link>
@@ -109,6 +120,14 @@ export function HomePage() {
                 {plan.done}/{plan.total}
               </span>
             </div>
+            {plan.theme && (
+              <p className={styles.theme}>
+                <Icon name={THEMES[plan.theme].icon} />
+                <span>
+                  Hoy toca <strong>{THEMES[plan.theme].title}</strong>: {THEMES[plan.theme].topics.toLowerCase()}.
+                </span>
+              </p>
+            )}
             <ProgressBar value={plan.ratio} height={4} color="var(--color-primary)" />
 
             {!plan.ready ? (
@@ -163,6 +182,24 @@ export function HomePage() {
             )}
           </section>
 
+          <section aria-labelledby="week-title" className={styles.free}>
+            <h2 id="week-title" className={styles.coachTitle}>
+              Tu semana
+            </h2>
+            <ol className={styles.weekPlan}>
+              {Object.entries(themes).map(([date, id]) => (
+                <li key={date} className={[styles.weekPlanDay, date === today && styles.weekPlanToday].filter(Boolean).join(' ')} aria-current={date === today ? 'date' : undefined}>
+                  <small>{weekdayShort(date)}</small>
+                  <Icon name={id ? THEMES[id].icon : 'smile'} title={id ? THEMES[id].title : 'Descanso'} />
+                  <span>{id ? THEMES[id].title : 'Descanso'}</span>
+                </li>
+              ))}
+            </ol>
+            <Button to="/semana" variant="secondary" icon="calendar" block>
+              Ver mi plan completo
+            </Button>
+          </section>
+
           <section aria-labelledby="coach-title" className={styles.coach}>
             <h2 id="coach-title" className={styles.coachTitle}>
               Tu entrenador personal
@@ -179,13 +216,6 @@ export function HomePage() {
               </span>
               <ProgressBar value={coach.goal.progress} height={6} color="var(--color-primary)" />
             </div>
-            <div className={styles.week} aria-label="Minutos estudiados en los últimos 7 días">
-              {week.map((m, i) => (
-                <span key={i} className={styles.weekDay} title={`${m} min`}>
-                  <span className={styles.weekBar} style={{ height: `${Math.min(100, (m / Math.max(1, plan.dailyMinutes)) * 100)}%` }} />
-                </span>
-              ))}
-            </div>
           </section>
 
           {plan.extras.length > 0 && (
@@ -195,25 +225,25 @@ export function HomePage() {
               </h2>
               <ul className={styles.freeList}>
                 {plan.extras.map((t) => {
-                  const href = taskLink(t);
-                  const external = /^https?:/.test(href);
+                  if (t.kind !== 'recommendation') return null;
+                  const material = (t.subtype === 'book' || t.subtype === 'video') && t.resourceId ? getResource(t.resourceId) : undefined;
                   const body = (
                     <>
-                      <Icon name={t.kind === 'recommendation' && t.subtype === 'book' ? 'book-open' : t.kind === 'recommendation' && t.subtype === 'video' ? 'play' : 'lightbulb'} />
+                      <Icon name={t.subtype === 'book' ? 'book-open' : t.subtype === 'video' ? 'play' : 'hint'} />
                       <span>
                         <strong>{t.title}</strong>
-                        {t.kind === 'recommendation' && t.note && <small>{t.note}</small>}
+                        {t.note && <small>{t.note}</small>}
                       </span>
                     </>
                   );
                   return (
                     <li key={t.id}>
-                      {external ? (
-                        <a href={href} target="_blank" rel="noreferrer" className={styles.freeItem}>
+                      {material ? (
+                        <button type="button" className={styles.freeItem} onClick={() => setResource(material)}>
                           {body}
-                        </a>
+                        </button>
                       ) : (
-                        <Link to={href} className={styles.freeItem}>
+                        <Link to={taskLink(t)} className={styles.freeItem}>
                           {body}
                         </Link>
                       )}
@@ -231,6 +261,7 @@ export function HomePage() {
           <ClubCard />
         </aside>
       </div>
+      <ResourceViewer resource={resource} onClose={() => setResource(null)} />
     </div>
   );
 }

@@ -127,22 +127,6 @@ export async function takeFresh(opts: FetchOptions): Promise<Exercise[]> {
   return [...local, ...net];
 }
 
-const TOPUP_KEY = storeKey('lichess-topup');
-const TOPUP_EVERY_MS = 30 * 60_000;
-const STOCK_MIN = 25;
-
-/**
- * Reabastece la caché en segundo plano (como mucho cada 30 min y solo si queda
- * poco material sin ver). No bloquea ninguna pantalla.
- */
-export function topUpInBackground(rating: number, exclude: Set<string>) {
-  if (cachedUnseen({ rating, exclude, margin: 400 }).length >= STOCK_MIN) return;
-  const last = Number(storage.getItem(TOPUP_KEY) ?? 0);
-  if (Date.now() - last < TOPUP_EVERY_MS) return;
-  storage.setItem(TOPUP_KEY, String(Date.now()));
-  void fetchLichessPuzzles({ count: 12, rating, exclude, timeoutMs: 15_000 }).catch(() => undefined);
-}
-
 // ── Caché local (para repasar ejercicios traídos de Lichess aunque no haya red) ──
 
 function readCache(): Exercise[] {

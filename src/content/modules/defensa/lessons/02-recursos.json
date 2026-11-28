@@ -1,0 +1,126 @@
+{
+  "id": "def-02-recursos",
+  "order": 2,
+  "title": "Recursos defensivos",
+  "summary": "Contraataque, simplificación y fortaleza.",
+  "icon": "shield",
+  "xp": 100,
+  "minutes": 12,
+  "tags": [
+    "estrategia",
+    "defensa",
+    "intermedia"
+  ],
+  "sources": [
+    {
+      "title": "Petrosian, Ajedrez en la cumbre",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Cuatro salidas",
+      "body": "Cuando te atacan, busca en este orden:\n1. **Contraataque** más rápido.\n2. **Cambiar** la pieza atacante clave.\n3. **Devolver material** para frenar el ataque.\n4. **Huir** con el rey a tiempo."
+    },
+    {
+      "type": "quiz",
+      "question": "Vas con material de ventaja pero bajo ataque. Una idea muy práctica es...",
+      "options": [
+        "Avanzar más peones del enroque",
+        "Conservar todo el material",
+        "Devolver parte para apagar el ataque"
+      ],
+      "answer": 2,
+      "explanation": "Un final con ligera ventaja es mejor que un rey en peligro."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1639",
+      "fen": "2k3r1/pp1b1p2/2pp1q2/8/2BpP2P/2Q2nb1/PPP5/2K2R1R w - - 0 24",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Qxf3",
+        "Qh6+",
+        "Kb1"
+      ],
+      "explanation": "Solución: **Dxf3 Dh6+ Rb1**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1760",
+      "fen": "8/5p2/4p1p1/1pp1PpP1/P2k1P2/1P4P1/3K4/8 b - - 0 36",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "bxa4",
+        "bxa4",
+        "Kc4",
+        "a5",
+        "Kb5",
+        "Kc3",
+        "Kxa5",
+        "Kc4",
+        "Kb6"
+      ],
+      "explanation": "Solución: **bxa4 bxa4 Rc4 a5 Rb5 Rc3 Rxa5 Rc4 Rb6**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1852",
+      "fen": "2r5/2r3k1/p3b1pp/3pn3/3R4/4P1N1/PQ4PP/R1q3K1 w - - 8 33",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Rxc1",
+        "Rxc1+",
+        "Nf1"
+      ],
+      "explanation": "Solución: **Txc1 Txc1+ Cf1**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1918",
+      "fen": "6k1/1N3ppp/p1PK4/8/8/4p2P/8/1r6 w - - 0 44",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "c7",
+        "Rd1+",
+        "Kc6",
+        "h6",
+        "c8=Q+"
+      ],
+      "explanation": "Solución: **c7 Td1+ Rc6 h6 c8=D+**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 2037",
+      "fen": "4Rbk1/p4p1p/6p1/8/1PQ1N3/2P4P/2rq1PP1/6K1 b - - 2 31",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Rc1+",
+        "Kh2",
+        "Qf4+",
+        "g3",
+        "Qf3",
+        "Rxf8+",
+        "Kxf8",
+        "Qc5+",
+        "Kg8"
+      ],
+      "explanation": "Solución: **Tc1+ Rh2 Df4+ g3 Df3 Txf8+ Rxf8 Dc5+ Rg8**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 2108",
+      "fen": "2k5/1p6/1B1p2p1/PK1Pppb1/4P2p/5P1P/6P1/8 w - - 1 39",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "a6",
+        "bxa6+",
+        "Kc6"
+      ],
+      "explanation": "Solución: **a6 bxa6+ Rc6**. Calcula las amenazas concretas del rival."
+    }
+  ]
+}

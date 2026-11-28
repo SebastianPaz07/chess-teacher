@@ -1,0 +1,144 @@
+{
+  "id": "esa-04-india",
+  "order": 4,
+  "title": "Centro cerrado: la India de Rey",
+  "summary": "Ataques en lados contrarios.",
+  "icon": "wall",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "estrategia",
+    "india-de-rey"
+  ],
+  "sources": [
+    {
+      "title": "Persits, La estructura de peones centrales",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Cada uno a su flanco",
+      "body": "Con el centro cerrado (peón blanco en d5, negro en e5), las negras atacan con **...f5-f4** y las blancas con **c5**."
+    },
+    {
+      "type": "video",
+      "resourceId": "1NduTeoaOkMwqpxPhfN_L8n5qvbOr1k5n",
+      "title": "10 conceptos posicionales de la India de Rey"
+    },
+    {
+      "type": "board-demo",
+      "title": "La carrera",
+      "moves": [
+        "d4",
+        "Nf6",
+        "c4",
+        "g6",
+        "Nc3",
+        "Bg7",
+        "e4",
+        "d6",
+        "Nf3",
+        "O-O",
+        "Be2",
+        "e5",
+        "O-O",
+        "Nc6",
+        "d5",
+        "Ne7",
+        "Ne1",
+        "Nd7",
+        "Nd3",
+        "f5"
+      ],
+      "notes": {
+        "15": "Se cierra el centro.",
+        "20": "Las negras lanzan su ataque."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "Con el centro cerrado, los ataques de flanco son...",
+      "options": [
+        "Imposibles",
+        "Más seguros, porque el centro no se abre de golpe",
+        "Siempre perdedores"
+      ],
+      "answer": 1,
+      "explanation": "El contraataque central ya no está disponible."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1755",
+      "fen": "r1b2rk1/p3n1b1/6pp/1q1np3/2RpNPPP/3Q3N/1PPB4/3B1RK1 w - - 4 23",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Rxc8",
+        "Qxd3",
+        "Rxf8+",
+        "Rxf8",
+        "cxd3"
+      ],
+      "explanation": "Solución: **Txc8 Dxd3 Txf8+ Txf8 cxd3**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1884",
+      "fen": "Nn1q1r1k/pb6/1pp1Qp1p/2Pp2p1/3Pn3/P7/1P2PPPP/R3KBNR b KQ - 0 17",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Bc8",
+        "Qxc8",
+        "Qxc8"
+      ],
+      "explanation": "Solución: **Ac8 Dxc8 Dxc8**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1994",
+      "fen": "r2q1krb/pp5Q/6nR/5b2/3p4/1P3P2/PB1P4/R3K1N1 w Q - 3 30",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Ba3+",
+        "Qe7+",
+        "Bxe7+",
+        "Nxe7",
+        "Qxh8",
+        "Rxh8",
+        "Rxh8+"
+      ],
+      "explanation": "Solución: **Aa3+ De7+ Axe7+ Cxe7 Dxh8 Txh8 Txh8+**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2094",
+      "fen": "5r1k/Q1pb3p/6p1/2PPb1q1/1R3B2/2N4P/PP4BK/R7 b - - 4 23",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Rxf4",
+        "Rxf4",
+        "Qxf4+"
+      ],
+      "explanation": "Solución: **Txf4 Txf4 Dxf4+**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2236",
+      "fen": "3r3k/1p3p2/p5qp/5p2/5r2/1P4NP/P5P1/R3Q2K w - - 5 37",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Qe5+",
+        "Qg7",
+        "Qxg7+",
+        "Kxg7",
+        "Nh5+",
+        "Kg6",
+        "Nxf4+"
+      ],
+      "explanation": "Solución: **De5+ Dg7 Dxg7+ Rxg7 Ch5+ Rg6 Cxf4+**. Suma atacantes y abre líneas."
+    }
+  ]
+}

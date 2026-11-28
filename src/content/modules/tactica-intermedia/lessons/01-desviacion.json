@@ -1,0 +1,157 @@
+{
+  "id": "tin-01-desviacion",
+  "order": 1,
+  "title": "Desviación: aleja al defensor",
+  "summary": "Obliga a una pieza a abandonar su tarea.",
+  "icon": "sword",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "tactica",
+    "desviacion"
+  ],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Cada pieza tiene un trabajo",
+      "body": "Antes de atacar pregúntate: **¿qué defiende cada pieza rival?** Una pieza que cuida una casilla, una fila o a otra pieza está «ocupada».\n\n**Desviar** es obligarla, con una captura, un jaque o una amenaza, a dejar ese trabajo."
+    },
+    {
+      "type": "board-demo",
+      "title": "Mate de la Ópera: el remate",
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "d6",
+        "d4",
+        "Bg4",
+        "dxe5",
+        "Bxf3",
+        "Qxf3",
+        "dxe5",
+        "Bc4",
+        "Nf6",
+        "Qb3",
+        "Qe7",
+        "Nc3",
+        "c6",
+        "Bg5",
+        "b5",
+        "Nxb5",
+        "cxb5",
+        "Bxb5+",
+        "Nbd7",
+        "O-O-O",
+        "Rd8",
+        "Rxd7",
+        "Rxd7",
+        "Rd1",
+        "Qe6",
+        "Bxd7+",
+        "Nxd7",
+        "Qb8+",
+        "Nxb8",
+        "Rd8#"
+      ],
+      "notes": {
+        "0": "Paul Morphy – Duque de Brunswick y Conde Isouard, 1858.",
+        "25": "Sacrificio que elimina al caballo defensor y mantiene la clavada.",
+        "31": "¡Desviación! El caballo de d7 está obligado a dejar la columna d.",
+        "33": "Sin el caballo en d7, la torre da mate."
+      },
+      "body": "Recorre la partida y detente antes de **Db8+**: intenta encontrarlo."
+    },
+    {
+      "type": "quiz",
+      "question": "Una torre rival defiende la última fila y tú puedes dar jaque en otro sitio al que solo ella puede acudir. ¿Qué buscas?",
+      "options": [
+        "Avanzar los peones del flanco de dama",
+        "Cambiar damas cuanto antes",
+        "Desviarla con un sacrificio para dar mate en la última fila"
+      ],
+      "answer": 2,
+      "explanation": "Si la torre es el único defensor de la última fila, sacarla de allí decide la partida."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1170",
+      "fen": "1r3r2/Q1qk3p/2pp1npb/2p2P2/8/2N5/PP3PPP/4RRK1 w - - 1 20",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "Re7+",
+        "Kxe7",
+        "Qxc7+"
+      ],
+      "explanation": "Solución: **Te7+ Rxe7 Dxc7+**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1295",
+      "fen": "7r/pp2Rp2/1n4pk/4Q3/3N2q1/8/PP3PPP/5K2 b - - 0 29",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "Qd1+",
+        "Qe1",
+        "Qxd4",
+        "Qe3+",
+        "Qxe3"
+      ],
+      "explanation": "Solución: **Dd1+ De1 Dxd4 De3+ Dxe3**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1474",
+      "fen": "6k1/p4pp1/Qp3q1p/2p1R3/8/2P2N1P/P1P2PPK/2r5 b - - 5 24",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "Qf4+",
+        "g3",
+        "Qxf3",
+        "Re8+",
+        "Kh7",
+        "Qd3+",
+        "Qxd3"
+      ],
+      "explanation": "Solución: **Df4+ g3 Dxf3 Te8+ Rh7 Dd3+ Dxd3**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1616",
+      "fen": "5Q1R/5p1p/1b3qp1/p6k/P2P4/8/1P2rPPP/5RK1 b - - 8 32",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "Qxf2+",
+        "Rxf2",
+        "Re1+",
+        "Rf1",
+        "Bxd4+",
+        "Kh1",
+        "Rxf1#"
+      ],
+      "explanation": "Solución: **Dxf2+ Txf2 Te1+ Tf1 Axd4+ Rh1 Txf1#**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1715",
+      "fen": "2r3k1/2r4p/4p1p1/1p1q1pP1/p2P1P1Q/P6R/4bB2/2R3K1 w - - 6 35",
+      "prompt": "**Desvía** al defensor.",
+      "solution": [
+        "Qxh7+",
+        "Rxh7",
+        "Rxc8+",
+        "Kg7",
+        "Rc7+"
+      ],
+      "explanation": "Solución: **Dxh7+ Txh7 Txc8+ Rg7 Tc7+**. Pregunta qué pieza sostiene la posición rival y oblígala a irse."
+    }
+  ]
+}

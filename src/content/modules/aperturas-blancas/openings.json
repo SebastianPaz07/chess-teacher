@@ -1,144 +1,2086 @@
 [
   {
     "id": "italiana",
+    "icon": "columns",
     "name": "Apertura Italiana",
     "side": "w",
     "eco": "C50–C54",
     "description": "1.e4 e5 2.Cf3 Cc6 3.Ac4: desarrollo rápido y presión sobre f7.",
-    "ideas": ["El alfil de c4 apunta a f7, el punto más débil del negro.", "c3 + d4 para construir un centro de peones.", "En el Giuoco Pianissimo (d3) se juega lento y maniobrando."],
-    "resourceTags": ["italiana"],
+    "ideas": [
+      "El alfil de c4 apunta a f7, el punto más débil del negro.",
+      "c3 + d4 para construir un centro de peones.",
+      "En el Giuoco Pianissimo (d3) se juega lento y maniobrando."
+    ],
+    "resourceTags": [
+      "italiana"
+    ],
     "lines": [
       {
         "name": "Giuoco Piano con c3 y d3",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d3", "d6", "O-O", "O-O"],
-        "notes": { "5": "3.Ac4: la Italiana.", "7": "4.c3 prepara d4 o d3 con juego tranquilo.", "9": "5.d3: el Pianissimo, muy popular hoy." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "c3",
+          "Nf6",
+          "d3",
+          "d6",
+          "O-O",
+          "O-O"
+        ],
+        "notes": {
+          "5": "3.Ac4: la Italiana.",
+          "7": "4.c3 prepara d4 o d3 con juego tranquilo.",
+          "9": "5.d3: el Pianissimo, muy popular hoy."
+        },
+        "group": "Giuoco Piano"
       },
       {
         "name": "Dos Caballos: 4.Cg5",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Nf6", "Ng5", "d5", "exd5", "Na5", "Bb5+", "c6", "dxc6", "bxc6", "Be2", "h6", "Nf3", "e4", "Ne5"],
-        "notes": { "7": "4.Cg5 ataca f7 de inmediato.", "8": "4...d5! es la mejor defensa.", "10": "5...Ca5: las negras sacrifican un peón por iniciativa." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Nf6",
+          "Ng5",
+          "d5",
+          "exd5",
+          "Na5",
+          "Bb5+",
+          "c6",
+          "dxc6",
+          "bxc6",
+          "Be2",
+          "h6",
+          "Nf3",
+          "e4",
+          "Ne5"
+        ],
+        "notes": {
+          "7": "4.Cg5 ataca f7 de inmediato.",
+          "8": "4...d5! es la mejor defensa.",
+          "10": "5...Ca5: las negras sacrifican un peón por iniciativa."
+        },
+        "group": "Dos Caballos"
+      },
+      {
+        "name": "Pianissimo con a4",
+        "group": "Giuoco Piano",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "O-O",
+          "Nf6",
+          "d3",
+          "d6",
+          "c3",
+          "a6",
+          "a4",
+          "Ba7",
+          "Re1",
+          "O-O",
+          "h3",
+          "h6",
+          "Nbd2",
+          "Re8",
+          "Nf1"
+        ],
+        "notes": {
+          "13": "a4 gana espacio en el flanco de dama y frena ...b5.",
+          "21": "El caballo va rumbo a g3: maniobra típica de la Italiana lenta."
+        }
+      },
+      {
+        "name": "Ataque central 5.d4",
+        "group": "Giuoco Piano",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "c3",
+          "Nf6",
+          "d4",
+          "exd4",
+          "cxd4",
+          "Bb4+",
+          "Bd2",
+          "Bxd2+",
+          "Nbxd2",
+          "d5",
+          "exd5",
+          "Nxd5",
+          "Qb3",
+          "Nce7",
+          "O-O",
+          "O-O",
+          "Rfe1",
+          "c6"
+        ],
+        "notes": {
+          "9": "Las blancas rompen el centro de inmediato.",
+          "16": "...d5 es la reacción correcta: golpea el centro blanco.",
+          "24": "Peón aislado en d4 contra un bloqueo sólido en d5."
+        }
+      },
+      {
+        "name": "Ataque Møller",
+        "group": "Giuoco Piano",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "c3",
+          "Nf6",
+          "d4",
+          "exd4",
+          "cxd4",
+          "Bb4+",
+          "Nc3",
+          "Nxe4",
+          "O-O",
+          "Bxc3",
+          "d5",
+          "Bf6",
+          "Re1",
+          "Ne7",
+          "Rxe4",
+          "d6",
+          "Bg5",
+          "Bxg5",
+          "Nxg5",
+          "O-O"
+        ],
+        "notes": {
+          "17": "d5 sacrifica material a cambio de iniciativa.",
+          "18": "La retirada a f6 es la defensa clave.",
+          "26": "Posición crítica: calcula 14.Cxh7 en tu tablero."
+        }
+      },
+      {
+        "name": "Evans aceptado",
+        "group": "Gambito Evans",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "b4",
+          "Bxb4",
+          "c3",
+          "Ba5",
+          "d4",
+          "exd4",
+          "O-O",
+          "Nge7",
+          "cxd4",
+          "d5",
+          "exd5",
+          "Nxd5"
+        ],
+        "notes": {
+          "7": "El Gambito Evans entrega un peón para dominar el centro con tiempo.",
+          "16": "Devolver el golpe central con ...d5 libera a las negras."
+        }
+      },
+      {
+        "name": "Evans rehusado",
+        "group": "Gambito Evans",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5",
+          "b4",
+          "Bb6",
+          "a4",
+          "a6",
+          "Nc3",
+          "Nf6",
+          "Nd5",
+          "Nxd5",
+          "exd5",
+          "Nd4"
+        ],
+        "notes": {
+          "8": "Rechazar el gambito es sólido y práctico.",
+          "13": "El salto a d5 busca presionar b6 y f6."
+        }
+      },
+      {
+        "name": "Moderna 4.d3",
+        "group": "Dos Caballos",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Nf6",
+          "d3",
+          "Be7",
+          "O-O",
+          "O-O",
+          "Re1",
+          "d6",
+          "a4",
+          "Na5",
+          "Ba2",
+          "c5",
+          "c3",
+          "Nc6"
+        ],
+        "notes": {
+          "7": "4.d3 evita complicaciones y mantiene la tensión.",
+          "15": "El alfil se esconde en a2 sin perder la diagonal."
+        }
+      },
+      {
+        "name": "Ataque Fegatello",
+        "group": "Dos Caballos",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Nf6",
+          "Ng5",
+          "d5",
+          "exd5",
+          "Nxd5",
+          "Nxf7",
+          "Kxf7",
+          "Qf3+",
+          "Ke6",
+          "Nc3",
+          "Ncb4",
+          "O-O",
+          "c6",
+          "d4"
+        ],
+        "notes": {
+          "10": "...Cxd5 es arriesgado: por eso se prefiere 5...Ca5.",
+          "11": "Sacrificio de caballo para sacar al rey negro.",
+          "19": "Todas las piezas blancas apuntan al rey en el centro."
+        }
+      },
+      {
+        "name": "Contraataque Traxler",
+        "group": "Dos Caballos",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Nf6",
+          "Ng5",
+          "Bc5",
+          "Bxf7+",
+          "Ke7",
+          "Bd5",
+          "Rf8",
+          "O-O",
+          "d6"
+        ],
+        "notes": {
+          "8": "Las negras ignoran f7 y contraatacan sobre f2.",
+          "9": "Capturar con el alfil es la forma tranquila de castigarlo."
+        }
+      },
+      {
+        "name": "Defensa Húngara 3...Ae7",
+        "group": "Otras respuestas",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Be7",
+          "d4",
+          "d6",
+          "d5",
+          "Nb8",
+          "Bd3",
+          "Nf6",
+          "c4",
+          "O-O"
+        ],
+        "notes": {
+          "6": "Respuesta pasiva pero sólida.",
+          "9": "Con d5 las blancas ganan espacio."
+        }
       }
     ]
   },
   {
     "id": "escocesa",
+    "icon": "flag-banner",
     "name": "Apertura Escocesa",
     "side": "w",
     "eco": "C45",
     "description": "1.e4 e5 2.Cf3 Cc6 3.d4: abre el centro inmediatamente.",
-    "ideas": ["Cambia el peón e5 y libera el juego blanco.", "El caballo de d4 es una pieza central fuerte.", "Juego directo y fácil de entender."],
-    "resourceTags": ["escocesa"],
+    "ideas": [
+      "Cambia el peón e5 y libera el juego blanco.",
+      "El caballo de d4 es una pieza central fuerte.",
+      "Juego directo y fácil de entender."
+    ],
+    "resourceTags": [
+      "escocesa"
+    ],
     "lines": [
       {
         "name": "Variante clásica 4...Ac5",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Nxd4", "Bc5", "Be3", "Qf6", "c3", "Nge7", "Bc4"],
-        "notes": { "5": "3.d4: la Escocesa.", "8": "4...Ac5 presiona el caballo de d4.", "9": "5.Ae3 lo defiende y desarrolla." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Bc5",
+          "Be3",
+          "Qf6",
+          "c3",
+          "Nge7",
+          "Bc4"
+        ],
+        "notes": {
+          "5": "3.d4: la Escocesa.",
+          "8": "4...Ac5 presiona el caballo de d4.",
+          "9": "5.Ae3 lo defiende y desarrolla."
+        },
+        "group": "Clásica 4...Ac5"
       },
       {
         "name": "Variante Mieses 4...Cf6",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "d4", "exd4", "Nxd4", "Nf6", "Nxc6", "bxc6", "e5", "Qe7", "Qe2", "Nd5", "c4"],
-        "notes": { "9": "5.Cxc6 y 6.e5: las blancas ganan espacio.", "15": "8.c4 expulsa al caballo de d5." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Nf6",
+          "Nxc6",
+          "bxc6",
+          "e5",
+          "Qe7",
+          "Qe2",
+          "Nd5",
+          "c4"
+        ],
+        "notes": {
+          "9": "5.Cxc6 y 6.e5: las blancas ganan espacio.",
+          "15": "8.c4 expulsa al caballo de d5."
+        },
+        "group": "Con 4...Cf6"
+      },
+      {
+        "name": "5.Cxc6 con 5...Df6",
+        "group": "Clásica 4...Ac5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Bc5",
+          "Nxc6",
+          "Qf6",
+          "Qd2",
+          "dxc6",
+          "Nc3",
+          "Ne7",
+          "Qf4",
+          "Be6"
+        ],
+        "notes": {
+          "10": "...Df6 amenaza mate en f2 antes de recuperar la pieza.",
+          "15": "Cambiar damas alivia la presión negra."
+        }
+      },
+      {
+        "name": "5.Cb3",
+        "group": "Clásica 4...Ac5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Bc5",
+          "Nb3",
+          "Bb6",
+          "a4",
+          "a6",
+          "Nc3",
+          "d6",
+          "Nd5",
+          "Ba7",
+          "Be3",
+          "Bxe3",
+          "Nxe3",
+          "Nf6",
+          "Bd3",
+          "O-O",
+          "O-O"
+        ],
+        "notes": {
+          "9": "Retirada que gana un tiempo sobre el alfil.",
+          "15": "El caballo en d5 es la pieza estrella."
+        }
+      },
+      {
+        "name": "Mieses con 8...Aa6",
+        "group": "Con 4...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Nf6",
+          "Nxc6",
+          "bxc6",
+          "e5",
+          "Qe7",
+          "Qe2",
+          "Nd5",
+          "c4",
+          "Ba6",
+          "b3",
+          "O-O-O",
+          "g3",
+          "Re8",
+          "Bb2",
+          "f6"
+        ],
+        "notes": {
+          "16": "...Aa6 clava el peón de c4.",
+          "22": "...f6 ataca la cabeza de puente en e5."
+        }
+      },
+      {
+        "name": "5.Cc3 (Cuatro Caballos)",
+        "group": "Con 4...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Nf6",
+          "Nc3",
+          "Bb4",
+          "Nxc6",
+          "bxc6",
+          "Bd3",
+          "d5",
+          "exd5",
+          "cxd5",
+          "O-O",
+          "O-O",
+          "Bg5",
+          "c6"
+        ],
+        "notes": {
+          "10": "...Ab4 clava el caballo y presiona e4.",
+          "20": "Centro de peones sólido para las negras."
+        }
+      },
+      {
+        "name": "Ataque Steinitz",
+        "group": "4...Dh4",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Qh4",
+          "Nc3",
+          "Bb4",
+          "Be2",
+          "Qxe4",
+          "Nb5",
+          "Bxc3+",
+          "bxc3",
+          "Kd8",
+          "O-O"
+        ],
+        "notes": {
+          "8": "La dama sale pronto a cazar el peón de e4.",
+          "16": "Las negras ganan un peón pero pierden el enroque.",
+          "17": "Compensación: desarrollo y rey negro expuesto."
+        }
+      },
+      {
+        "name": "Gambito Escocés 4.Ac4",
+        "group": "Gambitos",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "Bc4",
+          "Nf6",
+          "e5",
+          "d5",
+          "Bb5",
+          "Ne4",
+          "Nxd4",
+          "Bd7",
+          "Bxc6",
+          "bxc6",
+          "O-O",
+          "Bc5"
+        ],
+        "notes": {
+          "7": "En vez de recuperar, las blancas desarrollan.",
+          "10": "La contrajugada ...d5 es la respuesta modelo."
+        }
+      },
+      {
+        "name": "Gambito Göring",
+        "group": "Gambitos",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "exd4",
+          "c3",
+          "dxc3",
+          "Nxc3",
+          "Bb4",
+          "Bc4",
+          "d6",
+          "O-O",
+          "Bxc3",
+          "bxc3"
+        ],
+        "notes": {
+          "7": "Se ofrece un peón para abrir líneas rápidamente."
+        }
+      },
+      {
+        "name": "3...d6",
+        "group": "Otras respuestas",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "d4",
+          "d6",
+          "dxe5",
+          "Nxe5",
+          "Nxe5",
+          "dxe5",
+          "Qxd8+",
+          "Kxd8",
+          "Bc4",
+          "Be6",
+          "Bxe6",
+          "fxe6"
+        ],
+        "notes": {
+          "12": "El cambio de damas deja al rey negro en el centro, con un final ligeramente favorable a las blancas."
+        }
       }
     ]
   },
   {
     "id": "cuatro-caballos",
+    "icon": "horse",
     "name": "Cuatro Caballos",
     "side": "w",
     "eco": "C48–C49",
     "description": "Los cuatro caballos salen primero: simetría y desarrollo sólido.",
-    "ideas": ["Desarrollo natural sin riesgos.", "La variante española (4.Ab5) presiona e5.", "Cuidado con las trampas en posiciones simétricas."],
-    "resourceTags": ["cuatro-caballos"],
+    "ideas": [
+      "Desarrollo natural sin riesgos.",
+      "La variante española (4.Ab5) presiona e5.",
+      "Cuidado con las trampas en posiciones simétricas."
+    ],
+    "resourceTags": [
+      "cuatro-caballos"
+    ],
     "lines": [
       {
         "name": "Variante española simétrica",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "Nc3", "Nf6", "Bb5", "Bb4", "O-O", "O-O", "d3", "d6", "Bg5"],
-        "notes": { "7": "4.Ab5: la española de los cuatro caballos.", "13": "7.Ag5 clava el caballo de f6." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bb5",
+          "Bb4",
+          "O-O",
+          "O-O",
+          "d3",
+          "d6",
+          "Bg5"
+        ],
+        "notes": {
+          "7": "4.Ab5: la española de los cuatro caballos.",
+          "13": "7.Ag5 clava el caballo de f6."
+        },
+        "group": "Española 4.Ab5"
+      },
+      {
+        "name": "Simétrica con 7.Ag5",
+        "group": "Española 4.Ab5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bb5",
+          "Bb4",
+          "O-O",
+          "O-O",
+          "d3",
+          "d6",
+          "Bg5",
+          "Bxc3",
+          "bxc3",
+          "Qe7",
+          "Re1",
+          "Nd8",
+          "d4",
+          "Ne6",
+          "Bc1"
+        ],
+        "notes": {
+          "14": "Romper la simetría capturando en c3.",
+          "18": "Maniobra Metger: el caballo va a e6."
+        }
+      },
+      {
+        "name": "4...Ac5",
+        "group": "Española 4.Ab5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bb5",
+          "Bc5",
+          "O-O",
+          "O-O",
+          "Nxe5",
+          "Nxe5",
+          "d4",
+          "Bd6",
+          "f4",
+          "Nc6",
+          "e5",
+          "Bb4",
+          "exf6",
+          "Qxf6"
+        ],
+        "notes": {
+          "11": "Truco central: se recupera la pieza con d4.",
+          "17": "El centro blanco avanza con fuerza."
+        }
+      },
+      {
+        "name": "5.Aa4",
+        "group": "Rubinstein 4...Cd4",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bb5",
+          "Nd4",
+          "Ba4",
+          "Bc5",
+          "Nxe5",
+          "O-O",
+          "Nd3",
+          "Bb6",
+          "e5",
+          "Ne8",
+          "O-O",
+          "d6"
+        ],
+        "notes": {
+          "8": "Las negras rompen la simetría e invitan a complicar.",
+          "12": "A cambio del peón, las negras tienen actividad."
+        }
+      },
+      {
+        "name": "5.Cxd4",
+        "group": "Rubinstein 4...Cd4",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bb5",
+          "Nd4",
+          "Nxd4",
+          "exd4",
+          "e5",
+          "dxc3",
+          "exf6",
+          "Qxf6",
+          "dxc3",
+          "Qe5+",
+          "Qe2",
+          "Qxe2+",
+          "Bxe2",
+          "d5"
+        ],
+        "notes": {
+          "11": "Línea forzada: practica el cálculo de cambios.",
+          "20": "Final equilibrado."
+        }
+      },
+      {
+        "name": "Línea principal",
+        "group": "Escocesa 4.d4",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "d4",
+          "exd4",
+          "Nxd4",
+          "Bb4",
+          "Nxc6",
+          "bxc6",
+          "Bd3",
+          "d5",
+          "exd5",
+          "cxd5",
+          "O-O",
+          "O-O",
+          "Bg5",
+          "Be6"
+        ],
+        "notes": {
+          "7": "Abrir el centro da juego más dinámico."
+        }
+      },
+      {
+        "name": "El truco ...Cxe4",
+        "group": "Italiana 4.Ac4",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "Bc4",
+          "Nxe4",
+          "Nxe4",
+          "d5",
+          "Bd3",
+          "dxe4",
+          "Bxe4",
+          "Bd6",
+          "d4"
+        ],
+        "notes": {
+          "8": "Truco del centro: tras ...d5 las negras recuperan la pieza.",
+          "10": "Doble ataque con el peón."
+        }
+      },
+      {
+        "name": "Sistema Glek",
+        "group": "Fianchetto 4.g3",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Nc3",
+          "Nf6",
+          "g3",
+          "d5",
+          "exd5",
+          "Nxd5",
+          "Bg2",
+          "Nxc3",
+          "bxc3",
+          "Bd6",
+          "O-O",
+          "O-O",
+          "d4"
+        ],
+        "notes": {
+          "7": "Sistema flexible: el alfil presiona la gran diagonal.",
+          "8": "La respuesta activa es golpear con ...d5."
+        }
       }
     ]
   },
   {
     "id": "ponziani",
+    "icon": "buildings",
     "name": "Apertura Ponziani",
     "side": "w",
     "eco": "C44",
     "description": "1.e4 e5 2.Cf3 Cc6 3.c3: prepara d4 con un centro de peones.",
-    "ideas": ["c3 apoya d4.", "Poco conocida: el rival suele salir de la teoría.", "Trampas con Da4 y d5."],
-    "resourceTags": ["ponziani"],
+    "ideas": [
+      "c3 apoya d4.",
+      "Poco conocida: el rival suele salir de la teoría.",
+      "Trampas con Da4 y d5."
+    ],
+    "resourceTags": [
+      "ponziani"
+    ],
     "lines": [
       {
         "name": "Línea principal 3...Cf6",
-        "moves": ["e4", "e5", "Nf3", "Nc6", "c3", "Nf6", "d4", "Nxe4", "d5", "Ne7", "Nxe5", "Ng6", "Qd4"],
-        "notes": { "5": "3.c3: la Ponziani.", "9": "5.d5 gana espacio y expulsa al caballo.", "13": "7.Dd4 centraliza la dama con presión." }
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "Nf6",
+          "d4",
+          "Nxe4",
+          "d5",
+          "Ne7",
+          "Nxe5",
+          "Ng6",
+          "Qd4"
+        ],
+        "notes": {
+          "5": "3.c3: la Ponziani.",
+          "9": "5.d5 gana espacio y expulsa al caballo.",
+          "13": "7.Dd4 centraliza la dama con presión."
+        },
+        "group": "3...Cf6"
+      },
+      {
+        "name": "Final tras 7.Dd4",
+        "group": "3...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "Nf6",
+          "d4",
+          "Nxe4",
+          "d5",
+          "Ne7",
+          "Nxe5",
+          "Ng6",
+          "Qd4",
+          "Qe7",
+          "Qxe4",
+          "Qxe5",
+          "Qxe5+",
+          "Nxe5",
+          "Bf4",
+          "d6"
+        ],
+        "notes": {
+          "14": "La clavada sobre la columna e permite recuperar la pieza."
+        }
+      },
+      {
+        "name": "4...exd4 5.e5",
+        "group": "3...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "Nf6",
+          "d4",
+          "exd4",
+          "e5",
+          "Nd5",
+          "Qb3",
+          "Nb6",
+          "cxd4",
+          "d6",
+          "Nc3",
+          "dxe5",
+          "dxe5",
+          "Be6",
+          "Qc2"
+        ],
+        "notes": {
+          "9": "e5 expulsa al caballo y gana espacio.",
+          "11": "La dama presiona el caballo y b7."
+        }
+      },
+      {
+        "name": "Variante Fraser 5...Ac5",
+        "group": "3...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "Nf6",
+          "d4",
+          "Nxe4",
+          "d5",
+          "Bc5",
+          "dxc6",
+          "Bxf2+",
+          "Ke2",
+          "Bb6",
+          "Qd5"
+        ],
+        "notes": {
+          "10": "Las negras sacrifican una pieza para atacar.",
+          "15": "La dama ataca el caballo y amenaza f7."
+        }
+      },
+      {
+        "name": "4.Da4 f6",
+        "group": "3...d5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "d5",
+          "Qa4",
+          "f6",
+          "Bb5",
+          "Ne7",
+          "exd5",
+          "Qxd5",
+          "O-O",
+          "Bd7",
+          "d4"
+        ],
+        "notes": {
+          "6": "La reacción central más sólida.",
+          "7": "La clavada sobre c6 presiona e5."
+        }
+      },
+      {
+        "name": "4.Da4 Ad7",
+        "group": "3...d5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "d5",
+          "Qa4",
+          "Bd7",
+          "exd5",
+          "Nd4",
+          "Qd1",
+          "Nxf3+",
+          "Qxf3",
+          "Nf6",
+          "Bc4",
+          "Bd6",
+          "d3",
+          "O-O",
+          "O-O"
+        ],
+        "notes": {
+          "8": "Gambito: las negras entregan un peón por desarrollo."
+        }
+      },
+      {
+        "name": "Contragambito Ponziani",
+        "group": "3...f5",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "f5",
+          "d4",
+          "fxe4",
+          "Nxe5",
+          "Qf6",
+          "Ng4",
+          "Qg6",
+          "Bf4"
+        ],
+        "notes": {
+          "6": "Respuesta agresiva y arriesgada.",
+          "7": "Golpe central: no aceptes complicaciones sin desarrollar."
+        }
+      },
+      {
+        "name": "Sistema sólido",
+        "group": "3...d6",
+        "moves": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "c3",
+          "d6",
+          "d4",
+          "Nf6",
+          "Bd3",
+          "Be7",
+          "O-O",
+          "O-O",
+          "Re1"
+        ],
+        "notes": {
+          "7": "Las blancas obtienen el centro ideal."
+        }
       }
     ]
   },
   {
     "id": "apertura-alfil",
+    "icon": "church",
     "name": "Apertura de Alfil",
     "side": "w",
     "eco": "C23–C24",
     "description": "1.e4 e5 2.Ac4: flexible, puede transponer a la Italiana.",
-    "ideas": ["Evita la defensa Petrov.", "d3 + Cf3 con estructura sólida.", "El alfil se retira a b3 para conservarlo."],
-    "resourceTags": ["apertura-alfil"],
+    "ideas": [
+      "Evita la defensa Petrov.",
+      "d3 + Cf3 con estructura sólida.",
+      "El alfil se retira a b3 para conservarlo."
+    ],
+    "resourceTags": [
+      "apertura-alfil"
+    ],
     "lines": [
       {
         "name": "2...Cf6 3.d3",
-        "moves": ["e4", "e5", "Bc4", "Nf6", "d3", "c6", "Nf3", "d5", "Bb3"],
-        "notes": { "3": "2.Ac4: la Apertura de Alfil.", "9": "5.Ab3: el alfil se mantiene en la diagonal." }
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Nf6",
+          "d3",
+          "c6",
+          "Nf3",
+          "d5",
+          "Bb3"
+        ],
+        "notes": {
+          "3": "2.Ac4: la Apertura de Alfil.",
+          "9": "5.Ab3: el alfil se mantiene en la diagonal."
+        },
+        "group": "2...Cf6"
+      },
+      {
+        "name": "Contra 3...Cc6",
+        "group": "2...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Nf6",
+          "d3",
+          "Nc6",
+          "Nc3",
+          "Na5",
+          "Nge2",
+          "Nxc4",
+          "dxc4",
+          "Bc5",
+          "O-O",
+          "d6"
+        ],
+        "notes": {
+          "8": "Las negras buscan eliminar el alfil de casillas claras.",
+          "11": "Recapturar hacia el centro controla d5."
+        }
+      },
+      {
+        "name": "3...d5",
+        "group": "2...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Nf6",
+          "d3",
+          "d5",
+          "exd5",
+          "Nxd5",
+          "Nf3",
+          "Nc6",
+          "O-O",
+          "Be7",
+          "Re1",
+          "Bg4",
+          "h3",
+          "Bh5"
+        ],
+        "notes": {
+          "6": "Ruptura central inmediata.",
+          "13": "Presión sobre e5 por la columna abierta."
+        }
+      },
+      {
+        "name": "Gambito Urusov 3.d4",
+        "group": "2...Cf6",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Nf6",
+          "d4",
+          "exd4",
+          "Nf3",
+          "Nxe4",
+          "Qxd4",
+          "Nf6",
+          "Bg5",
+          "Be7",
+          "Nc3",
+          "c6",
+          "O-O-O",
+          "d5"
+        ],
+        "notes": {
+          "5": "Un peón a cambio de desarrollo veloz.",
+          "15": "Enroque largo y torres al centro."
+        }
+      },
+      {
+        "name": "3.c3 y d4",
+        "group": "2...Ac5",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Bc5",
+          "c3",
+          "Nf6",
+          "d4",
+          "exd4",
+          "e5",
+          "d5",
+          "exf6",
+          "dxc4",
+          "Qh5",
+          "O-O",
+          "Qxc5",
+          "Re8+",
+          "Ne2",
+          "d3",
+          "Be3",
+          "dxe2"
+        ],
+        "notes": {
+          "10": "...d5 contraataca el alfil: no huyas con el caballo.",
+          "13": "La dama ataca c5 y apunta a f7."
+        }
+      },
+      {
+        "name": "Italiana tranquila",
+        "group": "2...Ac5",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Bc5",
+          "Nf3",
+          "d6",
+          "c3",
+          "Nf6",
+          "d3",
+          "Nc6"
+        ],
+        "notes": {
+          "10": "Se llega por otro orden a la Italiana: las mismas ideas sirven."
+        }
+      },
+      {
+        "name": "Calabresa 2...c6",
+        "group": "Otras respuestas",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "c6",
+          "d4",
+          "d5",
+          "exd5",
+          "cxd5",
+          "Bb5+",
+          "Bd7",
+          "Bxd7+",
+          "Qxd7",
+          "dxe5",
+          "Nc6",
+          "Nf3"
+        ],
+        "notes": {
+          "6": "Las negras quieren un gran centro.",
+          "9": "El jaque deshace la idea antes de que cuaje."
+        }
+      },
+      {
+        "name": "Dama a h5 (cómo defenderla)",
+        "group": "Otras respuestas",
+        "moves": [
+          "e4",
+          "e5",
+          "Bc4",
+          "Nc6",
+          "Qh5",
+          "g6",
+          "Qf3",
+          "Nf6",
+          "Ne2",
+          "Bg7",
+          "Nbc3",
+          "d6"
+        ],
+        "notes": {
+          "5": "Amenaza Dxf7 mate.",
+          "6": "...g6 defiende ganando un tiempo.",
+          "8": "...Cf6 tapa la segunda amenaza."
+        }
       }
     ]
   },
   {
     "id": "londres",
+    "icon": "castle",
     "name": "Sistema Londres",
     "side": "w",
     "eco": "D02",
     "description": "d4, Af4, e3, c3: un sistema sólido que funciona contra casi todo.",
-    "ideas": ["El alfil sale antes de e3 para no quedar encerrado.", "Estructura en pirámide d4-e3-c3.", "Plan típico: Ce5, f4 y ataque en el flanco de rey."],
-    "resourceTags": ["londres"],
+    "ideas": [
+      "El alfil sale antes de e3 para no quedar encerrado.",
+      "Estructura en pirámide d4-e3-c3.",
+      "Plan típico: Ce5, f4 y ataque en el flanco de rey."
+    ],
+    "resourceTags": [
+      "londres"
+    ],
     "lines": [
       {
         "name": "Contra ...d5 y ...c5",
-        "moves": ["d4", "d5", "Bf4", "Nf6", "e3", "e6", "Nf3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "Bg3", "O-O", "Bd3"],
-        "notes": { "3": "2.Af4: el alfil sale antes de e3.", "13": "7.Ag3: no cambies el alfil fácilmente." }
+        "moves": [
+          "d4",
+          "d5",
+          "Bf4",
+          "Nf6",
+          "e3",
+          "e6",
+          "Nf3",
+          "c5",
+          "c3",
+          "Nc6",
+          "Nbd2",
+          "Bd6",
+          "Bg3",
+          "O-O",
+          "Bd3"
+        ],
+        "notes": {
+          "3": "2.Af4: el alfil sale antes de e3.",
+          "13": "7.Ag3: no cambies el alfil fácilmente."
+        },
+        "group": "Contra ...d5"
+      },
+      {
+        "name": "...c5 y ...Db6",
+        "group": "Contra ...d5",
+        "moves": [
+          "d4",
+          "d5",
+          "Bf4",
+          "c5",
+          "e3",
+          "Nc6",
+          "c3",
+          "Qb6",
+          "Qb3",
+          "c4",
+          "Qc2",
+          "Bf5",
+          "Qc1",
+          "e6",
+          "Nf3"
+        ],
+        "notes": {
+          "8": "La dama negra ataca b2, el punto débil del Londres.",
+          "9": "Ofrecer el cambio de damas resuelve el problema."
+        }
+      },
+      {
+        "name": "...Af5 simétrico",
+        "group": "Contra ...d5",
+        "moves": [
+          "d4",
+          "d5",
+          "Bf4",
+          "Bf5",
+          "e3",
+          "e6",
+          "c4",
+          "c6",
+          "Nc3",
+          "Nf6",
+          "Qb3",
+          "Qb6",
+          "c5",
+          "Qxb3",
+          "axb3"
+        ],
+        "notes": {
+          "7": "Contra ...Af5 conviene golpear con c4.",
+          "15": "La torre de a1 gana una columna y el flanco de dama avanza."
+        }
+      },
+      {
+        "name": "...Ad6",
+        "group": "Contra ...d5",
+        "moves": [
+          "d4",
+          "d5",
+          "Bf4",
+          "Nf6",
+          "e3",
+          "e6",
+          "Nf3",
+          "Bd6",
+          "Bg3",
+          "O-O",
+          "Bd3",
+          "c5",
+          "c3",
+          "Nc6",
+          "Nbd2",
+          "b6",
+          "Ne5",
+          "Bb7",
+          "f4"
+        ],
+        "notes": {
+          "9": "No cambies tú: si capturan en g3, se abre la columna h.",
+          "19": "Ne5 y f4: plan de ataque clásico."
+        }
+      },
+      {
+        "name": "Fianchetto de rey",
+        "group": "Contra la India",
+        "moves": [
+          "d4",
+          "Nf6",
+          "Bf4",
+          "g6",
+          "Nf3",
+          "Bg7",
+          "e3",
+          "O-O",
+          "Be2",
+          "d6",
+          "h3",
+          "c5",
+          "c3",
+          "b6",
+          "O-O",
+          "Bb7"
+        ],
+        "notes": {
+          "11": "h3 guarda la casilla h2 para el alfil."
+        }
+      },
+      {
+        "name": "...b6 y ...Ab7",
+        "group": "Contra la India",
+        "moves": [
+          "d4",
+          "Nf6",
+          "Nf3",
+          "e6",
+          "Bf4",
+          "b6",
+          "e3",
+          "Bb7",
+          "Bd3",
+          "c5",
+          "c3",
+          "Be7",
+          "h3",
+          "O-O",
+          "O-O"
+        ],
+        "notes": {
+          "9": "El alfil de d3 controla e4."
+        }
+      },
+      {
+        "name": "2...c5 3.d5",
+        "group": "Contra ...c5",
+        "moves": [
+          "d4",
+          "Nf6",
+          "Bf4",
+          "c5",
+          "d5",
+          "Qb6",
+          "Nc3",
+          "Qxb2",
+          "Bd2",
+          "Qb6",
+          "e4",
+          "d6",
+          "f4"
+        ],
+        "notes": {
+          "8": "Aceptar el peón cuesta tiempos.",
+          "11": "Centro y desarrollo a cambio."
+        }
+      },
+      {
+        "name": "Londres con Cc3",
+        "group": "Jobava",
+        "moves": [
+          "d4",
+          "d5",
+          "Nc3",
+          "Nf6",
+          "Bf4",
+          "c5",
+          "e3",
+          "cxd4",
+          "exd4",
+          "a6",
+          "Nf3",
+          "Nc6",
+          "Bd3",
+          "Bg4"
+        ],
+        "notes": {
+          "5": "Versión agresiva: el caballo apunta a b5.",
+          "10": "...a6 impide el salto a b5."
+        }
       }
     ]
   },
   {
     "id": "colle",
+    "icon": "mountain",
     "name": "Sistema Colle",
     "side": "w",
     "eco": "D05",
     "description": "d4, Cf3, e3, Ad3, c3, Cbd2: preparar la ruptura e4.",
-    "ideas": ["El alfil de casillas negras queda dentro, pero la ruptura e4 libera el juego.", "Ataque en el flanco de rey tras e4-e5."],
-    "resourceTags": ["colle"],
+    "ideas": [
+      "El alfil de casillas negras queda dentro, pero la ruptura e4 libera el juego.",
+      "Ataque en el flanco de rey tras e4-e5."
+    ],
+    "resourceTags": [
+      "colle"
+    ],
     "lines": [
       {
         "name": "Colle-Zukertort clásico",
-        "moves": ["d4", "d5", "Nf3", "Nf6", "e3", "e6", "Bd3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "O-O", "O-O", "dxc5", "Bxc5", "e4"],
-        "notes": { "13": "7.O-O: todo listo para la ruptura.", "17": "9.e4: la ruptura típica del Colle." }
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "e6",
+          "Bd3",
+          "c5",
+          "c3",
+          "Nc6",
+          "Nbd2",
+          "Bd6",
+          "O-O",
+          "O-O",
+          "dxc5",
+          "Bxc5",
+          "e4"
+        ],
+        "notes": {
+          "13": "7.O-O: todo listo para la ruptura.",
+          "17": "9.e4: la ruptura típica del Colle."
+        },
+        "group": "Con c3"
+      },
+      {
+        "name": "Ruptura e4 (Koltanowski)",
+        "group": "Con c3",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "e6",
+          "Bd3",
+          "c5",
+          "c3",
+          "Nbd7",
+          "Nbd2",
+          "Bd6",
+          "O-O",
+          "O-O",
+          "Re1",
+          "Re8",
+          "e4",
+          "dxe4",
+          "Nxe4",
+          "Nxe4",
+          "Bxe4"
+        ],
+        "notes": {
+          "17": "e4 es el momento que prepara toda la apertura.",
+          "21": "Alfiles apuntando al enroque negro."
+        }
+      },
+      {
+        "name": "Negras con ...e5",
+        "group": "Con c3",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "c5",
+          "c3",
+          "e6",
+          "Bd3",
+          "Nc6",
+          "O-O",
+          "Bd6",
+          "Nbd2",
+          "O-O",
+          "Qe2",
+          "e5",
+          "dxc5",
+          "Bxc5",
+          "e4"
+        ],
+        "notes": {
+          "16": "Las negras se adelantan en el centro.",
+          "19": "Se responde fijando la tensión con e4."
+        }
+      },
+      {
+        "name": "...Dc7 y ataque en b4",
+        "group": "Con c3",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "e6",
+          "Bd3",
+          "c5",
+          "c3",
+          "Nc6",
+          "Nbd2",
+          "Qc7",
+          "O-O",
+          "Bd6",
+          "dxc5",
+          "Bxc5",
+          "b4",
+          "Bd6",
+          "Bb2",
+          "O-O"
+        ],
+        "notes": {
+          "17": "b4 gana espacio y abre la diagonal del alfil."
+        }
+      },
+      {
+        "name": "Zukertort con b3",
+        "group": "Zukertort",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "e6",
+          "Bd3",
+          "c5",
+          "b3",
+          "Nc6",
+          "O-O",
+          "Bd6",
+          "Bb2",
+          "O-O",
+          "Nbd2",
+          "Qe7",
+          "Ne5",
+          "b6",
+          "f4",
+          "Bb7"
+        ],
+        "notes": {
+          "9": "El alfil de dama va a b2 en lugar de quedar encerrado.",
+          "19": "Ne5 + f4: la receta del ataque Zukertort."
+        }
+      },
+      {
+        "name": "...Ag4",
+        "group": "Contra alfil activo",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "Bg4",
+          "c4",
+          "e6",
+          "Nc3",
+          "c6",
+          "h3",
+          "Bh5",
+          "Qb3",
+          "Qb6"
+        ],
+        "notes": {
+          "7": "Cuando el alfil negro sale, c4 es mejor que c3.",
+          "13": "Se atacan los peones que el alfil dejó."
+        }
+      },
+      {
+        "name": "...Af5",
+        "group": "Contra alfil activo",
+        "moves": [
+          "d4",
+          "d5",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "Bf5",
+          "c4",
+          "c6",
+          "Nc3",
+          "e6",
+          "Nh4",
+          "Bg6",
+          "Nxg6",
+          "hxg6",
+          "Bd2"
+        ],
+        "notes": {
+          "11": "Se persigue al alfil para quedarse con la pareja."
+        }
+      },
+      {
+        "name": "Fianchetto de rey",
+        "group": "Contra la India",
+        "moves": [
+          "d4",
+          "Nf6",
+          "Nf3",
+          "g6",
+          "e3",
+          "Bg7",
+          "Bd3",
+          "O-O",
+          "O-O",
+          "d6",
+          "c3",
+          "Nbd7",
+          "Nbd2",
+          "e5",
+          "e4"
+        ],
+        "notes": {
+          "15": "Se disputa el centro de frente."
+        }
       }
     ]
   },
   {
     "id": "gambito-dama",
+    "icon": "crown",
     "name": "Gambito de Dama",
     "side": "w",
     "eco": "D06–D69",
     "description": "1.d4 d5 2.c4: la apertura clásica del juego posicional.",
-    "ideas": ["No es un verdadero gambito: el peón se recupera.", "c4 ataca el centro negro desde el flanco.", "Plan de 'ataque de minorías' con b4-b5 en la estructura Carlsbad."],
-    "resourceTags": ["gambito-dama"],
+    "ideas": [
+      "No es un verdadero gambito: el peón se recupera.",
+      "c4 ataca el centro negro desde el flanco.",
+      "Plan de 'ataque de minorías' con b4-b5 en la estructura Carlsbad."
+    ],
+    "resourceTags": [
+      "gambito-dama"
+    ],
     "lines": [
       {
         "name": "Gambito de Dama Rehusado",
-        "moves": ["d4", "d5", "c4", "e6", "Nc3", "Nf6", "Bg5", "Be7", "e3", "O-O", "Nf3", "Nbd7", "Rc1"],
-        "notes": { "3": "2.c4: el gambito.", "4": "2...e6 rehúsa y mantiene d5.", "7": "4.Ag5 clava el caballo." }
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "Bg5",
+          "Be7",
+          "e3",
+          "O-O",
+          "Nf3",
+          "Nbd7",
+          "Rc1"
+        ],
+        "notes": {
+          "3": "2.c4: el gambito.",
+          "4": "2...e6 rehúsa y mantiene d5.",
+          "7": "4.Ag5 clava el caballo."
+        },
+        "group": "Rehusado"
       },
       {
         "name": "Gambito de Dama Aceptado",
-        "moves": ["d4", "d5", "c4", "dxc4", "Nf3", "Nf6", "e3", "e6", "Bxc4", "c5", "O-O", "a6"],
-        "notes": { "4": "2...dxc4 acepta, pero no intentará conservar el peón.", "9": "5.Axc4: el peón se recupera." }
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "dxc4",
+          "Nf3",
+          "Nf6",
+          "e3",
+          "e6",
+          "Bxc4",
+          "c5",
+          "O-O",
+          "a6"
+        ],
+        "notes": {
+          "4": "2...dxc4 acepta, pero no intentará conservar el peón.",
+          "9": "5.Axc4: el peón se recupera."
+        },
+        "group": "Aceptado"
+      },
+      {
+        "name": "Variante del cambio",
+        "group": "Rehusado",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "cxd5",
+          "exd5",
+          "Bg5",
+          "c6",
+          "e3",
+          "Be7",
+          "Bd3",
+          "Nbd7",
+          "Qc2",
+          "O-O",
+          "Nge2",
+          "Re8",
+          "O-O",
+          "Nf8"
+        ],
+        "notes": {
+          "8": "Estructura Carlsbad: plan de ataque de minorías con b4-b5.",
+          "20": "El caballo en f8 protege h7."
+        }
+      },
+      {
+        "name": "Tartakower",
+        "group": "Rehusado",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "Bg5",
+          "Be7",
+          "e3",
+          "O-O",
+          "Nf3",
+          "h6",
+          "Bh4",
+          "b6",
+          "cxd5",
+          "Nxd5",
+          "Bxe7",
+          "Qxe7",
+          "Nxd5",
+          "exd5"
+        ],
+        "notes": {
+          "14": "...b6 busca activar el alfil de casillas claras."
+        }
+      },
+      {
+        "name": "Defensa Lasker",
+        "group": "Rehusado",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "Bg5",
+          "Be7",
+          "e3",
+          "O-O",
+          "Nf3",
+          "h6",
+          "Bh4",
+          "Ne4",
+          "Bxe7",
+          "Qxe7",
+          "Rc1",
+          "c6"
+        ],
+        "notes": {
+          "14": "Simplificar alivia la falta de espacio."
+        }
+      },
+      {
+        "name": "Cambridge Springs",
+        "group": "Rehusado",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "Bg5",
+          "Nbd7",
+          "e3",
+          "c6",
+          "Nf3",
+          "Qa5",
+          "cxd5",
+          "Nxd5",
+          "Qd2"
+        ],
+        "notes": {
+          "12": "...Da5 clava el caballo de c3."
+        }
+      },
+      {
+        "name": "Defensa Tarrasch",
+        "group": "Rehusado",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "c5",
+          "cxd5",
+          "exd5",
+          "Nf3",
+          "Nc6",
+          "g3",
+          "Nf6",
+          "Bg2",
+          "Be7",
+          "O-O",
+          "O-O",
+          "Bg5"
+        ],
+        "notes": {
+          "6": "Las negras aceptan un peón aislado a cambio de actividad.",
+          "13": "El alfil en g2 presiona d5."
+        }
+      },
+      {
+        "name": "Línea principal",
+        "group": "Eslava",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "c6",
+          "Nf3",
+          "Nf6",
+          "Nc3",
+          "dxc4",
+          "a4",
+          "Bf5",
+          "e3",
+          "e6",
+          "Bxc4",
+          "Bb4",
+          "O-O",
+          "O-O",
+          "Qe2"
+        ],
+        "notes": {
+          "9": "a4 impide ...b5.",
+          "10": "El alfil de dama sale antes de ...e6: la gran virtud de la Eslava."
+        }
+      },
+      {
+        "name": "Semieslava Merano",
+        "group": "Eslava",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "c6",
+          "Nf3",
+          "Nf6",
+          "Nc3",
+          "e6",
+          "e3",
+          "Nbd7",
+          "Bd3",
+          "dxc4",
+          "Bxc4",
+          "b5",
+          "Bd3",
+          "a6",
+          "e4",
+          "c5"
+        ],
+        "notes": {
+          "17": "Carrera: centro blanco contra flanco de dama negro."
+        }
+      },
+      {
+        "name": "Contragambito Albin",
+        "group": "Gambitos y trampas",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e5",
+          "dxe5",
+          "d4",
+          "Nf3",
+          "Nc6",
+          "g3",
+          "Be6",
+          "Nbd2",
+          "Qd7"
+        ],
+        "notes": {
+          "6": "El peón de d4 estorba el desarrollo blanco.",
+          "9": "El fianchetto es la receta segura."
+        }
+      },
+      {
+        "name": "Trampa Lasker (Albin)",
+        "group": "Gambitos y trampas",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e5",
+          "dxe5",
+          "d4",
+          "e3",
+          "Bb4+",
+          "Bd2",
+          "dxe3",
+          "Bxb4",
+          "exf2+",
+          "Ke2",
+          "fxg1=N+",
+          "Ke1",
+          "Qh4+"
+        ],
+        "notes": {
+          "7": "4.e3 es el error que activa la trampa.",
+          "14": "¡Coronación en caballo!"
+        }
+      },
+      {
+        "name": "Trampa del elefante",
+        "group": "Gambitos y trampas",
+        "moves": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3",
+          "Nf6",
+          "Bg5",
+          "Nbd7",
+          "cxd5",
+          "exd5",
+          "Nxd5",
+          "Nxd5",
+          "Bxd8",
+          "Bb4+",
+          "Qd2",
+          "Bxd2+",
+          "Kxd2",
+          "Kxd8"
+        ],
+        "notes": {
+          "11": "Parece ganar un peón porque el caballo está clavado...",
+          "14": "...pero el jaque recupera la dama y las negras quedan con pieza de más."
+        }
       }
     ]
   }

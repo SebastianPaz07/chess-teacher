@@ -1,0 +1,17 @@
+{
+  "id": "medio-juego",
+  "order": 9,
+  "level": "intermedio",
+  "category": "estrategia",
+  "icon": "strategy",
+  "color": "#2471a3",
+  "title": "Planes en el medio juego",
+  "prerequisites": [
+    "estrategia"
+  ],
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "description": "Qué hacer cuando no hay táctica: evaluar, mejorar la peor pieza, ocupar columnas y casillas débiles. Basado en Hellsten, Eliskases y las clases."
+}

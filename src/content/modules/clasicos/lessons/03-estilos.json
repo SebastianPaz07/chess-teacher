@@ -4,14 +4,30 @@
   "title": "Dos estilos: ataque y profilaxis",
   "summary": "De la Inmortal de Anderssen a la profilaxis de Petrosian.",
   "icon": "scales",
-  "xp": 65,
-  "minutes": 10,
-  "tags": ["clasicos", "estrategia"],
-  "sources": [
-    { "title": "Tigran Petrosian – Ajedrez en la cumbre", "resourceTags": ["clasicos"] },
-    { "title": "Kasparov – Mis geniales predecesores vol. 2", "resourceTags": ["clasicos"] }
+  "xp": 95,
+  "minutes": 23,
+  "tags": [
+    "clasicos",
+    "estrategia"
   ],
-  "practice": ["cla-ex-inmortal", "cla-ex-reti"],
+  "sources": [
+    {
+      "title": "Tigran Petrosian – Ajedrez en la cumbre",
+      "resourceTags": [
+        "clasicos"
+      ]
+    },
+    {
+      "title": "Kasparov – Mis geniales predecesores vol. 2",
+      "resourceTags": [
+        "clasicos"
+      ]
+    }
+  ],
+  "practice": [
+    "cla-ex-inmortal",
+    "cla-ex-reti"
+  ],
   "steps": [
     {
       "type": "text",
@@ -23,7 +39,11 @@
       "title": "El final de la Inmortal",
       "fen": "r1bk2nr/p2p1pNp/n2B4/1p1NP2P/6P1/3P1Q2/P1P1K3/q5b1 w - - 1 22",
       "prompt": "Te falta media partida de material… pero tus piezas menores rodean al rey. **Mate en 2**.",
-      "solution": ["Qf6+", "Nxf6", "Be7#"],
+      "solution": [
+        "Qf6+",
+        "Nxf6",
+        "Be7#"
+      ],
       "hint": "Sacrifica la última pieza pesada que te queda.",
       "explanation": "**22.Df6+!! Cxf6 23.Ae7#**. Tres piezas menores dan mate a un rey rodeado de material."
     },
@@ -35,7 +55,11 @@
     {
       "type": "quiz",
       "question": "¿Qué es la **profilaxis**?",
-      "options": ["Atacar siempre al rey", "Prevenir los planes del rival antes de que se hagan realidad", "Cambiar las damas temprano"],
+      "options": [
+        "Atacar siempre al rey",
+        "Prevenir los planes del rival antes de que se hagan realidad",
+        "Cambiar las damas temprano"
+      ],
       "answer": 1,
       "explanation": "Pregúntate en cada jugada: **¿qué amenaza mi rival y qué quiere hacer?** Es el hábito que separa a los jugadores fuertes."
     },
@@ -44,9 +68,101 @@
       "title": "Réti – Tartakower, Viena 1910",
       "fen": "rnb1kb1r/pp3ppp/2p5/4q3/4n3/3Q4/PPPB1PPP/2KR1BNR w kq - 0 9",
       "prompt": "Una miniatura famosa en la **Caro-Kann**. El rey negro está en el centro… ¡Mate en 3 con un sacrificio de dama!",
-      "solution": ["Qd8+", "Kxd8", "Bg5+", "Kc7", "Bd8#"],
+      "solution": [
+        "Qd8+",
+        "Kxd8",
+        "Bg5+",
+        "Kc7",
+        "Bd8#"
+      ],
       "hint": "Atrae al rey a la columna d, donde está tu torre.",
       "explanation": "**9.Dd8+!! Rxd8 10.Ag5+** (jaque doble) **Rc7 11.Ad8#**. Si 10...Re8 11.Td8#."
+    },
+    {
+      "type": "video",
+      "resourceId": "1mBsO3We1U5XUsOWQodb31TwT_lGUGu2G",
+      "title": "Kasparov: Gambito de Dama"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **5 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1681",
+      "fen": "1r3rk1/p4p2/2p4p/2q1p1p1/4Pnb1/2PB1PB1/P1Q3PP/3R1RK1 w - - 1 19",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Bf2",
+        "Qa3",
+        "fxg4",
+        "Rb2",
+        "Qc1"
+      ],
+      "explanation": "Solución: **Af2 Da3 fxg4 Tb2 Dc1**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1794",
+      "fen": "r1b3rk/1p6/p1p1p2p/4P3/8/2P2q2/PPQ5/1K5R w - - 0 26",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Rxh6+",
+        "Kg7",
+        "Qh7+",
+        "Kf8",
+        "Rf6+",
+        "Qxf6",
+        "exf6"
+      ],
+      "explanation": "Solución: **Txh6+ Rg7 Dh7+ Rf8 Tf6+ Dxf6 exf6**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1896",
+      "fen": "8/7p/5p2/p1k3p1/2P2P2/P2K2P1/8/8 w - - 0 47",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "fxg5",
+        "fxg5",
+        "g4",
+        "a4",
+        "Kc3"
+      ],
+      "explanation": "Solución: **fxg5 fxg5 g4 a4 Rc3**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2032",
+      "fen": "2r2r2/p4N1k/4q3/3pn1p1/4p1RQ/2P1P2P/PP4P1/5RK1 b - - 0 27",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "gxh4",
+        "Ng5+",
+        "Kh6",
+        "Nxe6",
+        "Rxf1+",
+        "Kxf1",
+        "Nxg4"
+      ],
+      "explanation": "Solución: **gxh4 Cg5+ Rh6 Cxe6 Txf1+ Rxf1 Cxg4**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2153",
+      "fen": "2r2q1k/7p/p4R2/8/3Q3N/3P3P/1P4P1/2r3K1 w - - 1 40",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Kh2",
+        "Qg7",
+        "Nf5",
+        "Rh1+",
+        "Kxh1",
+        "Rc1+",
+        "Kh2"
+      ],
+      "explanation": "Solución: **Rh2 Dg7 Cf5 Th1+ Rxh1 Tc1+ Rh2**. Calcula las amenazas concretas del rival."
     }
   ]
 }

@@ -4,6 +4,7 @@ import { BoardDemoStepView } from './BoardDemoStepView';
 import { MakeMoveStepView } from './MakeMoveStepView';
 import { QuizStepView } from './QuizStepView';
 import { TextStepView } from './TextStepView';
+import { VideoStepView } from './VideoStepView';
 
 export interface StepViewProps<S extends Step = Step> {
   step: S;
@@ -24,6 +25,7 @@ export const stepRegistry: { [K in StepType]: ComponentType<StepViewProps<Extrac
   'board-demo': BoardDemoStepView,
   'make-move': MakeMoveStepView,
   quiz: QuizStepView,
+  video: VideoStepView,
 };
 
 export const isGraded = (step: Step) => step.type === 'make-move' || step.type === 'quiz';

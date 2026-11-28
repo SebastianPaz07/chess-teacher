@@ -84,10 +84,13 @@ const cleanTitle = (name) =>
     .replace(/\s+/g, ' ')
     .trim();
 
+/** El nombre de la carpeta en Drive promete más libros de los que hay: se muestra sin esa cifra. */
+const cleanFolder = (name) => name.replace(/\s*\+\s*500\b/g, '').trim();
+
 async function walk(id, path, out, depth = 0) {
   if (depth > 8) return;
   for (const e of await listFolder(id)) {
-    if (e.kind === 'folder') await walk(e.id, [...path, e.name], out, depth + 1);
+    if (e.kind === 'folder') await walk(e.id, [...path, cleanFolder(e.name)], out, depth + 1);
     else {
       const type = classify(e.name);
       const context = `${path.join(' / ')} ${e.name}`;

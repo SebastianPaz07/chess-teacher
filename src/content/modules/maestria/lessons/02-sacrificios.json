@@ -1,0 +1,156 @@
+{
+  "id": "mae-02-sacrificios",
+  "order": 2,
+  "title": "Sacrificios difíciles",
+  "summary": "Atracción, despeje e interferencia.",
+  "icon": "sword",
+  "xp": 110,
+  "minutes": 15,
+  "tags": [
+    "entrenamiento",
+    "sacrificio"
+  ],
+  "sources": [
+    {
+      "title": "Entrenamiento sistemático en ajedrez",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Dos motivos finos",
+      "body": "**Despeje**: quitas tu propia pieza de una casilla o línea que necesitas.\n**Interferencia**: colocas una pieza que corta la comunicación entre defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1838",
+      "fen": "2r2rk1/pp3p2/4p3/3p2q1/3P4/P1N4Q/1PP5/1R4K1 w - - 0 31",
+      "prompt": "**Despeja** la casilla o la línea clave.",
+      "solution": [
+        "Kh1",
+        "Qg6",
+        "Rg1",
+        "Kg7",
+        "Rxg6+"
+      ],
+      "explanation": "Solución: **Rh1 Dg6 Tg1 Rg7 Txg6+**. A veces estorba tu propia pieza."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 2024",
+      "fen": "5rk1/n1q2ppp/1p1bpn2/3p1b2/NP1P4/P3PN2/3BBPPP/3Q1RK1 b - - 1 19",
+      "prompt": "**Interfiere** la defensa.",
+      "solution": [
+        "Bc2",
+        "Qa1",
+        "Bxa4"
+      ],
+      "explanation": "Solución: **Ac2 Da1 Axa4**. Coloca una pieza que corte la comunicación entre defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 2151",
+      "fen": "r2qk2r/p1p2ppp/2pb1n2/3p2Q1/2P3b1/1PN1P3/PB3PPP/R3KB1R b KQkq - 5 12",
+      "prompt": "**Despeja** la casilla o la línea clave.",
+      "solution": [
+        "h6",
+        "Qxg7",
+        "Rh7",
+        "Qxh7",
+        "Nxh7"
+      ],
+      "explanation": "Solución: **h6 Dxg7 Th7 Dxh7 Cxh7**. A veces estorba tu propia pieza."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2247",
+      "fen": "r4rk1/p3pp1p/1p4p1/3P4/2P4b/1Q3R2/PP2N3/1q1K2R1 w - - 3 35",
+      "prompt": "**Interfiere** la defensa.",
+      "solution": [
+        "Kd2",
+        "Qe4",
+        "Rf4",
+        "Qe5",
+        "Rxh4"
+      ],
+      "explanation": "Solución: **Rd2 De4 Tf4 De5 Txh4**. Coloca una pieza que corte la comunicación entre defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2379",
+      "fen": "1r3r2/5p2/p3pQbk/3pP3/2nq4/6P1/P1B2PP1/2R1R1K1 w - - 4 31",
+      "prompt": "**Despeja** la casilla o la línea clave.",
+      "solution": [
+        "Kh2",
+        "Qg4",
+        "Rh1",
+        "Qh5+",
+        "Kg1"
+      ],
+      "explanation": "Solución: **Rh2 Dg4 Th1 Dh5+ Rg1**. A veces estorba tu propia pieza."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 1974",
+      "fen": "r3r1k1/pp2qp1p/3b2p1/3p4/3P2n1/1PN4P/PBP1BPP1/R2QK2R b KQ - 0 15",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Nxf2",
+        "Kxf2",
+        "Qe3+",
+        "Kf1",
+        "Bg3"
+      ],
+      "explanation": "Solución: **Cxf2 Rxf2 De3+ Rf1 Ag3**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 2133",
+      "fen": "4k3/pbp1r3/1p3qnQ/4P1N1/2Pn4/8/PP4PP/R4RK1 b - - 0 28",
+      "prompt": "**Atrae** una pieza a una mala casilla.",
+      "solution": [
+        "Ne2+",
+        "Kh1",
+        "Bxg2+",
+        "Kxg2",
+        "Ngf4+"
+      ],
+      "explanation": "Solución: **Ce2+ Rh1 Axg2+ Rxg2 Cgf4+**. Primero el sacrificio, luego el golpe."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 2267",
+      "fen": "6k1/5p2/4p2p/3pPP2/1R5P/2r5/2B5/2b2K2 w - - 1 47",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rb8+",
+        "Kh7",
+        "fxe6+",
+        "Rxc2",
+        "e7"
+      ],
+      "explanation": "Solución: **Tb8+ Rh7 fxe6+ Txc2 e7**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 2367",
+      "fen": "1k4r1/2p5/1p5b/1P1NPrqp/2bP4/5Q1K/2P2R2/R7 w - - 0 34",
+      "prompt": "**Atrae** una pieza a una mala casilla.",
+      "solution": [
+        "Ra8+",
+        "Kxa8",
+        "Nxb6+",
+        "Ka7",
+        "Qa3+",
+        "Kb7",
+        "Qa6+",
+        "Kb8",
+        "Qa8#"
+      ],
+      "explanation": "Solución: **Ta8+ Rxa8 Cxb6+ Ra7 Da3+ Rb7 Da6+ Rb8 Da8#**. Primero el sacrificio, luego el golpe."
+    }
+  ]
+}

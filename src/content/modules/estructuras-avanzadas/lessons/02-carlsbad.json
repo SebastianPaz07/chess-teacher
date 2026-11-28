@@ -1,0 +1,151 @@
+{
+  "id": "esa-02-carlsbad",
+  "order": 2,
+  "title": "Carlsbad y el ataque de minorías",
+  "summary": "Dos peones atacan a tres.",
+  "icon": "strategy",
+  "xp": 105,
+  "minutes": 19,
+  "tags": [
+    "estrategia"
+  ],
+  "sources": [
+    {
+      "title": "Persits, La estructura de peones centrales",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Crear una debilidad",
+      "body": "En la estructura **Carlsbad**, las blancas avanzan **b4-b5** para dejar en las negras un peón débil en c6. Las negras buscan juego en el flanco de rey con piezas."
+    },
+    {
+      "type": "board-demo",
+      "title": "El plan completo",
+      "moves": [
+        "d4",
+        "d5",
+        "c4",
+        "e6",
+        "Nc3",
+        "Nf6",
+        "cxd5",
+        "exd5",
+        "Bg5",
+        "c6",
+        "e3",
+        "Be7",
+        "Bd3",
+        "O-O",
+        "Qc2",
+        "Nbd7",
+        "Nf3",
+        "Re8",
+        "O-O",
+        "Nf8",
+        "Rab1",
+        "a5",
+        "a3",
+        "Ng6",
+        "b4",
+        "axb4",
+        "axb4"
+      ],
+      "notes": {
+        "7": "El cambio define la estructura.",
+        "21": "La torre prepara b4.",
+        "25": "Comienza el ataque de minorías."
+      }
+    },
+    {
+      "type": "video",
+      "resourceId": "1nrYzFiO_Tm9FljdnZtnaJDFVVHWRTDxD",
+      "title": "Kasparov: el Gambito de Dama"
+    },
+    {
+      "type": "quiz",
+      "question": "El objetivo del ataque de minorías es...",
+      "options": [
+        "Dejar una debilidad de peones en el rival",
+        "Coronar de inmediato",
+        "Dar mate directo"
+      ],
+      "answer": 0,
+      "explanation": "Es un plan estratégico a largo plazo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1576",
+      "fen": "r1b1k2r/1pp2p2/p3p1p1/3nn1Bp/8/P1N5/1P2BPPP/R3K2R w KQkq - 4 19",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Nxd5",
+        "exd5",
+        "Bf6",
+        "Rg8",
+        "Bxe5"
+      ],
+      "explanation": "Solución: **Cxd5 exd5 Af6 Tg8 Axe5**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1702",
+      "fen": "1k1r1r2/2p5/pp3p2/3qn2p/B4np1/1RQ2N2/PP3B2/5R1K w - - 0 36",
+      "prompt": "Golpea en el **flanco de dama**.",
+      "solution": [
+        "Bxb6",
+        "cxb6",
+        "Rxb6+"
+      ],
+      "explanation": "Solución: **Axb6 cxb6 Txb6+**. Busca las piezas indefensas de ese lado."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1843",
+      "fen": "1k4rr/p3qp2/Ppn1p3/3pP1b1/QP1n1NNp/3P3P/3B2PK/1R2R3 w - - 3 33",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "b5",
+        "Bxf4+",
+        "Bxf4",
+        "Rxg4",
+        "hxg4"
+      ],
+      "explanation": "Solución: **b5 Axf4+ Axf4 Txg4 hxg4**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1951",
+      "fen": "r7/1pp4k/p2p3p/3Ppq2/2P2bb1/1N2R3/PPQ5/1K1N2R1 b - - 9 27",
+      "prompt": "Golpea en el **flanco de dama**.",
+      "solution": [
+        "Qxc2+",
+        "Kxc2",
+        "Bxd1+",
+        "Rxd1",
+        "Bxe3"
+      ],
+      "explanation": "Solución: **Dxc2+ Rxc2 Axd1+ Txd1 Axe3**. Busca las piezas indefensas de ese lado."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2067",
+      "fen": "r4knr/pbppq3/1pn3Bp/4P1pQ/2p5/2P3N1/P4PPP/R3R1K1 w - - 2 18",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qf3+",
+        "Kg7",
+        "Nf5+",
+        "Kxg6",
+        "Nxe7+",
+        "Ncxe7",
+        "Qxb7"
+      ],
+      "explanation": "Solución: **Df3+ Rg7 Cf5+ Rxg6 Cxe7+ Ccxe7 Dxb7**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

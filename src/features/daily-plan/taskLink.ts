@@ -9,7 +9,7 @@ export function taskLink(t: DailyTask): string {
     case 'lesson':
       return `/leccion/${t.lessonId}?${daily}`;
     case 'practice':
-      return `/practica?${daily}`;
+      return `/practica/ejercicios?${daily}`;
     case 'opening':
       return `/aperturas/${t.openingId}?line=${t.lineIndex}&${daily}`;
     case 'classic':
@@ -18,13 +18,11 @@ export function taskLink(t: DailyTask): string {
       switch (t.subtype) {
         case 'book':
         case 'video':
-          return t.url ?? '/biblioteca';
+          return t.resourceId ? `/biblioteca?resource=${t.resourceId}` : '/biblioteca';
         case 'library':
           return '/biblioteca';
         case 'rush':
           return '/rush';
-        case 'resource':
-          return `/biblioteca?resource=${t.resourceId}`;
         case 'classic':
           return `/partidas?game=${encodeURIComponent(t.gameId!)}`;
       }

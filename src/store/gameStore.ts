@@ -5,12 +5,16 @@ import { initialStats } from '@/services/game/achievements';
 import { applyEvent, freshDaily, initialGameState, type GameState } from '@/services/game/engine';
 import type { GameEvent, Reward } from '@/services/game/events';
 import type { DailyTask } from '@/services/scheduler/dailyPlan';
+import type { ThemeId } from '@/services/scheduler/weekPlan';
 import { storeKey, zustandStorage } from '@/services/storage/localStorageAdapter';
 import { useSettingsStore } from './settingsStore';
 
 interface GameStore extends GameState {
   /** Plan del día congelado (se genera una vez por fecha) */
   plan: { date: string; tasks: DailyTask[]; key?: string } | null;
+  /** Temas de la semana, congelados para que el plan no cambie a mitad de camino */
+  week: { weekStart: string; key: string; themes: Record<string, ThemeId | null> } | null;
+  setWeek: (week: NonNullable<GameStore['week']>) => void;
   /** Cola de recompensas pendientes de mostrar (no se persiste) */
   rewards: (Reward & { key: number })[];
   dispatch: (e: GameEvent, extra?: { dailyTotal?: number }) => Reward[];
@@ -36,11 +40,14 @@ export const useGameStore = create<GameStore>()(
     (set, get) => ({
       ...initialGameState(todayKey()),
       plan: null,
+      week: null,
       rewards: [],
+      setWeek: (week) => set({ week }),
 
       dispatch: (e, extra) => {
         const prev = get();
-        const { state, rewards } = applyEvent(prev, e, todayKey(), { ...extra, trainingDays: useSettingsStore.getState().trainingDays });
+        const { trainingDays, startedAt } = useSettingsStore.getState();
+        const { state, rewards } = applyEvent(prev, e, todayKey(), { ...extra, trainingDays, startedAt });
         set({ ...state, rewards: [...prev.rewards, ...rewards.map((r) => ({ ...r, key: ++rewardKey }))] });
         for (const l of listeners) {
           try {
@@ -78,7 +85,7 @@ export const useGameStore = create<GameStore>()(
         if (version < 2) return { ...s, stats: { ...initialStats, ...(s.stats ?? {}) }, activityLog: s.activityLog ?? {} } as GameState;
         return s as GameState;
       },
-      partialize: ({ rewards: _r, dispatch: _d, ensureToday: _e, setPlan: _s, shiftReward: _sh, addStudySeconds: _a, ...rest }) => rest,
+      partialize: ({ rewards: _r, dispatch: _d, ensureToday: _e, setPlan: _s, shiftReward: _sh, addStudySeconds: _a, setWeek: _w, ...rest }) => rest,
     },
   ),
 );

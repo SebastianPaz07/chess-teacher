@@ -1,0 +1,209 @@
+{
+  "id": "ata-01-centro",
+  "order": 1,
+  "title": "Castigar al rey en el centro",
+  "summary": "Abre líneas antes de que enroque.",
+  "icon": "target",
+  "xp": 110,
+  "minutes": 19,
+  "tags": [
+    "tactica",
+    "ataque-al-rey"
+  ],
+  "sources": [
+    {
+      "title": "10 combinaciones de mate y clases de ataque",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El tiempo es oro",
+      "body": "Si el rival tarda en enrocar: **abre columnas centrales**, desarrolla con amenazas y no te asuste entregar un peón o una pieza por líneas abiertas."
+    },
+    {
+      "type": "board-demo",
+      "title": "La partida de Legal",
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "d6",
+        "Bc4",
+        "Bg4",
+        "Nc3",
+        "g6",
+        "Nxe5",
+        "Bxd1",
+        "Bxf7+",
+        "Ke7",
+        "Nd5#"
+      ],
+      "notes": {
+        "0": "Sire de Légal – Saint Brie, 1750.",
+        "9": "Las blancas «regalan» la dama.",
+        "11": "El rey negro sale a la fuerza.",
+        "13": "Tres piezas menores bastan para el mate."
+      },
+      "body": "Un clásico sobre la falta de desarrollo."
+    },
+    {
+      "type": "board-demo",
+      "title": "La Inmortal",
+      "moves": [
+        "e4",
+        "e5",
+        "f4",
+        "exf4",
+        "Bc4",
+        "Qh4+",
+        "Kf1",
+        "b5",
+        "Bxb5",
+        "Nf6",
+        "Nf3",
+        "Qh6",
+        "d3",
+        "Nh5",
+        "Nh4",
+        "Qg5",
+        "Nf5",
+        "c6",
+        "g4",
+        "Nf6",
+        "Rg1",
+        "cxb5",
+        "h4",
+        "Qg6",
+        "h5",
+        "Qg5",
+        "Qf3",
+        "Ng8",
+        "Bxf4",
+        "Qf6",
+        "Nc3",
+        "Bc5",
+        "Nd5",
+        "Qxb2",
+        "Bd6",
+        "Bxg1",
+        "e5",
+        "Qxa1+",
+        "Ke2",
+        "Na6",
+        "Nxg7+",
+        "Kd8",
+        "Qf6+",
+        "Nxf6",
+        "Be7#"
+      ],
+      "notes": {
+        "0": "Adolf Anderssen – Lionel Kieseritzky, 1851.",
+        "9": "Anderssen prioriza el desarrollo.",
+        "43": "La atracción final.",
+        "45": "Mate con tres piezas menores, sin dama ni torres."
+      },
+      "body": "Cuenta cuántas piezas negras participan en la defensa."
+    },
+    {
+      "type": "quiz",
+      "question": "El rival no ha enrocado y el centro puede abrirse. ¿Qué priorizas?",
+      "options": [
+        "Ganar un peón en el flanco",
+        "Abrir líneas y desarrollar con amenazas",
+        "Cambiar todas las piezas"
+      ],
+      "answer": 1,
+      "explanation": "Las ventajas de desarrollo se evaporan: hay que usarlas ya."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1231",
+      "fen": "8/p1p1k2p/4P3/2PP1p1P/1r3r2/5B2/P3RK2/8 w - - 4 39",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "d6+",
+        "cxd6",
+        "cxd6+",
+        "Kxd6",
+        "e7"
+      ],
+      "explanation": "Solución: **d6+ cxd6 cxd6+ Rxd6 e7**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1336",
+      "fen": "1r4k1/2q3p1/p3R2p/b2p4/2pP3N/6P1/1rQ1RPP1/6K1 w - - 0 32",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Re8+",
+        "Rxe8",
+        "Rxe8+",
+        "Kf7",
+        "Qg6#"
+      ],
+      "explanation": "Solución: **Te8+ Txe8 Txe8+ Rf7 Dg6#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1466",
+      "fen": "r2qr1k1/pbp2ppp/1p3n2/8/3nN3/5NP1/PP2QPBP/R3R1K1 w - - 0 14",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Nxf6+",
+        "gxf6",
+        "Qxe8+",
+        "Qxe8",
+        "Rxe8+",
+        "Rxe8",
+        "Nxd4"
+      ],
+      "explanation": "Solución: **Cxf6+ gxf6 Dxe8+ Dxe8 Txe8+ Txe8 Cxd4**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1530",
+      "fen": "3r2k1/pR3pp1/8/5p1p/5q2/5n2/PP4R1/6QK w - - 0 30",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Rxg7+",
+        "Kh8",
+        "Rh7+",
+        "Kxh7",
+        "Rxf7+",
+        "Kh8",
+        "Qg7#"
+      ],
+      "explanation": "Solución: **Txg7+ Rh8 Th7+ Rxh7 Txf7+ Rh8 Dg7#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1636",
+      "fen": "3r1rk1/pb3p1p/1pn2Ppb/3pP1n1/5R1q/1P4N1/PB2N1PP/RB1Q2K1 b - - 2 20",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Nh3+",
+        "gxh3",
+        "Bxf4",
+        "Nxf4",
+        "Qxf4"
+      ],
+      "explanation": "Solución: **Ch3+ gxh3 Axf4 Cxf4 Dxf4**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1752",
+      "fen": "8/1Q5p/3q1pp1/2p1p1k1/4P1P1/1PP2PK1/r2r4/7R w - - 14 45",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Rh5+",
+        "gxh5",
+        "Qg7#"
+      ],
+      "explanation": "Solución: **Th5+ gxh5 Dg7#**. Revisa cada casilla de escape antes de dar el jaque."
+    }
+  ]
+}

@@ -1,0 +1,183 @@
+{
+  "id": "ata-04-piezas",
+  "order": 4,
+  "title": "Suma atacantes y remata",
+  "summary": "Cuenta atacantes contra defensores.",
+  "icon": "strategy",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "tactica",
+    "ataque-al-rey",
+    "mate"
+  ],
+  "sources": [
+    {
+      "title": "10 combinaciones de mate y clases de ataque",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La cuenta del ataque",
+      "body": "Antes de sacrificar, cuenta las piezas que **llegan** a la zona del rey y las que pueden **defenderla**. Con mayoría clara de atacantes, el sacrificio suele funcionar."
+    },
+    {
+      "type": "board-demo",
+      "title": "Steinitz contra Bardeleben",
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "Nc6",
+        "Bc4",
+        "Bc5",
+        "c3",
+        "Nf6",
+        "d4",
+        "exd4",
+        "cxd4",
+        "Bb4+",
+        "Nc3",
+        "d5",
+        "exd5",
+        "Nxd5",
+        "O-O",
+        "Be6",
+        "Bg5",
+        "Be7",
+        "Bxd5",
+        "Bxd5",
+        "Nxd5",
+        "Qxd5",
+        "Bxe7",
+        "Nxe7",
+        "Re1",
+        "f6",
+        "Qe2",
+        "Qd7",
+        "Rac1",
+        "c6",
+        "d5",
+        "cxd5",
+        "Nd4",
+        "Kf7",
+        "Ne6",
+        "Rhc8",
+        "Qg4",
+        "g6",
+        "Ng5+",
+        "Ke8",
+        "Rxe7+",
+        "Kf8",
+        "Rf7+",
+        "Kg8",
+        "Rg7+",
+        "Kh8",
+        "Rxh7+"
+      ],
+      "notes": {
+        "0": "Wilhelm Steinitz – Curt von Bardeleben, 1895.",
+        "14": "Sacrificio para liberar la casilla d4.",
+        "27": "La torre inmoviliza al rey en el centro.",
+        "43": "La torre no se puede capturar.",
+        "49": "La torre sigue dando jaques hasta decidir."
+      },
+      "body": "Uno de los remates más bellos del siglo XIX."
+    },
+    {
+      "type": "quiz",
+      "question": "Antes de sacrificar contra el enroque debes...",
+      "options": [
+        "Asegurarte de tener más peones",
+        "Cambiar tu dama",
+        "Contar atacantes y defensores de esa zona"
+      ],
+      "answer": 2,
+      "explanation": "El material total importa menos que el material presente en la zona."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1454",
+      "fen": "k1r4r/3bbppp/1Qn1q3/1N1n4/5B2/5N2/PPP2PPP/R4RK1 w - - 5 18",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qa6+",
+        "Na7",
+        "Qxa7#"
+      ],
+      "explanation": "Solución: **Da6+ Ca7 Dxa7#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1574",
+      "fen": "6rk/5R2/3p1q1p/3P2pQ/1P2P3/3P1p1P/P1r3PB/1R5K b - - 1 28",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "fxg2+",
+        "Kg1",
+        "Qd4+",
+        "Rf2",
+        "Qxf2#"
+      ],
+      "explanation": "Solución: **fxg2+ Rg1 Dd4+ Tf2 Dxf2#**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1622",
+      "fen": "2r2k2/p4p2/1p2p2P/6QP/2r1P3/2q5/P7/1K1R3R w - - 3 30",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Rd8+",
+        "Rxd8",
+        "Qxd8#"
+      ],
+      "explanation": "Solución: **Td8+ Txd8 Dxd8#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1759",
+      "fen": "8/8/3Q4/8/pn6/k6r/8/2K5 b - - 3 83",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Rc3+",
+        "Kd2",
+        "Rd3+",
+        "Qxd3+",
+        "Nxd3"
+      ],
+      "explanation": "Solución: **Tc3+ Rd2 Td3+ Dxd3+ Cxd3**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1830",
+      "fen": "r3r1k1/pp3pB1/2q3pp/3R4/8/P4Q2/BP3PPP/1b4K1 w - - 0 24",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qxf7+",
+        "Kxf7",
+        "Rd7#"
+      ],
+      "explanation": "Solución: **Dxf7+ Rxf7 Td7#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1974",
+      "fen": "3r1rk1/p1q3pb/1p1b4/8/3B2PQ/2P2pNP/PP3P2/R3R1K1 b - - 2 28",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Bxg3",
+        "Qxg3",
+        "Qxg3+",
+        "fxg3",
+        "Rxd4",
+        "cxd4",
+        "f2+"
+      ],
+      "explanation": "Solución: **Axg3 Dxg3 Dxg3+ fxg3 Txd4 cxd4 f2+**. Suma atacantes y abre líneas."
+    }
+  ]
+}

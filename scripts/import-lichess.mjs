@@ -145,7 +145,9 @@ async function main() {
     const file = `band-${from}.json`;
     b.items.sort((x, y) => x.rating - y.rating);
     writeFileSync(join(OUT, file), JSON.stringify(b.items));
-    index.push({ from, to: from + BAND, file, count: b.items.length });
+    const themes = {};
+    for (const p of b.items) for (const t of p.themes) themes[t] = (themes[t] ?? 0) + 1;
+    index.push({ from, to: from + BAND, file, count: b.items.length, themes });
   });
   writeFileSync(
     join(OUT, 'index.json'),

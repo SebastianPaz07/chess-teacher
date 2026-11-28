@@ -1,0 +1,124 @@
+{
+  "id": "cal-03-tranquila",
+  "order": 3,
+  "title": "La jugada tranquila",
+  "summary": "A veces lo más fuerte no es jaque.",
+  "icon": "hint",
+  "xp": 105,
+  "minutes": 16,
+  "tags": [
+    "tactica",
+    "jugada-tranquila"
+  ],
+  "sources": [
+    {
+      "title": "Clases de cálculo y táctica",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Amenazas silenciosas",
+      "body": "En medio de una combinación puede haber una jugada **sin jaque ni captura** que crea una amenaza imparable: tapa una salida, trae una pieza más o amenaza dos mates."
+    },
+    {
+      "type": "text",
+      "title": "Cuándo buscarla",
+      "body": "Si el rey rival está sin casillas pero los jaques no rematan, busca la jugada tranquila. Pregunta: **¿qué podría hacer el rival si yo no le doy jaque?** Si la respuesta es «nada útil», la encontraste."
+    },
+    {
+      "type": "video",
+      "resourceId": "1YrH6wG4tiLZ0T--LLIeBXQOKwvJY2i9c",
+      "title": "7 conceptos de ataque",
+      "body": "Observa cómo las piezas se suman antes del golpe final."
+    },
+    {
+      "type": "quiz",
+      "question": "Una jugada tranquila es...",
+      "options": [
+        "Ofrecer tablas",
+        "Una jugada que no da jaque ni captura, pero amenaza algo decisivo",
+        "Una jugada de espera sin ningún propósito"
+      ],
+      "answer": 1,
+      "explanation": "Su fuerza está en la amenaza que deja."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1307",
+      "fen": "8/6k1/3p2p1/p2P3p/4P3/3B2K1/8/8 b - - 1 46",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "a4",
+        "Bc2",
+        "a3"
+      ],
+      "explanation": "Solución: **a4 Ac2 a3**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1431",
+      "fen": "3r2k1/pp3p2/6pR/6P1/8/P1r5/2P5/1KR5 w - - 0 35",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Rch1",
+        "Kf8",
+        "Rh8+",
+        "Ke7",
+        "Re1+",
+        "Kd7",
+        "Rd1+"
+      ],
+      "explanation": "Solución: **Tch1 Rf8 Th8+ Re7 Te1+ Rd7 Td1+**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1567",
+      "fen": "8/1p5p/6p1/2P5/1P2k3/P3qp1Q/8/5K2 w - - 6 44",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Qe6+",
+        "Kd4",
+        "Qxe3+",
+        "Kxe3",
+        "b5",
+        "g5",
+        "c6"
+      ],
+      "explanation": "Solución: **De6+ Rd4 Dxe3+ Rxe3 b5 g5 c6**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1659",
+      "fen": "3r1k2/1b3ppQ/p2q3p/1p2b3/8/P2p2P1/1P3P1P/1B1RR1K1 b - - 1 31",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Qd5",
+        "Qh8+",
+        "Ke7",
+        "Rxe5+",
+        "Qxe5",
+        "Qxd8+",
+        "Kxd8"
+      ],
+      "explanation": "Solución: **Dd5 Dh8+ Re7 Txe5+ Dxe5 Dxd8+ Rxd8**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1800",
+      "fen": "6k1/5p2/p4P2/1p1pP3/2pP2P1/P7/1P6/7K b - - 0 50",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "a5",
+        "Kg2",
+        "b4",
+        "axb4",
+        "axb4"
+      ],
+      "explanation": "Solución: **a5 Rg2 b4 axb4 axb4**. No siempre lo más fuerte es un jaque."
+    }
+  ]
+}

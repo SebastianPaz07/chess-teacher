@@ -4,27 +4,55 @@
   "title": "Clavada, ensartada y descubierta",
   "summary": "Las líneas son armas: cómo usar torres, alfiles y damas a distancia.",
   "icon": "pin",
-  "xp": 60,
-  "minutes": 9,
-  "tags": ["tactica", "clavada", "ensartada", "descubierta"],
-  "sources": [
-    { "title": "Combinaciones en el medio juego", "resourceTags": ["tactica"] },
-    { "title": "Clases de cálculo y táctica", "resourceTags": ["tactica"] }
+  "xp": 90,
+  "minutes": 20,
+  "tags": [
+    "tactica",
+    "clavada",
+    "ensartada",
+    "descubierta"
   ],
-  "practice": ["tac-ex-ensartada-alfil", "tac-ex-descubierta", "tac-ex-petrov"],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    },
+    {
+      "title": "Clases de cálculo y táctica",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "practice": [
+    "tac-ex-ensartada-alfil",
+    "tac-ex-descubierta",
+    "tac-ex-petrov"
+  ],
   "steps": [
     {
       "type": "text",
       "title": "La clavada",
       "fen": "4k3/8/2n5/1B6/8/8/8/4K3 w - - 0 1",
-      "arrows": [["b5", "e8"]],
+      "arrows": [
+        [
+          "b5",
+          "e8"
+        ]
+      ],
       "body": "Una pieza está **clavada** cuando no puede moverse porque dejaría expuesta otra pieza más valiosa detrás.\n\n- **Clavada absoluta**: detrás está el rey. ¡Moverse es ilegal!\n- **Clavada relativa**: detrás hay una pieza valiosa (dama, torre). Moverse es legal pero costoso."
     },
     {
       "type": "quiz",
       "fen": "4k3/8/2n5/1B6/8/8/8/4K3 w - - 0 1",
       "question": "¿Por qué el caballo negro de c6 **no puede moverse**?",
-      "options": ["Porque está atacado", "Porque está clavado: si se mueve, su rey quedaría en jaque del alfil", "Porque no tiene casillas libres"],
+      "options": [
+        "Porque está atacado",
+        "Porque está clavado: si se mueve, su rey quedaría en jaque del alfil",
+        "Porque no tiene casillas libres"
+      ],
       "answer": 1,
       "explanation": "Es una **clavada absoluta**: el alfil de b5 apunta al rey de e8 a través del caballo."
     },
@@ -33,7 +61,11 @@
       "title": "La ensartada",
       "fen": "4q3/8/8/8/4k3/8/8/R5K1 w - - 0 1",
       "prompt": "Es una clavada al revés: atacas la pieza valiosa **delante** y ganas la de **atrás**. Da jaque por la columna e.",
-      "solution": ["Re1+", "Kd5", "Rxe8"],
+      "solution": [
+        "Re1+",
+        "Kd5",
+        "Rxe8"
+      ],
       "hint": "El rey y la dama están en la misma columna.",
       "explanation": "**Te1+** obliga al rey a apartarse y **Txe8** gana la dama. Eso es una **ensartada** (o 'rayos X')."
     },
@@ -46,9 +78,90 @@
       "type": "make-move",
       "fen": "4k3/pp3ppp/8/8/4N3/3q4/PP3PPP/4R1K1 w - - 0 1",
       "prompt": "Tu torre de e1 apunta al rey negro, tapada por tu caballo. **Mueve el caballo con jaque descubierto y gana la dama**.",
-      "solution": ["Nc5+", "Kd8", "Nxd3"],
+      "solution": [
+        "Nc5+",
+        "Kd8",
+        "Nxd3"
+      ],
       "hint": "¿Qué salto del caballo ataca a la dama de d3?",
       "explanation": "**Cc5+** destapa el jaque de la torre y ataca la dama. Tras mover el rey, **Cxd3**."
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **6 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 995",
+      "fen": "2kr3r/ppp3pp/6q1/3Pnp2/1PPQp3/7P/P3NPP1/R4RK1 b - - 2 17",
+      "prompt": "Aprovecha la **clavada**.",
+      "solution": [
+        "Nf3+",
+        "Kh1",
+        "Nxd4"
+      ],
+      "explanation": "Solución: **Cf3+ Rh1 Cxd4**. La pieza clavada no puede (o no debe) moverse: atácala otra vez."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1082",
+      "fen": "6r1/p1k4r/3p4/5p2/1R2p2p/4P1P1/PP3PK1/7R w - - 2 34",
+      "prompt": "Encuentra la **ensartada**.",
+      "solution": [
+        "Rc1+",
+        "Kd7",
+        "Rb7+",
+        "Ke6",
+        "Rxh7"
+      ],
+      "explanation": "Solución: **Tc1+ Rd7 Tb7+ Re6 Txh7**. Ataca la pieza valiosa para capturar la que queda detrás."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1188",
+      "fen": "5rk1/1q1nB1pp/p2p4/3Pp3/2P2p2/3Q3P/P4PP1/5RK1 b - - 1 22",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Nc5",
+        "Qb1",
+        "Qxe7"
+      ],
+      "explanation": "Solución: **Cc5 Db1 Dxe7**. La pieza que se aparta gana un tiempo completo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1279",
+      "fen": "r2qkb1r/pp1bpppp/8/1Np5/Q1P5/8/PP1P1PPP/R1B1R1K1 w kq - 0 14",
+      "prompt": "Aprovecha la **clavada**.",
+      "solution": [
+        "Nd6#"
+      ],
+      "explanation": "Solución: **Cd6#**. La pieza clavada no puede (o no debe) moverse: atácala otra vez."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1375",
+      "fen": "1r6/1n4p1/1P1p1kp1/4p3/2K1P3/5P1P/5BP1/2R5 b - - 12 46",
+      "prompt": "Encuentra la **ensartada**.",
+      "solution": [
+        "Rc8+",
+        "Kb5",
+        "Rxc1"
+      ],
+      "explanation": "Solución: **Tc8+ Rb5 Txc1**. Ataca la pieza valiosa para capturar la que queda detrás."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1571",
+      "fen": "r3k2r/ppq1bppp/4pn2/2Ppn3/1P4bP/2P2N2/P3BPP1/RNBQ1RK1 w kq - 3 11",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Nxe5",
+        "Qxe5",
+        "Bxg4"
+      ],
+      "explanation": "Solución: **Cxe5 Dxe5 Axg4**. La pieza que se aparta gana un tiempo completo."
     }
   ]
 }

@@ -14,6 +14,9 @@ interface ExerciseRecord {
 interface ProgressState extends ProgressSnapshot {
   exercises: Record<string, ExerciseRecord>;
   openingLines: Record<string, { times: number; lastAt: string; bestMistakes: number }>;
+  /** Punto donde quedó cada lección sin terminar, para retomarla */
+  lessonDrafts: Record<string, { index: number; mistakes: number }>;
+  saveLessonDraft: (lessonId: string, draft: { index: number; mistakes: number } | null) => void;
   completeLesson: (lessonId: string, mistakes: number) => LessonRecord;
   /** "Ya lo domino": marca lecciones como saltadas (sin XP ni estrellas) */
   skipLessons: (lessonIds: string[]) => void;
@@ -34,6 +37,15 @@ export const useProgressStore = create<ProgressState>()(
       placementLevel: null,
       exercises: {},
       openingLines: {},
+      lessonDrafts: {},
+
+      saveLessonDraft: (lessonId, draft) =>
+        set((s) => {
+          const lessonDrafts = { ...s.lessonDrafts };
+          if (draft) lessonDrafts[lessonId] = draft;
+          else delete lessonDrafts[lessonId];
+          return { lessonDrafts };
+        }),
 
       completeLesson: (lessonId, mistakes) => {
         const old = get().lessons[lessonId];

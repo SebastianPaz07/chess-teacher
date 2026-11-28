@@ -1,0 +1,182 @@
+{
+  "id": "tin-05-descubiertas",
+  "order": 5,
+  "title": "Descubiertas y jaque doble",
+  "summary": "La combinación más explosiva del ajedrez.",
+  "icon": "eye",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "tactica",
+    "descubierta",
+    "jaque-doble"
+  ],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Dos piezas trabajan a la vez",
+      "body": "En un **ataque a la descubierta** una pieza se aparta y deja libre la línea de otra. La que se mueve puede capturar casi lo que quiera.\n\nSi las dos dan jaque (**jaque doble**), el rey **solo** puede moverse."
+    },
+    {
+      "type": "board-demo",
+      "title": "El molino de Torre",
+      "moves": [
+        "d4",
+        "Nf6",
+        "Nf3",
+        "e6",
+        "Bg5",
+        "c5",
+        "e3",
+        "cxd4",
+        "exd4",
+        "Be7",
+        "Nbd2",
+        "d6",
+        "c3",
+        "Nbd7",
+        "Bd3",
+        "b6",
+        "Nc4",
+        "Bb7",
+        "Qe2",
+        "Qc7",
+        "O-O",
+        "O-O",
+        "Rfe1",
+        "Rfe8",
+        "Rad1",
+        "Nf8",
+        "Bc1",
+        "Nd5",
+        "Ng5",
+        "b5",
+        "Na3",
+        "b4",
+        "cxb4",
+        "Nxb4",
+        "Qh5",
+        "Bxg5",
+        "Bxg5",
+        "Nxd3",
+        "Rxd3",
+        "Qa5",
+        "b4",
+        "Qf5",
+        "Rg3",
+        "h6",
+        "Nc4",
+        "Qd5",
+        "Ne3",
+        "Qb5",
+        "Bf6",
+        "Qxh5",
+        "Rxg7+",
+        "Kh8",
+        "Rxf7+",
+        "Kg8",
+        "Rg7+",
+        "Kh8",
+        "Rxb7+",
+        "Kg8",
+        "Rg7+",
+        "Kh8",
+        "Rg5+",
+        "Kh7",
+        "Rxh5",
+        "Kg6",
+        "Rh3",
+        "Kxf6",
+        "Rxh6+"
+      ],
+      "notes": {
+        "0": "Carlos Torre – Emanuel Lasker, 1925.",
+        "49": "Torre entrega la dama para armar el molino.",
+        "51": "Empieza el molino: torre y alfil se turnan.",
+        "61": "La descubierta final recupera la dama."
+      },
+      "body": "Una de las secuencias de descubiertas más famosas."
+    },
+    {
+      "type": "quiz",
+      "question": "Ante un jaque doble, el defensor puede...",
+      "options": [
+        "Capturar una de las piezas que dan jaque",
+        "Únicamente mover el rey",
+        "Bloquear una de las dos líneas"
+      ],
+      "answer": 1,
+      "explanation": "No es posible resolver dos jaques con una captura o un bloqueo: el rey debe moverse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1295",
+      "fen": "8/7k/p3q3/7R/P3pprP/1P4PK/3Q1P2/8 b - - 0 42",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Kg6",
+        "Rg5+",
+        "Rxg5+"
+      ],
+      "explanation": "Solución: **Rg6 Tg5+ Txg5+**. La pieza que se aparta gana un tiempo completo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1541",
+      "fen": "2r3k1/6pp/2b5/3R4/3P4/2R1P1BP/5P1K/1r6 b - - 4 34",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Rh1+",
+        "Kxh1",
+        "Bxd5+",
+        "Kh2",
+        "Rxc3"
+      ],
+      "explanation": "Solución: **Th1+ Rxh1 Axd5+ Rh2 Txc3**. La pieza que se aparta gana un tiempo completo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1568",
+      "fen": "r3qr2/2pn3k/p2p1P1b/1p4pp/3PN3/P2Q4/1PP2P2/2K4R w - - 1 23",
+      "prompt": "Busca el **jaque doble** o la descubierta.",
+      "solution": [
+        "Nxg5+",
+        "Kh8",
+        "Qh7#"
+      ],
+      "explanation": "Solución: **Cxg5+ Rh8 Dh7#**. Ante un jaque doble el rey solo puede moverse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1796",
+      "fen": "r3k2r/pp1bqppp/5B2/1BbpnQ2/8/2N5/PPP2PPP/R3K1NR b KQkq - 0 11",
+      "prompt": "Busca el **jaque doble** o la descubierta.",
+      "solution": [
+        "Nf3+",
+        "Kd1",
+        "Qe1#"
+      ],
+      "explanation": "Solución: **Cf3+ Rd1 De1#**. Ante un jaque doble el rey solo puede moverse."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1825",
+      "fen": "3rr3/5bbk/2q3pp/2p1pp2/7P/1PnP1NP1/R1Q2PB1/4R1K1 w - - 0 30",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Ng5+",
+        "hxg5",
+        "Bxc6"
+      ],
+      "explanation": "Solución: **Cg5+ hxg5 Axc6**. La pieza que se aparta gana un tiempo completo."
+    }
+  ]
+}

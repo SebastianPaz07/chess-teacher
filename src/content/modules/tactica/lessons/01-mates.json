@@ -4,14 +4,31 @@
   "title": "Patrones de mate",
   "summary": "Pasillo, beso de la dama, mate de la coz y mate árabe.",
   "icon": "piece-king",
-  "xp": 55,
-  "minutes": 8,
-  "tags": ["tactica", "mate"],
-  "sources": [
-    { "title": "Antonio Gude – 10 Combinaciones de mate", "resourceTags": ["tactica"] },
-    { "title": "Video: 7 conceptos de ataque que llevan a la victoria", "resourceTags": ["tactica"] }
+  "xp": 85,
+  "minutes": 19,
+  "tags": [
+    "tactica",
+    "mate"
   ],
-  "practice": ["tac-ex-pasillo-negras", "tac-ex-coz", "tac-ex-arabe"],
+  "sources": [
+    {
+      "title": "Antonio Gude – 10 Combinaciones de mate",
+      "resourceTags": [
+        "tactica"
+      ]
+    },
+    {
+      "title": "Video: 7 conceptos de ataque que llevan a la victoria",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "practice": [
+    "tac-ex-pasillo-negras",
+    "tac-ex-coz",
+    "tac-ex-arabe"
+  ],
   "steps": [
     {
       "type": "text",
@@ -23,7 +40,9 @@
       "title": "1. Mate del pasillo",
       "fen": "6k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "El rey negro está encerrado por sus propios peones. **Da mate**.",
-      "solution": ["Rd8#"],
+      "solution": [
+        "Rd8#"
+      ],
       "hint": "Busca la octava fila.",
       "explanation": "**Td8#** El patrón más frecuente en partidas de club. Defensa: abrir una casilla de escape (…h6)."
     },
@@ -32,7 +51,9 @@
       "title": "2. El beso de la dama",
       "fen": "6k1/5p1p/5P1Q/8/8/8/5PPP/6K1 w - - 0 1",
       "prompt": "Tu peón de f6 apoya a la dama. **Da mate** pegando la dama al rey.",
-      "solution": ["Qg7#"],
+      "solution": [
+        "Qg7#"
+      ],
       "hint": "La dama va a una casilla defendida por el peón.",
       "explanation": "**Dg7#** La dama 'besa' al rey: está defendida por el peón y el rey no puede capturarla."
     },
@@ -41,7 +62,9 @@
       "title": "3. Mate de la coz (ahogado)",
       "fen": "6rk/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1",
       "prompt": "El rey está rodeado de sus propias piezas. Un **caballo** basta. ¡Mate!",
-      "solution": ["Nf7#"],
+      "solution": [
+        "Nf7#"
+      ],
       "hint": "¿Qué casilla del caballo ataca h8?",
       "explanation": "**Cf7#** El rey se ahoga con sus propias piezas: es el *mate de la coz* o *smothered mate*."
     },
@@ -50,16 +73,99 @@
       "title": "4. Mate árabe",
       "fen": "7k/3R4/5N2/8/8/8/5PPP/6K1 w - - 0 1",
       "prompt": "Torre y caballo trabajan juntos. **Da mate**.",
-      "solution": ["Rh7#"],
+      "solution": [
+        "Rh7#"
+      ],
       "hint": "El caballo de f6 defiende h7 y controla g8.",
       "explanation": "**Th7#** El mate árabe, uno de los patrones más antiguos del ajedrez."
     },
     {
       "type": "quiz",
       "question": "¿Cuál es la mejor manera de **prevenir** el mate del pasillo?",
-      "options": ["Mover el rey al centro", "Crear una casilla de escape (luft) moviendo un peón del enroque", "Cambiar las damas siempre"],
+      "options": [
+        "Mover el rey al centro",
+        "Crear una casilla de escape (luft) moviendo un peón del enroque",
+        "Cambiar las damas siempre"
+      ],
       "answer": 1,
       "explanation": "Una jugada como **h3/h6** da aire al rey. ¡Hazla en el momento tranquilo de la partida!"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **6 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 676",
+      "fen": "6r1/pbb1k1rp/2p1p3/5p2/8/2N5/PPP1QPPP/R3R1K1 b - - 5 20",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Rxg2+",
+        "Kf1",
+        "Rg1#"
+      ],
+      "explanation": "Solución: **Txg2+ Rf1 Tg1#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 791",
+      "fen": "4kr2/p3n3/2p4Q/2PpP1N1/2pB1p2/q1P5/1R3PPP/6K1 b - - 0 29",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Qa1+",
+        "Rb1",
+        "Qxb1#"
+      ],
+      "explanation": "Solución: **Da1+ Tb1 Dxb1#**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 891",
+      "fen": "r1b1k1nr/ppp2ppp/6q1/4p1B1/2B2P2/7P/P5P1/1N1Q2K1 w kq - 0 15",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qd8#"
+      ],
+      "explanation": "Solución: **Dd8#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 964",
+      "fen": "r4rk1/5qpp/p1p1p3/3pB3/6Q1/4R3/PPP2PPP/R5K1 b - - 5 18",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Qxf2+",
+        "Kh1",
+        "Qf1+",
+        "Rxf1",
+        "Rxf1#"
+      ],
+      "explanation": "Solución: **Dxf2+ Rh1 Df1+ Txf1 Txf1#**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1099",
+      "fen": "8/2rN1p1k/2P4p/pB6/1b4RP/5K2/8/4r3 w - - 5 45",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Nf6+",
+        "Kh8",
+        "Rg8#"
+      ],
+      "explanation": "Solución: **Cf6+ Rh8 Tg8#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1233",
+      "fen": "5r1k/3p2bp/p4pp1/qp1Pr3/8/1Q4B1/PP2RPPP/4R1K1 b - - 0 23",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Qxe1+",
+        "Rxe1",
+        "Rxe1#"
+      ],
+      "explanation": "Solución: **Dxe1+ Txe1 Txe1#**. Compara al menos dos candidatas."
     }
   ]
 }

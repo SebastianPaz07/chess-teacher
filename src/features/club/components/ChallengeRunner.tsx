@@ -6,7 +6,7 @@ import { Icon } from '@/components/ui/Icon';
 import { getExercise } from '@/content/registry';
 import type { Exercise } from '@/content/schema';
 import { useRecordExercise } from '@/features/exercises/hooks/useRecordExercise';
-import { usePuzzles } from '@/hooks/usePuzzles';
+import { useExercisesReady } from '@/hooks/usePuzzles';
 import { RUSH_SECONDS, RUSH_STRIKES } from '@/services/club/challenges';
 import type { ChallengeKind } from '@/services/club';
 import { formatMs } from '../format';
@@ -20,7 +20,7 @@ export interface RunResult {
 
 /** Ejercicios por id, esperando a que carguen los puzzles importados. */
 export function useExercisesByIds(ids: string[] | undefined): Exercise[] | null {
-  const { ready } = usePuzzles();
+  const ready = useExercisesReady(ids);
   return useMemo(() => {
     if (!ids || !ready) return null;
     return ids.map((id) => getExercise(id)).filter((e): e is Exercise => Boolean(e));

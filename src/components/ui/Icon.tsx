@@ -49,7 +49,8 @@ export function Icon({ name, size = '1.25em', weight = 'regular', color, classNa
     );
   }
   const paths = ICON_PATHS[name];
-  if (!paths) return <span className={className} style={style}>{name}</span>;
+  // Un nombre desconocido deja el hueco vacío: escribir el nombre tapaba el texto de al lado
+  if (!paths) return <span className={className} style={{ display: 'inline-block', width: size, height: size, ...style }} aria-hidden />;
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

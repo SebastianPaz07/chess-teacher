@@ -1,0 +1,137 @@
+{
+  "id": "esa-03-cadenas",
+  "order": 3,
+  "title": "Cadenas de peones",
+  "summary": "Ataca la base.",
+  "icon": "link",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "estrategia"
+  ],
+  "sources": [
+    {
+      "title": "Persits, La estructura de peones centrales",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La regla de Nimzowitsch",
+      "body": "Una **cadena** se ataca por su **base**. Cada bando juega en el flanco hacia donde **apuntan** sus peones."
+    },
+    {
+      "type": "video",
+      "resourceId": "1hsgPQhKu8Mm1zs_IXQkTTf829ohNuA8B",
+      "title": "La estructura francesa: demoler el centro"
+    },
+    {
+      "type": "board-demo",
+      "title": "Cadena en la Francesa",
+      "moves": [
+        "e4",
+        "e6",
+        "d4",
+        "d5",
+        "e5",
+        "c5",
+        "c3",
+        "Nc6",
+        "Nf3",
+        "Qb6"
+      ],
+      "notes": {
+        "6": "Golpe a la base d4.",
+        "10": "Más presión sobre d4 y b2."
+      }
+    },
+    {
+      "type": "quiz",
+      "question": "Cadena blanca d4-e5. ¿Cuál es su base?",
+      "options": [
+        "d4",
+        "a2",
+        "e5"
+      ],
+      "answer": 0,
+      "explanation": "El peón que sostiene a los demás es el de atrás."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1773",
+      "fen": "r1b1r1k1/pp1n1pb1/3p1q1p/2pP2p1/2P1B2P/4PNB1/PPQ2PP1/2KR3R b - - 0 15",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Rxe4",
+        "hxg5",
+        "hxg5"
+      ],
+      "explanation": "Solución: **Txe4 hxg5 hxg5**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1893",
+      "fen": "r4rk1/p1q1b1pp/2p5/4ppB1/4p1nP/2N5/PPP1QPP1/3R1RK1 w - - 9 16",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qc4+",
+        "Kh8",
+        "Nd5",
+        "cxd5",
+        "Qxc7"
+      ],
+      "explanation": "Solución: **Dc4+ Rh8 Cd5 cxd5 Dxc7**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1983",
+      "fen": "2r1r3/1B3p1k/1n1q1n1p/p3bP2/P2p1Np1/1P1P2P1/4R2P/2BQ1RK1 b - - 0 23",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Rxc1",
+        "Qxc1",
+        "Bxf4",
+        "Qxf4",
+        "Qxf4",
+        "Rxf4",
+        "Rxe2"
+      ],
+      "explanation": "Solución: **Txc1 Dxc1 Axf4 Dxf4 Dxf4 Txf4 Txe2**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2138",
+      "fen": "7k/r2q4/p5R1/NpPp1r1p/1P1P2nK/3QN1P1/P7/7R b - - 6 36",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qe7+",
+        "Kh3",
+        "Nf2+",
+        "Kh2",
+        "Nxd3",
+        "Rh6+",
+        "Kg8"
+      ],
+      "explanation": "Solución: **De7+ Rh3 Cf2+ Rh2 Cxd3 Th6+ Rg8**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2219",
+      "fen": "1k6/1p1q2r1/P2p3p/1NpPpn1Q/5b2/2P5/1P2B1P1/R6K w - - 4 29",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "a7+",
+        "Ka8",
+        "Nc7+",
+        "Qxc7",
+        "Qe8+",
+        "Qb8",
+        "axb8=Q#"
+      ],
+      "explanation": "Solución: **a7+ Ra8 Cc7+ Dxc7 De8+ Db8 axb8=D#**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

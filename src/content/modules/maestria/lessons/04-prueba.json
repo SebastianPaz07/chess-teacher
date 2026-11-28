@@ -1,0 +1,165 @@
+{
+  "id": "mae-04-prueba",
+  "order": 4,
+  "title": "Prueba de maestría",
+  "summary": "Todo mezclado, como en una partida.",
+  "icon": "trophy",
+  "xp": 115,
+  "minutes": 17,
+  "tags": [
+    "entrenamiento",
+    "ventaja-decisiva",
+    "defensa"
+  ],
+  "sources": [
+    {
+      "title": "Entrenamiento sistemático en ajedrez",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Sin pistas del tema",
+      "body": "En una partida nadie te avisa si hay táctica. Antes de cada posición haz la lista de jugadas candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 3 · dificultad 1829",
+      "fen": "3nrr1k/1ppR2p1/p6p/6NQ/2B2p1P/1P6/P1PK1PP1/7q w - - 0 23",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Qxh6+",
+        "gxh6",
+        "Rh7#"
+      ],
+      "explanation": "Solución: **Dxh6+ gxh6 Th7#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 3 · dificultad 2051",
+      "fen": "r3kb1r/ppp2p1p/5Q2/4p3/2B1P3/3P3P/P1q3PK/8 w kq - 0 16",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Bxf7+",
+        "Kd7",
+        "Qe6+",
+        "Kd8",
+        "Qe8#"
+      ],
+      "explanation": "Solución: **Axf7+ Rd7 De6+ Rd8 De8#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 3 · dificultad 2316",
+      "fen": "4RN2/2R5/1r3kpp/2p3q1/2P5/2r3PP/7K/8 w - - 1 40",
+      "prompt": "Da **jaque mate**.",
+      "solution": [
+        "Nh7+",
+        "Kf5",
+        "Rxc5#"
+      ],
+      "explanation": "Solución: **Ch7+ Rf5 Txc5#**. Revisa cada casilla de escape antes de dar el jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 3 · dificultad 1994",
+      "fen": "5k2/pR4pp/5p2/2pK1P2/7P/2rp4/5P2/8 w - - 2 33",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Ke6",
+        "g6",
+        "Kxf6",
+        "Ke8",
+        "Ke6"
+      ],
+      "explanation": "Solución: **Re6 g6 Rxf6 Re8 Re6**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 3 · dificultad 2214",
+      "fen": "4r2k/5pp1/1R1p1n1p/1P1P1Pn1/P4Q2/1B5r/2P3P1/6K1 b - - 0 35",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Re1+",
+        "Kf2",
+        "Rhh1",
+        "Rb8+",
+        "Kh7"
+      ],
+      "explanation": "Solución: **Te1+ Rf2 Thh1 Tb8+ Rh7**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 3 · dificultad 2377",
+      "fen": "8/p7/2p2ppk/1q6/2nP2P1/2p4R/PP2Q3/1K6 b - - 2 34",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Kg5",
+        "Kc2",
+        "Na3+",
+        "bxa3",
+        "Qxe2+"
+      ],
+      "explanation": "Solución: **Rg5 Rc2 Ca3+ bxa3 Dxe2+**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 2071",
+      "fen": "6r1/p6p/1p1ppk1r/5p2/2PPnp2/3N3P/PP2RPPK/3R4 b - - 1 31",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "f3",
+        "gxf3",
+        "Ng5"
+      ],
+      "explanation": "Solución: **f3 gxf3 Cg5**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 2195",
+      "fen": "3Q4/kp6/p1pP3q/8/4p1p1/3nP1P1/3K4/2R5 w - - 2 62",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Rb1",
+        "Nc5",
+        "Qb6+"
+      ],
+      "explanation": "Solución: **Tb1 Cc5 Db6+**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 2323",
+      "fen": "3rr1k1/p4p2/2BBb1p1/4b2p/4P1qP/5PP1/P2Q4/3R1RK1 b - - 0 23",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Qxg3+",
+        "Qg2",
+        "Bxd6",
+        "Qxg3",
+        "Bxg3",
+        "Bxe8",
+        "Rxe8"
+      ],
+      "explanation": "Solución: **Dxg3+ Dg2 Axd6 Dxg3 Axg3 Axe8 Txe8**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 2445",
+      "fen": "8/6p1/3k4/5pPp/4K2P/8/8/8 w - - 0 45",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Kxf5",
+        "Ke7",
+        "Kg6",
+        "Kf8",
+        "Kh7",
+        "Kf7",
+        "Kh8"
+      ],
+      "explanation": "Solución: **Rxf5 Re7 Rg6 Rf8 Rh7 Rf7 Rh8**. Jaques, capturas y amenazas, en ese orden."
+    }
+  ]
+}

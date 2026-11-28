@@ -5,6 +5,7 @@ import { allOpenings } from '@/content/registry';
 import { Icon } from '@/components/ui/Icon';
 import type { Level } from '@/content/schema';
 import { practiceCountFor } from '@/services/scheduler/dailyPlan';
+import { todayKey } from '@/lib/date';
 import { ratingFromElo, type EloSource } from '@/services/scheduler/placement';
 import { useAuthStore } from '@/store/authStore';
 import { useClubStore } from '@/store/clubStore';
@@ -12,7 +13,9 @@ import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
 import { useSettingsStore, type FocusArea } from '@/store/settingsStore';
 import { formatDays, WEEK_DAYS } from './days';
+import { NAME_MAX, NameInput } from './NamePrompt';
 import { OpeningPicker } from './OpeningPicker';
+import { WelcomeTour } from './WelcomeTour';
 import styles from './PlanSetupPage.module.css';
 
 type LevelChoice = 'keep' | 'new' | 'casual' | 'club' | 'strong' | 'elo' | 'test';
@@ -33,10 +36,10 @@ const FOCUS: { id: FocusArea; title: string; detail: string; icon: string }[] = 
 
 const MINUTES = [10, 15, 20, 30, 45, 60];
 const MAX_EXPLORE = 3;
-type StepKey = 'level' | 'focus' | 'openings' | 'explore' | 'time' | 'days' | 'summary';
+type StepKey = 'name' | 'level' | 'focus' | 'openings' | 'explore' | 'time' | 'days' | 'summary';
 const LEVEL_NAME: Record<Level, string> = { principiante: 'principiante', intermedio: 'intermedio', avanzado: 'avanzado' };
 
-/** Plan de entrenamiento personalizado: nivel → tiempo por día → días de la semana → resumen. */
+/** Plan de entrenamiento personalizado (la primera vez, tras la presentación): nombre → nivel → tiempo por día → días → resumen. */
 export function PlanSetupPage() {
   const navigate = useNavigate();
   const [params] = useSearchParams();
@@ -52,11 +55,17 @@ export function PlanSetupPage() {
 
   const firstRun = !settings.onboarded;
   const clubStatus = useClubStore((s) => s.status);
+  const profileName = useClubStore((s) => s.profile?.name);
   const auth = useAuthStore();
   // Con Supabase manda la sesión real; en modo demo, la sesión del club simulado
   const signedIn = auth.enabled ? auth.status === 'signed-in' : clubStatus !== 'signed-out' && clubStatus !== 'loading';
   const hasLevel = placementDone || Boolean(placementLevel);
   const [step, setStep] = useState(0);
+  const [tourDone, setTourDone] = useState(false);
+  // Se decide al entrar: el paso no debe aparecer ni desaparecer mientras se avanza
+  const [askName] = useState(() => !settings.playerName.trim());
+  const [typedName, setTypedName] = useState<string | null>(null);
+  const name = typedName ?? profileName?.slice(0, NAME_MAX) ?? '';
   const [focus, setFocus] = useState<FocusArea[]>(settings.focusAreas);
   const [favorite, setFavorite] = useState<string | null>(settings.favoriteOpening);
   const [explore, setExplore] = useState<string[]>(settings.exploreOpenings);
@@ -80,14 +89,14 @@ export function PlanSetupPage() {
 
   // Quien ya sabe lo básico puede afinar el plan: qué reforzar y qué apertura repasar
   const hasBasics = Boolean(resolved) && choice !== 'new' && choice !== 'test';
-  const steps: StepKey[] = ['level', ...(hasBasics ? (['focus', 'openings', 'explore'] as StepKey[]) : []), 'time', 'days', 'summary'];
+  const steps: StepKey[] = [...(askName ? (['name'] as StepKey[]) : []), 'level',...(hasBasics ? (['focus', 'openings', 'explore'] as StepKey[]) : []), 'time', 'days', 'summary'];
   const key = steps[Math.min(step, steps.length - 1)];
   const last = step >= steps.length - 1;
   // Cada paso empieza arriba, aunque el anterior fuera una lista larga
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [step]);
-  const canNext = key === 'level' ? Boolean(resolved) : key === 'days' ? days.length > 0 : true;
+  const canNext = key === 'name' ? Boolean(name.trim()) : key === 'level' ? Boolean(resolved) : key === 'days' ? days.length > 0 : true;
   const favOpening = allOpenings.find((o) => o.id === favorite);
   const explored = explore.filter((id) => id !== favorite);
   const weekly = minutes * days.length;
@@ -95,6 +104,8 @@ export function PlanSetupPage() {
   const exercises = practiceCountFor(level, minutes);
 
   const save = () => {
+    if (askName) settings.update({ playerName: name.trim() });
+    if (firstRun) settings.update({ startedAt: todayKey(), startedFromZero: choice === 'new' });
     settings.update({ dailyMinutes: minutes, trainingDays: [...days].sort(), onboarded: true, learnedBasics: choice !== 'new', focusAreas: hasBasics ? focus : [], favoriteOpening: hasBasics ? favorite : null, exploreOpenings: hasBasics ? explored : [] });
     if (choice && choice !== 'keep' && choice !== 'test' && resolved) {
       setPlacement(resolved.level);
@@ -114,6 +125,8 @@ export function PlanSetupPage() {
   };
   const toggleDay = (d: number) => setDays((ds) => (ds.includes(d) ? ds.filter((x) => x !== d) : [...ds, d]));
 
+  if (firstRun && !tourDone) return <WelcomeTour onDone={() => setTourDone(true)} />;
+
   return (
     <div className={styles.page}>
       <header className={styles.head}>
@@ -122,6 +135,20 @@ export function PlanSetupPage() {
         </p>
         <ProgressBar value={(step + 1) / steps.length} height={3} />
       </header>
+
+      {key === 'name' && (
+        <form
+          className={styles.step}
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (canNext) setStep(step + 1);
+          }}
+        >
+          <h1 className={styles.title}>¿Cómo te llamas?</h1>
+          <p className="muted">Así te saludamos cada vez que entres.</p>
+          <NameInput value={name} onChange={setTypedName} />
+        </form>
+      )}
 
       {key === 'level' && (
         <section className={styles.step}>
@@ -274,7 +301,7 @@ export function PlanSetupPage() {
               )}
               {minutes >= 20 && level !== 'principiante' && (
                 <li>
-                  <Icon name="classic" /> Partida clásica «adivina la jugada» (algunos días)
+                  <Icon name="classic" /> Partida clásica: verla y practicar sus jugadas (algunos días)
                 </li>
               )}
             </ul>

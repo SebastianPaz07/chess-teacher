@@ -50,7 +50,7 @@ export function OpeningPicker({ selected, onToggle, multi, max, exclude, initial
       />
       <div className={styles.picker} role={multi ? 'group' : 'radiogroup'} aria-label={label}>
         {none && (
-          <button type="button" role={role} aria-checked={selected.length === 0} className={[styles.row, selected.length === 0 && styles.rowOn].filter(Boolean).join(' ')} onClick={none.onClick}>
+          <button type="button" role={role} aria-checked={selected.length === 0} className={[styles.row, styles.rowPlain, selected.length === 0 && styles.rowOn].filter(Boolean).join(' ')} onClick={none.onClick}>
             <span className={styles.name}>{none.label}</span>
             <span className={styles.check} aria-hidden>
               {selected.length === 0 && <Icon name="check" />}
@@ -67,6 +67,9 @@ export function OpeningPicker({ selected, onToggle, multi, max, exclude, initial
                 const on = selected.includes(o.id);
                 return (
                   <button key={o.id} type="button" role={role} aria-checked={on} disabled={full && !on} className={[styles.row, on && styles.rowOn].filter(Boolean).join(' ')} onClick={() => onToggle(o.id)}>
+                    <span className={styles.icon}>
+                      <Icon name={o.icon} />
+                    </span>
                     <span className={styles.text}>
                       <span className={styles.name}>
                         {o.name} {o.eco && <small>{o.eco}</small>}

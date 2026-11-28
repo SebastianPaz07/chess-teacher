@@ -4,11 +4,25 @@
   "title": "La horquilla (doble ataque)",
   "summary": "Una pieza ataca dos objetivos a la vez: el rival solo puede salvar uno.",
   "icon": "fork",
-  "xp": 55,
-  "minutes": 8,
-  "tags": ["tactica", "horquilla"],
-  "sources": [{ "title": "Combinaciones en el medio juego", "resourceTags": ["tactica"] }],
-  "practice": ["tac-ex-horquilla-caballo", "tac-ex-horquilla-real", "tac-ex-horquilla-dama"],
+  "xp": 85,
+  "minutes": 19,
+  "tags": [
+    "tactica",
+    "horquilla"
+  ],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "practice": [
+    "tac-ex-horquilla-caballo",
+    "tac-ex-horquilla-real",
+    "tac-ex-horquilla-dama"
+  ],
   "steps": [
     {
       "type": "text",
@@ -19,7 +33,11 @@
       "type": "make-move",
       "fen": "r3k3/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
       "prompt": "Ataca al **rey y a la torre** a la vez con el caballo. Luego cobra.",
-      "solution": ["Nc7+", "Kd7", "Nxa8"],
+      "solution": [
+        "Nc7+",
+        "Kd7",
+        "Nxa8"
+      ],
       "hint": "Busca una casilla desde la que el caballo ataque e8 y a8.",
       "explanation": "**Cc7+** y tras mover el rey, **Cxa8**. Ganaste una torre entera."
     },
@@ -27,16 +45,107 @@
       "type": "make-move",
       "fen": "6k1/6pp/8/r7/8/8/8/3Q2K1 w - - 0 1",
       "prompt": "La **dama** también hace horquillas. Da jaque atacando la torre al mismo tiempo.",
-      "solution": ["Qd5+", "Kh8", "Qxa5"],
+      "solution": [
+        "Qd5+",
+        "Kh8",
+        "Qxa5"
+      ],
       "hint": "Una casilla central que ve la diagonal hacia g8 y la fila 5.",
       "explanation": "**Dd5+** ataca rey (por la diagonal) y torre (por la fila). Tras **Dxa5** ganas 5 puntos."
     },
     {
       "type": "quiz",
       "question": "¿Por qué las horquillas con **jaque** son tan efectivas?",
-      "options": ["Porque el jaque da puntos extra", "Porque el rival debe atender al rey primero y no puede salvar la otra pieza", "Porque el rey no puede moverse"],
+      "options": [
+        "Porque el jaque da puntos extra",
+        "Porque el rival debe atender al rey primero y no puede salvar la otra pieza",
+        "Porque el rey no puede moverse"
+      ],
       "answer": 1,
       "explanation": "El jaque **obliga**. Mientras el rival salva al rey, tú capturas la otra pieza."
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **6 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 849",
+      "fen": "1n3rk1/5rpp/2p1p3/6N1/4QP2/PPq5/2P3PP/3R1K1R b - - 2 22",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Rxf4+",
+        "Qxf4",
+        "Rxf4+"
+      ],
+      "explanation": "Solución: **Txf4+ Dxf4 Txf4+**. Busca dos objetivos que una sola pieza pueda atacar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 983",
+      "fen": "4r3/2p1q2k/p1Pp2pb/1p1Q3p/7P/2P2R2/PP4P1/1K6 w - - 2 35",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Rf7+",
+        "Bg7",
+        "Rxe7"
+      ],
+      "explanation": "Solución: **Tf7+ Ag7 Txe7**. Busca dos objetivos que una sola pieza pueda atacar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1098",
+      "fen": "r2r1k2/5p1p/p4p2/1pP1p3/4b3/PN2P3/1P3PPP/2RR2K1 b - - 1 20",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Rxd1+",
+        "Rxd1",
+        "Bc2",
+        "Rd6",
+        "Bxb3"
+      ],
+      "explanation": "Solución: **Txd1+ Txd1 Ac2 Td6 Axb3**. Busca dos objetivos que una sola pieza pueda atacar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1192",
+      "fen": "2R2rk1/5pp1/p5np/b2p4/3P4/Pq1BPN2/1P3QPP/3R2K1 b - - 0 26",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Qxd1+",
+        "Qf1",
+        "Qxf1+",
+        "Kxf1",
+        "Rxc8"
+      ],
+      "explanation": "Solución: **Dxd1+ Df1 Dxf1+ Rxf1 Txc8**. Busca dos objetivos que una sola pieza pueda atacar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1302",
+      "fen": "8/Q7/7r/8/6K1/1r4p1/4k1P1/8 w - - 3 65",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Qa2+",
+        "Ke3",
+        "Qxb3+"
+      ],
+      "explanation": "Solución: **Da2+ Re3 Dxb3+**. Busca dos objetivos que una sola pieza pueda atacar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1429",
+      "fen": "r3kr2/ppp4p/3qpQp1/5n2/4R3/2P1P2P/P4PP1/5RK1 w q - 10 23",
+      "prompt": "Encuentra la **horquilla**.",
+      "solution": [
+        "Rxe6+",
+        "Ne7",
+        "Rxd6",
+        "Rxf6",
+        "Rxf6"
+      ],
+      "explanation": "Solución: **Txe6+ Ce7 Txd6 Txf6 Txf6**. Busca dos objetivos que una sola pieza pueda atacar."
     }
   ]
 }

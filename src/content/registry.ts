@@ -96,6 +96,9 @@ export const getGame = (id: string) => allGames.find((g) => g.id === id);
 export const driveRootFolderId: string = resourcesJson.rootFolderId;
 export const resources: Resource[] = z.array(ResourceSchema).parse(resourcesJson.resources);
 
+const resourceIndex = new Map(resources.map((r) => [r.id, r]));
+export const getResource = (id: string) => resourceIndex.get(id);
+
 export function resourcesByTags(tags: string[], limit = 6): Resource[] {
   if (!tags.length) return [];
   return resources

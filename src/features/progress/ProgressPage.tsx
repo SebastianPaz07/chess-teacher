@@ -5,6 +5,7 @@ import { allLessons, getExercise, getOpening, modules } from '@/content/registry
 import { themeLabel } from '@/features/exercises/themes';
 import { addDays, todayKey } from '@/lib/date';
 import { useIsSignedIn } from '@/hooks/useIsSignedIn';
+import { useExercisesReady } from '@/hooks/usePuzzles';
 import { useGameSummary } from '@/features/gamification/hooks/useGameSummary';
 import { moduleCompletion, moduleStars, weakTopics } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
@@ -15,6 +16,23 @@ import styles from './ProgressPage.module.css';
 
 const WEEKS = 12;
 const MILESTONES = [5, 10, 25, 50, 100, 250, 500, 1000];
+
+const toDate = (key: string) => {
+  const [y, m, d] = key.split('-').map(Number);
+  return new Date(y, m - 1, d);
+};
+/** «Lunes», «Martes»… */
+const weekday = (key: string) => {
+  const name = new Intl.DateTimeFormat('es', { weekday: 'long' }).format(toDate(key));
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
+const shortDate = (key: string) => new Intl.DateTimeFormat('es', { day: 'numeric', month: 'short' }).format(toDate(key));
+const studyTime = (seconds: number) => {
+  if (seconds > 0 && seconds < 60) return 'Menos de 1 min';
+  const min = Math.round(seconds / 60);
+  return min < 60 ? `${min} min` : `${Math.floor(min / 60)} h ${min % 60} min`;
+};
+const count = (n: number | undefined, one: string, many: string) => (n ? `${n} ${n === 1 ? one : many}` : '');
 
 export function ProgressPage() {
   const signedIn = useIsSignedIn();
@@ -41,8 +59,10 @@ export function ProgressPage() {
 
   // Ejercicios DISTINTOS resueltos por tema (no intentos): evita porcentajes engañosos
   const themeCount: Record<string, number> = {};
-  for (const [id, rec] of Object.entries(progress.exercises)) {
-    if (rec.solved <= 0) continue;
+  const solvedIds = Object.entries(progress.exercises).filter(([, rec]) => rec.solved > 0).map(([id]) => id);
+  // Al terminar de cargar se vuelve a pintar con sus temas
+  useExercisesReady(signedIn ? solvedIds : []);
+  for (const id of solvedIds) {
     for (const t of getExercise(id)?.themes ?? []) themeCount[t] = (themeCount[t] ?? 0) + 1;
   }
   const themes = Object.entries(themeCount).sort((a, b) => b[1] - a[1]);
@@ -51,8 +71,13 @@ export function ProgressPage() {
   const recent = Array.from({ length: 7 }, (_, i) => {
     const day = addDays(today, i - 6);
     const a = activityLog?.[day];
-    return { day, puzzles: a?.puzzles ?? 0, lessons: a?.lessons ?? 0, reviews: a?.reviews ?? 0, minutes: Math.round((a?.seconds ?? 0) / 60), empty: !a || (!a.puzzles && !a.lessons && !a.reviews && !a.seconds) };
+    const seconds = a?.seconds ?? 0;
+    // Solo lo que se hizo: «3 ejercicios · 1 lección»
+    const done = [count(a?.puzzles, 'ejercicio', 'ejercicios'), count(a?.lessons, 'lección', 'lecciones'), count(a?.reviews, 'repaso', 'repasos')].filter(Boolean).join(' · ');
+    return { day, name: i === 6 ? 'Hoy' : i === 5 ? 'Ayer' : weekday(day), date: shortDate(day), seconds, done };
   }).reverse();
+  const weekSeconds = recent.reduce((sum, d) => sum + d.seconds, 0);
+  const topSeconds = Math.max(1, ...recent.map((d) => d.seconds));
 
   const accuracy = stats.puzzlesAttempted ? Math.round((stats.puzzlesSolved / stats.puzzlesAttempted) * 100) : 0;
 
@@ -142,15 +167,25 @@ export function ProgressPage() {
         </div>
       </Card>
 
-      <Card title="Últimos 7 días" icon="calendar" subtitle="Lo que hiciste cada día">
-        <div className="stack">
-          {recent.map((d) => (
-            <div key={d.day} className="muted" style={{ display: 'flex', justifyContent: 'space-between', gap: 12 }}>
-              <span>{d.day}</span>
-              <span>{d.empty ? 'Sin actividad' : `${d.puzzles} ejercicios · ${d.lessons} lecciones · ${d.reviews} repasos · ${d.minutes} min`}</span>
-            </div>
-          ))}
-        </div>
+      <Card title="Últimos 7 días" icon="calendar" subtitle={weekSeconds > 0 ? `Tiempo estudiado en total: ${studyTime(weekSeconds)}` : 'Aún no registras tiempo de estudio'}>
+        <ul className={styles.recent}>
+          {recent.map((d) => {
+            const empty = !d.seconds && !d.done;
+            return (
+              <li key={d.day} className={[styles.recentDay, empty && styles.recentEmpty].filter(Boolean).join(' ')}>
+                <span className={styles.recentName}>
+                  <strong>{d.name}</strong>
+                  <small>{d.date}</small>
+                </span>
+                <span className={styles.recentTime}>{empty ? 'Sin actividad' : studyTime(d.seconds)}</span>
+                <span className={styles.recentBar} aria-hidden>
+                  <span style={{ width: `${Math.round((d.seconds / topSeconds) * 100)}%` }} />
+                </span>
+                {d.done && <span className={styles.recentDone}>{d.done}</span>}
+              </li>
+            );
+          })}
+        </ul>
       </Card>
     </div>
   );

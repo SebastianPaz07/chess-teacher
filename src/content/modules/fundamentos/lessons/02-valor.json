@@ -4,11 +4,24 @@
   "title": "Valor de las piezas y buenos cambios",
   "summary": "Cuánto vale cada pieza y cómo decidir si un cambio te conviene.",
   "icon": "scales",
-  "xp": 45,
-  "minutes": 7,
-  "tags": ["fundamentos", "captura"],
-  "sources": [{ "title": "Rey Enigma – El VALOR de las PIEZAS (Ajedrez desde cero #16)", "resourceTags": ["fundamentos"] }],
-  "practice": ["fund-ex-captura-libre", "fund-ex-pieza-colgada"],
+  "xp": 75,
+  "minutes": 20,
+  "tags": [
+    "fundamentos",
+    "captura"
+  ],
+  "sources": [
+    {
+      "title": "Rey Enigma – El VALOR de las PIEZAS (Ajedrez desde cero #16)",
+      "resourceTags": [
+        "fundamentos"
+      ]
+    }
+  ],
+  "practice": [
+    "fund-ex-captura-libre",
+    "fund-ex-pieza-colgada"
+  ],
   "steps": [
     {
       "type": "text",
@@ -19,7 +32,10 @@
       "type": "quiz",
       "fen": "6k1/8/3p4/4n3/8/8/4Q3/6K1 w - - 0 1",
       "question": "La dama blanca puede capturar el caballo de e5, pero el peón de d6 lo **defiende**. ¿Es buena idea **Dxe5**?",
-      "options": ["Sí, gano un caballo", "No: tras ...dxe5 pierdo la dama (9) por un caballo (3)"],
+      "options": [
+        "Sí, gano un caballo",
+        "No: tras ...dxe5 pierdo la dama (9) por un caballo (3)"
+      ],
       "answer": 1,
       "explanation": "Antes de capturar, pregúntate siempre: **¿está defendida la pieza?** Aquí perderías 9 puntos para ganar 3."
     },
@@ -27,7 +43,9 @@
       "type": "make-move",
       "fen": "6k1/8/8/2p5/1b1n4/8/3Q4/6K1 w - - 0 1",
       "prompt": "Una pieza negra está **sin defender** y la otra está protegida. Captura la correcta.",
-      "solution": ["Qxb4"],
+      "solution": [
+        "Qxb4"
+      ],
       "hint": "El caballo de d4 está defendido por el peón de c5.",
       "explanation": "**Dxb4** gana un alfil gratis. Si hubieras jugado Dxd4, el peón respondería cxd4 y perderías la dama."
     },
@@ -35,16 +53,92 @@
       "type": "make-move",
       "fen": "6kr/5p2/6p1/8/8/2B5/8/6K1 w - - 0 1",
       "prompt": "Tu alfil (3) puede cambiarse por la torre negra (5). ¡Hazlo!",
-      "solution": ["Bxh8"],
+      "solution": [
+        "Bxh8"
+      ],
       "hint": "Mira la gran diagonal que va de c3 a h8.",
       "explanation": "Aunque el rey recapture, cambiaste 3 por 5: **ganaste la calidad**."
     },
     {
       "type": "quiz",
       "question": "Cambias tu caballo por un alfil rival. ¿Cómo es ese cambio?",
-      "options": ["Ganas material", "Pierdes material", "Equilibrado (3 por 3)"],
+      "options": [
+        "Ganas material",
+        "Pierdes material",
+        "Equilibrado (3 por 3)"
+      ],
       "answer": 2,
       "explanation": "Caballo y alfil valen ~3. Es un cambio parejo; decidirá cuál de las dos piezas es más útil en la posición."
+    },
+    {
+      "type": "video",
+      "resourceId": "1enu3PYJUXatbR7Lf497YvLtArpZgLnzf",
+      "title": "El valor de las piezas"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **5 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 640",
+      "fen": "2r2k2/1K1r1p2/5Q2/pp2pN2/P3P3/2P4P/1P3q2/8 w - - 3 46",
+      "prompt": "Hay material sin defensa: **captúralo bien**.",
+      "solution": [
+        "Kxc8",
+        "Qc5+",
+        "Kxd7"
+      ],
+      "explanation": "Solución: **Rxc8 Dc5+ Rxd7**. Cuenta atacantes y defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 754",
+      "fen": "8/7p/5pk1/1pp3p1/6P1/7Q/1P3P1P/r2rN1K1 b - - 0 35",
+      "prompt": "Hay material sin defensa: **captúralo bien**.",
+      "solution": [
+        "Rxe1+",
+        "Kg2",
+        "Rg1+"
+      ],
+      "explanation": "Solución: **Txe1+ Rg2 Tg1+**. Cuenta atacantes y defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 800",
+      "fen": "r4rk1/pp3pbp/5pp1/7q/1Q1PP1P1/3B1N2/PP1B1P2/R3K2R b KQ - 0 18",
+      "prompt": "Hay material sin defensa: **captúralo bien**.",
+      "solution": [
+        "Qxh1+",
+        "Ke2",
+        "Qxa1"
+      ],
+      "explanation": "Solución: **Dxh1+ Re2 Dxa1**. Cuenta atacantes y defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 899",
+      "fen": "1rbr2k1/ppN2ppp/3p4/4R2q/8/1B4Q1/PPP2PPP/3R2K1 b - - 0 19",
+      "prompt": "Hay material sin defensa: **captúralo bien**.",
+      "solution": [
+        "Qxd1+",
+        "Re1",
+        "Qxe1#"
+      ],
+      "explanation": "Solución: **Dxd1+ Te1 Dxe1#**. Cuenta atacantes y defensores."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 951",
+      "fen": "8/pk1r2R1/1p2b3/8/2P2N2/1P6/1K6/8 w - - 22 61",
+      "prompt": "Hay material sin defensa: **captúralo bien**.",
+      "solution": [
+        "Nxe6",
+        "Rxg7",
+        "Nxg7"
+      ],
+      "explanation": "Solución: **Cxe6 Txg7 Cxg7**. Cuenta atacantes y defensores."
     }
   ]
 }

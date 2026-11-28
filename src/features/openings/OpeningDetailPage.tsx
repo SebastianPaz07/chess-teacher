@@ -29,6 +29,19 @@ export function OpeningDetailPage() {
   if (!opening) return <EmptyState title="Apertura no encontrada" action={<Button to="/aperturas">Ver aperturas</Button>} />;
   const line = opening.lines[lineIndex] ?? opening.lines[0];
   const key = `${opening.id}#${lineIndex}`;
+  const trainedCount = opening.lines.filter((_, i) => openingLines[`${opening.id}#${i}`]).length;
+  // Líneas agrupadas por variante, conservando su índice (es la clave del progreso)
+  const groups = new Map<string, { name: string; index: number }[]>();
+  opening.lines.forEach((l, index) => {
+    const g = l.group ?? 'Líneas';
+    groups.set(g, [...(groups.get(g) ?? []), { name: l.name, index }]);
+  });
+  const order = [...groups.values()].flat().map((x) => x.index);
+  const position = order.indexOf(lineIndex);
+  const goTo = (i: number) => {
+    setLineIndex(i);
+    restart();
+  };
 
   const onFinish = (r: LineResult) => {
     setResult(r);
@@ -47,7 +60,7 @@ export function OpeningDetailPage() {
     <div className="stack">
       <PageHeader
         compact
-        icon={opening.side === 'w' ? 'piece-king-w' : 'piece-king'}
+        icon={opening.icon}
         title={opening.name}
         subtitle={opening.description}
         actions={<Badge tone="primary">{opening.side === 'w' ? 'Juegas con blancas' : 'Juegas con negras'}</Badge>}
@@ -68,6 +81,16 @@ export function OpeningDetailPage() {
               ]}
             />
           </div>
+          <div className={styles.current}>
+            <Button size="sm" variant="ghost" icon="prev" onClick={() => goTo(order[position - 1])} disabled={position <= 0} aria-label="Línea anterior" />
+            <p>
+              <span className="eyebrow">
+                {line.group ?? 'Líneas'} · línea {position + 1} de {order.length}
+              </span>
+              <strong>{line.name}</strong>
+            </p>
+            <Button size="sm" variant="ghost" icon="next" onClick={() => goTo(order[position + 1])} disabled={position >= order.length - 1} aria-label="Línea siguiente" />
+          </div>
           {mode === 'ver' && daily.fromDaily && (
             <Card tone="primary" icon="book-open" title="Paso 1: estudia la línea" style={{ marginBottom: 12 }}>
               <p className="muted" style={{ margin: 0 }}>
@@ -84,7 +107,10 @@ export function OpeningDetailPage() {
               <BoardTip what="línea" />
             </>
           ) : (
-            <LineTrainer key={`t-${lineIndex}-${round}`} moves={line.moves} side={opening.side} notes={line.notes} onFinish={onFinish} />
+            <>
+              <LineTrainer key={`t-${lineIndex}-${round}`} moves={line.moves} side={opening.side} notes={line.notes} onFinish={onFinish} />
+              {!result && <BoardTip what="línea" />}
+            </>
           )}
           {result && mode === 'entrenar' && (
             <Card tone={result.mistakes === 0 ? 'success' : 'accent'} title={result.mistakes === 0 ? '¡Línea perfecta!' : `Línea completada con ${result.mistakes} errores`} icon={result.mistakes === 0 ? 'trophy' : 'check'} style={{ marginTop: 16 }}>
@@ -102,22 +128,32 @@ export function OpeningDetailPage() {
           )}
         </div>
         <div className="stack">
-          <Card title="Líneas" icon="strategy">
-            <div className={styles.lines}>
-              {opening.lines.map((l, i) => (
-                <button
-                  key={i}
-                  className={[styles.line, i === lineIndex && styles.active].filter(Boolean).join(' ')}
-                  onClick={() => {
-                    setLineIndex(i);
-                    restart();
-                  }}
-                >
-                  <span>{l.name}</span>
-                  {openingLines[`${opening.id}#${i}`] && <Badge tone="success" icon="check">{openingLines[`${opening.id}#${i}`].times}</Badge>}
-                </button>
-              ))}
-            </div>
+          <Card title="Variantes y líneas" icon="strategy" subtitle={`${opening.lines.length} líneas · ${trainedCount} entrenadas`}>
+            {[...groups].map(([group, items]) => (
+              <details key={group} className={styles.group} open={items.some((x) => x.index === lineIndex) || groups.size <= 3}>
+                <summary>
+                  <span>{group}</span>
+                  <small className="num">
+                    {items.filter((x) => openingLines[`${opening.id}#${x.index}`]).length}/{items.length}
+                  </small>
+                </summary>
+                <div className={styles.lines}>
+                  {items.map(({ name, index }) => {
+                    const rec = openingLines[`${opening.id}#${index}`];
+                    return (
+                      <button key={index} type="button" aria-current={index === lineIndex} className={[styles.line, index === lineIndex && styles.active].filter(Boolean).join(' ')} onClick={() => goTo(index)}>
+                        <span>{name}</span>
+                        {rec && (
+                          <Badge tone="success" icon="check">
+                            {rec.times}
+                          </Badge>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              </details>
+            ))}
           </Card>
           {opening.ideas.length > 0 && (
             <Card title="Ideas clave" icon="hint">

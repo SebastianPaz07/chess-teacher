@@ -1,0 +1,17 @@
+{
+  "id": "calculo",
+  "order": 7,
+  "level": "intermedio",
+  "category": "tactica",
+  "icon": "brain",
+  "color": "#7d3c98",
+  "title": "Cálculo con método",
+  "prerequisites": [
+    "tactica"
+  ],
+  "tags": [
+    "tactica",
+    "calculo"
+  ],
+  "description": "Jugadas candidatas, jugadas forzantes y visualización: cómo pensar sin perderse. Basado en Kotov y las clases de cálculo."
+}

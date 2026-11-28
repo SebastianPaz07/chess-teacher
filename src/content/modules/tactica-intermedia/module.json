@@ -1,0 +1,16 @@
+{
+  "id": "tactica-intermedia",
+  "order": 6,
+  "level": "intermedio",
+  "category": "tactica",
+  "icon": "crosshair",
+  "color": "#b0392b",
+  "title": "Combinaciones intermedias",
+  "prerequisites": [
+    "tactica"
+  ],
+  "tags": [
+    "tactica"
+  ],
+  "description": "Los motivos que van más allá de la horquilla y la clavada: desviar, atraer, eliminar al defensor y meter jugadas intermedias."
+}

@@ -1,6 +1,7 @@
 /* El contenedor ocupa el ancho disponible pero nunca aporta ancho propio
    (contain: inline-size), así el tablero no puede empujar la columna. */
 .wrap { width: 100%; min-width: 0; margin: 0 auto; contain: inline-size; display: flex; justify-content: center; }
+.stacked { flex-direction: column; align-items: center; gap: var(--space-3); }
 .board { max-width: 100%; transition: box-shadow 0.2s; }
 .placeholder { width: 100%; aspect-ratio: 1; background: var(--color-surface-2); }
 .good { animation: good 0.6s ease; }

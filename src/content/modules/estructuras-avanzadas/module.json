@@ -1,0 +1,17 @@
+{
+  "id": "estructuras-avanzadas",
+  "order": 14,
+  "level": "avanzado",
+  "category": "estrategia",
+  "icon": "wall",
+  "color": "#6c3483",
+  "title": "Estructuras de peones a fondo",
+  "prerequisites": [
+    "medio-juego"
+  ],
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "description": "Peón aislado, estructura Carlsbad, cadenas y las ideas de la India de Rey. Basado en Persits y las clases grabadas."
+}

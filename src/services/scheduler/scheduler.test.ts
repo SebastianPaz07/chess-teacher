@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
-import { modules } from '@/content/registry';
-import { addDays } from '@/lib/date';
+import { getResource, modules } from '@/content/registry';
+import { BOOKS } from '@/content/readings';
+import { THEMES, weekThemes } from './weekPlan';
+import { addDays, weekStart } from '@/lib/date';
 import { difficultyStretch, generateDailyPlan, isCoreTask } from './dailyPlan';
 import { isLessonUnlocked, isModuleMastered, isModuleUnlocked, moduleState, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
 import { estimatePlacement, nextTarget, ratingFromElo } from './placement';
@@ -120,7 +122,7 @@ describe('plan diario por nivel', () => {
   it('las recomendaciones no cuentan como pasos y siempre hay una lectura o video', () => {
     const plan = generateDailyPlan({ ...advanced, date: D });
     const recs = plan.filter((t) => !isCoreTask(t));
-    expect(recs.some((t) => t.kind === 'recommendation' && (t.subtype === 'book' || t.subtype === 'video') && t.url)).toBe(true);
+    expect(recs.some((t) => t.kind === 'recommendation' && t.subtype === 'book' && getResource(t.resourceId!)?.type === 'pdf')).toBe(true);
     expect(recs.every((t) => t.minutes === 0)).toBe(true);
   });
 
@@ -173,5 +175,46 @@ describe('test de nivel', () => {
   it('convierte Elo externo', () => {
     expect(ratingFromElo(1909, 'lichess')).toEqual({ rating: 1909, level: 'avanzado' });
     expect(ratingFromElo(900, 'chesscom').level).toBe('principiante');
+  });
+});
+
+describe('plan semanal', () => {
+  const input = { weekStart: '2026-11-23', level: 'intermedio' as const, trainingDays: [1, 2, 3, 4, 5], focus: [], weak: [], hasOpening: true };
+  it('la semana empieza en lunes', () => {
+    expect(weekStart('2026-11-26')).toBe('2026-11-23');
+    expect(weekStart('2026-11-23')).toBe('2026-11-23');
+    expect(weekStart('2026-11-29')).toBe('2026-11-23');
+  });
+  it('un tema distinto cada día de entrenamiento y descanso el fin de semana', () => {
+    const themes = Object.values(weekThemes(input));
+    const training = themes.filter(Boolean);
+    expect(themes.slice(5)).toEqual([null, null]);
+    expect(training).toHaveLength(5);
+    expect(new Set(training).size).toBe(5);
+    expect(weekThemes(input)).toEqual(weekThemes(input));
+  });
+  it('lo que pides reforzar y tus aperturas entran en la semana', () => {
+    const themes = Object.values(weekThemes({ ...input, trainingDays: [1, 3], focus: ['finales'] }));
+    expect(themes).toContain('finales');
+    expect(themes).toContain('apertura');
+  });
+  it('el tema del día manda en los ejercicios, con motivos variados', () => {
+    const pool = ['final-torres', 'final-peones', 'horquilla', 'clavada', 'mate', 'defensa'].flatMap((t, k) =>
+      Array.from({ length: 10 }, (_, i) => ({ id: `${t}${i}`, fen: 'start', solution: ['e4'], themes: [t], rating: 1250 + i * 10 + k, moduleId: 'x', tags: [t] })),
+    );
+    const plan = generateDailyPlan({ date: D, modules: [], progress: empty, dueCards: [], rating: 1300, dailyMinutes: 30, solvedIds: new Set<string>(), trainedLines: {}, puzzlePool: pool, theme: 'finales' });
+    const practice = plan.find((t) => t.kind === 'practice');
+    if (practice?.kind !== 'practice') throw new Error('sin práctica');
+    const themes = practice.exerciseIds.map((id) => pool.find((p) => p.id === id)!.themes[0]);
+    expect(themes.filter((t) => THEMES.finales.tags.includes(t)).length).toBeGreaterThanOrEqual(themes.length / 2);
+    expect(new Set(themes).size).toBeGreaterThanOrEqual(3);
+  });
+  it('todos los libros recomendados son PDF de la biblioteca', () => {
+    for (const b of BOOKS) expect(getResource(b.resourceId)?.type, b.title).toBe('pdf');
+  });
+  it('recomienda estudiar la apertura elegida con material de la biblioteca', () => {
+    const plan = generateDailyPlan({ date: D, modules, progress: empty, dueCards: [], rating: 1300, dailyMinutes: 20, solvedIds: new Set<string>(), trainedLines: {}, favoriteOpening: 'francesa' });
+    const rec = plan.find((t) => t.kind === 'recommendation' && t.subtype === 'video');
+    expect(rec && rec.kind === 'recommendation' && getResource(rec.resourceId!)?.tags).toContain('francesa');
   });
 });

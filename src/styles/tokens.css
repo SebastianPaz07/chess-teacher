@@ -50,6 +50,19 @@
   --font-body: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-pieces: 'Noto Sans Symbols 2', 'Segoe UI Symbol', 'DejaVu Sans', serif;
+  /* Medallas: el disco es claro en ambos temas, con tinta oscura encima */
+  --medal-bronze-shine: #f6cfa8;
+  --medal-bronze: #cd7f42;
+  --medal-bronze-edge: #a35f2b;
+  --medal-bronze-ink: #3d1f08;
+  --medal-silver-shine: #ffffff;
+  --medal-silver: #bcc4d6;
+  --medal-silver-edge: #8d97b0;
+  --medal-silver-ink: #252c42;
+  --medal-gold-shine: #fff1b8;
+  --medal-gold: #f2bb2e;
+  --medal-gold-edge: #c28f0c;
+  --medal-gold-ink: #43300a;
   --tap: 44px;
   --sidebar-width: 248px;
   --bottom-nav: 64px;

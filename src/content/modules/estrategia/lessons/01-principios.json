@@ -4,12 +4,24 @@
   "title": "Principios de apertura",
   "summary": "Centro, desarrollo y enroque: las tres reglas de oro.",
   "icon": "target",
-  "xp": 50,
-  "minutes": 7,
-  "tags": ["estrategia"],
+  "xp": 80,
+  "minutes": 20,
+  "tags": [
+    "estrategia"
+  ],
   "sources": [
-    { "title": "Video: ¿Qué es un PLAN en ajedrez?", "resourceTags": ["estrategia"] },
-    { "title": "Eliskases – Mejora tu juego posicional", "resourceTags": ["estrategia"] }
+    {
+      "title": "Video: ¿Qué es un PLAN en ajedrez?",
+      "resourceTags": [
+        "estrategia"
+      ]
+    },
+    {
+      "title": "Eliskases – Mejora tu juego posicional",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
   ],
   "practice": [],
   "steps": [
@@ -22,7 +34,21 @@
       "type": "board-demo",
       "title": "Un desarrollo modelo",
       "fen": "start",
-      "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d4", "exd4", "cxd4", "Bb4+", "Nc3"],
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "Nc6",
+        "Bc4",
+        "Bc5",
+        "c3",
+        "Nf6",
+        "d4",
+        "exd4",
+        "cxd4",
+        "Bb4+",
+        "Nc3"
+      ],
       "notes": {
         "1": "1.e4: ocupa el centro y abre la diagonal del alfil y la dama.",
         "3": "2.Cf3: desarrolla atacando e5.",
@@ -37,16 +63,95 @@
       "type": "quiz",
       "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
       "question": "Tras 1.e4 e5, ¿qué jugada respeta **mejor** los principios?",
-      "options": ["2.Cf3 (desarrolla y ataca e5)", "2.h4", "2.a3", "2.Re2"],
+      "options": [
+        "2.Cf3 (desarrolla y ataca e5)",
+        "2.h4",
+        "2.a3",
+        "2.Re2"
+      ],
       "answer": 0,
       "explanation": "**2.Cf3** desarrolla una pieza, controla el centro y crea una amenaza. ¡Tres pájaros de un tiro!"
     },
     {
       "type": "quiz",
       "question": "Las negras sacan la dama en la jugada 2. ¿Qué suele pasar?",
-      "options": ["Ganan la partida rápidamente", "Las blancas la atacan con piezas menores ganando tiempos de desarrollo", "Nada especial"],
+      "options": [
+        "Ganan la partida rápidamente",
+        "Las blancas la atacan con piezas menores ganando tiempos de desarrollo",
+        "Nada especial"
+      ],
       "answer": 1,
       "explanation": "Cada vez que la dama tiene que huir, el rival **desarrolla con tempo**. Saca primero las piezas menores."
+    },
+    {
+      "type": "video",
+      "resourceId": "1kXxwkWTXcGK4lzbkPwrvtpCwyB9S5Vq5",
+      "title": "¿Cómo atacar el centro?"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **5 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 987",
+      "fen": "r1b2bnr/pppp1kpp/8/8/3nq3/5N2/PPPP1KPP/RNBQ3R w - - 0 9",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Ng5+",
+        "Kg6",
+        "Nxe4"
+      ],
+      "explanation": "Solución: **Cg5+ Rg6 Cxe4**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1080",
+      "fen": "r1bqk2r/pp1np1bp/2p5/3pNp2/3P1B2/4P3/PPP2PPP/R2QK2R w KQkq - 0 11",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qh5+",
+        "Kf8",
+        "Qf7#"
+      ],
+      "explanation": "Solución: **Dh5+ Rf8 Df7#**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1217",
+      "fen": "r1bqk1nr/pp3ppp/2nbp3/1Bp5/3pP3/3P1NN1/PPP2PPP/R1BQK2R b KQkq - 0 7",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qa5+",
+        "Nd2",
+        "Qxb5"
+      ],
+      "explanation": "Solución: **Da5+ Cd2 Dxb5**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1231",
+      "fen": "r1bq1k1r/ppppn1pp/2n5/b5N1/4P3/B1P5/P4PPP/RN1QK2R w KQ - 2 10",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qf3+",
+        "Ke8",
+        "Qf7#"
+      ],
+      "explanation": "Solución: **Df3+ Re8 Df7#**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1271",
+      "fen": "rnbqk2r/pp3ppp/5n2/4N3/2p5/2P5/P1PPQPPP/R1B1K2R w KQkq - 0 9",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Nc6+",
+        "Be6",
+        "Nxd8"
+      ],
+      "explanation": "Solución: **Cc6+ Ae6 Cxd8**. Los errores tempranos se castigan con desarrollo y amenazas."
     }
   ]
 }

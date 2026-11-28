@@ -4,10 +4,20 @@
   "title": "Contra 1.d4: la India de Rey",
   "summary": "Ceder el centro para atacarlo después: el hipermodernismo.",
   "icon": "sword",
-  "xp": 60,
-  "minutes": 8,
-  "tags": ["aperturas", "india-de-rey"],
-  "sources": [{ "title": "Clase: La India de Rey es DEMOLEDORA – 10 conceptos posicionales", "resourceTags": ["india-de-rey"] }],
+  "xp": 90,
+  "minutes": 20,
+  "tags": [
+    "aperturas",
+    "india-de-rey"
+  ],
+  "sources": [
+    {
+      "title": "Clase: La India de Rey es DEMOLEDORA – 10 conceptos posicionales",
+      "resourceTags": [
+        "india-de-rey"
+      ]
+    }
+  ],
   "practice": [],
   "steps": [
     {
@@ -19,22 +29,116 @@
       "type": "board-demo",
       "title": "La clásica",
       "fen": "start",
-      "moves": ["d4", "Nf6", "c4", "g6", "Nc3", "Bg7", "e4", "d6", "Nf3", "O-O", "Be2", "e5", "O-O", "Nc6", "d5", "Ne7"],
-      "notes": { "4": "2...g6: fianchetto.", "12": "6...e5: el golpe al centro.", "15": "8.d5 cierra el centro.", "16": "8...Ce7: el caballo va al flanco de rey para apoyar ...f5." }
+      "moves": [
+        "d4",
+        "Nf6",
+        "c4",
+        "g6",
+        "Nc3",
+        "Bg7",
+        "e4",
+        "d6",
+        "Nf3",
+        "O-O",
+        "Be2",
+        "e5",
+        "O-O",
+        "Nc6",
+        "d5",
+        "Ne7"
+      ],
+      "notes": {
+        "4": "2...g6: fianchetto.",
+        "12": "6...e5: el golpe al centro.",
+        "15": "8.d5 cierra el centro.",
+        "16": "8...Ce7: el caballo va al flanco de rey para apoyar ...f5."
+      }
     },
     {
       "type": "quiz",
       "question": "Con el centro cerrado (blancos en d5, negros en e5), ¿dónde atacan las negras?",
-      "options": ["En el flanco de dama con ...b5", "En el flanco de rey con ...f5", "En el centro con ...d5"],
+      "options": [
+        "En el flanco de dama con ...b5",
+        "En el flanco de rey con ...f5",
+        "En el centro con ...d5"
+      ],
       "answer": 1,
       "explanation": "Regla: **se ataca hacia donde apuntan tus peones**. La cadena negra apunta al flanco de rey: ...f5, ...f4, ...g5."
     },
     {
       "type": "quiz",
       "question": "¿Qué pieza negra es la más importante en la India de Rey?",
-      "options": ["El caballo de b8", "El alfil de g7", "La torre de a8"],
+      "options": [
+        "El caballo de b8",
+        "El alfil de g7",
+        "La torre de a8"
+      ],
       "answer": 1,
       "explanation": "El **alfil de g7** controla la gran diagonal y defiende al rey. ¡No lo cambies sin motivo!"
+    },
+    {
+      "type": "video",
+      "resourceId": "1NduTeoaOkMwqpxPhfN_L8n5qvbOr1k5n",
+      "title": "10 conceptos de la India de Rey"
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **4 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 1735",
+      "fen": "r1b2k1r/pp3ppp/2p5/2bp4/5Pnq/1B2BN2/PPP3PP/RN1QR2K b - - 5 15",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Bxe3",
+        "Nxh4",
+        "Nf2+",
+        "Kg1",
+        "Nxd1+"
+      ],
+      "explanation": "Solución: **Axe3 Cxh4 Cf2+ Rg1 Cxd1+**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 1761",
+      "fen": "r2q1rk1/p1p2pp1/3bbn1p/4N3/8/1P4P1/PBQPPP1P/RN2K2R b KQ - 2 12",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Bxe5",
+        "Bxe5",
+        "Qd5",
+        "f3",
+        "Qxe5"
+      ],
+      "explanation": "Solución: **Axe5 Axe5 Dd5 f3 Dxe5**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 1795",
+      "fen": "r2qkb1r/pp2pppp/3p1n2/4n3/4b1PN/2PB3P/PP3P2/RNBQK2R w KQkq - 0 12",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Bxe4",
+        "Nxe4",
+        "Qa4+",
+        "Nc6",
+        "Qxe4"
+      ],
+      "explanation": "Solución: **Axe4 Cxe4 Da4+ Cc6 Dxe4**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 1863",
+      "fen": "r2qk1r1/pPppbp2/1p2pn2/8/2P5/1P2Pp2/PB2B1PP/RN1Q1RK1 b q - 0 13",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Rxg2+",
+        "Kh1",
+        "fxe2"
+      ],
+      "explanation": "Solución: **Txg2+ Rh1 fxe2**. Los errores tempranos se castigan con desarrollo y amenazas."
     }
   ]
 }

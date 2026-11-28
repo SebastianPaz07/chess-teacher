@@ -1,0 +1,201 @@
+{
+  "id": "med-02-columnas",
+  "order": 2,
+  "title": "Columnas abiertas y séptima fila",
+  "summary": "Dale trabajo a las torres.",
+  "icon": "castle",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "sources": [
+    {
+      "title": "Hellsten, Estrategia en el mediojuego",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Autopistas para las torres",
+      "body": "Una **columna abierta** no tiene peones; una **semiabierta**, solo del rival. Ocúpala, dobla las torres y busca entrar en la **séptima fila**, donde atacan peones y encierran al rey."
+    },
+    {
+      "type": "board-demo",
+      "title": "Fischer contra Spassky, partida 6",
+      "moves": [
+        "c4",
+        "e6",
+        "Nf3",
+        "d5",
+        "d4",
+        "Nf6",
+        "Nc3",
+        "Be7",
+        "Bg5",
+        "O-O",
+        "e3",
+        "h6",
+        "Bh4",
+        "b6",
+        "cxd5",
+        "Nxd5",
+        "Bxe7",
+        "Qxe7",
+        "Nxd5",
+        "exd5",
+        "Rc1",
+        "Be6",
+        "Qa4",
+        "c5",
+        "Qa3",
+        "Rc8",
+        "Bb5",
+        "a6",
+        "dxc5",
+        "bxc5",
+        "O-O",
+        "Ra7",
+        "Be2",
+        "Nd7",
+        "Nd4",
+        "Qf8",
+        "Nxe6",
+        "fxe6",
+        "e4",
+        "d4",
+        "f4",
+        "Qe7",
+        "e5",
+        "Rb8",
+        "Bc4",
+        "Kh8",
+        "Qh3",
+        "Nf8",
+        "b3",
+        "a5",
+        "f5",
+        "exf5",
+        "Rxf5",
+        "Nh7",
+        "Rcf1",
+        "Qd8",
+        "Qg3",
+        "Re7",
+        "h4",
+        "Rbb7",
+        "e6",
+        "Rbc7",
+        "Qe5",
+        "Qe8",
+        "a4",
+        "Qd8",
+        "R1f2",
+        "Qe8",
+        "R2f3",
+        "Qd8",
+        "Bd3",
+        "Qe8",
+        "Qe4",
+        "Nf6",
+        "Rxf6",
+        "gxf6",
+        "Rxf6",
+        "Kg8",
+        "Bc4",
+        "Kh8",
+        "Qf4"
+      ],
+      "notes": {
+        "0": "Bobby Fischer – Boris Spassky, 1972.",
+        "15": "Define la estructura central.",
+        "39": "El centro avanza y abre líneas.",
+        "75": "Las torres terminan entrando por la columna f."
+      },
+      "body": "Una lección completa de juego posicional que acaba en ataque."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Por qué es tan fuerte una torre en séptima?",
+      "options": [
+        "Porque vale dos puntos más por regla",
+        "Porque ataca peones sin avanzar y limita al rey",
+        "Porque no puede ser capturada"
+      ],
+      "answer": 1,
+      "explanation": "Actividad máxima: amenaza a lo ancho y encierra."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1336",
+      "fen": "r1b2r2/p3qppk/1pppp3/3Q4/8/2P2N2/P1P2PPP/R3R1K1 w - - 0 15",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qh5+",
+        "Kg8",
+        "Ng5",
+        "Qxg5",
+        "Qxg5"
+      ],
+      "explanation": "Solución: **Dh5+ Rg8 Cg5 Dxg5 Dxg5**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1482",
+      "fen": "2r3k1/2r3p1/p3pqQ1/1p1p4/nP1P4/2P4R/P4PPP/2R3K1 w - - 1 31",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Qh7+",
+        "Kf7",
+        "Rf3",
+        "Qxf3",
+        "gxf3"
+      ],
+      "explanation": "Solución: **Dh7+ Rf7 Tf3 Dxf3 gxf3**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1601",
+      "fen": "3rkb1r/p3pppp/5q2/3b4/8/3Q1P2/PPP3PP/2KR1B1R w k - 0 14",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qb5+",
+        "Bc6",
+        "Rxd8+",
+        "Kxd8",
+        "Qb8+"
+      ],
+      "explanation": "Solución: **Db5+ Ac6 Txd8+ Rxd8 Db8+**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1727",
+      "fen": "4rbk1/Bpq2rpp/2p2n2/8/8/1Q4N1/PPP2PPP/R3R1K1 b - - 0 18",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Rxe1+",
+        "Rxe1",
+        "Qa5",
+        "Re2",
+        "Qxa7"
+      ],
+      "explanation": "Solución: **Txe1+ Txe1 Da5 Te2 Dxa7**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1848",
+      "fen": "r1b2rk1/5p1p/p3pq2/1p1p4/7n/1P5P/P1P1QPB1/1K1R2R1 w - - 0 22",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Bxd5+",
+        "Ng6",
+        "Bxa8"
+      ],
+      "explanation": "Solución: **Axd5+ Cg6 Axa8**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

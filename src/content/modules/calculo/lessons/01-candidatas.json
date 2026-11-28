@@ -1,0 +1,119 @@
+{
+  "id": "cal-01-candidatas",
+  "order": 1,
+  "title": "Jugadas candidatas",
+  "summary": "Primero la lista, después el cálculo.",
+  "icon": "search",
+  "xp": 105,
+  "minutes": 16,
+  "tags": [
+    "tactica",
+    "medio-juego",
+    "ventaja"
+  ],
+  "sources": [
+    {
+      "title": "Clases de cálculo y táctica",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "No calcules la primera que veas",
+      "body": "El error más común es enamorarse de la primera idea. Método:\n\n1. Mira la posición completa.\n2. Escribe (mentalmente) **2 o 3 candidatas**.\n3. Calcula cada una **por separado**.\n4. Compara y elige."
+    },
+    {
+      "type": "text",
+      "title": "El orden: JCA",
+      "body": "**J**aques, **C**apturas, **A**menazas. En ese orden, porque son las que menos respuestas permiten.\n\nHazlo también **para el rival**: ¿qué jaques tiene él después de tu jugada?"
+    },
+    {
+      "type": "video",
+      "resourceId": "1Fio9xwGXYbX4qsFL6tWqG3gjfeQohRfU",
+      "title": "Clase de cálculo",
+      "body": "Pausa el video en cada posición, anota tus candidatas y luego compara."
+    },
+    {
+      "type": "quiz",
+      "question": "¿En qué orden conviene revisar las jugadas forzantes?",
+      "options": [
+        "Jaques, capturas, amenazas",
+        "Enroque, desarrollo, jaques",
+        "Amenazas, capturas, jaques"
+      ],
+      "answer": 0,
+      "explanation": "Los jaques limitan más al rival, así que son las líneas más cortas de calcular."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1178",
+      "fen": "8/p5k1/6r1/1q1pp2R/4P3/4QK2/5P2/8 w - - 0 39",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qxa7+",
+        "Kf6",
+        "Rf5+",
+        "Ke6",
+        "Qf7+"
+      ],
+      "explanation": "Solución: **Dxa7+ Rf6 Tf5+ Re6 Df7+**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1258",
+      "fen": "Q1b2rk1/2q2p1p/1p2pbp1/pP6/2P5/P2B1N2/5PPP/3R1RK1 b - - 0 20",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Bb7",
+        "Qa7",
+        "Ra8",
+        "Qxa8+",
+        "Bxa8"
+      ],
+      "explanation": "Solución: **Ab7 Da7 Ta8 Dxa8+ Axa8**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1390",
+      "fen": "1r6/p2kp1P1/3p4/2pP4/2P2B2/1N6/p4PK1/8 w - - 0 42",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Nxc5+",
+        "dxc5",
+        "Bxb8",
+        "a1=Q",
+        "g8=Q"
+      ],
+      "explanation": "Solución: **Cxc5+ dxc5 Axb8 a1=D g8=D**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1495",
+      "fen": "8/3R3p/6p1/4k3/2Bnp3/1P5P/P6r/4K3 w - - 2 41",
+      "prompt": "Encuentra la **mejor jugada**.",
+      "solution": [
+        "Rd5+",
+        "Kf4",
+        "Rxd4"
+      ],
+      "explanation": "Solución: **Td5+ Rf4 Txd4**. Compara al menos dos candidatas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1646",
+      "fen": "5r2/1pp4k/p1n1p2p/3p2Q1/3P2P1/2P2q2/PP3P2/1K3R1R b - - 0 31",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qd3+",
+        "Kc1",
+        "Qxf1+",
+        "Rxf1",
+        "hxg5"
+      ],
+      "explanation": "Solución: **Dd3+ Rc1 Dxf1+ Txf1 hxg5**. Jaques, capturas y amenazas, en ese orden."
+    }
+  ]
+}

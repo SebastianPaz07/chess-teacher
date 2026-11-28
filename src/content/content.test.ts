@@ -1,7 +1,9 @@
 import { Chess } from 'chess.js';
 import { describe, expect, it } from 'vitest';
 import { resolveFen, trySan } from '@/services/chess/chessUtils';
-import { allExercises, allGames, allLessons, allOpenings, getExercise, modules } from './registry';
+import { isIconName } from '@/components/ui/Icon';
+import { THEMES } from '@/services/scheduler/weekPlan';
+import { allExercises, allGames, allLessons, allOpenings, getExercise, getResource, modules } from './registry';
 
 /** Aplica jugadas SAN y devuelve la posición final (falla si alguna es ilegal). */
 function play(fen: string, moves: string[], label: string) {
@@ -91,4 +93,57 @@ describe('puzzles importados (Lichess)', () => {
       expect(puzzles.filter((p) => p.rating >= band && p.rating < band + 100).length, `tramo ${band}`).toBeGreaterThanOrEqual(50);
     }
   }, 30_000);
+});
+
+describe('carga de puzzles por tema', () => {
+  it('el resumen por tema coincide con los puzzles', async () => {
+    const { loadPuzzles, puzzleThemeCounts, puzzleTotal } = await import('./puzzles');
+    const puzzles = await loadPuzzles();
+    const count: Record<string, number> = {};
+    for (const p of puzzles) for (const t of p.themes) count[t] = (count[t] ?? 0) + 1;
+    expect(puzzleThemeCounts).toEqual(count);
+    expect(puzzleTotal).toBe(puzzles.length);
+  });
+
+  it('trae solo ejercicios del tema, cerca del nivel', async () => {
+    const { loadPuzzlesFor, puzzleTotal } = await import('./puzzles');
+    const forks = await loadPuzzlesFor(1200, 'horquilla');
+    expect(forks.length).toBeGreaterThanOrEqual(40);
+    expect(forks.every((p) => p.themes.includes('horquilla'))).toBe(true);
+    const mix = await loadPuzzlesFor(1200, null);
+    expect(mix.length).toBeLessThan(puzzleTotal / 2);
+    expect(mix.every((p) => Math.abs(p.rating - 1250) < 250)).toBe(true);
+  });
+});
+
+describe('carga de puzzles por nivel', () => {
+  it('trae solo los tramos cercanos', async () => {
+    const { loadPuzzlesNear, puzzleTotal } = await import('./puzzles');
+    for (const rating of [600, 1200, 2600]) {
+      const near = await loadPuzzlesNear(rating);
+      expect(near.length).toBeGreaterThan(500);
+      expect(near.length).toBeLessThan(puzzleTotal / 2);
+    }
+    expect((await loadPuzzlesNear(1200)).every((p) => p.rating >= 900 && p.rating < 1700)).toBe(true);
+  });
+
+  it('hace disponible un ejercicio de cualquier nivel', async () => {
+    const { loadExercises, loadPuzzles, missingExercises } = await import('./puzzles');
+    const all = await loadPuzzles();
+    const far = all[all.length - 1].id;
+    await loadExercises([far], 800);
+    expect(missingExercises([far])).toBe(false);
+  });
+});
+
+describe('lecciones con video', () => {
+  it('apuntan a videos que existen en la biblioteca', () => {
+    for (const l of allLessons) for (const st of l.steps) if (st.type === 'video') expect(getResource(st.resourceId)?.type, l.id).toBe('video');
+  });
+  it('los iconos del contenido existen', () => {
+    for (const m of modules) for (const name of [m.icon, ...m.lessons.map((l) => l.icon)]) expect(isIconName(name), `${m.id}: ${name}`).toBe(true);
+    for (const t of Object.values(THEMES)) expect(isIconName(t.icon), t.icon).toBe(true);
+    for (const o of allOpenings) expect(isIconName(o.icon), `${o.id}: ${o.icon}`).toBe(true);
+    expect(new Set(allOpenings.map((o) => o.icon)).size).toBe(allOpenings.length);
+  });
 });

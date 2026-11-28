@@ -1,0 +1,209 @@
+{
+  "id": "cam-03-fischer",
+  "order": 3,
+  "title": "Fischer: precisión",
+  "summary": "Del juego tranquilo al ataque.",
+  "icon": "lightning",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "entrenamiento",
+    "clasicos"
+  ],
+  "sources": [
+    {
+      "title": "Kasparov, Mis geniales predecesores",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "board-demo",
+      "title": "La partida del siglo",
+      "moves": [
+        "Nf3",
+        "Nf6",
+        "c4",
+        "g6",
+        "Nc3",
+        "Bg7",
+        "d4",
+        "O-O",
+        "Bf4",
+        "d5",
+        "Qb3",
+        "dxc4",
+        "Qxc4",
+        "c6",
+        "e4",
+        "Nbd7",
+        "Rd1",
+        "Nb6",
+        "Qc5",
+        "Bg4",
+        "Bg5",
+        "Na4",
+        "Qa3",
+        "Nxc3",
+        "bxc3",
+        "Nxe4",
+        "Bxe7",
+        "Qb6",
+        "Bc4",
+        "Nxc3",
+        "Bc5",
+        "Rfe8+",
+        "Kf1",
+        "Be6",
+        "Bxb6",
+        "Bxc4+",
+        "Kg1",
+        "Ne2+",
+        "Kf1",
+        "Nxd4+",
+        "Kg1",
+        "Ne2+",
+        "Kf1",
+        "Nc3+",
+        "Kg1",
+        "axb6",
+        "Qb4",
+        "Ra4",
+        "Qxb6",
+        "Nxd1",
+        "h3",
+        "Rxa2",
+        "Kh2",
+        "Nxf2",
+        "Re1",
+        "Rxe1",
+        "Qd8+",
+        "Bf8",
+        "Nxe1",
+        "Bd5",
+        "Nf3",
+        "Ne4",
+        "Qb8",
+        "b5",
+        "h4",
+        "h5",
+        "Ne5",
+        "Kg7",
+        "Kg1",
+        "Bc5+",
+        "Kf1",
+        "Ng3+",
+        "Ke1",
+        "Bb4+",
+        "Kd1",
+        "Bb3+",
+        "Kc1",
+        "Ne2+",
+        "Kb1",
+        "Nc3+",
+        "Kc1",
+        "Rc2#"
+      ],
+      "notes": {
+        "0": "Donald Byrne – Bobby Fischer, 1956.",
+        "22": "Una idea sorprendente.",
+        "34": "El sacrificio de dama.",
+        "82": "Las piezas menores y la torre coordinan el mate."
+      },
+      "body": "Cuenta el material al final de la combinación."
+    },
+    {
+      "type": "quiz",
+      "question": "Tras el sacrificio de dama, ¿qué obtuvieron las negras?",
+      "options": [
+        "Material suficiente y una coordinación perfecta de piezas",
+        "Solo un peón",
+        "Nada"
+      ],
+      "answer": 0,
+      "explanation": "Torre, alfiles y peón superaron a la dama."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1725",
+      "fen": "r1b3k1/pp4b1/n1pqprQ1/4p3/2P2PP1/P2B4/1P6/R1B1K2R w KQ - 2 20",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rh8+",
+        "Kxh8",
+        "Qh7#"
+      ],
+      "explanation": "Solución: **Th8+ Rxh8 Dh7#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1861",
+      "fen": "6k1/R2RBp1p/2p1p1p1/p7/5b1P/8/P4PK1/1rr5 w - - 0 34",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Bf6",
+        "Rb8",
+        "Rxf7"
+      ],
+      "explanation": "Solución: **Af6 Tb8 Txf7**. La pieza que se aparta gana un tiempo completo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1986",
+      "fen": "1r2r1k1/3nbp1p/p1q1p1p1/3pR2Q/3B4/3B4/PPP2PPP/R5K1 w - - 0 20",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Qxh7+",
+        "Kxh7",
+        "Rh5+",
+        "Kg8",
+        "Rh8#"
+      ],
+      "explanation": "Solución: **Dxh7+ Rxh7 Th5+ Rg8 Th8#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 2068",
+      "fen": "7k/q3r1N1/6pp/5p2/7P/1Q2P1P1/8/3R2K1 b - - 0 36",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Rxe3",
+        "Rd8+",
+        "Re8+",
+        "Kg2",
+        "Rxd8"
+      ],
+      "explanation": "Solución: **Txe3 Td8+ Te8+ Rg2 Txd8**. La pieza que se aparta gana un tiempo completo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 2199",
+      "fen": "r1bn1k2/p2pbP2/1p4pr/1P5p/2B5/P1B3N1/2P3PP/1K2R3 w - - 1 24",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rxe7",
+        "Kxe7",
+        "Bb4+",
+        "d6",
+        "Bxd6+"
+      ],
+      "explanation": "Solución: **Txe7 Rxe7 Ab4+ d6 Axd6+**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 2320",
+      "fen": "r2qr3/1bp3kp/2n2p2/3Q1P2/1bB5/2N2P2/PP2N1PP/R3K2R b KQ - 2 17",
+      "prompt": "Usa el **ataque a la descubierta**.",
+      "solution": [
+        "Rxe2+",
+        "Kxe2",
+        "Nd4+",
+        "Kd3",
+        "Bxd5"
+      ],
+      "explanation": "Solución: **Txe2+ Rxe2 Cd4+ Rd3 Axd5**. La pieza que se aparta gana un tiempo completo."
+    }
+  ]
+}

@@ -1,0 +1,203 @@
+{
+  "id": "cam-02-botvinnik",
+  "order": 2,
+  "title": "Botvinnik: preparación y centro",
+  "summary": "Un plan llevado hasta el final.",
+  "icon": "flask",
+  "xp": 100,
+  "minutes": 15,
+  "tags": [
+    "entrenamiento",
+    "clasicos",
+    "estrategia"
+  ],
+  "sources": [
+    {
+      "title": "Kasparov, Mis geniales predecesores",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El método",
+      "body": "Botvinnik estudiaba **estructuras**, no solo jugadas. Al revisar la partida, pregunta en cada fase: ¿cuál es la ruptura que se prepara?"
+    },
+    {
+      "type": "board-demo",
+      "title": "Botvinnik contra Capablanca",
+      "moves": [
+        "d4",
+        "Nf6",
+        "c4",
+        "e6",
+        "Nc3",
+        "Bb4",
+        "e3",
+        "d5",
+        "a3",
+        "Bxc3+",
+        "bxc3",
+        "c5",
+        "cxd5",
+        "exd5",
+        "Bd3",
+        "O-O",
+        "Ne2",
+        "b6",
+        "O-O",
+        "Ba6",
+        "Bxa6",
+        "Nxa6",
+        "Bb2",
+        "Qd7",
+        "a4",
+        "Rfe8",
+        "Qd3",
+        "c4",
+        "Qc2",
+        "Nb8",
+        "Rae1",
+        "Nc6",
+        "Ng3",
+        "Na5",
+        "f3",
+        "Nb3",
+        "e4",
+        "Qxa4",
+        "e5",
+        "Nd7",
+        "Qf2",
+        "g6",
+        "f4",
+        "f5",
+        "exf6",
+        "Nxf6",
+        "f5",
+        "Rxe1",
+        "Rxe1",
+        "Re8",
+        "Re6",
+        "Rxe6",
+        "fxe6",
+        "Kg7",
+        "Qf4",
+        "Qe8",
+        "Qe5",
+        "Qe7",
+        "Ba3",
+        "Qxa3",
+        "Nh5+",
+        "gxh5",
+        "Qg5+",
+        "Kf8",
+        "Qxf6+",
+        "Kg8",
+        "e7",
+        "Qc1+",
+        "Kf2",
+        "Qc2+",
+        "Kg3",
+        "Qd3+",
+        "Kh4",
+        "Qe4+",
+        "Kxh5",
+        "Qe2+",
+        "Kh4",
+        "Qe4+",
+        "g4",
+        "Qe1+",
+        "Kh5"
+      ],
+      "notes": {
+        "0": "Mijaíl Botvinnik – J. R. Capablanca, 1938.",
+        "33": "El caballo apoya el avance e4.",
+        "51": "Sacrificio posicional para crear un peón pasado.",
+        "59": "Una de las desviaciones más célebres.",
+        "61": "Segunda ofrenda."
+      },
+      "body": "Detente antes de **Aa3** y búscala."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué consiguió el sacrificio de alfil en a3?",
+      "options": [
+        "Alejar a la dama negra de la defensa",
+        "Ganar un peón",
+        "Forzar tablas"
+      ],
+      "answer": 0,
+      "explanation": "Sin la dama, el peón y las piezas blancas deciden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1790",
+      "fen": "k1r1b3/p1r1nppp/Bp1qpn2/2Np4/1P1P4/PQR1PN2/5PPP/2R3K1 b - - 1 19",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "bxc5",
+        "Bxc8",
+        "c4"
+      ],
+      "explanation": "Solución: **bxc5 Axc8 c4**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1857",
+      "fen": "1k4rr/pp3p2/b3p3/3p4/6R1/Q6P/PPq2PP1/4R1K1 w - - 0 28",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qg3+",
+        "e5",
+        "Rxg8+",
+        "Rxg8",
+        "Qxg8+"
+      ],
+      "explanation": "Solución: **Dg3+ e5 Txg8+ Txg8 Dxg8+**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1989",
+      "fen": "1r1r2k1/5p1p/p4qp1/3bnNR1/4p2Q/8/PPP1B2P/1K1R4 w - - 3 28",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rxg6+",
+        "Qxg6",
+        "Ne7+",
+        "Kg7",
+        "Nxg6"
+      ],
+      "explanation": "Solución: **Txg6+ Dxg6 Ce7+ Rg7 Cxg6**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2137",
+      "fen": "r2q3r/3b1pk1/p2p1n2/npp1pPN1/4P1PQ/PBPP3P/2P5/R4RK1 w - - 3 20",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Ne6+",
+        "Bxe6",
+        "Qg5+",
+        "Kf8",
+        "fxe6"
+      ],
+      "explanation": "Solución: **Ce6+ Axe6 Dg5+ Rf8 fxe6**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2219",
+      "fen": "6k1/1p1R3p/p5p1/P1B1bpK1/4r2P/6P1/2P2P2/8 b - - 4 34",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rg4+",
+        "Kh6",
+        "Rxh4+",
+        "gxh4",
+        "Bf4#"
+      ],
+      "explanation": "Solución: **Tg4+ Rh6 Txh4+ gxh4 Af4#**. Calcula hasta ver qué recuperas."
+    }
+  ]
+}

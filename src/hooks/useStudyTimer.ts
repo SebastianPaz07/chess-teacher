@@ -3,7 +3,7 @@ import { useLocation } from 'react-router-dom';
 import { useGameStore } from '@/store/gameStore';
 
 /** Pantallas que cuentan como estudio. */
-const STUDY = /^\/(practica|leccion\/|repaso|aperturas\/|rush|partidas|test-nivel|club\/reto\/|club\/semana)/;
+const STUDY = /^\/(practica\/ejercicios|leccion\/|repaso|aperturas\/|rush|partidas|test-nivel|club\/reto\/|club\/semana)/;
 /** Sin tocar nada durante este tiempo, se deja de contar (pausa / se fue). */
 const IDLE_MS = 90_000;
 const FLUSH_EVERY = 15;

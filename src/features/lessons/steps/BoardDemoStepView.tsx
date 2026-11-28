@@ -1,5 +1,6 @@
 import { BoardStepper } from '@/components/chess';
 import { Button } from '@/components/ui';
+import { BoardTip } from '@/components/ui/BoardTip';
 import { RichText } from '@/components/ui/RichText';
 import type { Step } from '@/content/schema';
 import type { StepViewProps } from './stepRegistry';
@@ -16,6 +17,7 @@ export function BoardDemoStepView({ step, onDone }: StepViewProps<Extract<Step, 
         {step.title && <h2>{step.title}</h2>}
         {step.body && <RichText text={step.body} />}
         {step.moves.length > 0 && <p className="muted">Usa los controles para recorrer las jugadas.</p>}
+        {step.moves.length > 0 && <BoardTip what={step.moves.length > 24 ? 'partida' : 'línea'} />}
         <LessonAction>
           <Button size="md" block onClick={onDone}>
             Continuar

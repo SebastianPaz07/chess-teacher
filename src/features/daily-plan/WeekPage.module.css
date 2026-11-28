@@ -1,0 +1,25 @@
+.profile { display: flex; flex-direction: column; gap: var(--space-2); align-items: flex-start; padding: var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+.profile p { margin: 0; }
+.days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.day { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+.today { border-color: var(--color-primary); box-shadow: var(--shadow-md); }
+.past { opacity: 0.72; }
+.head { display: grid; grid-template-columns: 36px minmax(0, 1fr) auto; gap: var(--space-3); align-items: center; }
+.icon { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-primary-soft); color: var(--color-primary); font-size: 1.15rem; }
+.titles { display: flex; flex-direction: column; min-width: 0; }
+.titles :global(.eyebrow) { margin: 0; }
+.titles strong { font-family: var(--font-display); font-size: 1.15rem; line-height: 1.25; }
+.minutes { color: var(--color-text-muted); font-size: 0.85rem; }
+.topics { margin: 0; font-size: 0.88rem; }
+.topics small { display: block; color: var(--color-text-muted); font-style: italic; margin-top: 2px; }
+.done { margin: 0; font-size: 0.85rem; color: var(--color-text-muted); }
+.tasks { list-style: none; margin: 0; padding: 0; }
+.task { display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; padding: var(--space-2) 0; border-top: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-size: 0.88rem; }
+.task small { display: block; color: var(--color-text-muted); font-size: 0.75rem; }
+a.task:hover { background: var(--color-surface-2); }
+.taskDone { color: var(--color-text-muted); }
+.taskDone > svg { color: var(--color-success); }
+
+@media (min-width: 900px) {
+  .days { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+}

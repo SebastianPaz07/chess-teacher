@@ -1,0 +1,216 @@
+{
+  "id": "ata-03-opuestos",
+  "order": 3,
+  "title": "Enroques opuestos",
+  "summary": "Una carrera donde gana quien llega primero.",
+  "icon": "castle",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "tactica",
+    "ataque-al-rey"
+  ],
+  "sources": [
+    {
+      "title": "10 combinaciones de mate y clases de ataque",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Peones al asalto",
+      "body": "Con enroques en lados contrarios puedes lanzar tus **peones** sin dejar expuesto a tu rey. Cada jugada cuenta: **abre columnas** contra el rey rival y no pierdas tiempos defendiendo si no es imprescindible."
+    },
+    {
+      "type": "board-demo",
+      "title": "Kasparov contra Topalov",
+      "moves": [
+        "e4",
+        "d6",
+        "d4",
+        "Nf6",
+        "Nc3",
+        "g6",
+        "Be3",
+        "Bg7",
+        "Qd2",
+        "c6",
+        "f3",
+        "b5",
+        "Nge2",
+        "Nbd7",
+        "Bh6",
+        "Bxh6",
+        "Qxh6",
+        "Bb7",
+        "a3",
+        "e5",
+        "O-O-O",
+        "Qe7",
+        "Kb1",
+        "a6",
+        "Nc1",
+        "O-O-O",
+        "Nb3",
+        "exd4",
+        "Rxd4",
+        "c5",
+        "Rd1",
+        "Nb6",
+        "g3",
+        "Kb8",
+        "Na5",
+        "Ba8",
+        "Bh3",
+        "d5",
+        "Qf4+",
+        "Ka7",
+        "Rhe1",
+        "d4",
+        "Nd5",
+        "Nbxd5",
+        "exd5",
+        "Qd6",
+        "Rxd4",
+        "cxd4",
+        "Re7+",
+        "Kb6",
+        "Qxd4+",
+        "Kxa5",
+        "b4+",
+        "Ka4",
+        "Qc3",
+        "Qxd5",
+        "Ra7",
+        "Bb7",
+        "Rxb7",
+        "Qc4",
+        "Qxf6",
+        "Kxa3",
+        "Qxa6+",
+        "Kxb4",
+        "c3+",
+        "Kxc3",
+        "Qa1+",
+        "Kd2",
+        "Qb2+",
+        "Kd1",
+        "Bf1",
+        "Rd2",
+        "Rd7",
+        "Rxd7",
+        "Bxc4",
+        "bxc4",
+        "Qxh8",
+        "Rd3",
+        "Qa8",
+        "c3",
+        "Qa4+",
+        "Ke1",
+        "f4",
+        "f5",
+        "Kc1",
+        "Rd2",
+        "Qa7"
+      ],
+      "notes": {
+        "0": "Garry Kasparov – Veselin Topalov, 1999.",
+        "21": "Enroques en flancos distintos.",
+        "29": "Comienza una de las combinaciones más famosas de la historia."
+      },
+      "body": "Detente antes de **Txd4** y busca candidatas."
+    },
+    {
+      "type": "quiz",
+      "question": "En una carrera de ataques, un peón de ventaja...",
+      "options": [
+        "Suele ser lo decisivo",
+        "Importa menos que abrir líneas contra el rey",
+        "Obliga a cambiar damas"
+      ],
+      "answer": 1,
+      "explanation": "La velocidad del ataque pesa más que el material."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1482",
+      "fen": "2k3rB/ppp2p1p/2np4/8/4P3/2NB1b2/PPP2PPP/R4RK1 b - - 0 13",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Rxg2+",
+        "Kh1",
+        "Rg4#"
+      ],
+      "explanation": "Solución: **Txg2+ Rh1 Tg4#**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1584",
+      "fen": "2k5/p3qp2/bpp1p1p1/4r3/P4n1p/5P2/BPQ2B1P/1K1R4 w - - 0 31",
+      "prompt": "Golpea en el **flanco de dama**.",
+      "solution": [
+        "Qxc6+",
+        "Kb8",
+        "Rd7",
+        "Qxd7",
+        "Qxd7"
+      ],
+      "explanation": "Solución: **Dxc6+ Rb8 Td7 Dxd7 Dxd7**. Busca las piezas indefensas de ese lado."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1669",
+      "fen": "r4rk1/pp3ppp/3p1q2/P1P1p3/2B5/2B2n2/2P2P1P/R2Q1R1K b - - 1 16",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Qf4",
+        "Qxf3",
+        "Qxf3+"
+      ],
+      "explanation": "Solución: **Df4 Dxf3 Dxf3+**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1766",
+      "fen": "rn3rk1/4pp1p/3p2pB/2q4P/3QP1b1/Pp6/1P2B3/1K1R2NR b - - 0 20",
+      "prompt": "Golpea en el **flanco de dama**.",
+      "solution": [
+        "Qc2+",
+        "Ka1",
+        "Rxa3+",
+        "bxa3",
+        "Qa2#"
+      ],
+      "explanation": "Solución: **Dc2+ Ra1 Txa3+ bxa3 Da2#**. Busca las piezas indefensas de ese lado."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1858",
+      "fen": "q4r1k/5pbp/2Np1np1/3b2B1/pQ6/5B2/P4PPP/4R1K1 w - - 0 24",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Bxf6",
+        "Bxc6",
+        "Bxg7+",
+        "Kxg7",
+        "Qc3+"
+      ],
+      "explanation": "Solución: **Axf6 Axc6 Axg7+ Rxg7 Dc3+**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1942",
+      "fen": "2kr4/1pq2p2/p2bp1p1/4n2p/Q1P2B2/7P/P3BPP1/1R4K1 w - - 2 25",
+      "prompt": "Golpea en el **flanco de dama**.",
+      "solution": [
+        "c5",
+        "Qc6",
+        "Qxc6+"
+      ],
+      "explanation": "Solución: **c5 Dc6 Dxc6+**. Busca las piezas indefensas de ese lado."
+    }
+  ]
+}

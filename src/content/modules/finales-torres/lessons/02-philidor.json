@@ -1,0 +1,127 @@
+{
+  "id": "fto-02-philidor",
+  "order": 2,
+  "title": "La defensa de Philidor",
+  "summary": "Cómo hacer tablas con un peón menos.",
+  "icon": "shield",
+  "xp": 100,
+  "minutes": 13,
+  "tags": [
+    "finales",
+    "final-torres",
+    "defensa"
+  ],
+  "sources": [
+    {
+      "title": "Finales de torre esenciales",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La sexta fila",
+      "body": "Con tu rey en la casilla de coronación: mantén la torre en la **sexta fila** (la tercera tuya) para que el rey rival no avance. Cuando el peón llegue a esa fila, baja la torre y da jaques **desde atrás**."
+    },
+    {
+      "type": "board-demo",
+      "title": "Philidor en acción",
+      "fen": "4k3/1R6/r7/4PK2/8/8/8/8 w - - 0 1",
+      "moves": [
+        "e6",
+        "Ra1",
+        "Kf6",
+        "Rf1+",
+        "Ke5",
+        "Re1+",
+        "Kd6",
+        "Rd1+",
+        "Ke5",
+        "Re1+"
+      ],
+      "notes": {
+        "1": "El peón avanza: el rey blanco pierde su refugio.",
+        "2": "¡Momento de bajar la torre!",
+        "6": "Jaques sin fin: tablas."
+      },
+      "body": "Juegan blancas; observa la reacción negra."
+    },
+    {
+      "type": "quiz",
+      "question": "En Philidor, ¿cuándo bajas la torre a la primera fila?",
+      "options": [
+        "Cuando el peón avanza a la sexta fila",
+        "Nunca",
+        "Desde el principio"
+      ],
+      "answer": 0,
+      "explanation": "Antes de eso la torre cumple su función cortando en la sexta."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1245",
+      "fen": "4R3/1p6/1Pp4K/5k2/P4r2/8/8/8 w - - 0 51",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rf8+",
+        "Ke4",
+        "Rxf4+",
+        "Kxf4",
+        "a5"
+      ],
+      "explanation": "Solución: **Tf8+ Re4 Txf4+ Rxf4 a5**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1392",
+      "fen": "8/5R2/1p2P3/p4r2/P6p/1P3Pk1/4K3/8 b - - 2 64",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Re5+",
+        "Kf1",
+        "Rxe6"
+      ],
+      "explanation": "Solución: **Te5+ Rf1 Txe6**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1476",
+      "fen": "8/6Rr/7P/3p4/2pk1p2/3R4/6PK/8 b - - 0 57",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "cxd3",
+        "Rxh7",
+        "d2",
+        "Rf7",
+        "d1=Q"
+      ],
+      "explanation": "Solución: **cxd3 Txh7 d2 Tf7 d1=D**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1610",
+      "fen": "5k2/7p/3P2p1/1R6/8/7r/K7/8 w - - 1 44",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rb8+",
+        "Kf7",
+        "d7"
+      ],
+      "explanation": "Solución: **Tb8+ Rf7 d7**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1775",
+      "fen": "7R/1K3p2/6k1/PP6/6p1/6rp/8/8 w - - 0 48",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "a6",
+        "h2",
+        "Rxh2"
+      ],
+      "explanation": "Solución: **a6 h2 Txh2**. Actividad primero; torre detrás del peón."
+    }
+  ]
+}

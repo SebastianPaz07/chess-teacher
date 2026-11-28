@@ -1,0 +1,18 @@
+{
+  "id": "finales-peones",
+  "order": 8,
+  "level": "intermedio",
+  "category": "finales",
+  "icon": "flag",
+  "color": "#117a65",
+  "title": "Finales de peones",
+  "prerequisites": [
+    "estrategia"
+  ],
+  "tags": [
+    "finales",
+    "final",
+    "final-peones"
+  ],
+  "description": "La base de todos los finales: regla del cuadrado, oposición, casillas clave y peones pasados."
+}

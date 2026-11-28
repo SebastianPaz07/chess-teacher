@@ -1,0 +1,133 @@
+{
+  "id": "fto-04-practica",
+  "order": 4,
+  "title": "Torres con varios peones",
+  "summary": "Convertir ventajas y resistir.",
+  "icon": "strategy",
+  "xp": 105,
+  "minutes": 13,
+  "tags": [
+    "finales",
+    "final-torres"
+  ],
+  "sources": [
+    {
+      "title": "Finales de torre esenciales",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Principios de conversión",
+      "body": "- Crea un **segundo punto débil**.\n- No te apresures a avanzar: primero mejora rey y torre.\n- Cuando defiendas, busca jaques **laterales** con distancia suficiente."
+    },
+    {
+      "type": "quiz",
+      "question": "Defiendes y tu torre da jaques de lado. Funcionan mejor...",
+      "options": [
+        "Desde lo más lejos posible del rey rival",
+        "Pegado al rey rival",
+        "Solo desde la primera fila"
+      ],
+      "answer": 0,
+      "explanation": "Con distancia, el rey no puede acercarse a la torre."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 7 · dificultad 1539",
+      "fen": "8/5KP1/R7/2k5/2pp4/8/8/6r1 w - - 2 51",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rg6",
+        "Rxg6",
+        "Kxg6",
+        "d3",
+        "g8=Q"
+      ],
+      "explanation": "Solución: **Tg6 Txg6 Rxg6 d3 g8=D**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 7 · dificultad 1602",
+      "fen": "8/2k4p/p2p2p1/2pP1p2/2P4P/3K4/P3RPP1/4r3 b - - 1 28",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxe2",
+        "Kxe2",
+        "Kb6",
+        "Kf3",
+        "Ka5",
+        "a3",
+        "Ka4"
+      ],
+      "explanation": "Solución: **Txe2 Rxe2 Rb6 Rf3 Ra5 a3 Ra4**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 7 · dificultad 1713",
+      "fen": "8/p7/6p1/P1KRrk1p/1P6/8/8/8 w - - 3 53",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxe5+",
+        "Kxe5",
+        "b5"
+      ],
+      "explanation": "Solución: **Txe5+ Rxe5 b5**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 7 · dificultad 1810",
+      "fen": "8/pp4p1/2k2ppp/3r4/1P1p2P1/r1PR3P/5P2/1K1R4 w - - 1 31",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "c4",
+        "Rxd3",
+        "cxd5+",
+        "Kxd5",
+        "Rxd3"
+      ],
+      "explanation": "Solución: **c4 Txd3 cxd5+ Rxd5 Txd3**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 7 · dificultad 1907",
+      "fen": "8/4k1K1/4P3/6pp/6rP/4R1P1/8/8 b - - 1 60",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "gxh4+",
+        "Kh6",
+        "hxg3"
+      ],
+      "explanation": "Solución: **gxh4+ Rh6 hxg3**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 7 · dificultad 2003",
+      "fen": "8/5p2/2Rrk1p1/p6p/P4KP1/5P1P/8/8 w - - 2 38",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxd6+",
+        "Kxd6",
+        "gxh5"
+      ],
+      "explanation": "Solución: **Txd6+ Rxd6 gxh5**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 7 de 7 · dificultad 2068",
+      "fen": "8/3R4/p1p1KP2/1pP5/1Pk5/8/8/4r3 w - - 5 67",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Kd6",
+        "Rf1",
+        "f7",
+        "Kxb4",
+        "Kxc6"
+      ],
+      "explanation": "Solución: **Rd6 Tf1 f7 Rxb4 Rxc6**. Actividad primero; torre detrás del peón."
+    }
+  ]
+}

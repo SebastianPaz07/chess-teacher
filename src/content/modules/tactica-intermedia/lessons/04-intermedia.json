@@ -1,0 +1,201 @@
+{
+  "id": "tin-04-intermedia",
+  "order": 4,
+  "title": "Jugada intermedia y pieza atrapada",
+  "summary": "No recaptures en automático.",
+  "icon": "lightning",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "tactica",
+    "intermedia",
+    "pieza-atrapada"
+  ],
+  "sources": [
+    {
+      "title": "Combinaciones en el medio juego",
+      "resourceTags": [
+        "tactica"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Antes de recapturar, mira",
+      "body": "La **jugada intermedia** (o *zwischenzug*) es una amenaza más fuerte que intercalas **antes** de la jugada «obvia».\n\nHábito de oro: cada vez que vayas a recapturar, busca primero **jaques, capturas y amenazas**."
+    },
+    {
+      "type": "text",
+      "title": "Piezas sin salida",
+      "body": "Una pieza queda **atrapada** cuando todas sus casillas están controladas. Los candidatos habituales: alfiles que comen peones en a2/h2, caballos en el borde y damas que entran demasiado pronto."
+    },
+    {
+      "type": "board-demo",
+      "title": "La partida del siglo",
+      "moves": [
+        "Nf3",
+        "Nf6",
+        "c4",
+        "g6",
+        "Nc3",
+        "Bg7",
+        "d4",
+        "O-O",
+        "Bf4",
+        "d5",
+        "Qb3",
+        "dxc4",
+        "Qxc4",
+        "c6",
+        "e4",
+        "Nbd7",
+        "Rd1",
+        "Nb6",
+        "Qc5",
+        "Bg4",
+        "Bg5",
+        "Na4",
+        "Qa3",
+        "Nxc3",
+        "bxc3",
+        "Nxe4",
+        "Bxe7",
+        "Qb6",
+        "Bc4",
+        "Nxc3",
+        "Bc5",
+        "Rfe8+",
+        "Kf1",
+        "Be6",
+        "Bxb6",
+        "Bxc4+",
+        "Kg1",
+        "Ne2+",
+        "Kf1",
+        "Nxd4+",
+        "Kg1",
+        "Ne2+",
+        "Kf1",
+        "Nc3+",
+        "Kg1",
+        "axb6",
+        "Qb4",
+        "Ra4",
+        "Qxb6",
+        "Nxd1",
+        "h3",
+        "Rxa2",
+        "Kh2",
+        "Nxf2",
+        "Re1",
+        "Rxe1",
+        "Qd8+",
+        "Bf8",
+        "Nxe1",
+        "Bd5",
+        "Nf3",
+        "Ne4",
+        "Qb8",
+        "b5",
+        "h4",
+        "h5",
+        "Ne5",
+        "Kg7",
+        "Kg1",
+        "Bc5+",
+        "Kf1",
+        "Ng3+",
+        "Ke1",
+        "Bb4+",
+        "Kd1",
+        "Bb3+",
+        "Kc1",
+        "Ne2+",
+        "Kb1",
+        "Nc3+",
+        "Kc1",
+        "Rc2#"
+      ],
+      "notes": {
+        "0": "Donald Byrne – Bobby Fischer, 1956.",
+        "22": "Fischer, con 13 años, empieza a explotar la dama expuesta.",
+        "34": "En lugar de salvar la dama, crea una amenaza mayor."
+      },
+      "body": "Fíjate en cuántas veces las negras no recapturan de inmediato."
+    },
+    {
+      "type": "quiz",
+      "question": "Tu rival acaba de capturar tu alfil. Antes de recapturar debes...",
+      "options": [
+        "Recapturar rápido para no perder tiempo",
+        "Buscar jaques y amenazas más fuertes que la recaptura",
+        "Ofrecer tablas"
+      ],
+      "answer": 1,
+      "explanation": "La jugada intermedia aparece justo cuando el rival da por hecha la recaptura."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1346",
+      "fen": "r1b2bnr/ppQp3p/2n2q1k/6pP/2B1P3/2PP4/PP3PP1/RNB1K2R b KQ - 0 11",
+      "prompt": "**Atrapa** una pieza rival.",
+      "solution": [
+        "Bd6",
+        "Qxd6",
+        "Qxd6"
+      ],
+      "explanation": "Solución: **Ad6 Dxd6 Dxd6**. Cuenta sus casillas de salida."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1377",
+      "fen": "4r1k1/pp2qR2/3p2pB/2nP4/P1P5/2P5/5QPP/4rRK1 b - - 0 24",
+      "prompt": "Antes de lo obvio, busca la **jugada intermedia**.",
+      "solution": [
+        "Rxf1+",
+        "Kxf1",
+        "Qxf7",
+        "Qxf7+",
+        "Kxf7"
+      ],
+      "explanation": "Solución: **Txf1+ Rxf1 Dxf7 Dxf7+ Rxf7**. Jaques, capturas y amenazas antes de recapturar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1496",
+      "fen": "B4rk1/p3b1pp/1q2bp2/1p2p3/2p2P2/3PR1P1/PPPN3P/R1BQ2K1 b - - 0 16",
+      "prompt": "Antes de lo obvio, busca la **jugada intermedia**.",
+      "solution": [
+        "Qxe3+",
+        "Kg2",
+        "Rxa8"
+      ],
+      "explanation": "Solución: **Dxe3+ Rg2 Txa8**. Jaques, capturas y amenazas antes de recapturar."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1693",
+      "fen": "5rk1/5ppp/4b3/1p1pPpPP/2pP4/b1P5/rqNQKP2/2RRN3 w - - 6 24",
+      "prompt": "**Atrapa** una pieza rival.",
+      "solution": [
+        "Rb1",
+        "Qb3",
+        "Rxb3"
+      ],
+      "explanation": "Solución: **Tb1 Db3 Txb3**. Cuenta sus casillas de salida."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1824",
+      "fen": "2r3kr/1pq3p1/p1n1p1P1/3p1pb1/3P3p/P3Q3/1PP1N3/1K4RR w - - 0 27",
+      "prompt": "Antes de lo obvio, busca la **jugada intermedia**.",
+      "solution": [
+        "Qxe6+",
+        "Kf8",
+        "Rxg5"
+      ],
+      "explanation": "Solución: **Dxe6+ Rf8 Txg5**. Jaques, capturas y amenazas antes de recapturar."
+    }
+  ]
+}

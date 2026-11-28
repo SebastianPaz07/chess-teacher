@@ -9,6 +9,8 @@
 .title { text-align: left; font-size: 1.5rem; }
 .head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3); }
 .head .title { margin: 0; flex: 1; min-width: 0; }
+/* Lector: aire arriba y abajo del título del libro o video */
+.xl .head { align-items: center; padding: var(--space-3) var(--space-1); }
 .close { flex-shrink: 0; display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text); cursor: pointer; }
 .close:hover { border-color: var(--color-primary); color: var(--color-primary); }
 .close:focus-visible { outline: 2px solid var(--color-accent, currentColor); outline-offset: 2px; }

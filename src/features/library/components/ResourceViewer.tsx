@@ -6,32 +6,22 @@ import styles from './ResourceViewer.module.css';
 
 const previewUrl = (id: string) => `https://drive.google.com/file/d/${id}/preview`;
 
-/** Abre un video o libro dentro de la app (vista previa embebida). */
-export function ResourceViewer({ resource, onClose }: { resource: Resource | null; onClose: () => void }) {
+/** Vista previa de Drive embebida: el video o el libro se ve sin salir de la app. */
+export function DriveFrame({ resource }: { resource: Resource }) {
   const [loaded, setLoaded] = useState(false);
   return (
-    <Modal
-      open={Boolean(resource)}
-      onClose={() => {
-        setLoaded(false);
-        onClose();
-      }}
-      size="xl"
-      title={resource?.title}
-    >
-      {resource && (
-        <div className={styles.frameWrap}>
-          {!loaded && <Loader label="Cargando material…" />}
-          <iframe
-            className={styles.frame}
-            style={{ opacity: loaded ? 1 : 0 }}
-            src={previewUrl(resource.id)}
-            title={resource.title}
-            allow="autoplay; fullscreen"
-            onLoad={() => setLoaded(true)}
-          />
-        </div>
-      )}
+    <div className={styles.frameWrap}>
+      {!loaded && <Loader label="Cargando material…" />}
+      <iframe className={styles.frame} style={{ opacity: loaded ? 1 : 0 }} src={previewUrl(resource.id)} title={resource.title} allow="autoplay; fullscreen" onLoad={() => setLoaded(true)} />
+    </div>
+  );
+}
+
+/** Abre un video o libro dentro de la app. */
+export function ResourceViewer({ resource, onClose }: { resource: Resource | null; onClose: () => void }) {
+  return (
+    <Modal open={Boolean(resource)} onClose={onClose} size="xl" showClose title={resource?.title}>
+      {resource && <DriveFrame key={resource.id} resource={resource} />}
     </Modal>
   );
 }

@@ -1,0 +1,136 @@
+{
+  "id": "fpe-04-pasado",
+  "order": 4,
+  "title": "Peones pasados y rupturas",
+  "summary": "Cómo crear y usar el pasado.",
+  "icon": "rocket",
+  "xp": 105,
+  "minutes": 14,
+  "tags": [
+    "finales",
+    "peon-pasado",
+    "promocion"
+  ],
+  "sources": [
+    {
+      "title": "Fundamentos del ajedrez (finales)",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El peón alejado",
+      "body": "Un **peón pasado alejado** arrastra al rey rival a un lado, y tu rey se come los peones del otro. Es la ventaja más práctica en finales."
+    },
+    {
+      "type": "board-demo",
+      "title": "La ruptura de tres contra tres",
+      "fen": "7k/ppp5/8/PPP5/8/8/8/7K w - - 0 1",
+      "moves": [
+        "b6",
+        "axb6",
+        "c6",
+        "bxc6",
+        "a6"
+      ],
+      "notes": {
+        "1": "Primer sacrificio: rompe la cadena.",
+        "3": "Segundo sacrificio.",
+        "5": "El peón a corre: el rey negro está demasiado lejos."
+      },
+      "body": "Una combinación clásica que debes conocer de memoria."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué es un peón pasado?",
+      "options": [
+        "Cualquier peón de la quinta fila",
+        "Un peón que ya fue capturado",
+        "Un peón sin peones rivales que puedan frenarlo en su columna ni en las vecinas"
+      ],
+      "answer": 2,
+      "explanation": "Solo las piezas pueden detenerlo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1236",
+      "fen": "1r3rk1/q5pp/2R5/3P4/2Q5/1p2NpPb/1P3P1P/3R2K1 b - - 1 32",
+      "prompt": "Usa el **peón pasado**.",
+      "solution": [
+        "Qxe3",
+        "fxe3",
+        "f2+"
+      ],
+      "explanation": "Solución: **Dxe3 fxe3 f2+**. Cuanto más avanza, más piezas obliga a vigilarlo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1348",
+      "fen": "5R2/8/p5pp/2B5/5b1P/P3p3/8/3K1k2 b - - 3 46",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "e2+",
+        "Kc2",
+        "e1=Q",
+        "Rxf4+",
+        "Kg2"
+      ],
+      "explanation": "Solución: **e2+ Rc2 e1=D Txf4+ Rg2**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1457",
+      "fen": "6k1/1p3p2/2p1bQPq/p3Pp2/2P5/1P6/5PK1/8 w - - 1 54",
+      "prompt": "Usa el **peón pasado**.",
+      "solution": [
+        "gxf7+",
+        "Bxf7",
+        "Qxh6"
+      ],
+      "explanation": "Solución: **gxf7+ Axf7 Dxh6**. Cuanto más avanza, más piezas obliga a vigilarlo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1594",
+      "fen": "8/4k3/8/7R/6K1/5p2/P3n1P1/8 b - - 0 51",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "fxg2",
+        "Kf3",
+        "g1=Q"
+      ],
+      "explanation": "Solución: **fxg2 Rf3 g1=D**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 1761",
+      "fen": "2kr4/2pR4/2P1K1P1/8/8/4n3/p7/8 w - - 0 50",
+      "prompt": "Usa el **peón pasado**.",
+      "solution": [
+        "Rxd8+",
+        "Kxd8",
+        "g7",
+        "a1=Q",
+        "g8=Q#"
+      ],
+      "explanation": "Solución: **Txd8+ Rxd8 g7 a1=D g8=D#**. Cuanto más avanza, más piezas obliga a vigilarlo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 1843",
+      "fen": "7Q/5R2/3k2p1/4p3/4P1P1/8/p4p1K/r7 b - - 0 46",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Rh1+",
+        "Kxh1",
+        "a1=Q+",
+        "Kg2",
+        "Qg1+"
+      ],
+      "explanation": "Solución: **Th1+ Rxh1 a1=D+ Rg2 Dg1+**. Revisa también la coronación en caballo."
+    }
+  ]
+}

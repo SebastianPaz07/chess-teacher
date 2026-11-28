@@ -5,7 +5,7 @@ import { Badge, Button, Card, EmptyState, Loader } from '@/components/ui';
 import { getExercise, getOpening } from '@/content/registry';
 import type { Exercise } from '@/content/schema';
 import { useCompleteDailyTask } from '@/features/daily-plan/hooks/useDailyPlan';
-import { usePuzzles } from '@/hooks/usePuzzles';
+import { useExercisesReady } from '@/hooks/usePuzzles';
 import { ExerciseSession, type SessionResult } from '@/features/exercises/components/ExerciseSession';
 import { SessionSummary } from '@/features/exercises/components/SessionSummary';
 import { qualityFromResult, type ReviewCard } from '@/services/scheduler/sm2';
@@ -27,7 +27,7 @@ export function ReviewPage() {
 
   // Congelamos la lista al entrar para que no cambie mientras repasas
   const [due] = useState<ReviewCard[]>(() => dueCards());
-  const { ready } = usePuzzles();
+  const ready = useExercisesReady(due.filter((c) => c.kind === 'exercise').map((c) => c.ref));
   const exerciseCards = useMemo(() => due.filter((c) => c.kind === 'exercise' && getExercise(c.ref)), [due, ready]);
   const exercises = exerciseCards.map((c) => getExercise(c.ref)).filter((e): e is Exercise => Boolean(e));
   const lineCards = due.filter((c) => {
@@ -112,7 +112,7 @@ export function ReviewPage() {
           icon="strategy"
           title="¡Nada pendiente por hoy!"
           description={total ? `Tienes ${total} tarjetas en tu mazo. La próxima vuelve el ${upcoming?.due ?? '—'}.` : 'Completa lecciones y ejercicios para llenar tu mazo de repaso.'}
-          action={daily.fromDaily ? <Button to={daily.continueTo}>{daily.continueLabel}</Button> : <Button to="/practica">Practicar ejercicios</Button>}
+          action={daily.fromDaily ? <Button to={daily.continueTo}>{daily.continueLabel}</Button> : <Button to="/practica/ejercicios">Practicar ejercicios</Button>}
         />
       ) : (
         <Card tone="primary" icon="brain" title={`${due.length} tarjetas para repasar`} subtitle={`${exercises.length} ejercicios · ${lineCards.length} líneas de apertura`}>

@@ -1,0 +1,17 @@
+{
+  "id": "campeones",
+  "order": 15,
+  "level": "avanzado",
+  "category": "entrenamiento",
+  "icon": "crown",
+  "color": "#9a7d0a",
+  "title": "Estudiar a los campeones",
+  "prerequisites": [
+    "medio-juego"
+  ],
+  "tags": [
+    "entrenamiento",
+    "clasicos"
+  ],
+  "description": "Partidas completas de Capablanca, Botvinnik, Fischer y Kasparov, con preguntas de estudio."
+}

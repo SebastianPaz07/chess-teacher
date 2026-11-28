@@ -20,6 +20,10 @@ interface SettingsState {
   /** Depuración: simular días futuros */
   dayOffset: number;
   onboarded: boolean;
+  /** Día en que armó su primer plan; null en quien ya usaba la app antes de guardarlo */
+  startedAt: string | null;
+  /** Empezó sin saber jugar: cambia la frase de trayectoria */
+  startedFromZero: boolean;
   /** false = principiante absoluto que aún no completa la lección de cómo mover las piezas: sin ejercicios hasta entonces */
   learnedBasics: boolean;
   /** Demo: soy admin de la plataforma y puedo crear clubes y compartir el link de creación */
@@ -44,6 +48,8 @@ export const useSettingsStore = create<SettingsState>()(
       theme: 'system',
       dayOffset: 0,
       onboarded: false,
+      startedAt: null,
+      startedFromZero: false,
       learnedBasics: true,
       isPlatformAdmin: false,
       focusAreas: [],

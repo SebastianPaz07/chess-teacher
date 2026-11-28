@@ -2,7 +2,7 @@ import { Icon } from '@/components/ui/Icon';
 import { Chess } from 'chess.js';
 import { useEffect, useRef, useState } from 'react';
 import { Badge, Button } from '@/components/ui';
-import { sameMove, START_FEN, trySan, tryMove } from '@/services/chess/chessUtils';
+import { sameMove, START_FEN, toSpanishSan, trySan, tryMove } from '@/services/chess/chessUtils';
 import { sound } from '@/services/sound';
 import { ChessBoard } from './ChessBoard';
 import { MoveList } from './MoveList';
@@ -11,26 +11,30 @@ import styles from './BoardStepper.module.css';
 export interface LineResult {
   mistakes: number;
   correct: number;
+  /** Jugadas acertadas a la primera y sin ayuda */
+  firstTry: number;
   total: number;
 }
 
 interface LineTrainerProps {
   moves: string[];
-  side: 'w' | 'b';
+  /** Bando que juega el alumno; `both`: mueve los dos (aprenderse una partida entera) */
+  side: 'w' | 'b' | 'both';
+  /** Lado del tablero que queda abajo (por defecto, el del alumno) */
+  orientation?: 'white' | 'black';
   notes?: Record<string, string>;
   /** Jugadas que se reproducen solas antes de empezar */
   startPly?: number;
-  /**
-   * train: hay que acertar para avanzar (aperturas).
-   * guess: si fallas se muestra la jugada real y sigue (partidas clásicas).
-   */
-  mode?: 'train' | 'guess';
+  /** En partidas largas la respuesta y la ayuda van junto al tablero, antes de la lista de jugadas */
+  feedbackFirst?: boolean;
   onFinish?: (r: LineResult) => void;
   maxWidth?: number;
 }
 
-/** Entrenador de líneas: el alumno juega un bando y el rival responde solo. */
-export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'train', onFinish, maxWidth }: LineTrainerProps) {
+const turnOf = (ply: number) => (ply % 2 === 0 ? 'w' : 'b');
+
+/** Entrenador de líneas: el alumno juega (hay que acertar para avanzar) y, si juega un bando, el rival responde solo. */
+export function LineTrainer({ moves, side, orientation, notes = {}, startPly = 0, feedbackFirst, onFinish, maxWidth }: LineTrainerProps) {
   const [initial] = useState(() => {
     const c = new Chess(START_FEN);
     for (const san of moves.slice(0, startPly)) trySan(c, san);
@@ -42,14 +46,15 @@ export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'tra
   const [lastMove, setLastMove] = useState<[string, string] | null>(null);
   const [mistakes, setMistakes] = useState(0);
   const [correct, setCorrect] = useState(0);
+  const [firstTry, setFirstTry] = useState(0);
   const [missesHere, setMissesHere] = useState(0);
   const [flash, setFlash] = useState<'good' | 'bad' | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [done, setDone] = useState(false);
-  const timers = useRef<number[]>([]);
   const finished = useRef(false);
 
-  const playerTotal = moves.slice(startPly).filter((_, i) => ((startPly + i) % 2 === 0 ? 'w' : 'b') === side).length;
+  const mine = (i: number) => side === 'both' || turnOf(i) === side;
+  const playerTotal = moves.slice(startPly).filter((_, i) => mine(startPly + i)).length;
 
   const apply = (san: string) => {
     const m = trySan(chessRef.current, san);
@@ -67,22 +72,18 @@ export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'tra
       if (!finished.current) {
         finished.current = true;
         sound.correct();
-        onFinish?.({ mistakes, correct, total: playerTotal });
+        onFinish?.({ mistakes, correct, firstTry, total: playerTotal });
       }
       return;
     }
-    const turn = ply % 2 === 0 ? 'w' : 'b';
-    if (turn !== side) {
+    if (!mine(ply)) {
       const t = window.setTimeout(() => {
         apply(moves[ply]);
         setPly((p) => p + 1);
       }, 550);
-      timers.current.push(t);
       return () => clearTimeout(t);
     }
   }, [ply, done]);
-
-  useEffect(() => () => timers.current.forEach(clearTimeout), []);
 
   const pulse = (k: 'good' | 'bad') => {
     setFlash(null);
@@ -98,6 +99,7 @@ export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'tra
       apply(expected);
       pulse('good');
       setCorrect((c) => c + 1);
+      if (missesHere === 0) setFirstTry((c) => c + 1);
       setMissesHere(0);
       setMessage(null);
       setPly((p) => p + 1);
@@ -106,33 +108,37 @@ export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'tra
     pulse('bad');
     sound.wrong();
     setMistakes((x) => x + 1);
-    if (mode === 'guess') {
-      setMessage(`La jugada de la partida fue ${expected}.`);
-      const t = window.setTimeout(() => {
-        apply(expected);
-        setPly((p) => p + 1);
-      }, 700);
-      timers.current.push(t);
-    } else {
-      setMissesHere((x) => x + 1);
-      setMessage(missesHere >= 1 ? 'Fíjate en la flecha.' : 'No es la jugada de la línea. ¡Inténtalo otra vez!');
-    }
+    setMissesHere((x) => x + 1);
+    setMessage(missesHere >= 1 ? 'Fíjate en la flecha.' : 'Esa no es la jugada. ¡Inténtalo otra vez!');
     return false;
   };
 
-  const isPlayerTurn = !done && ply >= startPly && ply < moves.length && (ply % 2 === 0 ? 'w' : 'b') === side;
+  const isPlayerTurn = !done && ply >= startPly && ply < moves.length && mine(ply);
   const hintArrow = (() => {
-    if (!isPlayerTurn || mode !== 'train' || missesHere < 2) return undefined;
+    if (!isPlayerTurn || missesHere < 2) return undefined;
     const probe = new Chess(chessRef.current.fen());
     const m = trySan(probe, moves[ply]);
     return m ? [[m.from, m.to, 'rgb(224, 165, 38)'] as [string, string, string]] : undefined;
   })();
   const note = notes[String(ply)];
+  const feedback = (
+    <>
+      {message && <p className={styles.note}>{message}</p>}
+      {note && !message && <p className={styles.note}>{note}</p>}
+    </>
+  );
+  const help = isPlayerTurn && (
+    <div className={styles.controls}>
+      <Button size="sm" variant="ghost" onClick={() => setMissesHere(2)}>
+        Mostrar jugada{missesHere >= 2 && hintArrow ? `: ${toSpanishSan(moves[ply])}` : ''}
+      </Button>
+    </div>
+  );
 
   return (
     <div className={styles.wrap}>
       <div className="row">
-        <Badge tone="primary">{side === 'w' ? 'Juegas con blancas' : 'Juegas con negras'}</Badge>
+        <Badge tone="primary">{side === 'both' ? (turnOf(ply) === 'w' ? 'Mueven blancas' : 'Mueven negras') : side === 'w' ? 'Juegas con blancas' : 'Juegas con negras'}</Badge>
         <Badge tone="success">
           <Icon name="check" weight="bold" size="1em" /> {correct}/{playerTotal}
         </Badge>
@@ -140,23 +146,18 @@ export function LineTrainer({ moves, side, notes = {}, startPly = 0, mode = 'tra
       </div>
       <ChessBoard
         fen={fen}
-        orientation={side === 'w' ? 'white' : 'black'}
+        orientation={orientation ?? (side === 'b' ? 'black' : 'white')}
         onMove={isPlayerTurn ? onMove : undefined}
         lastMove={lastMove}
         flash={flash}
         arrows={hintArrow}
         maxWidth={maxWidth}
       />
+      {feedbackFirst && feedback}
+      {feedbackFirst && help}
       <MoveList moves={moves} current={ply - 1} hideFrom={done ? undefined : ply} />
-      {message && <p className={styles.note}>{message}</p>}
-      {note && !message && <p className={styles.note}>{note}</p>}
-      {isPlayerTurn && mode === 'train' && (
-        <div className={styles.controls}>
-          <Button size="sm" variant="ghost" onClick={() => setMissesHere(2)}>
-            Mostrar jugada
-          </Button>
-        </div>
-      )}
+      {!feedbackFirst && feedback}
+      {!feedbackFirst && help}
     </div>
   );
 }

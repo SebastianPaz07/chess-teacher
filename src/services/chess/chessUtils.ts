@@ -64,3 +64,30 @@ export function formatMoveList(sans: string[], startPly = 0, spanish = true) {
     return { ply, number: ply % 2 === 0 ? `${n}.` : i === 0 ? `${n}...` : '', san: label };
   });
 }
+
+const PIECE_ORDER = ['k', 'q', 'r', 'b', 'n', 'p'] as const;
+const PIECE_NAME: Record<(typeof PIECE_ORDER)[number], [string, string]> = {
+  k: ['Rey', 'Rey'],
+  q: ['Dama', 'Damas'],
+  r: ['Torre', 'Torres'],
+  b: ['Alfil', 'Alfiles'],
+  n: ['Caballo', 'Caballos'],
+  p: ['Peón', 'Peones'],
+};
+
+/** «Rey g1 · Torres a1, f1 · …» por bando, para colocar la posición en un tablero físico. */
+export function pieceList(fen: string): { white: string; black: string; turn: 'w' | 'b' } {
+  const placed = new Chess(resolveFen(fen))
+    .board()
+    .flat()
+    .filter((p): p is NonNullable<typeof p> => p !== null);
+  const side = (color: 'w' | 'b') =>
+    PIECE_ORDER.flatMap((type) => {
+      const squares = placed
+        .filter((p) => p.color === color && p.type === type)
+        .map((p) => p.square)
+        .sort();
+      return squares.length ? [`${PIECE_NAME[type][squares.length > 1 ? 1 : 0]} ${squares.join(', ')}`] : [];
+    }).join(' · ');
+  return { white: side('w'), black: side('b'), turn: sideToMove(fen) };
+}

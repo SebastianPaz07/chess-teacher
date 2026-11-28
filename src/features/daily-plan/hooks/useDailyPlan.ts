@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { loadPuzzlesNear } from '@/content/puzzles';
 import { modules } from '@/content/registry';
-import { usePuzzles } from '@/hooks/usePuzzles';
+import type { Exercise } from '@/content/schema';
 import { now, todayKey } from '@/lib/date';
-import { cachedUnseen, topUpInBackground } from '@/services/lichess/lichessPuzzles';
+import { cachedUnseen } from '@/services/lichess/lichessPuzzles';
 import { difficultyStretch, effectiveLevel, generateDailyPlan, isCoreTask, practiceCountFor } from '@/services/scheduler/dailyPlan';
 import { isDue } from '@/services/scheduler/sm2';
 import { useGameStore } from '@/store/gameStore';
@@ -11,6 +12,7 @@ import { useProgressStore } from '@/store/progressStore';
 import { useReviewStore } from '@/store/reviewStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { taskLink } from '../taskLink';
+import { useWeekThemes } from './useWeekThemes';
 
 /** Plan del día: se genera una vez por fecha y queda congelado. */
 export function useDailyPlan() {
@@ -30,26 +32,28 @@ export function useDailyPlan() {
   const exploreOpenings = useSettingsStore((s) => s.exploreOpenings);
   const learnedBasics = useSettingsStore((s) => s.learnedBasics);
   const restDay = trainingDays.length > 0 && !trainingDays.includes(now().getDay());
+  const { themes } = useWeekThemes();
+  const theme = learnedBasics ? (themes[today] ?? null) : null;
 
   // El plan se congela por día, pero se regenera si cambia el nivel del
   // test (p. ej. al recalibrar) o la versión del generador.
-  const key = `v6:${learnedBasics ? 'b' : 'nb'}:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
+  const key = `v7:${theme ?? '-'}:${learnedBasics ? 'b' : 'nb'}:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
   const needsNew = !plan || plan.date !== today || plan.key !== key;
-  const { puzzles, ready: puzzlesReady } = usePuzzles();
 
   const building = useRef<string | null>(null);
 
   useEffect(() => {
     ensureToday();
-    if (!needsNew || !puzzlesReady || building.current === `${today}|${key}`) return;
-    building.current = `${today}|${key}`;
+    const tag = `${today}|${key}`;
+    if (!needsNew || building.current === tag) return;
+    building.current = tag;
     const dueCards = Object.values(cards).filter((c) => isDue(c, today));
     const solvedIds = new Set(Object.keys(progress.exercises));
-    // Ejercicios inéditos guardados en el dispositivo: sin esperar a la red.
-    // El plan se muestra al instante; la caché se reabastece en segundo plano.
+    // Ejercicios inéditos guardados en el dispositivo: el plan no consulta la red
     const need = practiceCountFor(effectiveLevel(progress, rating), restDay ? 10 : dailyMinutes);
     const freshPool = cachedUnseen({ rating, exclude: solvedIds }).slice(0, need * 2);
-    const build = (fresh: typeof freshPool) =>
+    const stretch = difficultyStretch(stats.puzzlesSolved, stats.puzzlesAttempted);
+    const build = (puzzles: Exercise[], fresh: typeof freshPool) =>
       generateDailyPlan({
         date: today,
         modules,
@@ -66,21 +70,27 @@ export function useDailyPlan() {
         exploreOpenings,
         restDay,
         learnedBasics,
-        stretch: difficultyStretch(stats.puzzlesSolved, stats.puzzlesAttempted),
+        stretch,
+        theme,
       });
-    let tasks;
-    try {
-      tasks = build(freshPool);
-    } catch (err) {
-      // Nunca dejar la pantalla cargando: reintenta sin ejercicios externos
-      console.error('No se pudo generar el plan con ejercicios guardados', err);
-      tasks = build([]);
-    }
-    setPlan(today, tasks, key);
-    topUpInBackground(rating, solvedIds);
+    // Quien aún no sabe mover las piezas no tiene ejercicios en su plan
+    const nearby = learnedBasics ? loadPuzzlesNear(rating + stretch).catch((): Exercise[] => []) : Promise.resolve([]);
+    void nearby.then((puzzles) => {
+      // Mientras cargaba pudo cambiar el plan pedido
+      if (building.current !== tag) return;
+      let tasks;
+      try {
+        tasks = build(puzzles, freshPool);
+      } catch (err) {
+        // Nunca dejar la pantalla cargando: reintenta sin ejercicios externos
+        console.error('No se pudo generar el plan con ejercicios guardados', err);
+        tasks = build(puzzles, []);
+      }
+      setPlan(today, tasks, key);
+    });
     // Solo al cambiar de día: el plan queda fijo durante la jornada.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [needsNew, today, key, puzzlesReady]);
+  }, [needsNew, today, key]);
 
   const allTasks = useMemo(() => (plan && plan.date === today ? plan.tasks : []), [plan, today]);
   // Los pasos del plan son los que se pueden completar; las recomendaciones son extras opcionales
@@ -97,6 +107,7 @@ export function useDailyPlan() {
     ready: !needsNew,
     restDay,
     dailyMinutes,
+    theme,
   };
 }
 

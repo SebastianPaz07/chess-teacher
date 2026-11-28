@@ -62,7 +62,15 @@ const QuizStep = z.object({
   explanation: z.string().optional(),
 });
 
-export const StepSchema = z.discriminatedUnion('type', [TextStep, BoardDemoStep, MakeMoveStep, QuizStep]);
+/** Clase grabada de la carpeta de Drive, se ve dentro de la app */
+const VideoStep = z.object({
+  type: z.literal('video'),
+  title: z.string().optional(),
+  resourceId: z.string(),
+  body: z.string().optional(),
+});
+
+export const StepSchema = z.discriminatedUnion('type', [TextStep, BoardDemoStep, MakeMoveStep, QuizStep, VideoStep]);
 export type Step = z.infer<typeof StepSchema>;
 export type StepType = Step['type'];
 
@@ -97,6 +105,8 @@ export type Exercise = z.infer<typeof ExerciseSchema> & { moduleId: string; tags
 
 export const OpeningLineSchema = z.object({
   name: z.string(),
+  /** Variante a la que pertenece: las líneas se muestran agrupadas por ella */
+  group: z.string().optional(),
   moves: z.array(z.string()).min(1),
   notes: z.record(z.string()).default({}),
 });
@@ -106,6 +116,8 @@ export const OpeningSchema = z.object({
   id: z.string(),
   name: z.string(),
   side: z.enum(['w', 'b']),
+  /** Icono propio de la apertura en listas y encabezados */
+  icon: z.string(),
   eco: z.string().optional(),
   description: z.string(),
   ideas: z.array(z.string()).default([]),
@@ -121,10 +133,8 @@ export const ClassicGameSchema = z.object({
   year: z.number(),
   event: z.string().optional(),
   description: z.string(),
-  /** Bando que adivina el alumno */
+  /** Bando que practica el alumno */
   side: z.enum(['w', 'b']),
-  /** Desde qué jugada (ply) empieza el "adivina la jugada" */
-  startPly: z.number().default(0),
   moves: z.array(z.string()).min(1),
   notes: z.record(z.string()).default({}),
 });

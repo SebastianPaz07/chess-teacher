@@ -28,7 +28,7 @@ export const QUEST_TEMPLATES: QuestTemplate[] = [
   { id: 'mate-2', title: 'Da 2 jaques mate en ejercicios', icon: 'piece-king', target: 2, progress: (e) => (e.type === 'PUZZLE_SOLVED' && e.success && e.themes.includes('mate') ? 1 : 0) },
   { id: 'rush-5', title: 'Consigue 5+ puntos en Rush táctico', icon: 'lightning', target: 1, progress: (e) => (e.type === 'RUSH_FINISHED' && e.score >= 5 ? 1 : 0) },
   { id: 'xp-150', title: 'Gana 150 XP hoy', icon: 'diamond', target: 150, progress: (_e, xp) => xp },
-  { id: 'guess-game', title: 'Juega "Adivina la jugada"', icon: 'classic', target: 1, progress: (e) => (e.type === 'GUESS_GAME_FINISHED' ? 1 : 0) },
+  { id: 'guess-game', title: 'Practica una partida clásica', icon: 'classic', target: 1, progress: (e) => (e.type === 'GUESS_GAME_FINISHED' ? 1 : 0) },
 ];
 
 export function questsForDay(dateKey: string, count = 3): QuestProgress[] {

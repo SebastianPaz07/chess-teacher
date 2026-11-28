@@ -6,6 +6,7 @@ import { BoardTip } from '@/components/ui/BoardTip';
 import type { Exercise } from '@/content/schema';
 import { themeLabel } from '../themes';
 import { celebrate } from '@/features/gamification/components/RewardsCenter';
+import { DAILY_GAIN_CAP } from '@/services/game/rating';
 import { useGameStore } from '@/store/gameStore';
 import type { SessionResult } from './ExerciseSession';
 
@@ -24,6 +25,7 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
   const clean = results.filter((r) => r.result.success && r.result.mistakes === 0).length;
   const dispatch = useGameStore((g) => g.dispatch);
   const flushed = useRef(false);
+  const capped = useGameStore((g) => (g.daily.ratingNet ?? 0) >= DAILY_GAIN_CAP);
   const [ratingChange, setRatingChange] = useState<{ gain: number; loss: number; delta: number; rating: number } | null>(null);
   // El rating se aplica ahora, al final: suma lo ganado y resta lo perdido de golpe
   useEffect(() => {
@@ -73,6 +75,11 @@ export function SessionSummary({ results, title = '¡Sesión terminada!', primar
           </p>
         </Card>
         </motion.div>
+      )}
+      {capped && (
+        <p className="muted" style={{ margin: 0 }}>
+          Ya sumaste el máximo de puntaje de hoy (+{DAILY_GAIN_CAP}). Los siguientes aciertos dan XP y práctica; mañana vuelve a subir.
+        </p>
       )}
       {failed.length > 0 && (
         <Card tone="danger" icon="review" title={`Para repasar (${failed.length})`} subtitle="Estos ejercicios los fallaste o los resolviste con errores. También volverán en tu repaso de mañana.">

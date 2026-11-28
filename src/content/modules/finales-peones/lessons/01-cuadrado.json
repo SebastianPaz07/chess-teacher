@@ -1,0 +1,131 @@
+{
+  "id": "fpe-01-cuadrado",
+  "order": 1,
+  "title": "La regla del cuadrado",
+  "summary": "¿Llega el rey a frenar el peón?",
+  "icon": "target",
+  "xp": 105,
+  "minutes": 14,
+  "tags": [
+    "finales",
+    "final-peones",
+    "peon-pasado"
+  ],
+  "sources": [
+    {
+      "title": "Fundamentos del ajedrez (finales)",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Sin calcular jugada a jugada",
+      "body": "Dibuja un **cuadrado** cuyo lado va desde el peón hasta su casilla de coronación. Si el rey rival puede **entrar** en ese cuadrado en su turno, alcanza al peón."
+    },
+    {
+      "type": "board-demo",
+      "title": "El rey llega tarde",
+      "fen": "8/8/8/6k1/P7/8/8/7K b - - 0 1",
+      "moves": [
+        "Kf6",
+        "a5",
+        "Ke7",
+        "a6",
+        "Kd7",
+        "a7",
+        "Kc7",
+        "a8=Q"
+      ],
+      "notes": {
+        "2": "El cuadrado se hace más pequeño en cada avance.",
+        "8": "El peón corona: el rey nunca entró en el cuadrado."
+      },
+      "body": "Juegan negras. Comprueba si pueden entrar en el cuadrado a4–e4–e8–a8."
+    },
+    {
+      "type": "text",
+      "title": "Ojo con el doble paso",
+      "body": "Un peón en su casilla inicial puede avanzar dos: calcula el cuadrado **como si ya estuviera en la tercera fila**."
+    },
+    {
+      "type": "quiz",
+      "question": "Peón blanco en a5, rey negro en f5 y juegan negras. ¿Alcanzan al peón?",
+      "options": [
+        "Sí, porque desde f5 se llega a e5",
+        "Solo si el rey blanco ayuda",
+        "No: el cuadrado llega solo hasta la columna d y desde f5 no se puede entrar"
+      ],
+      "answer": 2,
+      "explanation": "El cuadrado de a5 es a5–d5–d8–a8. Desde f5 solo se llega a la columna e: el peón corona."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 965",
+      "fen": "8/8/8/7p/1K1k1p1P/3P4/4P3/8 b - - 2 47",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Ke3",
+        "Kb5",
+        "Kxe2"
+      ],
+      "explanation": "Solución: **Re3 Rb5 Rxe2**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1099",
+      "fen": "8/p3P1k1/4q1r1/1p6/2pP1Qp1/P2p1P2/1P3KP1/8 w - - 0 39",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Qf8+",
+        "Kh7",
+        "e8=Q"
+      ],
+      "explanation": "Solución: **Df8+ Rh7 e8=D**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1248",
+      "fen": "8/8/5k2/1p3pp1/p1p2P1p/P1P1KP1P/1P6/8 w - - 0 47",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "fxg5+",
+        "Kxg5",
+        "f4+",
+        "Kg6",
+        "Kd4"
+      ],
+      "explanation": "Solución: **fxg5+ Rxg5 f4+ Rg6 Rd4**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1319",
+      "fen": "4k3/R5R1/5K1p/1Pp3r1/8/6P1/4p2P/8 b - - 0 53",
+      "prompt": "Consigue o aprovecha la **coronación**.",
+      "solution": [
+        "Rxg7",
+        "Kxg7",
+        "e1=Q"
+      ],
+      "explanation": "Solución: **Txg7 Rxg7 e1=D**. Revisa también la coronación en caballo."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1469",
+      "fen": "8/8/5p2/1p1p1k1p/p1pP3P/P1P1K1P1/1P6/8 b - - 1 51",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Kg4",
+        "Kf2",
+        "f5",
+        "Kg2",
+        "f4",
+        "gxf4",
+        "Kxf4"
+      ],
+      "explanation": "Solución: **Rg4 Rf2 f5 Rg2 f4 gxf4 Rxf4**. Cuenta tiempos y revisa la oposición."
+    }
+  ]
+}

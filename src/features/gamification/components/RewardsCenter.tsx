@@ -3,9 +3,11 @@ import confetti from 'canvas-confetti';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import { Button, Modal } from '@/components/ui';
+import { Medal } from '@/components/ui/Medal';
 import type { Reward } from '@/services/game/events';
 import { sound } from '@/services/sound';
 import { useGameStore } from '@/store/gameStore';
+import { useJourney } from '../hooks/useJourney';
 import styles from './RewardsCenter.module.css';
 
 type Toast = Reward & { key: number };
@@ -24,6 +26,7 @@ export function RewardsCenter() {
   const shift = useGameStore((s) => s.shiftReward);
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [levelUp, setLevelUp] = useState<Extract<Reward, { kind: 'level-up' }> | null>(null);
+  const journey = useJourney();
 
   useEffect(() => {
     if (!rewards.length) return;
@@ -79,7 +82,8 @@ export function RewardsCenter() {
               <Icon name={levelUp.rankIcon} weight="light" />
             </motion.div>
             <h2>¡Subiste al nivel {levelUp.level}!</h2>
-            {levelUp.newRank ? <p>Nuevo rango: <strong>{levelUp.rankName}</strong></p> : <p className="muted">Sigues avanzando como {levelUp.rankName}.</p>}
+            {levelUp.newRank ? <p>Ahora eres rango <strong>{levelUp.rankName}</strong>.</p> : <p>Sigues avanzando como <strong>{levelUp.rankName}</strong>.</p>}
+            <p className="muted">{journey.message}.</p>
           </div>
         )}
       </Modal>
@@ -92,7 +96,7 @@ function renderToast(t: Toast) {
     case 'xp':
       return <><strong>+{t.amount} XP</strong> <span>{t.reason}</span></>;
     case 'achievement':
-      return <><span className={styles.icon}><Icon name={t.icon} /></span><div><small>¡Logro desbloqueado!</small><strong>{t.title}</strong></div></>;
+      return <><Medal tier={t.tier} icon={t.icon} size="sm" /><div><small>¡Ganaste una medalla de {t.tier}!</small><strong>{t.title}</strong></div></>;
     case 'quest':
       return <><span className={styles.icon}><Icon name="check-circle" /></span><div><small>Misión completada (+{t.xp} XP)</small><strong>{t.title}</strong></div></>;
     case 'streak':

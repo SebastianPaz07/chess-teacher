@@ -1,0 +1,115 @@
+{
+  "id": "med-05-stonewall",
+  "order": 5,
+  "title": "El muro de piedra (Stonewall)",
+  "summary": "Un plan completo para cada bando.",
+  "icon": "wall",
+  "xp": 105,
+  "minutes": 18,
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "sources": [
+    {
+      "title": "Hellsten, Estrategia en el mediojuego",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La estructura",
+      "body": "Peones en **c3, d4, e3 y f4** (o sus equivalentes negros). Da un puesto fortísimo en **e5** a cambio de dejar débil **e4**."
+    },
+    {
+      "type": "video",
+      "resourceId": "1FmKL9b6rL77dhQmJ1L8nRa1gyGjyzrdH",
+      "title": "Stonewall: el ataque"
+    },
+    {
+      "type": "video",
+      "resourceId": "1vBGDoPVmt7ANQUP-MQIswbqSVgdlY12o",
+      "title": "Stonewall: cómo juega cada bando"
+    },
+    {
+      "type": "quiz",
+      "question": "¿Cuál es la casilla débil típica del bando que juega Stonewall con blancas?",
+      "options": [
+        "e4",
+        "e5",
+        "a1"
+      ],
+      "answer": 0,
+      "explanation": "Al avanzar d4 y f4, ningún peón propio puede defender e4."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1355",
+      "fen": "3q1rk1/4pp1p/p4Pp1/4p1P1/b1PpP2Q/3n3P/P3r1B1/R4RK1 w - - 0 23",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qh6",
+        "exf6",
+        "gxf6",
+        "Qxf6",
+        "Rxf6"
+      ],
+      "explanation": "Solución: **Dh6 exf6 gxf6 Dxf6 Txf6**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1496",
+      "fen": "r1b2rk1/p4ppp/2p5/6q1/6P1/3p1Q1P/PPP5/1K2RR2 w - - 0 18",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Qxf7+",
+        "Rxf7",
+        "Re8+",
+        "Rf8",
+        "Rfxf8#"
+      ],
+      "explanation": "Solución: **Dxf7+ Txf7 Te8+ Tf8 Tfxf8#**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1576",
+      "fen": "1k1r2nr/1p1q3p/p3Qpb1/4n3/8/2BB4/PPP2PPP/R4RK1 w - - 2 21",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Bxe5+",
+        "Ka7",
+        "Qxd7"
+      ],
+      "explanation": "Solución: **Axe5+ Ra7 Dxd7**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1727",
+      "fen": "r2q3k/5P2/2n3Bp/3p2pP/pp1b2Q1/6B1/1PP5/6K1 w - - 0 40",
+      "prompt": "**Ataca al rey**.",
+      "solution": [
+        "Qxd4+",
+        "Nxd4",
+        "Be5+",
+        "Qf6",
+        "Bxf6#"
+      ],
+      "explanation": "Solución: **Dxd4+ Cxd4 Ae5+ Df6 Axf6#**. Suma atacantes y abre líneas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1852",
+      "fen": "r4rk1/5ppp/1np2q2/p1b5/2p1B3/P7/1P3PPP/R1BQ1RK1 w - - 2 18",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qh5",
+        "h6",
+        "Qxc5"
+      ],
+      "explanation": "Solución: **Dh5 h6 Dxc5**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "id": "defensa",
+  "order": 13,
+  "level": "avanzado",
+  "category": "estrategia",
+  "icon": "shield",
+  "color": "#1f618d",
+  "title": "Defensa y profilaxis",
+  "prerequisites": [
+    "ataque-rey"
+  ],
+  "tags": [
+    "estrategia",
+    "defensa"
+  ],
+  "description": "Resistir ataques, anticipar planes rivales y encontrar recursos. Inspirado en Petrosian, «Ajedrez en la cumbre»."
+}

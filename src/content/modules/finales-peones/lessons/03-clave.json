@@ -1,0 +1,142 @@
+{
+  "id": "fpe-03-clave",
+  "order": 3,
+  "title": "Casillas clave",
+  "summary": "Si tu rey llega, ganas.",
+  "icon": "pin",
+  "xp": 105,
+  "minutes": 14,
+  "tags": [
+    "finales",
+    "final-peones"
+  ],
+  "sources": [
+    {
+      "title": "Fundamentos del ajedrez (finales)",
+      "resourceTags": [
+        "finales"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "La meta del rey",
+      "body": "Cada peón (que no sea de torre) tiene **casillas clave**: si tu rey ocupa una, ganas sin importar de quién sea el turno. Para un peón en la 2.ª, 3.ª o 4.ª fila son las **tres casillas dos filas por delante**."
+    },
+    {
+      "type": "board-demo",
+      "title": "Conquistar e6, e5 y más allá",
+      "fen": "4k3/8/8/8/8/4K3/4P3/8 w - - 0 1",
+      "moves": [
+        "Ke4",
+        "Ke7",
+        "Ke5",
+        "Kd7",
+        "Kf6",
+        "Ke8",
+        "e4",
+        "Kf8",
+        "e5",
+        "Ke8",
+        "Ke6",
+        "Kd8",
+        "Kf7"
+      ],
+      "notes": {
+        "3": "Oposición: las negras deben ceder un lado.",
+        "5": "El rey entra por el lado que quedó libre.",
+        "13": "La casilla e8 de coronación ya está controlada."
+      },
+      "body": "Repite este final en tu tablero hasta ganarlo sin mirar."
+    },
+    {
+      "type": "text",
+      "title": "La excepción del peón de torre",
+      "body": "Con un peón de la columna **a** o **h**, si el rey defensor llega a la esquina es **tablas**: no se le puede echar sin ahogarlo."
+    },
+    {
+      "type": "quiz",
+      "question": "Rey y peón h contra rey que ya está en h8. ¿Resultado correcto?",
+      "options": [
+        "Gana el bando fuerte",
+        "Tablas",
+        "Depende del número de jugada"
+      ],
+      "answer": 1,
+      "explanation": "El rey defensor no puede ser expulsado de la esquina."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1239",
+      "fen": "8/7p/4K2P/8/5k2/8/8/8 w - - 5 54",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Kf6",
+        "Ke4",
+        "Kg7",
+        "Kf5",
+        "Kxh7",
+        "Kf6",
+        "Kg8"
+      ],
+      "explanation": "Solución: **Rf6 Re4 Rg7 Rf5 Rxh7 Rf6 Rg8**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1498",
+      "fen": "8/8/1p2pk1p/pP4P1/P2Pp1P1/4P3/3K4/8 b - - 0 43",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Kxg5",
+        "d5",
+        "exd5"
+      ],
+      "explanation": "Solución: **Rxg5 d5 exd5**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1557",
+      "fen": "8/8/8/3K2kp/2P5/4P3/8/8 b - - 0 50",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "h4",
+        "Ke4",
+        "Kg4",
+        "c5",
+        "h3",
+        "Ke5",
+        "h2",
+        "c6",
+        "h1=Q"
+      ],
+      "explanation": "Solución: **h4 Re4 Rg4 c5 h3 Re5 h2 c6 h1=D**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1688",
+      "fen": "8/8/2p4K/1p3kp1/1P6/2P4P/8/8 b - - 0 52",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "g4",
+        "hxg4+",
+        "Kxg4"
+      ],
+      "explanation": "Solución: **g4 hxg4+ Rxg4**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1836",
+      "fen": "8/1p6/1p1p1k2/2p1p2K/P1P1P3/1P1P4/8/8 w - - 1 39",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Kh6",
+        "Ke6",
+        "Kg6",
+        "Ke7",
+        "Kg7"
+      ],
+      "explanation": "Solución: **Rh6 Re6 Rg6 Re7 Rg7**. Cuenta tiempos y revisa la oposición."
+    }
+  ]
+}

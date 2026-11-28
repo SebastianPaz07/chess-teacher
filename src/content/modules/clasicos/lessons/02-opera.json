@@ -4,11 +4,23 @@
   "title": "Morphy y la Partida de la Ópera",
   "summary": "Desarrollo, columnas abiertas y un final brillante (París, 1858).",
   "icon": "strategy",
-  "xp": 60,
-  "minutes": 9,
-  "tags": ["clasicos", "combinacion"],
-  "sources": [{ "title": "Kasparov – Mis geniales predecesores", "resourceTags": ["clasicos"] }],
-  "practice": ["cla-ex-opera"],
+  "xp": 90,
+  "minutes": 18,
+  "tags": [
+    "clasicos",
+    "combinacion"
+  ],
+  "sources": [
+    {
+      "title": "Kasparov – Mis geniales predecesores",
+      "resourceTags": [
+        "clasicos"
+      ]
+    }
+  ],
+  "practice": [
+    "cla-ex-opera"
+  ],
   "steps": [
     {
       "type": "text",
@@ -19,7 +31,41 @@
       "type": "board-demo",
       "title": "Morphy – Duque de Brunswick y Conde Isouard",
       "fen": "start",
-      "moves": ["e4", "e5", "Nf3", "d6", "d4", "Bg4", "dxe5", "Bxf3", "Qxf3", "dxe5", "Bc4", "Nf6", "Qb3", "Qe7", "Nc3", "c6", "Bg5", "b5", "Nxb5", "cxb5", "Bxb5+", "Nbd7", "O-O-O", "Rd8", "Rxd7", "Rxd7", "Rd1", "Qe6", "Bxd7+", "Nxd7", "Qb8+", "Nxb8", "Rd8#"],
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "d6",
+        "d4",
+        "Bg4",
+        "dxe5",
+        "Bxf3",
+        "Qxf3",
+        "dxe5",
+        "Bc4",
+        "Nf6",
+        "Qb3",
+        "Qe7",
+        "Nc3",
+        "c6",
+        "Bg5",
+        "b5",
+        "Nxb5",
+        "cxb5",
+        "Bxb5+",
+        "Nbd7",
+        "O-O-O",
+        "Rd8",
+        "Rxd7",
+        "Rxd7",
+        "Rd1",
+        "Qe6",
+        "Bxd7+",
+        "Nxd7",
+        "Qb8+",
+        "Nxb8",
+        "Rd8#"
+      ],
       "notes": {
         "8": "4...Axf3: las negras ceden la pareja de alfiles sin necesidad.",
         "13": "7.Db3: doble ataque a f7 y b7.",
@@ -34,16 +80,97 @@
       "title": "Termina como Morphy",
       "fen": "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
       "prompt": "Mate en 2: un sacrificio de dama abre la puerta.",
-      "solution": ["Qb8+", "Nxb8", "Rd8#"],
+      "solution": [
+        "Qb8+",
+        "Nxb8",
+        "Rd8#"
+      ],
       "hint": "Desvía al caballo que defiende la casilla d8.",
       "explanation": "**16.Db8+!! Cxb8 17.Td8#**. El caballo era el único defensor de d8."
     },
     {
       "type": "quiz",
       "question": "¿Cuál es la gran lección de esta partida?",
-      "options": ["Sacar la dama pronto", "Desarrollar todas las piezas antes de atacar y abrir líneas hacia el rey rival", "Cambiar piezas siempre"],
+      "options": [
+        "Sacar la dama pronto",
+        "Desarrollar todas las piezas antes de atacar y abrir líneas hacia el rey rival",
+        "Cambiar piezas siempre"
+      ],
       "answer": 1,
       "explanation": "Morphy ganó con **ventaja de desarrollo**: más piezas activas en el lugar correcto."
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **5 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1516",
+      "fen": "4r2r/p1p2kp1/2p2p2/2Qb4/8/2B3Nq/PPP2R1P/5RK1 b - - 11 30",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Qxg3+",
+        "hxg3",
+        "Rh1#"
+      ],
+      "explanation": "Solución: **Dxg3+ hxg3 Th1#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1635",
+      "fen": "6k1/pp4p1/7p/1PPp4/P2b2rq/5QN1/6PP/4R2K b - - 0 30",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Qxh2+",
+        "Kxh2",
+        "Rh4#"
+      ],
+      "explanation": "Solución: **Dxh2+ Rxh2 Th4#**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1747",
+      "fen": "r1q2r1k/pppb1Np1/2nb1n1p/4pp2/4P3/1QP3P1/PP1N1PBP/R1B2RK1 b - - 3 13",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Rxf7",
+        "Qxf7",
+        "Be6",
+        "Qxf6",
+        "gxf6"
+      ],
+      "explanation": "Solución: **Txf7 Dxf7 Ae6 Dxf6 gxf6**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1860",
+      "fen": "2r3nr/p5pp/b3k3/3p1p2/4p3/BP3P2/P1PN2PP/2KR3R w - - 0 19",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "fxe4",
+        "fxe4",
+        "Nxe4",
+        "dxe4",
+        "Rd6+",
+        "Kf7",
+        "Rxa6"
+      ],
+      "explanation": "Solución: **fxe4 fxe4 Cxe4 dxe4 Td6+ Rf7 Txa6**. Calcula hasta ver qué recuperas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1960",
+      "fen": "r2k2nr/p3qBb1/1p1p3p/Q5p1/3n1B2/2N2R2/PPP3P1/R5K1 w - - 0 19",
+      "prompt": "Encuentra el **sacrificio** correcto.",
+      "solution": [
+        "Qd5",
+        "Nxf3+",
+        "gxf3",
+        "Rc8",
+        "Bxd6"
+      ],
+      "explanation": "Solución: **Dd5 Cxf3+ gxf3 Tc8 Axd6**. Calcula hasta ver qué recuperas."
     }
   ]
 }

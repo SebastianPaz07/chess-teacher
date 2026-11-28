@@ -1,0 +1,136 @@
+{
+  "id": "def-03-ahogado",
+  "order": 3,
+  "title": "Salvar partidas perdidas",
+  "summary": "Ahogado, jaque perpetuo y zugzwang.",
+  "icon": "hint",
+  "xp": 105,
+  "minutes": 14,
+  "tags": [
+    "estrategia",
+    "defensa",
+    "zugzwang"
+  ],
+  "sources": [
+    {
+      "title": "Petrosian, Ajedrez en la cumbre",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Nunca abandones sin mirar",
+      "body": "Recursos de tablas: **ahogado**, **jaque perpetuo**, **fortaleza** y finales teóricos. Revisa si tu rey se quedó sin jugadas: a veces puedes sacrificar todo lo demás."
+    },
+    {
+      "type": "board-demo",
+      "title": "El ahogado como recurso",
+      "fen": "6k1/8/8/8/8/8/5q2/Q6K w - - 0 1",
+      "moves": [
+        "Qg7+",
+        "Kxg7"
+      ],
+      "notes": {
+        "1": "Las blancas entregan la dama con jaque: el rey negro está obligado a capturar.",
+        "2": "¡Ahogado! El rey blanco no está en jaque y no tiene jugadas: tablas."
+      },
+      "body": "Juegan blancas y parecen perdidas."
+    },
+    {
+      "type": "quiz",
+      "question": "¿Qué es el zugzwang?",
+      "options": [
+        "Un jaque doble",
+        "Una posición donde cualquier jugada empeora la situación",
+        "Un tipo de enroque"
+      ],
+      "answer": 1,
+      "explanation": "Es decisivo en finales: a veces desearías poder pasar el turno."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1751",
+      "fen": "r5nr/p1Nk1Qpp/1pn5/1Bb1p3/4P3/8/PPP3qP/R1BK3R b - - 0 13",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Ne7",
+        "Qf1",
+        "Qxf1+"
+      ],
+      "explanation": "Solución: **Ce7 Df1 Dxf1+**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1775",
+      "fen": "8/6p1/8/8/4P2k/5KpP/8/8 w - - 4 47",
+      "prompt": "Deja al rival en **zugzwang** o escapa de él.",
+      "solution": [
+        "Kg2",
+        "Kg5",
+        "Kxg3"
+      ],
+      "explanation": "Solución: **Rg2 Rg5 Rxg3**. Piensa qué pasaría si el rival pudiera pasar el turno: no puede."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1957",
+      "fen": "8/7p/7p/4p2k/4P2P/6P1/6K1/8 b - - 2 48",
+      "prompt": "Deja al rival en **zugzwang** o escapa de él.",
+      "solution": [
+        "Kg4",
+        "Kf2",
+        "Kh3",
+        "Kf3",
+        "h5",
+        "Kf2",
+        "Kh2"
+      ],
+      "explanation": "Solución: **Rg4 Rf2 Rh3 Rf3 h5 Rf2 Rh2**. Piensa qué pasaría si el rival pudiera pasar el turno: no puede."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 1967",
+      "fen": "8/8/p2k2pp/1p1p1p2/PP1K2P1/1P3P2/7P/8 w - - 0 37",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "gxf5",
+        "gxf5",
+        "f4"
+      ],
+      "explanation": "Solución: **gxf5 gxf5 f4**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 2044",
+      "fen": "8/8/2p2k2/p5p1/Pp1P1pPP/1P3K2/8/8 b - - 0 37",
+      "prompt": "Deja al rival en **zugzwang** o escapa de él.",
+      "solution": [
+        "gxh4",
+        "Kxf4",
+        "Kg6"
+      ],
+      "explanation": "Solución: **gxh4 Rxf4 Rg6**. Piensa qué pasaría si el rival pudiera pasar el turno: no puede."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 2138",
+      "fen": "7r/p1k1bppp/1p3nP1/1K6/1P3P2/P3BN2/2q5/3R1B1R w - - 3 24",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Rc1",
+        "a6+",
+        "Kxa6",
+        "Ra8+",
+        "Kb5",
+        "Qxc1",
+        "Bxc1",
+        "Ne4",
+        "Kc4"
+      ],
+      "explanation": "Solución: **Tc1 a6+ Rxa6 Ta8+ Rb5 Dxc1 Axc1 Ce4 Rc4**. Calcula las amenazas concretas del rival."
+    }
+  ]
+}

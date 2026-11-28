@@ -1,10 +1,11 @@
 import { Modal } from '@/components/ui';
+import { DAILY_GAIN_CAP } from '@/services/game/rating';
 import { levelForRating } from '@/services/scheduler/progression';
 import { useGameStore } from '@/store/gameStore';
 
 const LEVEL_LABEL = { principiante: 'Principiante', intermedio: 'Intermedio', avanzado: 'Avanzado' } as const;
 
-/** Explica qué es el puntaje (rating) y cómo cambia. Se abre al tocar el puntaje en la barra superior. */
+/** Explica qué es el puntaje (rating) y cómo cambia. Se abre al tocar el puntaje en Perfil. */
 export function RatingInfoModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const rating = useGameStore((g) => g.rating);
   const pendingGain = useGameStore((g) => g.pendingGain ?? 0);
@@ -22,10 +23,12 @@ export function RatingInfoModal({ open, onClose }: { open: boolean; onClose: () 
         </p>
         <h4 style={{ margin: 0 }}>Cómo funciona</h4>
         <ul>
-          <li><strong>Resuelto a la primera, sin pistas:</strong> sumas puntos.</li>
-          <li><strong>Resuelto con errores o pistas:</strong> casi no cambia.</li>
-          <li><strong>No resuelto:</strong> restas pocos puntos (siempre menos de los que se pueden ganar).</li>
-          <li><strong>Se aplica al terminar la sesión:</strong> no baja ni sube en pleno ejercicio; al final se suma todo lo ganado y se resta todo lo perdido.</li>
+          <li><strong>Resuelto a la primera, sin pistas:</strong> sumas unos pocos puntos (cerca de 4 si es de tu nivel).</li>
+          <li><strong>Resuelto con pista:</strong> no suma.</li>
+          <li><strong>Resuelto tras equivocarte o no resuelto:</strong> restas puntos. Fallar pesa tanto como acertar.</li>
+          <li><strong>Repasos:</strong> como ya viste la posición, no suman; si fallas, restan.</li>
+          <li><strong>Tope diario:</strong> como mucho subes {DAILY_GAIN_CAP} puntos al día. Mejorar de verdad toma semanas de ejercicios y teoría.</li>
+          <li><strong>Se aplica al terminar la sesión:</strong> al final se suma todo lo ganado y se resta todo lo perdido.</li>
           <li>Nunca baja de 100, y el test de nivel no cuenta como ejercicio.</li>
         </ul>
         <h4 style={{ margin: 0 }}>Niveles</h4>

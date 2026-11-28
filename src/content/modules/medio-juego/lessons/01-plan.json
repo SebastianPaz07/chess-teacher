@@ -1,0 +1,111 @@
+{
+  "id": "med-01-plan",
+  "order": 1,
+  "title": "Qué es un plan",
+  "summary": "Evaluar antes de decidir.",
+  "icon": "compass",
+  "xp": 105,
+  "minutes": 16,
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "sources": [
+    {
+      "title": "Hellsten, Estrategia en el mediojuego",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Cinco preguntas",
+      "body": "Antes de planear, compara:\n\n1. **Seguridad del rey**\n2. **Material**\n3. **Actividad de las piezas**\n4. **Estructura de peones**\n5. **Espacio y control del centro**\n\nTu plan debe aprovechar lo mejor de tu lado o corregir lo peor."
+    },
+    {
+      "type": "video",
+      "resourceId": "1ITqpCvqNRaZz0lmF7d_Hv1Rm9NaBTj6L",
+      "title": "¿Qué es un plan en ajedrez?"
+    },
+    {
+      "type": "text",
+      "title": "La peor pieza",
+      "body": "Si no sabes qué hacer: **busca tu pieza peor colocada y mejórala**. Es el plan que casi nunca falla."
+    },
+    {
+      "type": "quiz",
+      "question": "No hay amenazas y no sabes qué jugar. Un buen método es...",
+      "options": [
+        "Mejorar tu pieza peor colocada",
+        "Repetir jugadas",
+        "Mover un peón del enroque"
+      ],
+      "answer": 0,
+      "explanation": "Cada mejora de actividad aumenta tus opciones tácticas futuras."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1155",
+      "fen": "8/p2Q2k1/1p2p1pn/1P1p1p1R/3P1P2/qN2r3/P1r3PP/R5K1 b - - 3 40",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Nf7",
+        "Rh7+",
+        "Kxh7"
+      ],
+      "explanation": "Solución: **Cf7 Th7+ Rxh7**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1256",
+      "fen": "1r4r1/p1kq1p2/3p4/p2bp2p/2P3np/P1QPP1P1/5P2/1R2R1K1 w - - 0 24",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "cxd5+",
+        "Kd8",
+        "Rxb8+"
+      ],
+      "explanation": "Solución: **cxd5+ Rd8 Txb8+**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1380",
+      "fen": "1k1r3r/1b1p1p2/p3p3/1p2PB2/3n2Np/P1Q5/1P3PPP/4NRK1 b - - 0 26",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Ne2+",
+        "Kh1",
+        "Nxc3"
+      ],
+      "explanation": "Solución: **Ce2+ Rh1 Cxc3**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1504",
+      "fen": "k2r4/pb1q1pp1/2n1p1n1/3pP3/2N3P1/1QP2N2/PP3PB1/2KR4 b - - 9 20",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "dxc4",
+        "Rxd7",
+        "cxb3",
+        "Rxd8+",
+        "Nxd8"
+      ],
+      "explanation": "Solución: **dxc4 Txd7 cxb3 Txd8+ Cxd8**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1655",
+      "fen": "r4rk1/3nppb1/3p3p/qNpP2p1/P3P3/1P4P1/3N1PP1/R2QR1K1 b - - 0 19",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Bxa1",
+        "Nc4",
+        "Qb4"
+      ],
+      "explanation": "Solución: **Axa1 Cc4 Db4**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

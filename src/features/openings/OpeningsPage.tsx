@@ -17,7 +17,7 @@ export function OpeningsPage() {
 
   return (
     <div className="stack">
-      <PageHeader compact icon="books" title="Aperturas" subtitle="Tu repertorio, basado en nuestras clases y libros. Mira la línea y luego entrénala de memoria." />
+      <PageHeader compact icon="books" title="Aperturas" subtitle="Tu repertorio, basado en nuestras clases y libros. Elige una variante, mira la línea y luego entrénala de memoria." />
       <input type="search" inputMode="search" enterKeyHint="search" placeholder="Buscar apertura por nombre…" aria-label="Buscar apertura" value={query} onChange={(e) => setQuery(e.target.value)} style={{ width: '100%', minHeight: 48 }} />
       {!q && (
       <Tabs
@@ -41,7 +41,7 @@ export function OpeningsPage() {
               onClick={() => navigate(`/aperturas/${o.id}`)}
               title={o.name}
               subtitle={o.eco}
-              icon={o.side === 'w' ? 'piece-king-w' : 'piece-king'}
+              icon={o.icon}
             >
               <div style={{ display: 'flex', gap: 'var(--space-3)', alignItems: 'center', marginBottom: 'var(--space-2)' }}>
                 <PieceScene size={72} scene={o.side === 'w' ? { b: '...../ppppp/...../..P../RNBQK', a: ['1,4>2,2'] } : { b: 'rnbqk/ppppp/...../..P../.....', a: ['1,0>2,2'] }} />
@@ -51,6 +51,7 @@ export function OpeningsPage() {
               </div>
               <div className="row" style={{ marginBottom: 8 }}>
                 <Badge tone="primary">{o.lines.length} líneas</Badge>
+                <Badge tone="neutral">{new Set(o.lines.map((l) => l.group)).size} variantes</Badge>
               </div>
               <ProgressBar value={trained / o.lines.length} height={10} label="Entrenadas" showValue />
             </Card>

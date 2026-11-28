@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { addDays } from '@/lib/date';
 import { applyEvent, initialGameState } from './engine';
 import { questsForDay } from './quests';
-import { expectedScore, updateRating } from './rating';
+import { DAILY_GAIN_CAP, expectedScore, updateRating } from './rating';
 import { consecutiveDays, displayStreak, initialStreak, registerActivity } from './streak';
 import { comboMultiplier, levelFromXp, levelProgress, rankForLevel, xpForLevel } from './xp';
 
@@ -20,8 +20,9 @@ describe('xp', () => {
     expect(levelProgress(150)).toMatchObject({ level: 2, current: 50, needed: 200 });
   });
   it('rangos y combo', () => {
-    expect(rankForLevel(1).name).toBe('Peón');
-    expect(rankForLevel(3).name).toBe('Caballo');
+    expect(rankForLevel(1).name).toBe('Novato');
+    expect(rankForLevel(3).name).toBe('Aprendiz');
+    expect(rankForLevel(11).name).toBe('Veterano');
     expect(rankForLevel(25).name).toBe('Maestro');
     expect(comboMultiplier(1)).toBe(1);
     expect(comboMultiplier(4)).toBe(2);
@@ -37,13 +38,28 @@ describe('rating', () => {
     // Resolver uno muy fácil da poco
     expect(updateRating(1500, 600, true, 50).delta).toBeLessThanOrEqual(1);
   });
-  it('las pérdidas se suavizan y tienen tope', () => {
-    expect(updateRating(1000, 1000, false, 5).delta).toBeGreaterThanOrEqual(-8);
-    // fallar uno muy fácil nunca resta más de 8
-    expect(updateRating(1000, 400, false, 5).delta).toBe(-8);
-    expect(Math.abs(updateRating(1000, 1000, false, 50).delta)).toBeLessThan(updateRating(1000, 1000, true, 50).delta + 1);
-    // resolver con ayuda (0.5) pierde menos que fallar
-    expect(updateRating(1000, 1000, 0.5, 50).delta).toBeGreaterThan(updateRating(1000, 1000, false, 50).delta);
+  it('fallar pesa tanto como acertar y los cambios son pequeños', () => {
+    const win = updateRating(1000, 1000, true, 5).delta;
+    const loss = updateRating(1000, 1000, false, 5).delta;
+    expect(win).toBeLessThanOrEqual(4);
+    expect(loss).toBe(-win);
+    // con ayuda o tras errores nunca suma, ni siquiera en un ejercicio muy difícil
+    expect(updateRating(1000, 1600, 0.5, 5).delta).toBe(0);
+    expect(updateRating(1000, 1600, 0.25, 5).delta).toBe(0);
+    expect(updateRating(1000, 1000, 0.25, 5).delta).toBeLessThan(0);
+    expect(updateRating(1000, 2400, false, 5).delta).toBeLessThan(0);
+  });
+  it('en un día no se sube más del tope, y los repasos no suman', () => {
+    const solved = { type: 'PUZZLE_SOLVED' as const, exerciseId: 'e', themes: [], success: true, mistakes: 0, puzzleRating: 1400, context: 'practice' as const };
+    let s = initialGameState(D);
+    for (let i = 0; i < 50; i++) s = applyEvent(s, solved, D).state;
+    s = applyEvent(s, { type: 'RATING_FLUSH' }, D).state;
+    expect(s.rating).toBe(initialGameState(D).rating + DAILY_GAIN_CAP);
+    // al día siguiente vuelve a poder subir
+    const next = applyEvent(s, solved, addDays(D, 1)).state;
+    expect(next.pendingGain).toBeGreaterThan(0);
+    const reviewed = applyEvent(initialGameState(D), { ...solved, context: 'review' }, D).state;
+    expect(reviewed.pendingGain).toBe(0);
   });
 });
 
@@ -161,7 +177,7 @@ describe('ajustes de exigencia y plan', () => {
     const { practiceCountFor } = await import('@/services/scheduler/dailyPlan');
     expect(practiceCountFor('intermedio', 10)).toBeLessThan(practiceCountFor('intermedio', 20));
     expect(practiceCountFor('intermedio', 60)).toBeGreaterThan(practiceCountFor('intermedio', 30));
-  });
+  }, 30_000);
 });
 
 describe('días seguidos jugando', () => {

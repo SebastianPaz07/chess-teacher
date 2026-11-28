@@ -4,12 +4,27 @@
   "title": "Sistemas con d4: Londres y Colle",
   "summary": "Dos esquemas que puedes jugar casi contra cualquier defensa.",
   "icon": "piece-queen",
-  "xp": 55,
-  "minutes": 8,
-  "tags": ["aperturas", "londres", "colle"],
+  "xp": 85,
+  "minutes": 21,
+  "tags": [
+    "aperturas",
+    "londres",
+    "colle"
+  ],
   "sources": [
-    { "title": "Clases – Sistema Londres y Sistema Colle (Pupilo Chess)", "resourceTags": ["londres", "colle"] },
-    { "title": "John Cox – Gane con d4", "resourceTags": ["gambito-dama"] }
+    {
+      "title": "Clases – Sistema Londres y Sistema Colle (Pupilo Chess)",
+      "resourceTags": [
+        "londres",
+        "colle"
+      ]
+    },
+    {
+      "title": "John Cox – Gane con d4",
+      "resourceTags": [
+        "gambito-dama"
+      ]
+    }
   ],
   "practice": [],
   "steps": [
@@ -22,7 +37,23 @@
       "type": "board-demo",
       "title": "El Londres",
       "fen": "start",
-      "moves": ["d4", "d5", "Bf4", "Nf6", "e3", "e6", "Nf3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "Bg3", "O-O", "Bd3"],
+      "moves": [
+        "d4",
+        "d5",
+        "Bf4",
+        "Nf6",
+        "e3",
+        "e6",
+        "Nf3",
+        "c5",
+        "c3",
+        "Nc6",
+        "Nbd2",
+        "Bd6",
+        "Bg3",
+        "O-O",
+        "Bd3"
+      ],
       "notes": {
         "3": "2.Af4: ¡el alfil sale ANTES de e3!",
         "5": "3.e3: ahora sí, la pirámide d4-e3.",
@@ -33,7 +64,11 @@
     {
       "type": "quiz",
       "question": "En el Londres, ¿por qué se juega **Af4 antes de e3**?",
-      "options": ["Para que el alfil no quede encerrado detrás del peón de e3", "Porque es la regla del enroque", "Para atacar el peón de d5"],
+      "options": [
+        "Para que el alfil no quede encerrado detrás del peón de e3",
+        "Porque es la regla del enroque",
+        "Para atacar el peón de d5"
+      ],
       "answer": 0,
       "explanation": "Si juegas e3 primero, el alfil de c1 queda atrapado. ¡En el Colle eso pasa a propósito!"
     },
@@ -41,15 +76,124 @@
       "type": "board-demo",
       "title": "El Colle",
       "fen": "start",
-      "moves": ["d4", "d5", "Nf3", "Nf6", "e3", "e6", "Bd3", "c5", "c3", "Nc6", "Nbd2", "Bd6", "O-O", "O-O", "dxc5", "Bxc5", "e4"],
-      "notes": { "5": "3.e3: aquí el alfil de c1 se queda dentro.", "17": "9.e4: la ruptura que libera todo el juego blanco." }
+      "moves": [
+        "d4",
+        "d5",
+        "Nf3",
+        "Nf6",
+        "e3",
+        "e6",
+        "Bd3",
+        "c5",
+        "c3",
+        "Nc6",
+        "Nbd2",
+        "Bd6",
+        "O-O",
+        "O-O",
+        "dxc5",
+        "Bxc5",
+        "e4"
+      ],
+      "notes": {
+        "5": "3.e3: aquí el alfil de c1 se queda dentro.",
+        "17": "9.e4: la ruptura que libera todo el juego blanco."
+      }
     },
     {
       "type": "quiz",
       "question": "¿Cuál es la ruptura típica del sistema Colle?",
-      "options": ["c4", "e4", "f4", "g4"],
+      "options": [
+        "c4",
+        "e4",
+        "f4",
+        "g4"
+      ],
       "answer": 1,
       "explanation": "**e4** abre la diagonal del alfil de d3 y el centro para atacar."
+    },
+    {
+      "type": "board-demo",
+      "title": "Colle: la ruptura e4",
+      "moves": [
+        "d4",
+        "d5",
+        "Nf3",
+        "Nf6",
+        "e3",
+        "e6",
+        "Bd3",
+        "c5",
+        "c3",
+        "Nbd7",
+        "Nbd2",
+        "Bd6",
+        "O-O",
+        "O-O",
+        "Re1",
+        "Re8",
+        "e4",
+        "dxe4",
+        "Nxe4",
+        "Nxe4",
+        "Bxe4"
+      ],
+      "notes": {
+        "17": "Todo el desarrollo preparaba esta jugada."
+      }
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **4 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 1197",
+      "fen": "rnb1k2r/pppp1ppp/8/4P3/2B1q3/5Nn1/PPP2K1P/RNBQ3R b kq - 3 9",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Nxh1+",
+        "Qxh1",
+        "Qxc4"
+      ],
+      "explanation": "Solución: **Cxh1+ Dxh1 Dxc4**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 1257",
+      "fen": "1rb2rk1/4bppp/p1n1p3/1pq1P3/7N/P5P1/1PQ2PBP/R1B2RK1 w - - 2 16",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qxc5",
+        "Bxc5",
+        "Bxc6"
+      ],
+      "explanation": "Solución: **Dxc5 Axc5 Axc6**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 1446",
+      "fen": "r1bqk2r/pp3ppp/4p3/3pPn2/1b1P1P2/2N5/PP4PP/R1BQKB1R w KQkq - 3 10",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qa4+",
+        "Bd7",
+        "Qxb4"
+      ],
+      "explanation": "Solución: **Da4+ Ad7 Dxb4**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 1507",
+      "fen": "r2qk1nr/p1pbb1pp/4p3/2p2P2/2p5/8/PPP1Q1PP/RNB2RK1 w kq - 0 14",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qh5+",
+        "g6",
+        "fxg6"
+      ],
+      "explanation": "Solución: **Dh5+ g6 fxg6**. Los errores tempranos se castigan con desarrollo y amenazas."
     }
   ]
 }

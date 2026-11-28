@@ -1,0 +1,115 @@
+{
+  "id": "med-03-alfiles",
+  "order": 3,
+  "title": "Alfil bueno, alfil malo y caballos",
+  "summary": "Elige qué piezas cambiar.",
+  "icon": "piece-bishop",
+  "xp": 105,
+  "minutes": 16,
+  "tags": [
+    "estrategia",
+    "medio-juego"
+  ],
+  "sources": [
+    {
+      "title": "Hellsten, Estrategia en el mediojuego",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "El color manda",
+      "body": "Un alfil es **malo** cuando tus peones están en casillas de **su** color. Intenta cambiarlo o sacarlo fuera de la cadena.\n\nUn **caballo** brilla en posiciones cerradas y en un **puesto avanzado**: una casilla que los peones rivales no pueden atacar."
+    },
+    {
+      "type": "text",
+      "title": "La pareja de alfiles",
+      "body": "En posiciones **abiertas**, dos alfiles suelen superar a alfil y caballo. Ábrelas si los tienes; ciérralas si no."
+    },
+    {
+      "type": "video",
+      "resourceId": "1TX_F4L4ApJcwu23R2ElalTt-ksOKsTj_",
+      "title": "Patrones que hay que saber"
+    },
+    {
+      "type": "quiz",
+      "question": "Tus peones centrales están en casillas oscuras. ¿Cuál es tu alfil malo?",
+      "options": [
+        "Ninguno",
+        "El de casillas claras",
+        "El de casillas oscuras"
+      ],
+      "answer": 2,
+      "explanation": "Sus propios peones le cierran las diagonales."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1467",
+      "fen": "1r3rk1/p4pp1/4p2p/1Q2Pn2/1b1P4/4BN2/q4PPP/R4RK1 b - - 2 19",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qxa1",
+        "Rxa1",
+        "Rxb5"
+      ],
+      "explanation": "Solución: **Dxa1 Txa1 Txb5**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 1587",
+      "fen": "2Q2rk1/3R1p1p/p3p1p1/1p4q1/5P2/P1N5/BPP3bP/2K4R b - - 0 20",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qxf4+",
+        "Kb1",
+        "Rxc8"
+      ],
+      "explanation": "Solución: **Dxf4+ Rb1 Txc8**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 1689",
+      "fen": "5rk1/3q1p1p/2Q1b1p1/8/2Bp4/r5P1/2P2P1P/1R2R1K1 w - - 3 28",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Rxe6",
+        "Qxc6",
+        "Rxc6"
+      ],
+      "explanation": "Solución: **Txe6 Dxc6 Txc6**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 1804",
+      "fen": "2r3k1/3n1pp1/pq2r1p1/2p5/3b4/1P5P/PB1N1PP1/R1Q1R1K1 b - - 1 23",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Rxe1+",
+        "Qxe1",
+        "Bxb2",
+        "Nc4",
+        "Qf6",
+        "Nxb2",
+        "Qxb2"
+      ],
+      "explanation": "Solución: **Txe1+ Dxe1 Axb2 Cc4 Df6 Cxb2 Dxb2**. Haz tu lista de candidatas antes de mover."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 1935",
+      "fen": "r2qk2r/1p2bp2/p2pp1p1/8/4b2P/4B3/PPPQB3/2K3RR w kq - 0 18",
+      "prompt": "Encuentra la **mejor jugada** del medio juego.",
+      "solution": [
+        "Qd4",
+        "Bxh1",
+        "Qxh8+",
+        "Kd7",
+        "Qxd8+"
+      ],
+      "explanation": "Solución: **Dd4 Axh1 Dxh8+ Rd7 Dxd8+**. Haz tu lista de candidatas antes de mover."
+    }
+  ]
+}

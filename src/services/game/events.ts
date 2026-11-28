@@ -1,3 +1,5 @@
+import type { MedalTier } from './achievements';
+
 /**
  * Eventos que emiten las features. El motor de juego (engine.ts) los
  * traduce en XP, racha, misiones y logros. Añadir un evento nuevo no
@@ -26,7 +28,7 @@ export type GameEventType = GameEvent['type'];
 export type Reward =
   | { kind: 'xp'; amount: number; reason: string }
   | { kind: 'level-up'; level: number; rankName: string; rankIcon: string; newRank: boolean }
-  | { kind: 'achievement'; id: string; title: string; icon: string }
+  | { kind: 'achievement'; id: string; title: string; icon: string; tier: MedalTier }
   | { kind: 'quest'; id: string; title: string; xp: number }
   | { kind: 'streak'; days: number }
   | { kind: 'rating'; delta: number; rating: number; gain: number; loss: number }

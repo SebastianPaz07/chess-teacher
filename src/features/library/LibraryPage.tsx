@@ -1,8 +1,9 @@
 import { Icon } from '@/components/ui/Icon';
 import { useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { Badge, Card, EmptyState, Tabs } from '@/components/ui';
-import { resources } from '@/content/registry';
+import { getResource, resources } from '@/content/registry';
 import type { Resource } from '@/content/schema';
 import { ResourceViewer } from './components/ResourceViewer';
 import styles from './LibraryPage.module.css';
@@ -13,7 +14,13 @@ type Filter = 'all' | 'video' | 'pdf';
 export function LibraryPage() {
   const [filter, setFilter] = useState<Filter>('all');
   const [query, setQuery] = useState('');
-  const [open, setOpen] = useState<Resource | null>(null);
+  const [params, setParams] = useSearchParams();
+  // /biblioteca?resource=<id> abre ese material directamente
+  const [open, setOpen] = useState<Resource | null>(() => getResource(params.get('resource') ?? '') ?? null);
+  const close = () => {
+    setOpen(null);
+    if (params.has('resource')) setParams({}, { replace: true });
+  };
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -81,7 +88,7 @@ export function LibraryPage() {
           </div>
         </Card>
       ))}
-      <ResourceViewer resource={open} onClose={() => setOpen(null)} />
+      <ResourceViewer resource={open} onClose={close} />
     </div>
   );
 }

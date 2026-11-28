@@ -3,7 +3,7 @@
 /* .masthead { border-bottom: 3px double var(--color-rule); padding-bottom: var(--space-3); } */
 .masthead :global(.eyebrow) { margin: 0; }
 .masthead :global(.eyebrow)::first-letter { text-transform: uppercase; }
-.hello { font-size: 2.2rem; margin: var(--space-1) 0 var(--space-1); }
+.hello { font-size: 1.5rem; margin: var(--space-1) 0 var(--space-1); }
 .dek { margin: 0; color: var(--color-text-muted); font-size: 0.9rem; line-height: 1.6; }
 .dek strong { color: var(--color-text); font-weight: 600; }
 .editPlan { white-space: nowrap; text-decoration: none; }
@@ -64,7 +64,7 @@
 .stepNext .stepTitle { font-weight: 600; }
 
 @media (min-width: 768px) {
-  .hello { font-size: 2.4rem; }
+  .hello { font-size: 1.7rem; }
 }
 
 @media (min-width: 960px) {
@@ -93,14 +93,28 @@
 .coachHead { margin: 0; font-family: var(--font-display); font-size: 1.05rem; line-height: 1.35; }
 .coachList { margin: 0; padding-left: 1.1rem; display: flex; flex-direction: column; gap: 4px; font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.45; }
 .goal { display: flex; flex-direction: column; gap: 6px; font-size: 0.85rem; margin-top: var(--space-1); }
-.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; height: 36px; align-items: end; }
-.weekDay { display: flex; align-items: flex-end; height: 100%; background: var(--color-border); border-radius: 3px; overflow: hidden; }
-.weekBar { display: block; width: 100%; min-height: 2px; background: var(--color-primary); border-radius: 3px; }
 
 /* Ratos libres */
 .freeList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.freeItem { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2); padding: var(--space-2) 0; border-bottom: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-size: 0.9rem; }
+.freeItem { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--space-2); align-items: start; width: 100%; padding: var(--space-2) 0; border: none; border-bottom: 1px solid var(--color-border); background: transparent; color: var(--color-text); text-align: left; text-decoration: none; font: inherit; font-size: 0.9rem; cursor: pointer; }
+.freeItem > span { min-width: 0; overflow-wrap: anywhere; }
+.freeItem :global(.eyebrow) { margin: 0; }
+.freeItem > span > div { margin-top: 6px; }
 .freeItem:hover strong { text-decoration: underline; text-underline-offset: 3px; }
 .freeItem strong { font-weight: 600; display: block; }
 .freeItem small { display: block; color: var(--color-text-muted); font-size: 0.8rem; margin-top: 2px; }
 
+
+.allLink { font-size: 0.85rem; }
+.theme { display: flex; gap: var(--space-2); align-items: flex-start; margin: 0; font-size: 0.9rem; }
+.theme > svg { color: var(--color-primary); margin-top: 3px; }
+/* Tira de la semana */
+.weekPlan { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.weekPlanDay { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: var(--space-2) 2px; border: 1px solid var(--color-border); border-radius: var(--radius-md); text-align: center; }
+.weekPlanDay small { text-transform: capitalize; color: var(--color-text-muted); font-size: 0.72rem; }
+.weekPlanDay span { font-size: 0.66rem; line-height: 1.2; overflow-wrap: anywhere; }
+/* En el móvil no caben los nombres: quedan los iconos (el tema de hoy se lee arriba) */
+@media (max-width: 599px) {
+  .weekPlanDay > span:last-child { display: none; }
+}
+.weekPlanToday { border-color: var(--color-primary); background: var(--color-primary-soft); }

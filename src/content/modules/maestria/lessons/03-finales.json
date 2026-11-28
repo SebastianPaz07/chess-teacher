@@ -1,0 +1,154 @@
+{
+  "id": "mae-03-finales",
+  "order": 3,
+  "title": "Finales de precisión",
+  "summary": "Un tiempo lo cambia todo.",
+  "icon": "flag",
+  "xp": 110,
+  "minutes": 15,
+  "tags": [
+    "entrenamiento",
+    "final"
+  ],
+  "sources": [
+    {
+      "title": "Entrenamiento sistemático en ajedrez",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Calcular hasta el final",
+      "body": "En finales de peones el cálculo puede ser **exacto**: cuenta los tiempos de ambas coronaciones y revisa si la nueva dama llega con jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 5 · dificultad 1862",
+      "fen": "8/8/7p/3k3P/5Kp1/6P1/8/8 w - - 6 47",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "Kf5",
+        "Kd4",
+        "Kg6"
+      ],
+      "explanation": "Solución: **Rf5 Rd4 Rg6**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 5 · dificultad 2112",
+      "fen": "8/8/1pp1k1p1/4Pp1p/2PK1P1P/pP6/P7/8 w - - 2 36",
+      "prompt": "Deja al rival en **zugzwang** o escapa de él.",
+      "solution": [
+        "b4",
+        "Ke7",
+        "b5",
+        "cxb5",
+        "cxb5"
+      ],
+      "explanation": "Solución: **b4 Re7 b5 cxb5 cxb5**. Piensa qué pasaría si el rival pudiera pasar el turno: no puede."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 5 · dificultad 2122",
+      "fen": "8/p4p2/4k2p/2p5/2PpK1P1/1P5P/P7/8 w - - 0 37",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "b4",
+        "cxb4",
+        "Kxd4"
+      ],
+      "explanation": "Solución: **b4 cxb4 Rxd4**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 5 · dificultad 2308",
+      "fen": "8/5p2/6p1/8/4kPKP/8/8/8 w - - 1 59",
+      "prompt": "Deja al rival en **zugzwang** o escapa de él.",
+      "solution": [
+        "Kg5",
+        "Kf3",
+        "f5",
+        "Kg3",
+        "f6",
+        "Kh3",
+        "h5",
+        "gxh5",
+        "Kxh5"
+      ],
+      "explanation": "Solución: **Rg5 Rf3 f5 Rg3 f6 Rh3 h5 gxh5 Rxh5**. Piensa qué pasaría si el rival pudiera pasar el turno: no puede."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 5 · dificultad 2373",
+      "fen": "8/5k2/8/ppp5/6PP/P1P5/2P3K1/8 b - - 2 39",
+      "prompt": "Resuelve el **final de peones**.",
+      "solution": [
+        "a4",
+        "c4",
+        "b4"
+      ],
+      "explanation": "Solución: **a4 c4 b4**. Cuenta tiempos y revisa la oposición."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 1999",
+      "fen": "8/5k2/4R2p/p7/5rPK/8/7P/8 w - - 3 43",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxh6",
+        "Rf6",
+        "Rh7+",
+        "Kg6",
+        "Ra7"
+      ],
+      "explanation": "Solución: **Txh6 Tf6 Th7+ Rg6 Ta7**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 2129",
+      "fen": "2r5/8/p7/3R2pk/PP3pp1/8/1P3PKP/8 b - - 0 34",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "f3+",
+        "Kg3",
+        "Rc1",
+        "h3",
+        "Rg1+",
+        "Kh2",
+        "Rg2+"
+      ],
+      "explanation": "Solución: **f3+ Rg3 Tc1 h3 Tg1+ Rh2 Tg2+**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 2216",
+      "fen": "5R2/8/kp6/p3K1P1/r4p2/8/8/8 w - - 0 55",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "g6",
+        "f3",
+        "g7"
+      ],
+      "explanation": "Solución: **g6 f3 g7**. Actividad primero; torre detrás del peón."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 2380",
+      "fen": "8/1p1kpp2/p2p2pp/3P4/P3R3/2r5/1r3PPP/4R1K1 w - - 0 26",
+      "prompt": "Resuelve el **final de torres**.",
+      "solution": [
+        "Rxe7+",
+        "Kc8",
+        "Re8+",
+        "Kc7",
+        "a5",
+        "Rb1",
+        "Rxb1"
+      ],
+      "explanation": "Solución: **Txe7+ Rc8 Te8+ Rc7 a5 Tb1 Txb1**. Actividad primero; torre detrás del peón."
+    }
+  ]
+}

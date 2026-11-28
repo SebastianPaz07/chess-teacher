@@ -5,6 +5,19 @@
 .cols { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5); align-items: start; }
 .moduleRow { display: flex; align-items: center; gap: var(--space-3); }
 
+/* Últimos 7 días: día a la izquierda, tiempo a la derecha y una barra para comparar */
+.recent { list-style: none; margin: 0; padding: 0; }
+.recentDay { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: 6px var(--space-3); padding: var(--space-3) 0; border-bottom: 1px solid var(--color-border); }
+.recentDay:last-child { border-bottom: none; padding-bottom: 0; }
+.recentName { display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--space-2); }
+.recentName small, .recentDone { color: var(--color-text-muted); font-size: 0.8rem; }
+.recentTime { font-weight: 700; font-variant-numeric: tabular-nums; }
+.recentBar { grid-column: 1 / -1; height: 6px; border-radius: var(--radius-pill); background: var(--color-surface-2); overflow: hidden; }
+.recentBar > span { display: block; height: 100%; border-radius: inherit; background: var(--color-primary); }
+.recentDone { grid-column: 1 / -1; }
+.recentEmpty .recentTime { font-weight: 400; font-size: 0.85rem; color: var(--color-text-muted); }
+.recentEmpty .recentBar { display: none; }
+
 @media (min-width: 640px) {
   .kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }

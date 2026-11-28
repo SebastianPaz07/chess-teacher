@@ -1,0 +1,144 @@
+{
+  "id": "mae-01-calculo",
+  "order": 1,
+  "title": "Variantes de cinco jugadas",
+  "summary": "Sin mover las piezas.",
+  "icon": "brain",
+  "xp": 105,
+  "minutes": 14,
+  "tags": [
+    "entrenamiento",
+    "ventaja-decisiva"
+  ],
+  "sources": [
+    {
+      "title": "Entrenamiento sistemático en ajedrez",
+      "resourceTags": [
+        "entrenamiento"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Sesión de torneo",
+      "body": "Pon cada posición en tu tablero, activa un reloj de **10 minutos** y escribe la variante completa antes de jugarla."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 8 · dificultad 1931",
+      "fen": "8/6p1/8/3K2k1/5pP1/5P2/8/8 b - - 0 43",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Kh4",
+        "g5",
+        "Kg3",
+        "g6",
+        "Kxf3"
+      ],
+      "explanation": "Solución: **Rh4 g5 Rg3 g6 Rxf3**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 8 · dificultad 1980",
+      "fen": "r5k1/2qP1ppp/8/p2Q4/Pb1P4/8/5PPP/6K1 w - - 0 27",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qxa8+",
+        "Bf8",
+        "Qc8",
+        "Qxd7",
+        "Qxd7"
+      ],
+      "explanation": "Solución: **Dxa8+ Af8 Dc8 Dxd7 Dxd7**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 8 · dificultad 2072",
+      "fen": "8/pp6/4k3/PP3p2/2P2K2/8/8/8 b - - 0 50",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Kd6",
+        "Kxf5",
+        "Kc5",
+        "Ke6",
+        "Kxc4",
+        "b6",
+        "axb6"
+      ],
+      "explanation": "Solución: **Rd6 Rxf5 Rc5 Re6 Rxc4 b6 axb6**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 8 · dificultad 2116",
+      "fen": "r1bqkbnr/5ppp/p2pp3/1p1P4/2Q1P3/N7/2P2PPP/R1B1K1NR w KQkq - 0 11",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Nxb5",
+        "axb5",
+        "Qc6+",
+        "Bd7",
+        "Qxa8"
+      ],
+      "explanation": "Solución: **Cxb5 axb5 Dc6+ Ad7 Dxa8**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 8 · dificultad 2191",
+      "fen": "r3kb1r/pp2pppp/2n2n2/3P4/2B3b1/q4N2/P2B1PPP/1R1QK2R w Kkq - 3 12",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "dxc6",
+        "bxc6",
+        "Bb4",
+        "Qxb4+",
+        "Rxb4"
+      ],
+      "explanation": "Solución: **dxc6 bxc6 Ab4 Dxb4+ Txb4**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 8 · dificultad 2230",
+      "fen": "r7/4n1k1/2b1R1n1/1p4R1/1P1p3p/3P1PpP/2N3P1/6K1 w - - 1 41",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Rxe7+",
+        "Kf6",
+        "Rxg6+",
+        "Kxe7",
+        "Rxc6",
+        "Kd7",
+        "Rc5"
+      ],
+      "explanation": "Solución: **Txe7+ Rf6 Txg6+ Rxe7 Txc6 Rd7 Tc5**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 7 de 8 · dificultad 2297",
+      "fen": "8/6k1/2p1r1p1/p2p4/3P1K2/P1P5/1P3R2/8 b - - 9 51",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Rf6+",
+        "Ke3",
+        "Rxf2",
+        "Kxf2",
+        "a4"
+      ],
+      "explanation": "Solución: **Tf6+ Re3 Txf2 Rxf2 a4**. Jaques, capturas y amenazas, en ese orden."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 8 de 8 · dificultad 2352",
+      "fen": "4r1k1/pp3p1p/2n2p2/2b5/N7/7Q/P1B1qPPP/3R2K1 w - - 2 25",
+      "prompt": "Encuentra la jugada **decisiva**.",
+      "solution": [
+        "Qxh7+",
+        "Kf8",
+        "Qh6+",
+        "Ke7",
+        "Nxc5"
+      ],
+      "explanation": "Solución: **Dxh7+ Rf8 Dh6+ Re7 Cxc5**. Jaques, capturas y amenazas, en ese orden."
+    }
+  ]
+}

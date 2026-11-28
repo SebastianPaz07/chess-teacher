@@ -9,6 +9,8 @@ interface PuzzleBoardProps {
   fen: string;
   solution: string[];
   prompt?: ReactNode;
+  /** Título grande sobre el tablero y, a la derecha, una guía (p. ej. «Ejercicio 2/5») */
+  heading?: { title: ReactNode; aside: ReactNode };
   maxMistakes?: number;
   onFinish?: (r: PuzzleResult) => void;
   onMistake?: (mistakes: number) => void;
@@ -19,7 +21,7 @@ interface PuzzleBoardProps {
 }
 
 /** Tablero de ejercicio reutilizable (lecciones, práctica, repaso, rush, test). */
-export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMistake, onCorrect, showHelp = true, maxWidth, footer }: PuzzleBoardProps) {
+export function PuzzleBoard({ fen, solution, prompt, heading,maxMistakes, onFinish, onMistake, onCorrect, showHelp = true, maxWidth, footer }: PuzzleBoardProps) {
   const p = usePuzzle({ fen, solution, maxMistakes, onFinish, onMistake, onCorrect });
   const toMove = p.playerColor === 'w' ? 'Juegan blancas' : 'Juegan negras';
   const { nav } = p;
@@ -36,15 +38,28 @@ export function PuzzleBoard({ fen, solution, prompt, maxMistakes, onFinish, onMi
     return () => window.removeEventListener('keydown', onKey);
   }, [nav]);
 
+  const top = (
+    <div className={styles.top}>
+      <Badge tone={p.playerColor === 'w' ? 'neutral' : 'primary'} icon={p.playerColor === 'w' ? 'piece-pawn-w' : 'piece-pawn'}>
+        {toMove}
+      </Badge>
+      {prompt && <span className={styles.prompt}>{prompt}</span>}
+      {heading && <span className={`${styles.aside} num`}>{heading.aside}</span>}
+    </div>
+  );
+
   return (
     <div className={styles.wrap}>
-      <div className={styles.top}>
-        <Badge tone={p.playerColor === 'w' ? 'neutral' : 'primary'} icon={p.playerColor === 'w' ? 'piece-pawn-w' : 'piece-pawn'}>
-          {toMove}
-        </Badge>
-        {prompt && <span className={styles.prompt}>{prompt}</span>}
-      </div>
+      {!heading && top}
       <ChessBoard
+        header={
+          heading && (
+            <div className={styles.heading}>
+              <h1 className={styles.title}>{heading.title}</h1>
+              {top}
+            </div>
+          )
+        }
         fen={p.position}
         orientation={p.orientation}
         onMove={p.isPlayerTurn && !nav.enabled ? p.onMove : undefined}

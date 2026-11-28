@@ -37,5 +37,8 @@ export const TITLE_BY_TAG: Record<string, string> = {
   'ventaja-decisiva': 'Golpe decisivo', ventaja: 'Mejor jugada',
 };
 
+/** Motivo principal de un ejercicio (para variar las sesiones). */
+export const motifOf = (e: { themes: string[] }) => MOTIF_ORDER.find((m) => e.themes.includes(m)) ?? e.themes[0];
+
 /** El tag que mejor describe el «motivo» del ejercicio (para el título). */
 export const MOTIF_ORDER = ['mate', 'pasillo', 'mate-ahogado', 'horquilla', 'clavada', 'ensartada', 'descubierta', 'jaque-doble', 'sacrificio', 'desviacion', 'atraccion', 'despeje', 'interferencia', 'intermedia', 'sobrecarga', 'eliminar-defensor', 'zugzwang', 'jugada-tranquila', 'defensa', 'promocion', 'final-torres', 'final-peones', 'final', 'pieza-atrapada', 'captura', 'ataque-al-rey', 'ventaja-decisiva', 'ventaja'];

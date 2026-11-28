@@ -1,0 +1,174 @@
+{
+  "id": "def-04-bajo-fuego",
+  "order": 4,
+  "title": "Defender bajo fuego",
+  "summary": "Calma y precisión.",
+  "icon": "brain",
+  "xp": 105,
+  "minutes": 17,
+  "tags": [
+    "estrategia",
+    "defensa",
+    "jugada-tranquila"
+  ],
+  "sources": [
+    {
+      "title": "Petrosian, Ajedrez en la cumbre",
+      "resourceTags": [
+        "estrategia"
+      ]
+    }
+  ],
+  "steps": [
+    {
+      "type": "text",
+      "title": "Una jugada única",
+      "body": "En defensa a menudo solo **una** jugada sirve. Calcula las amenazas concretas, no los fantasmas: ¿qué pasa **exactamente** si no haces nada?"
+    },
+    {
+      "type": "board-demo",
+      "title": "La defensa que faltó",
+      "moves": [
+        "e4",
+        "c6",
+        "d4",
+        "d5",
+        "Nc3",
+        "dxe4",
+        "Nxe4",
+        "Nd7",
+        "Ng5",
+        "Ngf6",
+        "Bd3",
+        "e6",
+        "N1f3",
+        "h6",
+        "Nxe6",
+        "Qe7",
+        "O-O",
+        "fxe6",
+        "Bg6+",
+        "Kd8",
+        "Bf4",
+        "b5",
+        "a4",
+        "Bb7",
+        "Re1",
+        "Nd5",
+        "Bg3",
+        "Kc8",
+        "axb5",
+        "cxb5",
+        "Qd3",
+        "Bc6",
+        "Bf5",
+        "exf5",
+        "Rxe7",
+        "Bxe7",
+        "c4"
+      ],
+      "notes": {
+        "0": "Deep Blue – Garry Kasparov, 1997.",
+        "15": "Un sacrificio conocido que la máquina ejecutó sin dudar."
+      },
+      "body": "Analiza: ¿en qué momento las negras debieron reaccionar de otra forma?"
+    },
+    {
+      "type": "quiz",
+      "question": "Ante un sacrificio rival, lo primero es...",
+      "options": [
+        "Abandonar",
+        "Capturar sin pensar",
+        "Calcular si es correcto y si conviene rechazarlo"
+      ],
+      "answer": 2,
+      "explanation": "Aceptar no es obligatorio."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 6 · dificultad 1733",
+      "fen": "8/1p6/6K1/2k4p/7P/5P2/8/8 w - - 1 51",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "f4",
+        "Kd6",
+        "f5"
+      ],
+      "explanation": "Solución: **f4 Rd6 f5**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 6 · dificultad 1861",
+      "fen": "r1b1r3/pp1n3p/1k3n2/1B6/4p3/2R2N2/2PP1PPP/5RK1 w - - 2 20",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Rb1",
+        "a6",
+        "Bxd7+",
+        "Ka7",
+        "Bxe8"
+      ],
+      "explanation": "Solución: **Tb1 a6 Axd7+ Ra7 Axe8**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 6 · dificultad 1977",
+      "fen": "r1bq1r2/2p2B1k/pb1p1pnp/1p2p2Q/1P2P2N/P1PP1N2/5PPP/R4RK1 b - - 0 17",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Nf4",
+        "Bg6+",
+        "Kg7",
+        "Nf5+",
+        "Bxf5"
+      ],
+      "explanation": "Solución: **Cf4 Ag6+ Rg7 Cf5+ Axf5**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 6 · dificultad 2052",
+      "fen": "6k1/5p2/4p3/P1B5/2P4P/4Pnp1/Rb2r3/5K2 w - - 0 34",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "Kxe2",
+        "g2",
+        "e4",
+        "Nd4+",
+        "Kf2"
+      ],
+      "explanation": "Solución: **Rxe2 g2 e4 Cd4+ Rf2**. No siempre lo más fuerte es un jaque."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 5 de 6 · dificultad 2137",
+      "fen": "2k4r/2p2p2/2p5/p5q1/6b1/PP1PQ1b1/R1PN4/1K2R3 b - - 7 28",
+      "prompt": "**Defiende** con precisión.",
+      "solution": [
+        "Bf4",
+        "Qa7",
+        "Bxd2",
+        "Qa8+",
+        "Kd7",
+        "Qxh8",
+        "Bxe1",
+        "Qd4+",
+        "Kc8"
+      ],
+      "explanation": "Solución: **Af4 Da7 Axd2 Da8+ Rd7 Dxh8 Axe1 Dd4+ Rc8**. Calcula las amenazas concretas del rival."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 6 de 6 · dificultad 2228",
+      "fen": "6rr/pp2kp2/2pp4/4nK2/2PBPN2/8/PP3P1p/3R3R b - - 4 30",
+      "prompt": "Busca la **jugada tranquila** decisiva.",
+      "solution": [
+        "f6",
+        "Ng6+",
+        "Rxg6",
+        "Bxe5",
+        "Rg5+"
+      ],
+      "explanation": "Solución: **f6 Cg6+ Txg6 Axe5 Tg5+**. No siempre lo más fuerte es un jaque."
+    }
+  ]
+}

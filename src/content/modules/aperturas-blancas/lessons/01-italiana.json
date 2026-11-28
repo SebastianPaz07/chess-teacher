@@ -4,14 +4,29 @@
   "title": "Cómo estudiar una apertura: la Italiana",
   "summary": "Entender ideas en vez de memorizar jugadas, con la Italiana como ejemplo.",
   "icon": "piece-bishop",
-  "xp": 55,
-  "minutes": 8,
-  "tags": ["aperturas", "italiana"],
-  "sources": [
-    { "title": "Clases grabadas – Apertura Italiana", "resourceTags": ["italiana"] },
-    { "title": "Libro: Apertura Italiana", "resourceTags": ["italiana"] }
+  "xp": 85,
+  "minutes": 18,
+  "tags": [
+    "aperturas",
+    "italiana"
   ],
-  "practice": ["apb-ex-italiana-dg5"],
+  "sources": [
+    {
+      "title": "Clases grabadas – Apertura Italiana",
+      "resourceTags": [
+        "italiana"
+      ]
+    },
+    {
+      "title": "Libro: Apertura Italiana",
+      "resourceTags": [
+        "italiana"
+      ]
+    }
+  ],
+  "practice": [
+    "apb-ex-italiana-dg5"
+  ],
   "steps": [
     {
       "type": "text",
@@ -22,7 +37,20 @@
       "type": "board-demo",
       "title": "La Italiana paso a paso",
       "fen": "start",
-      "moves": ["e4", "e5", "Nf3", "Nc6", "Bc4", "Bc5", "c3", "Nf6", "d3", "d6", "O-O", "O-O"],
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "Nc6",
+        "Bc4",
+        "Bc5",
+        "c3",
+        "Nf6",
+        "d3",
+        "d6",
+        "O-O",
+        "O-O"
+      ],
       "notes": {
         "5": "3.Ac4 apunta a f7.",
         "6": "3...Ac5: las negras responden igual, apuntando a f2.",
@@ -33,7 +61,11 @@
     {
       "type": "quiz",
       "question": "¿Cuál es la idea principal de **4.c3** en la Italiana?",
-      "options": ["Atacar al alfil de c5", "Preparar d4 para tener un gran centro", "Defender el peón de e4"],
+      "options": [
+        "Atacar al alfil de c5",
+        "Preparar d4 para tener un gran centro",
+        "Defender el peón de e4"
+      ],
       "answer": 1,
       "explanation": "c3 controla d4 y prepara **d4**, ganando el centro (y de paso deja la casilla c2 para el alfil)."
     },
@@ -42,9 +74,92 @@
       "title": "Castiga el error",
       "fen": "r1bqkbnr/pppp1ppp/8/4N3/2BnP3/8/PPPP1PPP/RNBQK2R b KQkq - 0 4",
       "prompt": "Las blancas jugaron 4.Cxe5? creyendo ganar un peón. Juegas con negras: **encuentra el doble ataque**.",
-      "solution": ["Qg5"],
+      "solution": [
+        "Qg5"
+      ],
       "hint": "La dama puede atacar el caballo de e5 y el peón de g2 a la vez.",
       "explanation": "**4...Dg5!** ataca el caballo y g2. Si 5.Cxf7?? Dxg2 6.Tf1 Dxe4+ 7.Ae2 Cf3# (trampa Blackburne)."
+    },
+    {
+      "type": "board-demo",
+      "title": "Gambito Evans",
+      "moves": [
+        "e4",
+        "e5",
+        "Nf3",
+        "Nc6",
+        "Bc4",
+        "Bc5",
+        "b4",
+        "Bxb4",
+        "c3",
+        "Ba5",
+        "d4",
+        "exd4",
+        "O-O",
+        "Nge7",
+        "cxd4",
+        "d5",
+        "exd5",
+        "Nxd5"
+      ],
+      "notes": {
+        "7": "Un peón por el centro.",
+        "16": "La reacción correcta."
+      }
+    },
+    {
+      "type": "text",
+      "title": "Ahora practica",
+      "body": "Siguen **4 posiciones** de menor a mayor dificultad. Si puedes, ármalas en un tablero físico y piensa como en una partida real."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 1 de 4 · dificultad 1080",
+      "fen": "rnb1k2r/p1p2ppp/1p3n2/2b3B1/3qP3/3P1N2/PPP3PP/RN1QKB1R b KQkq - 2 8",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qf2#"
+      ],
+      "explanation": "Solución: **Df2#**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 2 de 4 · dificultad 1170",
+      "fen": "r1bqkb1r/1p1npp1p/p2p1np1/6B1/2PN4/3BP3/PP3PPP/RN1QK2R b KQkq - 0 8",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qa5+",
+        "Nc3",
+        "Qxg5"
+      ],
+      "explanation": "Solución: **Da5+ Cc3 Dxg5**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 3 de 4 · dificultad 1330",
+      "fen": "r1b1k1nr/pppp1ppp/2n5/4P1N1/5B2/2b5/Pq1QPPPP/RN2KB1R w KQkq - 0 8",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "Qxc3",
+        "Qxc3+",
+        "Nxc3"
+      ],
+      "explanation": "Solución: **Dxc3 Dxc3+ Cxc3**. Los errores tempranos se castigan con desarrollo y amenazas."
+    },
+    {
+      "type": "make-move",
+      "title": "Ejercicio 4 de 4 · dificultad 1454",
+      "fen": "r1bqk2r/ppp2ppp/3p4/4p3/2PBP2b/5Pn1/PP4PP/RN1QKB1R w KQkq - 0 10",
+      "prompt": "Posición de **apertura**: encuentra el golpe.",
+      "solution": [
+        "hxg3",
+        "Bxg3+",
+        "Bf2",
+        "Bxf2+",
+        "Kxf2"
+      ],
+      "explanation": "Solución: **hxg3 Axg3+ Af2 Axf2+ Rxf2**. Los errores tempranos se castigan con desarrollo y amenazas."
     }
   ]
 }
