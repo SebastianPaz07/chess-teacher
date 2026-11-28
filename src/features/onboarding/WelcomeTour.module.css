@@ -1,6 +1,4 @@
-.tour { max-width: 480px; min-height: calc(100dvh - 96px); margin: 0 auto; display: flex; flex-direction: column; gap: var(--space-4); }
-/* Reserva el alto aunque en la última pantalla ya no haya «Saltar» */
-.top { display: flex; justify-content: flex-end; min-height: var(--tap); }
+.tour { max-width: 480px; min-height: calc(100dvh - 96px); margin: 0 auto; padding-top: var(--space-5); display: flex; flex-direction: column; gap: var(--space-4); }
 .slide { flex: 1; display: flex; flex-direction: column; align-items: center; gap: var(--space-3); text-align: center; }
 .art { filter: drop-shadow(0 8px 18px rgb(10 11 40 / 0.35)); }
 .title { margin: 0; font-size: 1.8rem; }

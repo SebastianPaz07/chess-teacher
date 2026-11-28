@@ -50,14 +50,6 @@ export function WelcomeTour({ onDone }: { onDone: () => void }) {
 
   return (
     <div className={styles.tour}>
-      <div className={styles.top}>
-        {!last && (
-          <Button size="sm" variant="ghost" onClick={onDone}>
-            Saltar
-          </Button>
-        )}
-      </div>
-
       <section className={styles.slide} aria-live="polite">
         <div className={styles.art} aria-hidden>
           <PieceScene size={112} scene={{ b: '...../..k../...../..N../.K...', a: ['2,3>3,1'] }} />
