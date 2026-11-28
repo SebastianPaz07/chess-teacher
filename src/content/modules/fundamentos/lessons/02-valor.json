@@ -5,7 +5,7 @@
   "summary": "Cuánto vale cada pieza y cómo decidir si un cambio te conviene.",
   "icon": "scales",
   "xp": 75,
-  "minutes": 20,
+  "minutes": 15,
   "tags": [
     "fundamentos",
     "captura"
@@ -73,6 +73,7 @@
     {
       "type": "video",
       "resourceId": "1enu3PYJUXatbR7Lf497YvLtArpZgLnzf",
+      "minutes": 4,
       "title": "El valor de las piezas"
     },
     {

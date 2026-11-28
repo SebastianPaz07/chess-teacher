@@ -5,7 +5,7 @@
   "summary": "Ataques en lados contrarios.",
   "icon": "wall",
   "xp": 105,
-  "minutes": 17,
+  "minutes": 24,
   "tags": [
     "estrategia",
     "india-de-rey"
@@ -27,6 +27,7 @@
     {
       "type": "video",
       "resourceId": "1NduTeoaOkMwqpxPhfN_L8n5qvbOr1k5n",
+      "minutes": 16,
       "title": "10 conceptos posicionales de la India de Rey"
     },
     {

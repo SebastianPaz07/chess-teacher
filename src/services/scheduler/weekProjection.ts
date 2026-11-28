@@ -26,14 +26,16 @@ export function projectWeek({ today, themes, cards, todayTasks, ...base }: WeekP
   const lessons = { ...base.progress.lessons };
   const trainedLines = { ...base.trainedLines };
   const solved = new Set(base.solvedIds);
-  const lessonLeft = new Map<string, number>();
+  const lessonDrafts = { ...base.lessonDrafts };
 
   const assumeDone = (tasks: DailyTask[], date: string) => {
     for (const t of tasks) {
       if (t.kind === 'lesson') {
-        const left = (lessonLeft.get(t.lessonId) ?? t.totalMinutes) - t.minutes;
-        lessonLeft.set(t.lessonId, left);
-        if (left <= 0) lessons[t.lessonId] = { stars: 3, bestMistakes: 0, completedAt: date, times: 1 };
+        const total = base.modules.flatMap((m) => m.lessons).find((l) => l.id === t.lessonId)?.steps.length ?? 0;
+        if (t.toStep >= total) {
+          lessons[t.lessonId] = { stars: 3, bestMistakes: 0, completedAt: date, times: 1 };
+          delete lessonDrafts[t.lessonId];
+        } else lessonDrafts[t.lessonId] = { index: t.toStep };
       }
       if (t.kind === 'opening') trainedLines[`${t.openingId}#${t.lineIndex}`] = true;
       if (t.kind === 'practice') t.exerciseIds.forEach((id) => solved.add(id));
@@ -54,6 +56,7 @@ export function projectWeek({ today, themes, cards, todayTasks, ...base }: WeekP
       theme,
       progress: { ...base.progress, lessons },
       trainedLines,
+      lessonDrafts,
       solvedIds: solved,
       // Solo los repasos que vencen justo ese día: los anteriores se hacen antes
       dueCards: cards.filter((c) => c.due === date),

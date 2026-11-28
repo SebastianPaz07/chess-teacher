@@ -4,6 +4,7 @@ import { dayNumber } from '@/lib/date';
 import { hashString, seededRandom } from '@/lib/random';
 import { pickVaried } from '@/services/game/rating';
 import { motifOf } from '@/services/lichess/themes';
+import { lessonPart } from './lessonPart';
 import { isModuleUnlocked, levelForRating, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
 import type { ReviewCard } from './sm2';
 import { THEMES, type ThemeId } from './weekPlan';
@@ -25,7 +26,8 @@ export const FOCUS_TAGS: Record<Exclude<FocusArea, 'teoria'>, string[]> = {
  */
 export type DailyTask =
   | { id: string; kind: 'review'; title: string; cardIds: string[]; minutes: number }
-  | { id: string; kind: 'lesson'; title: string; lessonId: string; minutes: number; totalMinutes: number }
+  /** `minutes`: lo de hoy (pasos `fromStep` a `toStep`, sin incluir este); `totalMinutes`: la lección entera */
+  | { id: string; kind: 'lesson'; title: string; lessonId: string; minutes: number; totalMinutes: number; fromStep: number; toStep: number; videoMinutes: number }
   | { id: string; kind: 'practice'; title: string; exerciseIds: string[]; minutes: number }
   | { id: string; kind: 'opening'; title: string; openingId: string; lineIndex: number; minutes: number }
   | { id: string; kind: 'classic'; title: string; gameId: string; minutes: number }
@@ -58,6 +60,8 @@ export interface DailyPlanInput {
   dailyMinutes: number;
   solvedIds: Set<string>;
   trainedLines: Record<string, unknown>;
+  /** Lecciones a medias: en qué paso quedó cada una */
+  lessonDrafts?: Record<string, { index: number }>;
   /** Pool extra de ejercicios (puzzles importados) que se suma a los de los módulos. */
   puzzlePool?: Exercise[];
   /** Ejercicios inéditos traídos de Lichess: se mezclan con el resto del material */
@@ -77,8 +81,8 @@ export interface DailyPlanInput {
   theme?: ThemeId | null;
 }
 
-/** Minutos de lección que caben en un día: las largas se avanzan por bloques. */
-export const lessonBlock = (lessonMinutes: number, dailyMinutes: number) => Math.min(lessonMinutes, Math.max(5, Math.round(dailyMinutes * 0.3)));
+/** Minutos del día que se reservan para la lección: las largas se avanzan por partes. */
+export const lessonBudget = (dailyMinutes: number) => Math.max(5, Math.round(dailyMinutes * 0.3));
 
 /** Minutos que se estiman por ejercicio. */
 export const MINUTES_PER_EXERCISE: Record<Level, number> = { principiante: 1.5, intermedio: 1.5, avanzado: 2 };
@@ -237,10 +241,25 @@ export function generateDailyPlan(input: DailyPlanInput): DailyTask[] {
   let lesson: Lesson | undefined;
   const lessonToday = basicsFirst || !restDay && (dailyMinutes > 10 || day % 2 === 0) && (level !== 'avanzado' || day % 2 === 0 || dailyMinutes >= 30 || focus.includes('teoria'));
   if (candidates.length && lessonToday) {
-    lesson = basicsFirst ? candidates[0] : (candidates.find((l) => l.tags.some((t) => themeTags.has(t))) ?? (theme ? candidates[0] : candidates[day % candidates.length]));
-    const minutes = basicsFirst ? lesson.minutes : lessonBlock(lesson.minutes, dailyMinutes);
-    const title = minutes < lesson.minutes ? `Avanza en: ${lesson.title}` : lesson.title;
-    tasks.push({ id: `lesson:${lesson.id}`, kind: 'lesson', title, lessonId: lesson.id, minutes, totalMinutes: lesson.minutes });
+    const drafts = input.lessonDrafts ?? {};
+    // Lo que dejaste a medias va antes que el tema del día
+    lesson = basicsFirst
+      ? candidates[0]
+      : (candidates.find((l) => drafts[l.id]) ?? candidates.find((l) => l.tags.some((t) => themeTags.has(t))) ?? (theme ? candidates[0] : candidates[day % candidates.length]));
+    const from = Math.min(drafts[lesson.id]?.index ?? 0, lesson.steps.length - 1);
+    const part = lessonPart(lesson, from, basicsFirst ? Infinity : lessonBudget(dailyMinutes));
+    const partial = part.from > 0 || part.to < lesson.steps.length;
+    tasks.push({
+      id: `lesson:${lesson.id}`,
+      kind: 'lesson',
+      title: partial ? `Avanza en: ${lesson.title}` : lesson.title,
+      lessonId: lesson.id,
+      minutes: part.minutes,
+      totalMinutes: lesson.minutes,
+      fromStep: part.from,
+      toStep: part.to,
+      videoMinutes: part.videoMinutes,
+    });
   }
 
   // Principiante absoluto: primero aprende a mover las piezas, sin ejercicios

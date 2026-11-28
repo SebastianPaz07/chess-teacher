@@ -5,7 +5,7 @@
   "summary": "Un plan completo para cada bando.",
   "icon": "wall",
   "xp": 105,
-  "minutes": 18,
+  "minutes": 24,
   "tags": [
     "estrategia",
     "medio-juego"
@@ -27,11 +27,13 @@
     {
       "type": "video",
       "resourceId": "1FmKL9b6rL77dhQmJ1L8nRa1gyGjyzrdH",
+      "minutes": 13,
       "title": "Stonewall: el ataque"
     },
     {
       "type": "video",
       "resourceId": "1vBGDoPVmt7ANQUP-MQIswbqSVgdlY12o",
+      "minutes": 4,
       "title": "Stonewall: cómo juega cada bando"
     },
     {

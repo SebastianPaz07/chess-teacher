@@ -5,7 +5,7 @@
   "summary": "¿Qué quiere hacer?",
   "icon": "eye",
   "xp": 100,
-  "minutes": 14,
+  "minutes": 17,
   "tags": [
     "estrategia",
     "defensa"
@@ -27,6 +27,7 @@
     {
       "type": "video",
       "resourceId": "1ITqpCvqNRaZz0lmF7d_Hv1Rm9NaBTj6L",
+      "minutes": 10,
       "title": "Entender los planes (también los del rival)"
     },
     {

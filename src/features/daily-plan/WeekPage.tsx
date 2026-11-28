@@ -77,6 +77,7 @@ export function WeekPage() {
             dailyMinutes: settings.dailyMinutes,
             solvedIds: new Set(Object.keys(progress.exercises)),
             trainedLines: progress.openingLines,
+            lessonDrafts: progress.lessonDrafts,
             puzzlePool: puzzles,
             focus: settings.focusAreas,
             favoriteOpening: settings.favoriteOpening,

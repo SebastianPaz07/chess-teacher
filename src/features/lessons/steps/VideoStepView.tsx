@@ -13,7 +13,7 @@ export function VideoStepView({ step, onDone }: StepViewProps<Extract<Step, { ty
   return (
     <div className={styles.video}>
       <p className="eyebrow" style={{ margin: 0 }}>
-        Clase grabada
+        Clase grabada · {Math.round(step.minutes)} min
       </p>
       <h2 style={{ margin: 0 }}>{step.title ?? resource?.title}</h2>
       {step.body && <RichText text={step.body} />}

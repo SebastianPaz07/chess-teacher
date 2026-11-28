@@ -5,7 +5,7 @@
   "summary": "Centro, desarrollo y enroque: las tres reglas de oro.",
   "icon": "target",
   "xp": 80,
-  "minutes": 20,
+  "minutes": 24,
   "tags": [
     "estrategia"
   ],
@@ -86,6 +86,7 @@
     {
       "type": "video",
       "resourceId": "1kXxwkWTXcGK4lzbkPwrvtpCwyB9S5Vq5",
+      "minutes": 14,
       "title": "¿Cómo atacar el centro?"
     },
     {

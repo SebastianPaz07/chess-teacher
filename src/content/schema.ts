@@ -67,6 +67,8 @@ const VideoStep = z.object({
   type: z.literal('video'),
   title: z.string().optional(),
   resourceId: z.string(),
+  /** Duración real del video: el plan del día la cuenta entera */
+  minutes: z.number().positive(),
   body: z.string().optional(),
 });
 

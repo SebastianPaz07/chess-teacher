@@ -37,7 +37,7 @@ export function useDailyPlan() {
 
   // El plan se congela por día, pero se regenera si cambia el nivel del
   // test (p. ej. al recalibrar) o la versión del generador.
-  const key = `v7:${theme ?? '-'}:${learnedBasics ? 'b' : 'nb'}:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
+  const key = `v8:${theme ?? '-'}:${learnedBasics ? 'b' : 'nb'}:${progress.placementLevel ?? '-'}:${dailyMinutes}:${restDay ? 'rest' : 'train'}:${focusAreas.join('+')}:${favoriteOpening ?? '-'}:${exploreOpenings.join('+')}`;
   const needsNew = !plan || plan.date !== today || plan.key !== key;
 
   const building = useRef<string | null>(null);
@@ -63,6 +63,7 @@ export function useDailyPlan() {
         dailyMinutes,
         solvedIds,
         trainedLines: progress.openingLines,
+        lessonDrafts: progress.lessonDrafts,
         puzzlePool: puzzles,
         freshPool: fresh,
         focus: focusAreas,

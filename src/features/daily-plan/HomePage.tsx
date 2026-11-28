@@ -65,6 +65,7 @@ export function HomePage() {
   const minutesLeft = pending.reduce((a, t) => a + t.minutes, 0);
   const minutesTotal = plan.tasks.reduce((a, t) => a + t.minutes, 0);
   const allDone = plan.ready && plan.total > 0 && plan.done === plan.total;
+  const videoMinutes = plan.tasks.reduce((a, t) => a + (t.kind === 'lesson' ? t.videoMinutes : 0), 0);
   const studied = Math.round(studiedSecs / 60);
 
   const today = todayKey();
@@ -159,7 +160,9 @@ export function HomePage() {
                 )}
                 {nextTask && plan.done === 0 && minutesTotal !== plan.dailyMinutes && !plan.restDay && (
                   <p className={styles.timeNote}>
-                    Ajustado a tu tiempo: {minutesTotal} min de los {plan.dailyMinutes} que elegiste.
+                    {minutesTotal > plan.dailyMinutes && videoMinutes
+                      ? `Hoy son ${minutesTotal} min y elegiste ${plan.dailyMinutes}: la lección trae un video de ${videoMinutes} min, que no se corta. Si no te alcanza, pausa y sigue mañana.`
+                      : `Ajustado a tu tiempo: ${minutesTotal} min de los ${plan.dailyMinutes} que elegiste.`}
                   </p>
                 )}
                 {allDone && <p className={styles.doneMsg}>¡Sesión completa! Mira cómo vas en el club o reta a un compañero.</p>}

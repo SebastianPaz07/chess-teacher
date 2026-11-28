@@ -39,3 +39,5 @@
   .withBar { padding-bottom: 0; }
   .cardNext { display: inline-flex; }
 }
+
+.why summary { cursor: pointer; font-weight: 600; color: var(--color-primary); min-height: var(--tap); display: flex; align-items: center; }

@@ -5,7 +5,7 @@
   "summary": "Peón aislado, doblado, retrasado y pasado. El Stonewall.",
   "icon": "wall",
   "xp": 90,
-  "minutes": 22,
+  "minutes": 15,
   "tags": [
     "estrategia",
     "peon-pasado"
@@ -81,6 +81,7 @@
     {
       "type": "video",
       "resourceId": "1vBGDoPVmt7ANQUP-MQIswbqSVgdlY12o",
+      "minutes": 4,
       "title": "El muro de piedra"
     },
     {

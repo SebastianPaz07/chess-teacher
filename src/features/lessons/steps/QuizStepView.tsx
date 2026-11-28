@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { ChessBoard } from '@/components/chess';
-import { Button, Card } from '@/components/ui';
 import { RichText } from '@/components/ui/RichText';
+import { WinBar } from '@/components/ui/WinBar';
 import type { Step } from '@/content/schema';
 import { sound } from '@/services/sound';
 import type { StepViewProps } from './stepRegistry';
@@ -53,15 +53,12 @@ export function QuizStepView({ step, onDone, onMistake, onCorrect }: StepViewPro
             );
           })}
         </div>
+        {/* Acertaste: la explicación y, fijos abajo, el «Ganaste» y «Continuar» */}
+        {solved && step.explanation && <RichText text={step.explanation} />}
         {solved && (
-          <Card tone="success" title="¡Correcto!" icon="check-circle">
-            {step.explanation && <RichText text={step.explanation} />}
-            <LessonAction>
-          <Button size="md" block onClick={onDone}>
-            Continuar
-          </Button>
-        </LessonAction>
-          </Card>
+          <LessonAction>
+            <WinBar label="Continuar" onContinue={onDone} />
+          </LessonAction>
         )}
       </div>
     </div>

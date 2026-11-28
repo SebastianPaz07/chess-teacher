@@ -5,7 +5,7 @@
   "summary": "La apertura de Kasparov: presión central y la trampa del elefante.",
   "icon": "piece-queen",
   "xp": 90,
-  "minutes": 25,
+  "minutes": 31,
   "tags": [
     "aperturas",
     "gambito-dama"
@@ -89,11 +89,13 @@
     {
       "type": "video",
       "resourceId": "1Z5KSspyn15Yr1FbTNUlTqbuRPtQN_Nus",
+      "minutes": 13,
       "title": "El contragambito Albin"
     },
     {
       "type": "video",
       "resourceId": "1nrYzFiO_Tm9FljdnZtnaJDFVVHWRTDxD",
+      "minutes": 9,
       "title": "Gambito de Dama"
     },
     {

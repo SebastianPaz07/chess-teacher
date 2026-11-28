@@ -4,3 +4,8 @@
 .dots i { width: 22px; height: 6px; border-radius: 3px; background: var(--color-border); }
 .dots i.done { background: var(--color-success); }
 .dots i.current { background: var(--color-primary); }
+
+/* Aviso al pasar el tiempo del día */
+.pause { display: flex; flex-direction: column; gap: var(--space-2); padding: var(--space-3); margin-bottom: var(--space-3); border: 1px solid var(--color-accent-strong); border-radius: var(--radius-md); background: var(--color-accent-soft); font-size: 0.85rem; }
+.pause p { margin: 0; }
+.pauseActions { display: flex; flex-wrap: wrap; gap: var(--space-2); }

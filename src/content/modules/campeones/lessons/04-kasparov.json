@@ -5,7 +5,7 @@
   "summary": "Iniciativa por encima del material.",
   "icon": "fire",
   "xp": 105,
-  "minutes": 19,
+  "minutes": 16,
   "tags": [
     "entrenamiento",
     "clasicos",
@@ -122,6 +122,7 @@
     {
       "type": "video",
       "resourceId": "1mBsO3We1U5XUsOWQodb31TwT_lGUGu2G",
+      "minutes": 8,
       "title": "Kasparov: clase de Gambito de Dama"
     },
     {

@@ -5,7 +5,7 @@
   "summary": "De la Inmortal de Anderssen a la profilaxis de Petrosian.",
   "icon": "scales",
   "xp": 95,
-  "minutes": 23,
+  "minutes": 19,
   "tags": [
     "clasicos",
     "estrategia"
@@ -81,6 +81,7 @@
     {
       "type": "video",
       "resourceId": "1mBsO3We1U5XUsOWQodb31TwT_lGUGu2G",
+      "minutes": 8,
       "title": "Kasparov: Gambito de Dama"
     },
     {

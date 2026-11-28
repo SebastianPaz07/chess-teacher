@@ -5,7 +5,7 @@
   "summary": "Primero la lista, después el cálculo.",
   "icon": "search",
   "xp": 105,
-  "minutes": 16,
+  "minutes": 36,
   "tags": [
     "tactica",
     "medio-juego",
@@ -33,6 +33,7 @@
     {
       "type": "video",
       "resourceId": "1Fio9xwGXYbX4qsFL6tWqG3gjfeQohRfU",
+      "minutes": 28,
       "title": "Clase de cálculo",
       "body": "Pausa el video en cada posición, anota tus candidatas y luego compara."
     },

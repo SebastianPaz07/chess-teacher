@@ -5,6 +5,7 @@ import { THEMES, weekThemes } from './weekPlan';
 import { addDays, weekStart } from '@/lib/date';
 import { difficultyStretch, generateDailyPlan, isCoreTask } from './dailyPlan';
 import { isLessonUnlocked, isModuleMastered, isModuleUnlocked, moduleState, nextLessons, weakTopics, type ProgressSnapshot } from './progression';
+import { lessonPart } from './lessonPart';
 import { estimatePlacement, nextTarget, ratingFromElo } from './placement';
 import { allLessons } from '@/content/registry';
 import { isDue, newCard, qualityFromResult, review } from './sm2';
@@ -90,6 +91,38 @@ describe('plan diario', () => {
     expect(plan.some((t) => t.kind === 'opening')).toBe(true);
     const practice = plan.find((t) => t.kind === 'practice');
     expect(practice && practice.kind === 'practice' && practice.exerciseIds.length).toBe(10);
+  });
+});
+
+describe('lecciones por partes', () => {
+  const lesson = allLessons.find((l) => l.steps.some((s) => s.type === 'video'))!;
+  const video = lesson.steps.findIndex((s) => s.type === 'video');
+  const length = (i: number) => {
+    const s = lesson.steps[i];
+    return s.type === 'video' ? s.minutes : 0;
+  };
+
+  it('un video no se corta: la parte acaba antes y al día siguiente va entero', () => {
+    const first = lessonPart(lesson, 0, 3);
+    expect(first.to).toBeLessThanOrEqual(video);
+    expect(first.videoMinutes).toBe(0);
+    const withVideo = lessonPart(lesson, video, 3);
+    expect(withVideo.videoMinutes).toBeGreaterThanOrEqual(length(video));
+    expect(withVideo.minutes).toBeGreaterThanOrEqual(length(video));
+  });
+
+  it('con tiempo de sobra entra la lección entera con sus minutos reales', () => {
+    expect(lessonPart(lesson, 0, 999)).toMatchObject({ from: 0, to: lesson.steps.length, minutes: lesson.minutes });
+  });
+
+  it('ninguna lección dice durar menos que sus videos', () => {
+    for (const l of allLessons) expect(l.minutes, l.id).toBeGreaterThanOrEqual(l.steps.reduce((a, s) => a + (s.type === 'video' ? s.minutes : 0), 0));
+  });
+
+  it('el plan retoma la lección a medias desde donde quedó', () => {
+    const base = { modules, progress: empty, dueCards: [], rating: 800, dailyMinutes: 15, solvedIds: new Set<string>(), trainedLines: {} };
+    const task = generateDailyPlan({ ...base, date: D, lessonDrafts: { 'fund-01-tablero': { index: 2 } } }).find((t) => t.kind === 'lesson');
+    expect(task).toMatchObject({ lessonId: 'fund-01-tablero', fromStep: 2 });
   });
 });
 

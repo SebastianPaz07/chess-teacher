@@ -5,7 +5,7 @@
   "summary": "A veces lo más fuerte no es jaque.",
   "icon": "hint",
   "xp": 105,
-  "minutes": 16,
+  "minutes": 30,
   "tags": [
     "tactica",
     "jugada-tranquila"
@@ -32,6 +32,7 @@
     {
       "type": "video",
       "resourceId": "1YrH6wG4tiLZ0T--LLIeBXQOKwvJY2i9c",
+      "minutes": 22,
       "title": "7 conceptos de ataque",
       "body": "Observa cómo las piezas se suman antes del golpe final."
     },

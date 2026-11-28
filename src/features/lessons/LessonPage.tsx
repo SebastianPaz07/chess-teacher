@@ -16,6 +16,7 @@ import { useGameStore } from '@/store/gameStore';
 import { useProgressStore } from '@/store/progressStore';
 import { useReviewStore } from '@/store/reviewStore';
 import { LessonComplete, type LessonSummary } from './components/LessonComplete';
+import { LessonPartDone } from './components/LessonPartDone';
 import { LessonActionSlot } from './steps/LessonAction';
 import { isGraded, stepRegistry, type StepViewProps } from './steps/stepRegistry';
 import styles from './LessonPage.module.css';
@@ -61,13 +62,13 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
   const [teacher, setTeacher] = useState<{ msg: string; mood: TeacherMood }>({ msg: teacherSays('lessonStart'), mood: 'neutral' });
   const [summary, setSummary] = useState<LessonSummary | null>(null);
   const finished = useRef(false);
+  const [partDone, setPartDone] = useState(false);
 
   const graded = useMemo(() => lesson.steps.filter(isGraded).length, [lesson]);
   const step = lesson.steps[index];
-  // Desde el plan del día, una lección larga se puede dejar al cumplir los minutos de hoy
-  const block = daily.fromDaily ? plan?.tasks.find((t) => t.kind === 'lesson' && t.lessonId === lessonId) : undefined;
-  const blockSteps = block?.kind === 'lesson' && block.minutes < block.totalMinutes ? Math.max(1, Math.ceil((lesson.steps.length * block.minutes) / block.totalMinutes)) : null;
-  const blockDone = blockSteps !== null && index - startAt >= blockSteps;
+  // Desde el plan del día, una lección larga se reparte: aquí termina la parte de hoy
+  const task = daily.fromDaily ? plan?.tasks.find((t) => t.kind === 'lesson' && t.lessonId === lessonId) : undefined;
+  const today = task?.kind === 'lesson' && task.toStep < lesson.steps.length ? task : null;
   const related = useMemo(() => resourcesByTags([...lesson.tags, ...lesson.sources.flatMap((s) => s.resourceTags)], 5), [lesson]);
 
   const onMistake = () => {
@@ -107,9 +108,27 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
     else {
       setIndex(index + 1);
       saveDraft(lesson.id, { index: index + 1, mistakes });
+      if (index + 1 === today?.toStep) {
+        daily.complete();
+        setPartDone(true);
+      }
       if (!isGraded(lesson.steps[index + 1])) setTeacher((t) => ({ ...t, mood: 'neutral' }));
+      // El paso nuevo empieza arriba
+      window.scrollTo(0, 0);
     }
   };
+
+  if (partDone && today) {
+    return (
+      <LessonPartDone
+        from={today.fromStep}
+        to={today.toStep}
+        total={lesson.steps.length}
+        next={daily.next}
+        onKeepGoing={() => setPartDone(false)}
+      />
+    );
+  }
 
   if (summary) {
     const nextLesson = mod.lessons[mod.lessons.findIndex((l) => l.id === lesson.id) + 1];
@@ -151,24 +170,6 @@ function LessonRunner({ lessonId, onRetry }: { lessonId: string; onRetry: () => 
           <Icon name={lesson.icon} /> {lesson.title}
         </h1>
       </div>
-
-      {blockDone && (
-        <div className={styles.block} role="status">
-          <span>
-            <strong>Bloque de hoy cumplido.</strong> Puedes seguir, o dejarlo aquí y retomar donde quedaste.
-          </span>
-          <Button
-            size="sm"
-            variant="secondary"
-            onClick={() => {
-              daily.complete();
-              navigate(daily.continueTo);
-            }}
-          >
-            Dejarlo por hoy
-          </Button>
-        </div>
-      )}
 
       {startAt > 0 && index === startAt && (
         <div className={styles.resume}>

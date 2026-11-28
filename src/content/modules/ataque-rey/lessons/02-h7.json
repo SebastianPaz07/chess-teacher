@@ -5,7 +5,7 @@
   "summary": "El regalo griego, paso a paso.",
   "icon": "lightning",
   "xp": 110,
-  "minutes": 18,
+  "minutes": 31,
   "tags": [
     "tactica",
     "sacrificio",
@@ -57,6 +57,7 @@
     {
       "type": "video",
       "resourceId": "1YrH6wG4tiLZ0T--LLIeBXQOKwvJY2i9c",
+      "minutes": 22,
       "title": "7 conceptos de ataque que llevan a la victoria"
     },
     {

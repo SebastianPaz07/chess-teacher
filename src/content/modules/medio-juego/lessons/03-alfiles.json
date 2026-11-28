@@ -5,7 +5,7 @@
   "summary": "Elige qué piezas cambiar.",
   "icon": "piece-bishop",
   "xp": 105,
-  "minutes": 16,
+  "minutes": 21,
   "tags": [
     "estrategia",
     "medio-juego"
@@ -32,6 +32,7 @@
     {
       "type": "video",
       "resourceId": "1TX_F4L4ApJcwu23R2ElalTt-ksOKsTj_",
+      "minutes": 13,
       "title": "Patrones que hay que saber"
     },
     {

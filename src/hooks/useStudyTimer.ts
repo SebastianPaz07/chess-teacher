@@ -43,7 +43,9 @@ export function useStudyTimer() {
       pending.current = 0;
     };
     const t = window.setInterval(() => {
-      if (document.visibilityState !== 'visible' || Date.now() - lastInput.current > IDLE_MS) return;
+      // Viendo un video no llegan toques a la app: el foco está en su reproductor (un iframe)
+      const watching = document.activeElement?.tagName === 'IFRAME';
+      if (document.visibilityState !== 'visible' || (!watching && Date.now() - lastInput.current > IDLE_MS)) return;
       pending.current += 1;
       if (pending.current >= FLUSH_EVERY) flush();
     }, 1000);

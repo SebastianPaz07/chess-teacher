@@ -5,7 +5,7 @@
   "summary": "Las tres reglas especiales que todo jugador debe dominar.",
   "icon": "castle",
   "xp": 80,
-  "minutes": 20,
+  "minutes": 14,
   "tags": [
     "fundamentos"
   ],
@@ -85,6 +85,7 @@
     {
       "type": "video",
       "resourceId": "1sLOsv-hCppD4DPpgTeMankLvm--wpiro",
+      "minutes": 3,
       "title": "La captura al paso"
     },
     {

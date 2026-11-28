@@ -5,7 +5,7 @@
   "summary": "Ataca la base.",
   "icon": "link",
   "xp": 105,
-  "minutes": 17,
+  "minutes": 22,
   "tags": [
     "estrategia"
   ],
@@ -26,6 +26,7 @@
     {
       "type": "video",
       "resourceId": "1hsgPQhKu8Mm1zs_IXQkTTf829ohNuA8B",
+      "minutes": 14,
       "title": "La estructura francesa: demoler el centro"
     },
     {

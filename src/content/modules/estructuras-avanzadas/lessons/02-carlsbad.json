@@ -5,7 +5,7 @@
   "summary": "Dos peones atacan a tres.",
   "icon": "strategy",
   "xp": 105,
-  "minutes": 19,
+  "minutes": 17,
   "tags": [
     "estrategia"
   ],
@@ -64,6 +64,7 @@
     {
       "type": "video",
       "resourceId": "1nrYzFiO_Tm9FljdnZtnaJDFVVHWRTDxD",
+      "minutes": 9,
       "title": "Kasparov: el Gambito de Dama"
     },
     {

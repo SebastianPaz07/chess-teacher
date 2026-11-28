@@ -5,7 +5,7 @@
   "summary": "Dos defensas sólidas con ...d5. ¿En qué se diferencian?",
   "icon": "shield",
   "xp": 85,
-  "minutes": 24,
+  "minutes": 81,
   "tags": [
     "aperturas",
     "caro-kann",
@@ -103,11 +103,13 @@
     {
       "type": "video",
       "resourceId": "1VcXqueW01NKysKgoTEGQ_KzI7wy3Ebhe",
+      "minutes": 57,
       "title": "Francesa: variante del avance"
     },
     {
       "type": "video",
       "resourceId": "1hsgPQhKu8Mm1zs_IXQkTTf829ohNuA8B",
+      "minutes": 14,
       "title": "La estructura francesa"
     },
     {

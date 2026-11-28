@@ -6,6 +6,7 @@ import { BoardTip, PhysicalBoard } from '@/components/ui/BoardTip';
 import { RichText } from '@/components/ui/RichText';
 import type { Exercise } from '@/content/schema';
 import { TeacherBubble, type TeacherMood } from '@/features/gamification/components/TeacherBubble';
+import { WinBar } from '@/components/ui/WinBar';
 import { teacherSays } from '@/features/gamification/teacherMessages';
 import { useRecordExercise } from '../hooks/useRecordExercise';
 import { themeLabel } from '../themes';
@@ -32,6 +33,8 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
   const [current, setCurrent] = useState<{ r: PuzzleResult } | null>(null);
   const [teacher, setTeacher] = useState<{ msg: string; mood: TeacherMood }>({ msg: 'Encuentra la mejor jugada.', mood: 'thinking' });
   const [streak, setStreak] = useState(0);
+  const won = Boolean(current?.r.success);
+  const perfect = won && current?.r.mistakes === 0 && current.r.hintsUsed === 0;
 
   const ex = exercises[index];
   if (!ex) return null;
@@ -54,10 +57,15 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
     setIndex(index + 1);
     setCurrent(null);
     setTeacher({ msg: 'Siguiente posición. ¡Concéntrate!', mood: 'thinking' });
+    // El ejercicio nuevo empieza arriba, con su título y el tablero
+    window.scrollTo(0, 0);
   };
 
+  const last = index + 1 >= exercises.length;
+  const source = ex.source && <p className="muted">Fuente: {ex.source.startsWith('lichess:') ? <a href={`https://lichess.org/training/${ex.source.slice(8)}`} target="_blank" rel="noreferrer">Lichess</a> : ex.source}</p>;
+
   return (
-    <div className={[styles.layout, current && styles.withBar].filter(Boolean).join(' ')}>
+    <div className={[styles.layout, current && !won && styles.withBar].filter(Boolean).join(' ')}>
       <div className={styles.boardCol}>
         <AnimatePresence mode="wait">
           <motion.div key={ex.id + index} initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }}>
@@ -72,42 +80,61 @@ export function ExerciseSession({ exercises, context, onComplete, onEach }: Prop
         </AnimatePresence>
       </div>
       <div className={styles.side}>
-        <div className="row">
-          <Badge tone="xp">{ex.rating}</Badge>
-          {streak >= 2 && <Badge tone="accent" icon="fire">{streak} seguidos</Badge>}
-        </div>
+        {/* Al acertar solo queda lo necesario: el avance, la explicación plegada y la barra para seguir */}
+        {!won && (
+          <div className="row">
+            <Badge tone="xp">{ex.rating}</Badge>
+            {streak >= 2 && <Badge tone="accent" icon="fire">{streak} seguidos</Badge>}
+          </div>
+        )}
         <ProgressBar value={(index + (current ? 1 : 0)) / exercises.length} />
-        <TeacherBubble message={teacher.msg} mood={teacher.mood} />
-        <div className="row">
-          {ex.themes.map((t) => (
-            <Badge key={t} tone="primary">
-              {t.replace(/-/g, ' ')}
-            </Badge>
-          ))}
-        </div>
+        {!won && <TeacherBubble message={teacher.msg} mood={teacher.mood} />}
+        {!won && (
+          <div className="row">
+            {ex.themes.map((t) => (
+              <Badge key={t} tone="primary">
+                {t.replace(/-/g, ' ')}
+              </Badge>
+            ))}
+          </div>
+        )}
         {!current && ex.hint && <p className="muted">Pista disponible si la necesitas.</p>}
         {!current && <PhysicalBoard key={ex.id} fen={ex.fen} />}
-        {current && (
+        {won && (ex.explanation || ex.source) && (
+          <details key={ex.id} className={styles.why}>
+            <summary>Ver explicación</summary>
+            {ex.explanation && <RichText text={ex.explanation} />}
+            {source}
+          </details>
+        )}
+        {current && !won && (
           <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-            <Card tone={current.r.success ? 'success' : 'danger'} icon={current.r.success ? 'check-circle' : 'x-circle'} title={current.r.success ? (current.r.mistakes === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}>
+            <Card tone="danger" icon="x-circle" title="No resuelto">
               {ex.explanation && <RichText text={ex.explanation} />}
               <BoardTip />
-              {ex.source && <p className="muted">Fuente: {ex.source.startsWith('lichess:') ? <a href={`https://lichess.org/training/${ex.source.slice(8)}`} target="_blank" rel="noreferrer">Lichess</a> : ex.source}</p>}
+              {source}
               <Button block size="lg" onClick={next} className={styles.cardNext}>
-                {index + 1 >= exercises.length ? 'Ver resultados' : 'Siguiente'}
+                {last ? 'Ver resultados' : 'Siguiente'}
               </Button>
             </Card>
           </motion.div>
         )}
       </div>
-      {/* Móvil: el botón para seguir queda siempre a mano, sin hacer scroll */}
-      {current && (
+      {won && (
+        <WinBar
+          detail={streak >= 2 ? `${streak} seguidos` : perfect ? 'Perfecto' : undefined}
+          label={last ? 'Ver resultados' : 'Continuar'}
+          onContinue={next}
+        />
+      )}
+      {/* Móvil, si no salió: el botón para seguir queda a mano mientras miras la solución */}
+      {current && !won && (
         <div className={styles.nextBar}>
-          <span className={styles.nextStatus} style={{ color: current.r.success ? 'var(--color-success)' : 'var(--color-danger)' }}>
-            {current.r.success ? (current.r.mistakes === 0 && current.r.hintsUsed === 0 ? '¡Perfecto!' : 'Resuelto') : 'No resuelto'}
+          <span className={styles.nextStatus} style={{ color: 'var(--color-danger)' }}>
+            No resuelto
           </span>
           <Button size="sm" onClick={next} icon="arrow-right">
-            {index + 1 >= exercises.length ? 'Resultados' : 'Siguiente'}
+            {last ? 'Resultados' : 'Siguiente'}
           </Button>
         </div>
       )}
