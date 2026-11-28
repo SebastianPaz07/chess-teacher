@@ -31,8 +31,13 @@
 
 /* ── Cabecera del club ── */
 .clubHead { display: flex; flex-direction: column; gap: var(--space-2); border-bottom: 3px double var(--color-rule); padding-bottom: var(--space-3); }
-.clubName { margin: 0; font-size: 1.9rem; }
-.clubMeta { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) var(--space-3); color: var(--color-text-muted); font-size: 0.9rem; }
+.clubTop { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); }
+.clubTitle { display: flex; flex-direction: column; min-width: 0; }
+.clubName { margin: 0; font-size: 1.35rem; line-height: 1.2; overflow-wrap: anywhere; }
+.clubMeta { display: inline-flex; align-items: center; gap: 6px; color: var(--color-text-muted); font-size: 0.82rem; }
+.clubPanel { display: flex; flex-direction: column; gap: var(--space-2); }
+.clubPanel[hidden] { display: none; }
+.moreRow { display: flex; justify-content: center; }
 .code { font-family: var(--font-display); font-weight: 700; letter-spacing: 0.18em; color: var(--color-text); }
 .codeBox { display: inline-flex; align-items: center; gap: var(--space-2); }
 .iconBtn { display: inline-grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--color-border); border-radius: var(--radius-md); background: transparent; color: var(--color-text-muted); cursor: pointer; flex-shrink: 0; }
@@ -110,6 +115,41 @@ a.row:hover .rowName { text-decoration: underline; text-underline-offset: 3px; }
 .feedText a { color: var(--color-text); font-weight: 700; text-decoration: none; }
 .feedTime { font-size: 0.75rem; color: var(--color-text-muted); display: flex; align-items: center; gap: 4px; margin-top: 2px; }
 .clubIcon { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--color-accent-soft); color: var(--color-accent-strong); }
+.feedLinked { background: var(--color-accent-soft); border-radius: var(--radius-md); padding-left: var(--space-2); padding-right: var(--space-2); }
+
+/* ── Muro: publicar, reaccionar y comentar ── */
+.composer { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: end; gap: var(--space-1) var(--space-2); padding: var(--space-2); border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); }
+.textarea { width: 100%; min-height: 40px; max-height: 140px; resize: none; padding: 8px var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-bg); color: var(--color-text); font: inherit; font-size: 1rem; line-height: 1.4; }
+.composer .send { width: 40px; height: 40px; min-height: 40px; padding: 0; font-size: 1rem; }
+.counter { grid-column: 2 / -1; justify-self: end; font-size: 0.75rem; color: var(--color-text-muted); font-variant-numeric: tabular-nums; }
+.composerError { grid-column: 1 / -1; }
+.error { margin: 0; font-size: 0.85rem; color: var(--color-danger); }
+.postTime { font-size: 0.75rem; color: var(--color-text-muted); }
+.postText { margin: 2px 0 0; line-height: 1.4; white-space: pre-wrap; overflow-wrap: anywhere; }
+.actions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-1); margin-top: var(--space-1); margin-left: calc(-1 * var(--space-2)); }
+.action { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 var(--space-2); border: none; border-radius: var(--radius-pill); background: transparent; color: var(--color-text-muted); font: inherit; font-size: 0.82rem; font-weight: 600; cursor: pointer; font-variant-numeric: tabular-nums; }
+.action:hover { background: var(--color-surface-2); color: var(--color-text); }
+.actionOn, .actionOn:hover { color: var(--color-danger); }
+.actionEnd { margin-left: auto; }
+.thread { display: flex; flex-direction: column; gap: var(--space-3); padding-top: var(--space-3); border-top: 1px solid var(--color-border); }
+.comments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--space-2); }
+.comment { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2); align-items: start; }
+.commentBody { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.bubble { max-width: 100%; padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); background: var(--color-surface-2); font-size: 0.9rem; }
+.who { color: var(--color-text); font-weight: 700; text-decoration: none; }
+.commentMeta { display: flex; align-items: center; gap: var(--space-2); min-height: 24px; padding-left: var(--space-3); font-size: 0.75rem; color: var(--color-text-muted); }
+.deleteSmall { display: inline-grid; place-items: center; width: 32px; height: 32px; border: none; border-radius: 50%; background: transparent; color: inherit; font-size: 0.85rem; cursor: pointer; }
+.delete:hover { color: var(--color-danger); }
+
+/* Sin leer */
+.unreadBar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: var(--space-2); font-size: 0.85rem; font-weight: 600; }
+/* Lo nuevo se distingue por el fondo y una etiqueta rellena */
+.feedUnread { margin: 2px 0; padding-left: var(--space-2); padding-right: var(--space-2); border-radius: var(--radius-md); border-bottom-color: transparent; background: color-mix(in srgb, var(--color-primary) 18%, transparent); }
+.newTag { display: inline-block; padding: 1px 8px; border-radius: var(--radius-pill); background: var(--color-accent-strong); color: var(--color-bg); font-size: 0.7rem; font-weight: 700; line-height: 1.5; }
+.postTime + .newTag { margin-left: var(--space-2); }
+.bubbleNew { background: color-mix(in srgb, var(--color-primary) 24%, var(--color-surface-2)); }
+.reply { display: flex; align-items: center; gap: var(--space-2); }
+.reply input { flex: 1; min-width: 0; min-height: 40px; }
 
 /* ── Meta semanal ── */
 .goalNum { font-family: var(--font-display); font-size: 1.8rem; font-weight: 700; margin: 0; font-variant-numeric: tabular-nums; }
@@ -185,7 +225,7 @@ a.row:hover .rowName { text-decoration: underline; text-underline-offset: 3px; }
 @media (min-width: 960px) {
   .cols { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: var(--space-6); }
   .runner { grid-template-columns: minmax(0, 600px) minmax(260px, 1fr); }
-  .clubName { font-size: 2.4rem; }
+  .clubName { font-size: 1.6rem; }
 }
 
 @media (min-width: 1100px) {
@@ -270,6 +310,11 @@ a.row:hover .rowName { text-decoration: underline; text-underline-offset: 3px; }
 .row_lose .rowBadge { background: var(--color-danger-soft); color: var(--color-danger); }
 .row_draw .rowBadge, .row_wait .rowBadge { background: var(--color-accent-soft); color: var(--color-accent-strong); }
 .row_off { opacity: 0.7; }
+/* Reto terminado: resultado arriba y sus botones debajo */
+.resultCard { display: flex; flex-direction: column; gap: var(--space-3); padding: var(--space-3); border: 1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+.resultTop { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: var(--space-3); }
+/* Siempre uno junto al otro, a partes iguales */
+.resultActions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
 
 /* ── Desafío de la semana ── */
 .challengeBody { display: flex; flex-direction: column; gap: var(--space-3); }

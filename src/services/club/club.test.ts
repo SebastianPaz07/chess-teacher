@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { weekStart } from '@/lib/date';
 import { applyEvent, initialGameState } from '@/services/game/engine';
 import { compareResults, pickChallengePuzzles, pickWeeklyPuzzles, scoreChallenge, simulateRun } from './challenges';
-import { computeLeaderboard, visibleStreak, weeklyGoal } from './logic';
+import { cleanWallText, computeLeaderboard, visibleStreak, weeklyGoal, WALL_TEXT_MAX } from './logic';
 import { toDailyActivity, toMemberStats } from './mapping';
 import { createMockRepository, type PoolPuzzle } from './mockRepository';
 import type { Member, MemberStats } from './types';
@@ -185,6 +185,92 @@ describe('repositorio demo', () => {
     expect(members.find((m) => m.member.id === 'bot-mateo')?.member.role).toBe('manager');
     await repo.removeMember('bot-andres');
     expect((await repo.getMembers()).some((m) => m.member.id === 'bot-andres')).toBe(false);
+  });
+
+  async function inClub(admin = true) {
+    const made = make(undefined, admin);
+    await made.repo.confirmMagicLink('yo@test.com');
+    await made.repo.saveMyProfile({ name: 'Yo', avatar: 'piece-knight' });
+    if (admin) await made.repo.createClub('Club');
+    else await made.repo.joinClub('K7PQ2M');
+    const meId = (await made.repo.getSession())!.userId;
+    return { ...made, meId };
+  }
+
+  it('el muro arranca con publicaciones de los compañeros', async () => {
+    const { repo } = await inClub();
+    const posts = (await repo.getFeed(300)).filter((f) => f.kind === 'post');
+    expect(posts.length).toBeGreaterThan(0);
+    const commented = posts.find((p) => p.commentCount)!;
+    expect(await repo.getComments(commented.id)).toHaveLength(commented.commentCount!);
+  });
+
+  it('publico, los compañeros reaccionan y me llega el aviso', async () => {
+    const { repo, tick, meId } = await inClub();
+    const post = await repo.createPost('  ¿Cómo practican la clavada?  ');
+    expect(post).toMatchObject({ kind: 'post', memberId: meId, text: '¿Cómo practican la clavada?', likes: 0, commentCount: 0 });
+    expect(await repo.getWallReplies()).toEqual([]);
+    tick(21_000);
+    expect(await repo.getFeedItem(post.id)).toMatchObject({ likes: 2, commentCount: 1 });
+    const replies = await repo.getWallReplies();
+    expect(replies).toHaveLength(1);
+    expect(replies[0]).toMatchObject({ feedId: post.id, onMine: true });
+  });
+
+  it('comento una actividad ajena y quien la hizo contesta', async () => {
+    const { repo, tick, meId } = await inClub();
+    const activity = (await repo.getFeed(300)).find((f) => f.kind !== 'post' && f.memberId.startsWith('bot-'))!;
+    await repo.addComment(activity.id, '¡Bien hecho!');
+    tick(11_000);
+    const thread = await repo.getComments(activity.id);
+    expect(thread.map((c) => c.memberId)).toEqual([meId, activity.memberId]);
+    expect((await repo.getWallReplies())[0]).toMatchObject({ feedId: activity.id, onMine: false });
+  });
+
+  it('el «me gusta» se pone y se quita', async () => {
+    const { repo } = await inClub();
+    const post = await repo.createPost('Hola');
+    await repo.toggleLike(post.id);
+    expect(await repo.getFeedItem(post.id)).toMatchObject({ likes: 1, likedByMe: true });
+    await repo.toggleLike(post.id);
+    expect(await repo.getFeedItem(post.id)).toMatchObject({ likes: 0, likedByMe: false });
+  });
+
+  it('al borrar mi publicación desaparecen su hilo y las respuestas pendientes', async () => {
+    const { repo, tick } = await inClub();
+    const post = await repo.createPost('Hola');
+    await repo.addComment(post.id, 'Un detalle más');
+    await repo.deletePost(post.id);
+    tick(60_000);
+    expect(await repo.getFeedItem(post.id)).toBeNull();
+    expect(await repo.getComments(post.id)).toEqual([]);
+    await expect(repo.addComment(post.id, 'tarde')).rejects.toThrow(/ya no existe/);
+  });
+
+  it('un participante no borra lo de otros; la actividad no se borra', async () => {
+    const { repo } = await inClub(false);
+    const feed = await repo.getFeed(300);
+    const post = feed.find((f) => f.kind === 'post' && f.commentCount)!;
+    await expect(repo.deletePost(post.id)).rejects.toThrow(/No puedes/);
+    const [comment] = await repo.getComments(post.id);
+    await expect(repo.deleteComment(comment.id)).rejects.toThrow(/No puedes/);
+    const activity = feed.find((f) => f.kind !== 'post')!;
+    await expect(repo.deletePost(activity.id)).rejects.toThrow(/No puedes/);
+  });
+
+  it('ni el organizador borra lo de otras personas', async () => {
+    const { repo } = await inClub();
+    const post = (await repo.getFeed(300)).find((f) => f.kind === 'post' && f.commentCount)!;
+    await expect(repo.deletePost(post.id)).rejects.toThrow(/No puedes/);
+    const [comment] = await repo.getComments(post.id);
+    await expect(repo.deleteComment(comment.id)).rejects.toThrow(/No puedes/);
+  });
+
+  it('valida el texto del muro', async () => {
+    const { repo } = await inClub();
+    await expect(repo.createPost('   ')).rejects.toThrow(/Escribe algo/);
+    expect(() => cleanWallText('a'.repeat(WALL_TEXT_MAX + 1))).toThrow(/Máximo/);
+    expect(cleanWallText('a\n\n\n\nb')).toBe('a\n\nb');
   });
 
   it('un club al que te invitan no se llama como su código', async () => {

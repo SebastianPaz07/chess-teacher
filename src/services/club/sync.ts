@@ -64,6 +64,6 @@ export function startClubSync() {
   });
   document.addEventListener('visibilitychange', () => document.visibilityState === 'hidden' && flush());
   window.addEventListener('pagehide', flush);
+  // El primer envío lo hace el store del club cuando confirma que hay club
   lastSent = Date.now();
-  void publishNow();
 }

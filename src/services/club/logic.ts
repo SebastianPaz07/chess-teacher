@@ -86,11 +86,21 @@ export function weekDays(today: string): string[] {
   return daysBetween(weekStart(today), today);
 }
 
-
 /** Organizador y colaboradores pueden gestionar el club (miembros, invitaciones). */
 export const canManage = (role: MemberRole | undefined): boolean => role === 'owner' || role === 'manager';
 
 export const ROLE_LABEL: Record<MemberRole, string> = { owner: 'Organizador', manager: 'Colaborador', member: 'Participante' };
+
+/** Máximo de caracteres de una publicación o comentario (igual que `activity_feed.text` en la base) */
+export const WALL_TEXT_MAX = 300;
+
+/** Limpia lo escrito en el muro; lanza un error si queda vacío o es demasiado largo. */
+export function cleanWallText(text: string): string {
+  const clean = text.replace(/\r\n?/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  if (!clean) throw new Error('Escribe algo antes de enviar');
+  if (clean.length > WALL_TEXT_MAX) throw new Error(`Máximo ${WALL_TEXT_MAX} caracteres`);
+  return clean;
+}
 
 /** ¿Puede `actor` sacar a `target` del club? Nadie saca al organizador ni a sí mismo. */
 export function canRemove(actor: Member | undefined, target: Member): boolean {

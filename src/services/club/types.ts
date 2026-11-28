@@ -60,16 +60,41 @@ export interface DailyActivity {
   minutes: number;
 }
 
-export type FeedKind = 'joined' | 'lesson' | 'module' | 'achievement' | 'level' | 'streak' | 'rush' | 'challenge' | 'nudge' | 'week-goal' | 'weekly' | 'practice';
+export type FeedKind = 'post' | 'joined' | 'lesson' | 'module' | 'achievement' | 'level' | 'streak' | 'rush' | 'challenge' | 'nudge' | 'week-goal' | 'weekly' | 'practice';
 
 export interface FeedItem {
   id: string;
   memberId: string;
   kind: FeedKind;
   icon: string;
-  /** Texto sin el nombre: «completó la lección Mate del pasillo» */
+  /** Actividad: texto sin el nombre («completó la lección…»). Publicación (`post`): el mensaje */
   text: string;
   createdAt: string;
+  /** Reacciones y respuestas (solo si el repositorio tiene muro) */
+  likes?: number;
+  likedByMe?: boolean;
+  commentCount?: number;
+  /** Publicación de otra persona que aún no he leído */
+  isNew?: boolean;
+  /** Respuestas de otras personas que aún no he leído */
+  newReplies?: number;
+}
+
+/** Respuesta en el hilo de una publicación o de una actividad */
+export interface FeedComment {
+  id: string;
+  feedId: string;
+  memberId: string;
+  text: string;
+  createdAt: string;
+  /** Aún no la he leído */
+  isNew?: boolean;
+}
+
+/** Respuesta de otra persona que me interesa (para la campana) */
+export interface WallReply extends FeedComment {
+  /** true: la entrada es mía; false: es un hilo en el que participé */
+  onMine: boolean;
 }
 
 export type ChallengeKind = 'puzzles' | 'rush';

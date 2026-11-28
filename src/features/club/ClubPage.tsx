@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Badge, Button, Card, Modal, Skeleton, Tabs } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
@@ -12,15 +12,19 @@ import { CopyCode } from './components/CopyCode';
 import { FeedList } from './components/FeedList';
 import { InviteButton } from './components/InviteButton';
 import { Leaderboard } from './components/Leaderboard';
+import { PostComposer } from './components/PostComposer';
 import { WeekGoalCard } from './components/WeekGoalCard';
 import { copyText } from './copy';
 import { timeAgo } from './format';
 import { ClubGate } from './ClubGate';
 import { useChallengeRewards } from './hooks/useChallengeRewards';
 import { useClubQuery } from './hooks/useClubQuery';
+import { useDeferred } from './hooks/useDeferred';
+import { useInView } from './hooks/useInView';
 import styles from './club.module.css';
 
-type Tab = 'hoy' | 'ranking' | 'retos' | 'miembros';
+type Tab = 'muro' | 'ranking' | 'retos' | 'miembros';
+const OTHER_TABS: Tab[] = ['ranking', 'retos', 'miembros'];
 
 export function ClubPage() {
   return (
@@ -32,59 +36,71 @@ export function ClubPage() {
 
 function ClubHome() {
   const [params, setParams] = useSearchParams();
-  const tab = (params.get('tab') as Tab) || 'hoy';
-  const setTab = (t: Tab) => setParams(t === 'hoy' ? {} : { tab: t }, { replace: true });
+  const tab: Tab = OTHER_TABS.find((t) => t === params.get('tab')) ?? 'muro';
+  const setTab = (t: Tab) => setParams(t === 'muro' ? {} : { tab: t }, { replace: true });
   const club = useClubStore((s) => s.club)!;
   const meId = useClubStore((s) => s.session?.userId ?? '');
 
-  const isAdmin = useClubQuery(() => clubRepo.isAdmin()).data ?? false;
   const refresh = useClubStore((s) => s.refresh);
   const [confirmLeave, setConfirmLeave] = useState(false);
   const [leaving, setLeaving] = useState(false);
   const [leaveError, setLeaveError] = useState<string | null>(null);
+  const [inviting, setInviting] = useState(false);
+  // Solo hace falta saberlo al abrir «Invitar»
+  const isAdmin = useClubQuery(() => clubRepo.isAdmin(), [], inviting).data ?? false;
 
-  const members = useClubQuery(() => clubRepo.getMembers());
-  const myRole = members.data?.find((m) => m.member.id === meId)?.member.role;
-  const challenges = useClubQuery(() => clubRepo.listChallenges());
+  // Primero lo del muro (nombres y publicaciones). Estadísticas y retos llegan cuando
+  // el navegador queda libre, o al momento si se abre otra pestaña.
+  const roster = useClubQuery(() => clubRepo.getRoster(), [], true, 'roster');
+  const [wallLoaded, setWallLoaded] = useState(false);
+  const later = useDeferred(tab !== 'muro', wallLoaded && Boolean(roster.data));
+  const members = useClubQuery(() => clubRepo.getMembers(), [], later, 'members');
+  const myRole = roster.data?.find((m) => m.id === meId)?.role;
+  const challenges = useClubQuery(() => clubRepo.listChallenges(), [], later, 'challenges');
   useChallengeRewards(challenges.data, meId);
   const pending = challenges.data?.filter((c) => c.status === 'open' && !c.results.some((r) => r.memberId === meId)).length ?? 0;
 
   return (
     <div className="stack">
       <header className={styles.clubHead}>
-        <p className="eyebrow" style={{ margin: 0 }}>
-          Tu club
-        </p>
-        <h1 className={styles.clubName}>{club.name}</h1>
-        <div className={styles.clubMeta}>
-          <span>
-            <Icon name="users" /> {members.data?.length ?? '…'} miembros
-          </span>
+        <div className={styles.clubTop}>
+          <div className={styles.clubTitle}>
+            <h1 className={styles.clubName}>{club.name}</h1>
+            <span className={styles.clubMeta}>
+              <Icon name="users" /> {roster.data?.length ?? '…'} miembros
+            </span>
+          </div>
+          <Button size="sm" variant="secondary" icon="user-plus" aria-expanded={inviting} aria-controls="club-invite" onClick={() => setInviting((o) => !o)}>
+            Invitar <Icon name={inviting ? 'caret-up' : 'caret-down'} />
+          </Button>
         </div>
-        <div className={styles.clubActions}>
-          <CopyCode code={club.inviteCode} />
-          <InviteButton club={club} variant="secondary" />
-          {isAdmin && <CreatorLinkButton />}
+        {/* Plegado por defecto para que el muro quede arriba */}
+        <div id="club-invite" className={styles.clubPanel} hidden={!inviting}>
+          <div className={styles.clubActions}>
+            <CopyCode code={club.inviteCode} />
+            <InviteButton club={club} variant="secondary" label="Copiar link" />
+            {isAdmin && <CreatorLinkButton />}
+          </div>
+          {myRole && myRole !== 'member' && (
+            <p className="muted" style={{ margin: 0, fontSize: '0.85rem' }}>
+              Eres {ROLE_LABEL[myRole].toLowerCase()} de este club y también participas como un jugador más.
+            </p>
+          )}
         </div>
-        {myRole && myRole !== 'member' && (
-          <p className="muted" style={{ margin: 0, fontSize: '0.85rem' }}>
-            Eres {ROLE_LABEL[myRole].toLowerCase()} de este club y también participas como un jugador más.
-          </p>
-        )}
       </header>
 
       <Tabs<Tab>
         value={tab}
         onChange={setTab}
         items={[
-          { value: 'hoy', label: 'Hoy' },
+          { value: 'muro', label: 'Muro' },
           { value: 'ranking', label: 'Ranking' },
           { value: 'retos', label: pending ? `Retos (${pending})` : 'Retos' },
           { value: 'miembros', label: 'Miembros' },
         ]}
       />
 
-      {tab === 'hoy' && <TodayTab members={members.data} meId={meId} onGoChallenges={() => setTab('retos')} pending={pending} />}
+      {tab === 'muro' && <WallTab roster={roster.data} members={members.data} later={later} onLoaded={setWallLoaded} meId={meId} onGoChallenges={() => setTab('retos')} pending={pending} postId={params.get('post')} />}
       {tab === 'ranking' && <Leaderboard meId={meId} members={members.data} />}
       {tab === 'retos' && <ChallengesTab challenges={challenges.data} members={members.data} meId={meId} />}
       {tab === 'miembros' && <MembersTab members={members.data} meId={meId} />}
@@ -148,14 +164,47 @@ function ClubHome() {
   );
 }
 
-function TodayTab({ members, meId, pending, onGoChallenges }: { members: MemberSummary[] | undefined; meId: string; pending: number; onGoChallenges: () => void }) {
+interface WallProps {
+  roster: Member[] | undefined;
+  members: MemberSummary[] | undefined;
+  /** Ya se puede pedir lo secundario */
+  later: boolean;
+  onLoaded: (loaded: true) => void;
+  meId: string;
+  pending: number;
+  onGoChallenges: () => void;
+  postId: string | null;
+}
+
+function WallTab({ roster, members, later, onLoaded, meId, pending, onGoChallenges, postId }: WallProps) {
   const navigate = useNavigate();
   const [feedLimit, setFeedLimit] = useState(12);
-  const feed = useClubQuery(() => clubRepo.getFeed(feedLimit), [feedLimit]);
-  const week = useClubQuery(() => clubRepo.getClubWeek());
-  const nudges = useClubQuery(() => clubRepo.getNudges());
+  const feed = useClubQuery(() => clubRepo.getFeed(feedLimit), [feedLimit], true, 'feed');
+  // La meta semanal (en móvil, debajo del muro) se pide cuando se acerca a la pantalla
+  const [asideRef, asideNear] = useInView(true);
+  const week = useClubQuery(() => clubRepo.getClubWeek(), [], later && asideNear, 'week');
+  const feedSettled = Boolean(feed.data || feed.error);
+  useEffect(() => {
+    if (feedSettled) onLoaded(true);
+  }, [feedSettled, onLoaded]);
+  // Al llegar al final del muro se cargan más entradas
+  const [endRef, nearEnd] = useInView();
+  const hasMore = feed.data?.length === feedLimit;
+  useEffect(() => {
+    if (nearEnd && hasMore) setFeedLimit((n) => n + 20);
+  }, [nearEnd, hasMore]);
+  const nudges = useClubQuery(() => clubRepo.getNudges(), [], later);
   const unread = nudges.data?.filter((n) => !n.read) ?? [];
-  const byId = new Map(members?.map((m) => [m.member.id, m.member]) ?? []);
+  const byId = new Map(roster?.map((m) => [m.id, m]) ?? []);
+
+  // Una publicación enlazada que ya no está entre las recientes se trae aparte y va primero
+  const missing = Boolean(postId && feed.data && !feed.data.some((f) => f.id === postId));
+  const linked = useClubQuery(() => clubRepo.getFeedItem(postId ?? ''), [postId], missing);
+  const extra = missing && linked.data?.id === postId ? linked.data : null;
+  const items = feed.data && extra ? [extra, ...feed.data] : feed.data;
+  const newPosts = items?.filter((f) => f.isNew).length ?? 0;
+  const newReplies = items?.reduce((n, f) => n + (f.newReplies ?? 0), 0) ?? 0;
+  const newSummary = [newPosts && (newPosts === 1 ? '1 publicación nueva' : `${newPosts} publicaciones nuevas`), newReplies && (newReplies === 1 ? '1 respuesta nueva' : `${newReplies} respuestas nuevas`)].filter(Boolean).join(' · ');
 
   return (
     <div className={styles.cols}>
@@ -178,22 +227,36 @@ function TodayTab({ members, meId, pending, onGoChallenges }: { members: MemberS
             <small>Ver</small>
           </button>
         )}
+        <section className={styles.section} aria-labelledby="feed-title">
+          <div className={styles.sectionHead}>
+            <h2 id="feed-title" className={styles.sectionTitle}>
+              {clubRepo.hasWall ? 'Muro' : 'Actividad'}
+            </h2>
+          </div>
+          {clubRepo.hasWall && <PostComposer me={byId.get(meId)} onPosted={feed.reload} />}
+          {newSummary && (
+            <div className={styles.unreadBar}>
+              <span role="status">{newSummary}</span>
+              <Button size="sm" variant="ghost" onClick={() => clubRepo.markWallRead?.().then(feed.reload)}>
+                Marcar todo como leído
+              </Button>
+            </div>
+          )}
+          {missing && linked.data === null && <p className="muted">Esa publicación ya no existe.</p>}
+          <FeedList items={items} members={roster} meId={meId} openId={postId} />
+          {hasMore && (
+            <div ref={endRef} className={styles.moreRow}>
+              <Button variant="ghost" onClick={() => setFeedLimit((n) => n + 20)}>
+                Ver más
+              </Button>
+            </div>
+          )}
+        </section>
+      </div>
+      <aside ref={asideRef} className={styles.section} aria-label="El club hoy">
         <PracticedToday members={members} meId={meId} />
         <WeekGoalCard week={week.data} members={members} meId={meId} />
-      </div>
-      <section className={styles.section} aria-labelledby="feed-title">
-        <div className={styles.sectionHead}>
-          <h2 id="feed-title" className={styles.sectionTitle}>
-            Actividad
-          </h2>
-        </div>
-        <FeedList items={feed.data} members={members} meId={meId} />
-        {feed.data && feed.data.length >= feedLimit && (
-          <Button variant="ghost" onClick={() => setFeedLimit((n) => n + 20)}>
-            Ver más actividad
-          </Button>
-        )}
-      </section>
+      </aside>
     </div>
   );
 }

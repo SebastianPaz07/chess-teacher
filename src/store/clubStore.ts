@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { clubRepo, type Club, type MyProfile, type Session } from '@/services/club';
+import { clearSnapshots, readIdentity, writeIdentity } from '@/services/club/snapshot';
 import { publishNow, startClubSync } from '@/services/club/sync';
 import { storeKey, zustandStorage } from '@/services/storage/localStorageAdapter';
 
@@ -46,24 +47,25 @@ export const useClubStore = create<ClubState>()((set, get) => ({
         get().bump();
       }, 3000);
     });
-    // Al volver a la pestaña solo se recarga si pasaron más de 2 minutos
-    let lastFocusBump = Date.now();
-    window.addEventListener('focus', () => {
-      if (Date.now() - lastFocusBump < 2 * 60_000) return;
-      lastFocusBump = Date.now();
-      get().bump();
-    });
+    // Con la sesión de la última visita se entra al momento y se confirma por detrás
+    const saved = readIdentity();
+    if (saved) {
+      const session = await clubRepo.getSession().catch(() => null);
+      if (session?.userId === saved.session.userId) set({ ...saved, session, status: 'ready' });
+    }
     await get().refresh();
   },
 
   refresh: async () => {
     try {
       const session = await clubRepo.getSession();
-      const profile = session ? await clubRepo.getMyProfile() : null;
-      const club = session ? await clubRepo.getMyClub() : null;
+      const [profile, club] = session ? await Promise.all([clubRepo.getMyProfile(), clubRepo.getMyClub()]) : [null, null];
       const status: Status = !session ? 'signed-out' : !profile ? 'no-profile' : !club ? 'no-club' : 'ready';
       set({ session, profile, club, status, version: get().version + 1, forcedVersion: get().version + 1 });
-      if (status === 'ready') publishNow();
+      if (session && profile && club) {
+        writeIdentity({ session, profile, club });
+        publishNow();
+      } else clearSnapshots();
     } catch {
       set({ status: 'signed-out' });
     }

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Badge, Button, EmptyState, Modal, Skeleton } from '@/components/ui';
 import { Icon } from '@/components/ui/Icon';
 import { clubRepo, type Challenge, type ChallengeKind, type MemberSummary } from '@/services/club';
+import { useClubStore } from '@/store/clubStore';
 import { formatMs, timeAgo, timeLeft } from '../format';
 import { Avatar } from './Avatar';
 import styles from '../club.module.css';
@@ -157,8 +158,16 @@ function PendingCard({ c, meId, members, index }: { c: Challenge; meId: string; 
   );
 }
 
-/** Fila compacta: lo esencial; al tocarla se ven los detalles. */
-function ChallengeRow({ c, meId, members, index }: { c: Challenge; meId: string; members: Map<string, MemberSummary>; index: number }) {
+interface Rematch {
+  label: string;
+  sent: boolean;
+  sending: boolean;
+  error?: string;
+  onSend: () => void;
+}
+
+/** Fila compacta: lo esencial. Los retos terminados traen sus botones; el resto se abre al tocarlo. */
+function ChallengeRow({ c, meId, members, index, rematch }: { c: Challenge; meId: string; members: Map<string, MemberSummary>; index: number; rematch?: Rematch }) {
   const navigate = useNavigate();
   const rivalId = c.challengerId === meId ? c.opponentId : c.challengerId;
   const rival = members.get(rivalId)?.member;
@@ -183,29 +192,92 @@ function ChallengeRow({ c, meId, members, index }: { c: Challenge; meId: string;
         ? `${mine ? `Tu resultado: ${mine.solved}` : ''} · ${timeLeft(c.expiresAt)}`
         : timeAgo(c.createdAt);
   const icon = tone === 'win' ? 'trophy' : tone === 'draw' ? 'handshake' : tone === 'lose' ? 'sword' : tone === 'wait' ? 'timer' : 'close';
+  const open = () => navigate(`/club/reto/${c.id}`);
+  const body = (
+    <>
+      <span className={styles.rowBadge}>
+        <Icon name={icon} />
+      </span>
+      <span className={styles.rowTextCol}>
+        <strong>{headline}</strong>
+        <span className="muted">{sub}</span>
+      </span>
+    </>
+  );
   return (
     <motion.li initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: Math.min(index, 8) * 0.04 }}>
-      <button type="button" className={[styles.challengeRow, styles[`row_${tone}`]].join(' ')} onClick={() => navigate(`/club/reto/${c.id}`)} aria-label={`${headline}. Ver detalles`}>
-        <span className={styles.rowBadge}>
-          <Icon name={icon} />
-        </span>
-        <span className={styles.rowTextCol}>
-          <strong>{headline}</strong>
-          <span className="muted">{sub}</span>
-        </span>
-        <Icon name="caret-right" />
-      </button>
+      {c.status === 'done' ? (
+        <div className={[styles.resultCard, styles[`row_${tone}`]].join(' ')}>
+          <div className={styles.resultTop}>{body}</div>
+          <div className={styles.resultActions}>
+            <Button size="sm" variant="secondary" onClick={open}>
+              Ver detalles
+            </Button>
+            {rematch && (
+              <Button size="sm" icon={rematch.sent ? undefined : 'handshake'} onClick={rematch.onSend} loading={rematch.sending} disabled={rematch.sent}>
+                {rematch.label}
+              </Button>
+            )}
+          </div>
+          {rematch?.error && (
+            <p className={styles.error} role="alert">
+              {rematch.error}
+            </p>
+          )}
+        </div>
+      ) : (
+        <button type="button" className={[styles.challengeRow, styles[`row_${tone}`]].join(' ')} onClick={open} aria-label={`${headline}. Ver detalles`}>
+          {body}
+          <Icon name="caret-right" />
+        </button>
+      )}
     </motion.li>
   );
 }
 
 export function ChallengesTab({ challenges, members, meId }: TabProps) {
   const [picker, setPicker] = useState<{ opponentId?: string; rematchOf?: string } | null>(null);
+  /** Rivales con una revancha en camino (evita enviar dos veces) */
+  const [sending, setSending] = useState<string[]>([]);
+  /** Retos desde los que ya se envió la revancha, con su rival */
+  const [sentFrom, setSentFrom] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   if (!challenges || !members) return <Skeleton lines={4} height={70} />;
   const byId = new Map(members.map((m) => [m.member.id, m]));
   const pendingMine = challenges.filter((c) => c.status === 'open' && !c.results.some((r) => r.memberId === meId));
   const waiting = challenges.filter((c) => c.status === 'open' && c.results.some((r) => r.memberId === meId));
   const history = challenges.filter((c) => c.status !== 'open');
+
+  const sendRematch = async (c: Challenge, rivalId: string) => {
+    setSending((s) => [...s, rivalId]);
+    setErrors((s) => ({ ...s, [c.id]: '' }));
+    try {
+      await clubRepo.createChallenge(rivalId, c.kind, c.id);
+      setSentFrom((s) => ({ ...s, [c.id]: rivalId }));
+      useClubStore.getState().forceReload();
+    } catch (e) {
+      setErrors((s) => ({ ...s, [c.id]: (e as Error).message }));
+    } finally {
+      setSending((s) => s.filter((id) => id !== rivalId));
+    }
+  };
+
+  /** Botón de revancha de un reto terminado (deshabilitado si el rival ya no está en el club) */
+  const rematchFor = (c: Challenge): Rematch | undefined => {
+    const rivalId = c.challengerId === meId ? c.opponentId : c.challengerId;
+    if (c.status !== 'done') return undefined;
+    if (!byId.has(rivalId)) return { label: 'Ya no está en el club', sent: true, sending: false, onSend: () => undefined };
+    const thisOne = Boolean(sentFrom[c.id]) || challenges.some((x) => x.status === 'open' && x.rematchOf === c.id);
+    // Con un reto mío sin jugar contra el mismo rival, el repositorio no crea otro
+    const another = Object.values(sentFrom).includes(rivalId) || pendingMine.some((x) => x.challengerId === meId && x.opponentId === rivalId);
+    return {
+      label: thisOne ? 'Revancha enviada' : another ? 'Reto enviado' : 'Revancha',
+      sent: thisOne || another,
+      sending: sending.includes(rivalId),
+      error: errors[c.id],
+      onSend: () => sendRematch(c, rivalId),
+    };
+  };
 
   return (
     <div className={styles.retosWrap}>
@@ -244,7 +316,7 @@ export function ChallengesTab({ challenges, members, meId }: TabProps) {
         ) : (
           <ul className={styles.cardList}>
             {history.slice(0, 20).map((c, i) => (
-              <ChallengeRow key={c.id} c={c} meId={meId} members={byId} index={i} />
+              <ChallengeRow key={c.id} c={c} meId={meId} members={byId} index={i} rematch={rematchFor(c)} />
             ))}
           </ul>
         )}

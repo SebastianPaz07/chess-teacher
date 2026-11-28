@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { clubRepo, type Challenge, type FeedItem, type MemberSummary } from '@/services/club';
+import { clubRepo, type Challenge, type FeedItem, type MemberSummary, type WallReply } from '@/services/club';
 
 /** Una notificación del club, ya redactada. */
 export interface Notice {
@@ -53,7 +53,7 @@ interface State {
 }
 
 /** Redacta los avisos a partir de datos que el club ya tiene (sin tablas nuevas). */
-function build(meId: string, members: MemberSummary[], challenges: Challenge[], nudges: { id: string; fromId: string; createdAt: string }[], feed: FeedItem[], board: BoardRow[]): Notice[] {
+function build(meId: string, members: MemberSummary[], challenges: Challenge[], nudges: { id: string; fromId: string; createdAt: string }[], feed: FeedItem[], board: BoardRow[], replies: WallReply[]): Notice[] {
   const names = new Map(members.map((m) => [m.member.id, m.member.name]));
   const who = (id: string) => names.get(id) ?? 'Un compañero';
   const out: Notice[] = [];
@@ -81,6 +81,17 @@ function build(meId: string, members: MemberSummary[], challenges: Challenge[], 
     }
   }
   for (const n of nudges) out.push({ id: `nudge-${n.id}`, icon: 'wave', title: `${who(n.fromId)} te anima a practicar`, at: n.createdAt, to: '/club' });
+  for (const r of replies) {
+    if (new Date(r.createdAt).getTime() < cutoff) continue;
+    out.push({
+      id: `reply-${r.id}`,
+      icon: 'comment',
+      title: r.onMine ? `${who(r.memberId)} te comentó` : `${who(r.memberId)} respondió en un hilo donde comentaste`,
+      detail: r.text.length > 70 ? `${r.text.slice(0, 70).trimEnd()}…` : r.text,
+      at: r.createdAt,
+      to: `/club?post=${encodeURIComponent(r.feedId)}`,
+    });
+  }
   // Del club solo lo general: resultados de retos entre compañeros (no logros, niveles ni rachas).
   // Los que me involucran ya salen arriba con más detalle.
   const myName = names.get(meId);
@@ -147,14 +158,15 @@ export const useNotificationsStore = create<State>()((set, get) => ({
     if (s.loading || !meId || (!force && Date.now() - s.loadedAt < TTL_MS)) return;
     set({ loading: true });
     try {
-      const [members, challenges, nudges, feed, board] = await Promise.all([
+      const [members, challenges, nudges, feed, board, replies] = await Promise.all([
         clubRepo.getMembers(),
         clubRepo.listChallenges(),
         clubRepo.getNudges(),
         clubRepo.getFeed(30),
         clubRepo.getLeaderboard('week', 'puzzles'),
+        clubRepo.getWallReplies(),
       ]);
-      set({ notices: build(meId, members, challenges, nudges, feed, board), loadedAt: Date.now() });
+      set({ notices: build(meId, members, challenges, nudges, feed, board, replies), loadedAt: Date.now() });
     } catch {
       set({ loadedAt: Date.now() });
     } finally {

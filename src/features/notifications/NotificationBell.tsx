@@ -19,9 +19,12 @@ export function NotificationBell() {
   const ref = useRef<HTMLDivElement>(null);
   const { pathname } = useLocation();
 
-  // Carga al entrar y cuando el club cambia; el store no repite antes de 90 s
+  // Carga al entrar y cuando el club cambia (el store no repite antes de 90 s).
+  // Espera un momento para no competir con los datos de la página.
   useEffect(() => {
-    if (status === 'ready') void load(meId);
+    if (status !== 'ready') return;
+    const timer = setTimeout(() => void load(meId), 2500);
+    return () => clearTimeout(timer);
   }, [status, meId, version, load]);
 
   useEffect(() => setOpen(false), [pathname]);

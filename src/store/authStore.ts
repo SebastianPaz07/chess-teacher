@@ -30,8 +30,12 @@ let initialized = false;
 async function bridgeDemoClub(session: Session | null) {
   const [{ clubRepo }, { useClubStore }] = await Promise.all([import('@/services/club'), import('@/store/clubStore')]);
   if (!clubRepo.isDemo) {
-    // Club real: solo hay que recargar sesión, perfil y club
-    await useClubStore.getState().refresh();
+    // Club real: solo hay que recargar sesión, perfil y club. Al volver a la pestaña
+    // Supabase repite SIGNED_IN o TOKEN_REFRESHED: con la misma cuenta ya cargada no se consulta nada.
+    const club = useClubStore.getState();
+    const loaded = club.status !== 'loading' && club.status !== 'signed-out';
+    if (loaded && club.session?.userId === session?.user.id) return;
+    await club.refresh();
     return;
   }
   const current = await clubRepo.getSession();

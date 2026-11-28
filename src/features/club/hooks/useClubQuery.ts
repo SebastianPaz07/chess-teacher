@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { readSnapshot, writeSnapshot } from '@/services/club/snapshot';
 import { useClubStore } from '@/store/clubStore';
 
 /** Mínimo entre recargas automáticas de una misma consulta. */
@@ -13,11 +14,17 @@ interface QueryState<T> {
 /**
  * Consulta al repositorio del club. Se recarga sola cuando cambian los datos
  * (feed nuevo, reto respondido…) sin parpadear: conserva lo último mostrado.
+ * Con `saveAs`, además se guarda en el navegador y se muestra al volver
+ * mientras llega lo nuevo.
  */
-export function useClubQuery<T>(fn: () => Promise<T>, deps: unknown[] = [], enabled = true): QueryState<T> & { reload: () => void } {
+export function useClubQuery<T>(fn: () => Promise<T>, deps: unknown[] = [], enabled = true, saveAs?: string): QueryState<T> & { reload: () => void } {
   const version = useClubStore((s) => s.version);
   const forceReload = useClubStore((s) => s.forceReload);
-  const [state, setState] = useState<QueryState<T>>({ data: undefined, error: null, loading: enabled });
+  const scope = useClubStore((s) => (s.session && s.club ? `${s.session.userId}:${s.club.id}` : ''));
+  const [state, setState] = useState<QueryState<T>>(() => {
+    const data = saveAs ? readSnapshot<T>(scope, saveAs) : undefined;
+    return { data, error: null, loading: enabled && data === undefined };
+  });
   const fnRef = useRef(fn);
   fnRef.current = fn;
   const lastRun = useRef({ at: 0, deps: '' });
@@ -30,7 +37,11 @@ export function useClubQuery<T>(fn: () => Promise<T>, deps: unknown[] = [], enab
       lastRun.current.at = Date.now();
       fnRef
         .current()
-        .then((data) => alive && setState({ data, error: null, loading: false }))
+        .then((data) => {
+          if (!alive) return;
+          if (saveAs) writeSnapshot(scope, saveAs, data);
+          setState({ data, error: null, loading: false });
+        })
         .catch((e: Error) => alive && setState((s) => ({ ...s, error: e.message, loading: false })));
     };
     // Cambió lo que se consulta (o es la primera vez): carga ya.

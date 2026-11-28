@@ -4,6 +4,8 @@ import { Icon } from '@/components/ui/Icon';
 import { clubRepo } from '@/services/club';
 import { useClubStore } from '@/store/clubStore';
 import { useClubQuery } from '../hooks/useClubQuery';
+import { useDeferred } from '../hooks/useDeferred';
+import { useInView } from '../hooks/useInView';
 import { Avatar } from './Avatar';
 import { Podium } from './Podium';
 import { RankUpBanner, useRankUp } from './RankUp';
@@ -16,6 +18,8 @@ import styles from '../club.module.css';
  */
 export function ClubCard() {
   const status = useClubStore((s) => s.status);
+  const [ref, near] = useInView(true);
+  const load = useDeferred(false, near && status === 'ready');
   if (status === 'loading') return <Skeleton lines={3} height={40} />;
   if (status !== 'ready') {
     return (
@@ -26,15 +30,22 @@ export function ClubCard() {
       </Card>
     );
   }
-  return <ClubSummary />;
+  // No consulta nada hasta que la persona se acerca a esta parte de la página
+  return load ? (
+    <ClubSummary />
+  ) : (
+    <div ref={ref}>
+      <Skeleton lines={3} height={40} />
+    </div>
+  );
 }
 
 function ClubSummary() {
   const club = useClubStore((s) => s.club)!;
   const meId = useClubStore((s) => s.session?.userId ?? '');
-  const members = useClubQuery(() => clubRepo.getMembers());
-  const board = useClubQuery(() => clubRepo.getLeaderboard('week', 'puzzles'));
-  const challenges = useClubQuery(() => clubRepo.listChallenges());
+  const members = useClubQuery(() => clubRepo.getMembers(), [], true, 'members');
+  const board = useClubQuery(() => clubRepo.getLeaderboard('week', 'puzzles'), [], true, 'board');
+  const challenges = useClubQuery(() => clubRepo.listChallenges(), [], true, 'challenges');
   const nudges = useClubQuery(() => clubRepo.getNudges());
 
   const byId = new Map(members.data?.map((m) => [m.member.id, m]) ?? []);

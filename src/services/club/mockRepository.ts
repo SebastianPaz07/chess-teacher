@@ -5,8 +5,9 @@ import { levelFromXp } from '@/services/game/xp';
 import { BOTS, botMember, botProfile, demoClubName, emptyStats, type BotProfile } from './bots';
 import { CHALLENGE_TTL_HOURS, pickChallengePuzzles, pickWeeklyPuzzles, scoreChallenge, simulateRun } from './challenges';
 import type { ClubRepository, MyProfile } from './ClubRepository';
-import { canRemove, computeLeaderboard, sumActivity, visibleStreak, weeklyGoal, type LeaderInput } from './logic';
-import type { Challenge, Club, ClubWeek, DailyActivity, FeedItem, Member, MemberRole, MemberStats, MemberSummary, Nudge, Session, WeekMetric, WeekResult } from './types';
+import { canRemove, cleanWallText, computeLeaderboard, sumActivity, visibleStreak, weeklyGoal, type LeaderInput } from './logic';
+import type { Challenge, Club, ClubWeek, DailyActivity, FeedComment, FeedItem, Member, MemberRole, MemberStats, MemberSummary, Nudge, Session, WallReply, WeekMetric, WeekResult } from './types';
+import { BOT_POSTS, pickReply, SEED_POSTS } from './wall';
 
 /** Puzzle mínimo que necesita el mock para armar retos. */
 export interface PoolPuzzle {
@@ -24,6 +25,14 @@ interface WeekRecord {
 }
 
 type MockChallenge = Challenge & { replyAt?: number };
+
+/** Reacción de un compañero simulado pendiente de entregar (`at` en reloj real). Sin `text` es un «me gusta». */
+interface PendingReaction {
+  at: number;
+  botId: string;
+  feedId: string;
+  text?: string;
+}
 
 export interface MockDb {
   version: 1;
@@ -50,6 +59,12 @@ export interface MockDb {
   removed: string[];
   /** Esta persona canjeó un link para crear un club */
   creatorGrant: boolean;
+  comments: FeedComment[];
+  /** Quién dio «me gusta» a cada entrada del muro */
+  likes: Record<string, string[]>;
+  wallQueue: PendingReaction[];
+  /** Ya se crearon las publicaciones iniciales de los compañeros */
+  wallSeeded: boolean;
 }
 
 export interface MockDeps {
@@ -90,6 +105,10 @@ const fresh = (): MockDb => ({
   forced: {},
   removed: [],
   creatorGrant: false,
+  comments: [],
+  likes: {},
+  wallQueue: [],
+  wallSeeded: false,
 });
 
 const uid = (prefix: string) => `${prefix}-${Math.random().toString(36).slice(2, 10)}`;
@@ -104,7 +123,7 @@ function isoAt(day: string, hour: number, minute: number): string {
 
 const between = (r: () => number, [a, b]: [number, number]) => Math.round(a + r() * (b - a));
 
-export function createMockRepository(deps: MockDeps): ClubRepository & { _db: () => MockDb; _reset: () => void; _advance: () => Promise<void>; _botChallenge: () => Promise<void>; _botsReplyNow: () => Promise<void> } {
+export function createMockRepository(deps: MockDeps): ClubRepository & { _db: () => MockDb; _reset: () => void; _advance: () => Promise<void>; _botChallenge: () => Promise<void>; _botsReplyNow: () => Promise<void>; _botPost: () => Promise<void> } {
   let db: MockDb = (() => {
     try {
       const raw = deps.load();
@@ -132,9 +151,77 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
     return db.club;
   }
 
-  function pushFeed(memberId: string, kind: FeedItem['kind'], icon: string, text: string, createdAt = nowIso()) {
-    db.feed.push({ id: uid('f'), memberId, kind, icon, text, createdAt });
-    if (db.feed.length > FEED_LIMIT) db.feed = db.feed.slice(-FEED_LIMIT);
+  function pushFeed(memberId: string, kind: FeedItem['kind'], icon: string, text: string, createdAt = nowIso()): FeedItem {
+    const item: FeedItem = { id: uid('f'), memberId, kind, icon, text, createdAt };
+    db.feed.push(item);
+    if (db.feed.length > FEED_LIMIT) {
+      for (const old of db.feed.slice(0, -FEED_LIMIT)) dropThread(old.id);
+      db.feed = db.feed.slice(-FEED_LIMIT);
+    }
+    return item;
+  }
+
+  // ───────────────────────── Muro ─────────────────────────
+
+  /** Borra lo que cuelga de una entrada: comentarios, «me gusta» y respuestas pendientes. */
+  function dropThread(feedId: string) {
+    db.comments = db.comments.filter((c) => c.feedId !== feedId);
+    db.wallQueue = db.wallQueue.filter((q) => q.feedId !== feedId);
+    delete db.likes[feedId];
+  }
+
+  function withSocial(f: FeedItem): FeedItem {
+    const likes = db.likes[f.id] ?? [];
+    return { ...f, likes: likes.length, likedByMe: likes.includes(me()), commentCount: db.comments.filter((c) => c.feedId === f.id).length };
+  }
+
+  function requireFeed(id: string): FeedItem {
+    requireClub();
+    const f = db.feed.find((x) => x.id === id);
+    if (!f) throw new Error('Esa publicación ya no existe');
+    return f;
+  }
+
+  function addLike(feedId: string, memberId: string) {
+    const list = db.likes[feedId] ?? [];
+    if (!list.includes(memberId)) db.likes[feedId] = [...list, memberId];
+  }
+
+  const presentBots = () => activeBots().filter((b) => db.members.some((m) => m.id === b.id));
+
+  /** Programa la reacción de un compañero; `step` la retrasa para que no lleguen todas a la vez. */
+  function queueReaction(botId: string, feedId: string, text?: string, step = 1) {
+    if (text && db.wallQueue.some((q) => q.botId === botId && q.feedId === feedId && q.text)) return;
+    const [lo, hi] = deps.botReplySeconds ?? [8, 30];
+    db.wallQueue.push({ at: deps.realNow() + (lo + Math.random() * (hi - lo)) * 1000 * step, botId, feedId, text });
+  }
+
+  function deliverReactions() {
+    const due = db.wallQueue.filter((q) => q.at <= deps.realNow());
+    if (!due.length) return;
+    db.wallQueue = db.wallQueue.filter((q) => q.at > deps.realNow());
+    for (const q of due) {
+      if (!db.members.some((m) => m.id === q.botId) || !db.feed.some((f) => f.id === q.feedId)) continue;
+      if (q.text) db.comments.push({ id: uid('cm'), feedId: q.feedId, memberId: q.botId, text: q.text, createdAt: nowIso() });
+      else addLike(q.feedId, q.botId);
+    }
+  }
+
+  /** Publicaciones iniciales de los compañeros (una sola vez, también en demos ya guardadas). */
+  function seedWall() {
+    if (db.wallSeeded) return;
+    db.wallSeeded = true;
+    const base = deps.now().getTime();
+    const here = (id: string) => db.members.some((m) => m.id === id);
+    for (const p of SEED_POSTS) {
+      if (!here(p.botId)) continue;
+      const at = base - p.hoursAgo * 3_600_000;
+      const item = pushFeed(p.botId, 'post', 'comment', p.text, new Date(at).toISOString());
+      for (const id of p.likes) if (here(id)) addLike(item.id, id);
+      for (const c of p.comments) {
+        if (here(c.botId)) db.comments.push({ id: uid('cm'), feedId: item.id, memberId: c.botId, text: c.text, createdAt: new Date(at + c.minutesAfter * 60_000).toISOString() });
+      }
+    }
   }
 
   function addActivity(id: string, a: DailyActivity) {
@@ -350,7 +437,8 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
   function simulate(): Promise<boolean> {
     if (!db.club || !db.session) return Promise.resolve(false);
     simulating ??= (async () => {
-      const before = JSON.stringify([db.feed.length, db.challenges, db.nudges.length, db.stats]);
+      const snapshot = () => JSON.stringify([db.feed.length, db.challenges, db.nudges.length, db.stats, db.comments.length, db.likes]);
+      const before = snapshot();
       const pool = await deps.pool();
       const t = today();
       const start = db.simulatedThrough ? addDays(db.simulatedThrough, 1) : addDays(t, -30);
@@ -364,8 +452,10 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       botReplies(pool);
       expire();
       closeWeeks();
+      seedWall();
+      deliverReactions();
       persist();
-      return before !== JSON.stringify([db.feed.length, db.challenges, db.nudges.length, db.stats]);
+      return before !== snapshot();
     })().finally(() => {
       simulating = null;
     });
@@ -386,6 +476,10 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
     db.goalsMet = 0;
     db.forced = {};
     db.removed = [];
+    db.comments = [];
+    db.likes = {};
+    db.wallQueue = [];
+    db.wallSeeded = false;
     db.simulatedThrough = null;
     const start = addDays(t, -30);
     db.seedStart = start;
@@ -414,6 +508,7 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
 
   const repo = {
     isDemo: true,
+    hasWall: true,
 
     async getSession() {
       await wait();
@@ -539,6 +634,12 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       notify();
     },
 
+    async getRoster() {
+      requireClub();
+      await simulate();
+      await wait();
+      return [...db.members];
+    },
     async getMembers(): Promise<MemberSummary[]> {
       requireClub();
       await simulate();
@@ -579,7 +680,106 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       return [...db.feed]
         .filter((f) => new Date(f.createdAt).getTime() <= nowMs)
         .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-        .slice(0, limit);
+        .slice(0, limit)
+        .map(withSocial);
+    },
+
+    async getFeedItem(id: string) {
+      requireClub();
+      await simulate();
+      await wait();
+      const f = db.feed.find((x) => x.id === id);
+      return f ? withSocial(f) : null;
+    },
+    async createPost(text: string) {
+      requireClub();
+      const clean = cleanWallText(text);
+      await wait();
+      const item = pushFeed(me(), 'post', 'comment', clean);
+      // Dos compañeros reaccionan al rato y uno de ellos responde
+      const r = seededRandom(hashString(item.id));
+      const [first, second] = presentBots()
+        .map((b) => ({ b, k: r() }))
+        .sort((x, y) => x.k - y.k)
+        .map((x) => x.b);
+      if (first) {
+        queueReaction(first.id, item.id);
+        queueReaction(first.id, item.id, pickReply('post', clean, r()));
+      }
+      if (second) queueReaction(second.id, item.id, undefined, 2);
+      persist();
+      notify();
+      return withSocial(item);
+    },
+    async deletePost(id: string) {
+      await wait();
+      const f = requireFeed(id);
+      if (f.kind !== 'post' || f.memberId !== me()) throw new Error('No puedes borrar esa publicación');
+      db.feed = db.feed.filter((x) => x.id !== id);
+      dropThread(id);
+      persist();
+      notify();
+    },
+    async toggleLike(feedId: string) {
+      await wait();
+      requireFeed(feedId);
+      const list = db.likes[feedId] ?? [];
+      if (list.includes(me())) db.likes[feedId] = list.filter((x) => x !== me());
+      else addLike(feedId, me());
+      persist();
+      notify();
+    },
+    async getComments(feedId: string) {
+      requireClub();
+      await simulate();
+      await wait();
+      return db.comments.filter((c) => c.feedId === feedId).sort((a, b) => a.createdAt.localeCompare(b.createdAt));
+    },
+    async addComment(feedId: string, text: string) {
+      const clean = cleanWallText(text);
+      await wait();
+      const f = requireFeed(feedId);
+      const comment: FeedComment = { id: uid('cm'), feedId, memberId: me(), text: clean, createdAt: nowIso() };
+      db.comments.push(comment);
+      // Contesta quien escribió la entrada; si es mía, la última persona que respondió en el hilo
+      const lastBot = [...db.comments].reverse().find((c) => c.feedId === feedId && botProfile(c.memberId))?.memberId;
+      const replier = botProfile(f.memberId) ? f.memberId : lastBot;
+      if (replier) queueReaction(replier, feedId, pickReply(f.kind === 'post' ? 'comment' : 'activity', clean, seededRandom(hashString(comment.id))()));
+      persist();
+      notify();
+      return comment;
+    },
+    async deleteComment(id: string) {
+      await wait();
+      requireClub();
+      const c = db.comments.find((x) => x.id === id);
+      if (!c) return;
+      if (c.memberId !== me()) throw new Error('No puedes borrar ese comentario');
+      db.comments = db.comments.filter((x) => x.id !== id);
+      persist();
+      notify();
+    },
+    async getWallReplies(limit = 10): Promise<WallReply[]> {
+      if (!db.session || !db.club) return [];
+      await simulate();
+      await wait();
+      const mine = new Set(db.feed.filter((f) => f.memberId === me()).map((f) => f.id));
+      // Cuándo escribí por primera vez en cada hilo: lo anterior no es una respuesta para mí
+      const joined = new Map<string, string>();
+      for (const c of db.comments) {
+        if (c.memberId !== me()) continue;
+        const prev = joined.get(c.feedId);
+        if (!prev || c.createdAt < prev) joined.set(c.feedId, c.createdAt);
+      }
+      const followed = (c: FeedComment) => {
+        const since = joined.get(c.feedId);
+        return since !== undefined && c.createdAt >= since;
+      };
+      return db.comments
+        .filter((c) => c.memberId !== me() && (mine.has(c.feedId) || followed(c)))
+        .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+        .slice(0, limit)
+        .map((c) => ({ ...c, onMine: mine.has(c.feedId) }));
     },
 
     async publishMyProgress(p: { stats: MemberStats; activity: DailyActivity[] }) {
@@ -751,6 +951,15 @@ export function createMockRepository(deps: MockDeps): ClubRepository & { _db: ()
       if (!b) return;
       botCreatesChallenge(b, pool, nowIso(), Math.random() < 0.5 ? 'puzzles' : 'rush');
       pushFeed(b.id, 'challenge', 'sword', `retó a ${memberName(me())}`);
+      persist();
+      notify();
+    },
+    _botPost: async () => {
+      requireClub();
+      const bots = presentBots();
+      const b = bots[Math.floor(Math.random() * bots.length)];
+      if (!b) return;
+      pushFeed(b.id, 'post', 'comment', BOT_POSTS[Math.floor(Math.random() * BOT_POSTS.length)]);
       persist();
       notify();
     },
