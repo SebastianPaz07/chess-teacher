@@ -96,7 +96,9 @@ const toActivity = (r: Row): DailyActivity => ({ day: r.day, xp: r.xp, puzzles: 
 const toFeedItem = (r: Row): FeedItem => ({ id: r.id, memberId: r.user_id, kind: r.kind, icon: r.icon, text: r.text, createdAt: r.created_at });
 const toComment = (r: Row): FeedComment => ({ id: r.id, feedId: r.feed_id, memberId: r.user_id, text: r.text, createdAt: r.created_at });
 
-/** La tabla o función no existe: falta ejecutar la migración del muro */
+const toMember = (m: Row, p: Row | null | undefined): Member => ({ id: m.user_id, name: p?.name ?? 'Jugador', avatar: p?.avatar ?? 'piece-knight', role: m.role as MemberRole, joinedAt: m.joined_at, motto: p?.motto ?? undefined });
+
+/** La tabla o función no existe: falta ejecutar su migración */
 const notInstalled = (error: { code?: string } | null) => ['PGRST202', 'PGRST205', '42883', '42P01'].includes(error?.code ?? '');
 
 export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
@@ -131,9 +133,9 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
   async function myClubRow(): Promise<Row | null> {
     const id = await me();
     return cache.get(`club:${id}`, TTL.club, async () => {
-      const m = unwrap(await sb.from('club_members').select('club_id').eq('user_id', id).maybeSingle());
-      if (!m) return null;
-      return unwrap(await sb.from('clubs').select('*').eq('id', m.club_id).maybeSingle()) as Row | null;
+      // Mi fila de miembro y su club en una sola consulta
+      const m = unwrap(await sb.from('club_members').select('clubs(*)').eq('user_id', id).maybeSingle()) as Row | null;
+      return (m?.clubs as Row | undefined) ?? null;
     });
   }
 
@@ -148,20 +150,28 @@ export function createSupabaseRepository(deps: SupabaseDeps): ClubRepository {
     const ids = ms.map((m) => m.user_id);
     const profiles = ids.length ? (unwrap(await sb.from('profiles').select('id, name, avatar, motto').in('id', ids)) as Row[]) : [];
     const byId = new Map(profiles.map((p) => [p.id as string, p]));
-    return ms.map((m) => {
-      const p = byId.get(m.user_id);
-      return { id: m.user_id, name: p?.name ?? 'Jugador', avatar: p?.avatar ?? 'piece-knight', role: m.role as MemberRole, joinedAt: m.joined_at, motto: p?.motto ?? undefined };
-    });
+    return ms.map((m) => toMember(m, byId.get(m.user_id)));
   }
 
   const loadRoster = (clubId: string) => cache.get(`roster:${clubId}`, TTL.roster, () => loadMembers(clubId));
 
   const loadInputs = (clubId: string) => cache.get(`inputs:${clubId}:${today()}`, TTL.inputs, () => fetchInputs(clubId));
 
+  /** false si la base de datos aún no tiene `club_inputs`: se pide tabla por tabla */
+  let inputsInstalled = true;
+
   async function fetchInputs(clubId: string): Promise<LeaderInput[]> {
+    const from = addDays(today(), -ACTIVITY_DAYS);
+    if (inputsInstalled) {
+      // Todo en una sola consulta (función de la migración `club_inputs`)
+      const res = await sb.rpc('club_inputs', { p_from: from });
+      inputsInstalled = !notInstalled(res.error);
+      if (inputsInstalled) {
+        return (unwrap(res) as Row[]).map((x) => ({ member: toMember(x, x.profile), stats: toStats(x.stats ?? undefined, nowIso()), activity: (x.activity as Row[]).map(toActivity) }));
+      }
+    }
     const members = await loadRoster(clubId);
     const ids = members.map((m) => m.id);
-    const from = addDays(today(), -ACTIVITY_DAYS);
     const [stats, acts] = await Promise.all([
       sb.from('player_stats').select('*').in('user_id', ids),
       sb.from('daily_activity').select('*').in('user_id', ids).gte('day', from),

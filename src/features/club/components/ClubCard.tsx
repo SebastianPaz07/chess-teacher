@@ -44,7 +44,7 @@ function ClubSummary() {
   const club = useClubStore((s) => s.club)!;
   const meId = useClubStore((s) => s.session?.userId ?? '');
   const members = useClubQuery(() => clubRepo.getMembers(), [], true, 'members');
-  const board = useClubQuery(() => clubRepo.getLeaderboard('week', 'puzzles'), [], true, 'board');
+  const board = useClubQuery(() => clubRepo.getLeaderboard('week', 'puzzles'), [], true, 'board:week:puzzles');
   const challenges = useClubQuery(() => clubRepo.listChallenges(), [], true, 'challenges');
   const nudges = useClubQuery(() => clubRepo.getNudges());
 

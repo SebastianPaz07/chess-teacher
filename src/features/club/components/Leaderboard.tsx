@@ -34,7 +34,8 @@ export function Leaderboard({ meId, members, initialMetric = 'puzzles' }: Props 
     if (!m.periods.includes(period)) setPeriod(m.periods[0]);
   };
   const effectivePeriod = meta.periods.includes(period) ? period : meta.periods[0];
-  const q = useClubQuery(() => clubRepo.getLeaderboard(effectivePeriod, metric), [effectivePeriod, metric]);
+  // Guardado por filtro: al volver se pinta lo último visto mientras llega lo nuevo
+  const q = useClubQuery(() => clubRepo.getLeaderboard(effectivePeriod, metric), [effectivePeriod, metric], true, `board:${effectivePeriod}:${metric}`);
   const today = new Map(members?.map((m) => [m.member.id, m]) ?? []);
   const mine = q.data?.find((r) => r.member.id === meId);
   const meVisible = q.data && q.data.length <= 8;
